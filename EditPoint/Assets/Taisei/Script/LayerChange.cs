@@ -22,6 +22,7 @@ public class LayerChange : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        LayerPanel.SetActive(false);
         GroundLayer = GetLayerAllObj(LayerMask.NameToLayer("Ground"));
         Layer1AllObj = GetLayerAllObj(LayerMask.NameToLayer("Layer1"));
         Layer2AllObj = GetLayerAllObj(LayerMask.NameToLayer("Layer2"));
@@ -188,5 +189,17 @@ public class LayerChange : MonoBehaviour
                 Layer3AllObj[i].GetComponent<SpriteRenderer>().sortingOrder = 3;
             }
         }
+    }
+
+    public int ReturnLayreNum()
+    {
+        return layerNum;
+    }
+
+    //外部からのレイヤー変更
+    public void OutChangeLayerNum(int outNum)
+    {
+        LayerPanel.SetActive(true);
+        layerNum = outNum;
     }
 }
