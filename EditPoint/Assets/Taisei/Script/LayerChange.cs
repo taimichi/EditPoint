@@ -12,6 +12,7 @@ public class LayerChange : MonoBehaviour
     [SerializeField, Header("レイヤーの最小値")] private int minLayerNum;
     private bool changeLayer = false;
 
+    private GameObject[] GroundLayer;
     private GameObject[] Layer1AllObj;
     private GameObject[] Layer2AllObj;
     private GameObject[] Layer3AllObj;
@@ -21,9 +22,10 @@ public class LayerChange : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        Layer1AllObj = GetLayerAllObj(8);
-        Layer2AllObj = GetLayerAllObj(9);
-        Layer3AllObj = GetLayerAllObj(10);
+        GroundLayer = GetLayerAllObj(LayerMask.NameToLayer("Ground"));
+        Layer1AllObj = GetLayerAllObj(LayerMask.NameToLayer("Layer1"));
+        Layer2AllObj = GetLayerAllObj(LayerMask.NameToLayer("Layer2"));
+        Layer3AllObj = GetLayerAllObj(LayerMask.NameToLayer("Layer3"));
     }
 
     // Update is called once per frame
@@ -50,7 +52,7 @@ public class LayerChange : MonoBehaviour
     //マウスホイール
     private void Wheel()
     {
-        if (Input.mouseScrollDelta.y > 0)
+        if (Input.mouseScrollDelta.y > 0 && Input.GetKey(KeyCode.R))
         {
             layerNum++;
             if (layerNum >= maxLayerNum)
@@ -59,7 +61,7 @@ public class LayerChange : MonoBehaviour
             }
             changeLayer = true;
         }
-        else if (Input.mouseScrollDelta.y < 0)
+        else if (Input.mouseScrollDelta.y < 0 && Input.GetKey(KeyCode.R))
         {
             layerNum--;
             if (layerNum <= minLayerNum)
@@ -76,9 +78,14 @@ public class LayerChange : MonoBehaviour
     //レイヤー変更時
     private void ChangeLayer()
     {
+        //GroundLayerChange();
         Layer1ColorChange();
         Layer2ColorChange();
         Layer3ColorChange();
+        if (layerNum == 0)
+        {
+            LayerPanel.SetActive(false);
+        }
     }
 
     //全てのオブジェクトのレイヤーを取得
@@ -86,12 +93,12 @@ public class LayerChange : MonoBehaviour
     {
         GameObject[] goArray = GameObject.FindObjectsOfType<GameObject>();
         List<GameObject> goList = new List<GameObject>();
-        foreach (GameObject go in goArray)
+        
+        for(int i = 0; i < goArray.Length; i++)
         {
-            // LayerMask bit check
-            if (((1 << go.layer) & layerMask.value) != 0)
+            if(goArray[i].layer == layerMask)
             {
-                goList.Add(go);
+                goList.Add(goArray[i]);
             }
         }
         if (goList.Count == 0)
@@ -101,10 +108,23 @@ public class LayerChange : MonoBehaviour
         return goList.ToArray();
     }
 
-    //レイヤーの番号を返す
-    public int ReturnLayerNum()
+    //地面レイヤーオブジェクトの色合い変更
+    private void GroundLayerChange()
     {
-        return layerNum;
+        if (layerNum == 0)
+        {
+            for(int i = 0; i < GroundLayer.Length; i++)
+            {
+                GroundLayer[i].GetComponent<SpriteRenderer>().sortingOrder = 5;
+            }
+        }
+        else
+        {
+            for(int i = 0; i < GroundLayer.Length; i++)
+            {
+                GroundLayer[i].GetComponent<SpriteRenderer>().sortingOrder = 2;
+            }
+        }
     }
 
     //レイヤー1オブジェクトの色合い変更
@@ -136,7 +156,7 @@ public class LayerChange : MonoBehaviour
         {
             for(int i = 0; i < Layer2AllObj.Length; i++)
             {
-                Layer1AllObj[i].GetComponent<SpriteRenderer>().sortingOrder = 5;
+                Layer2AllObj[i].GetComponent<SpriteRenderer>().sortingOrder = 5;
             }
         }
         //それ以外の時
