@@ -5,6 +5,8 @@ using UnityEngine.UI;
 
 public class LayerChange : MonoBehaviour
 {
+    [SerializeField] private CutAndPaste cp;
+
     [SerializeField] private Text LayerNo;
     //layerNum : 0 = 7.全体, 1 = 8.layer1, 2 = 9.layer2, 3 = 10.layer3
     private int layerNum = 0;
@@ -32,21 +34,28 @@ public class LayerChange : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Wheel();
-        if (changeLayer)
+        if (!cp.ReturnSetOnOff())
         {
-            if (!LayerPanel.activeSelf)
+            Wheel();
+            if (changeLayer)
             {
-                LayerPanel.SetActive(true);
+                if (!LayerPanel.activeSelf)
+                {
+                    LayerPanel.SetActive(true);
+                }
+                ChangeLayer();
             }
-            ChangeLayer();
+            else
+            {
+                if (LayerPanel.activeSelf)
+                {
+                    LayerPanel.SetActive(false);
+                }
+            }
         }
         else
         {
-            if (LayerPanel.activeSelf)
-            {
-                LayerPanel.SetActive(false);
-            }
+
         }
     }
 
@@ -79,7 +88,7 @@ public class LayerChange : MonoBehaviour
     //レイヤー変更時
     private void ChangeLayer()
     {
-        //GroundLayerChange();
+        GroundLayerChange();
         Layer1ColorChange();
         Layer2ColorChange();
         Layer3ColorChange();
@@ -109,7 +118,7 @@ public class LayerChange : MonoBehaviour
         return goList.ToArray();
     }
 
-    //地面レイヤーオブジェクトの色合い変更
+    //その他のレイヤーオブジェクトの色合い変更
     private void GroundLayerChange()
     {
         if (layerNum == 0)
@@ -199,7 +208,12 @@ public class LayerChange : MonoBehaviour
     //外部からのレイヤー変更
     public void OutChangeLayerNum(int outNum)
     {
-        LayerPanel.SetActive(true);
+        changeLayer = true;
         layerNum = outNum;
+        if (outNum != 0)
+        {
+            LayerPanel.SetActive(true);
+        }
+        ChangeLayer();
     }
 }

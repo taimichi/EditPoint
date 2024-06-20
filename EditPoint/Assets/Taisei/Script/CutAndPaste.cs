@@ -10,6 +10,15 @@ public class CutAndPaste : MonoBehaviour
     [SerializeField] private LayerChange layerChange;
 
     [SerializeField, Header("ペーストできる回数")] private int PasteNum = 1;
+    [SerializeField, Header("カットできる回数")] private int CutNum = 1;
+
+    //オブジェクトのペーストや移動するときにtrueにする
+    private bool setOnOff = false;
+    //選択状態かどうか
+    private bool choiseOnOff = false;
+
+    private Vector3 pos;
+    private Vector3 scrWldPos;
 
     void Start()
     {
@@ -19,43 +28,97 @@ public class CutAndPaste : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetMouseButtonDown(0))
+        //ペースト・オブジェクト移動状態じゃないとき
+        if (!setOnOff)
         {
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            RaycastHit2D hit2d = Physics2D.Raycast((Vector2)ray.origin, (Vector2)ray.direction);
+            if (Input.GetMouseButtonDown(0))
+            {
+                Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+                RaycastHit2D hit2d = Physics2D.Raycast((Vector2)ray.origin, (Vector2)ray.direction);
 
-            if (hit2d.collider.gameObject.layer == LayerMask.NameToLayer("Layer1"))
-            {
-                layerChange.OutChangeLayerNum(1);
-            }
-            else if(hit2d.collider.gameObject.layer == LayerMask.NameToLayer("Layer2"))
-            {
-                layerChange.OutChangeLayerNum(2);
-            }
-            else if(hit2d.collider.gameObject.layer == LayerMask.NameToLayer("Layer3"))
-            {
-                layerChange.OutChangeLayerNum(3);
-            }
-            else
-            {
-                layerChange.OutChangeLayerNum(0);
-            }
+                if (hit2d != false && hit2d.collider.gameObject.layer == LayerMask.NameToLayer("UI"))
+                {
+                    Debug.Log("UIだよ");
+                    return;
+                }
 
-            if (hit2d)
-            {
-                ChoiseObj = hit2d.transform.gameObject;
+                if (hit2d == false)
+                {
+                    layerChange.OutChangeLayerNum(0);
+                }
+                else if (hit2d.collider.gameObject.layer == LayerMask.NameToLayer("Layer1"))
+                {
+                    layerChange.OutChangeLayerNum(1);
+                }
+                else if (hit2d.collider.gameObject.layer == LayerMask.NameToLayer("Layer2"))
+                {
+                    layerChange.OutChangeLayerNum(2);
+                }
+                else if (hit2d.collider.gameObject.layer == LayerMask.NameToLayer("Layer3"))
+                {
+                    layerChange.OutChangeLayerNum(3);
+                }
+
+                if (hit2d)
+                {
+                    ChoiseObj = hit2d.transform.gameObject;
+                }
             }
         }
+        //ペースト・オブジェクト移動状態の時
+        else
+        {
+            pos = Input.mousePosition;
+            pos.z = 10;
+
+            scrWldPos = Camera.main.ScreenToWorldPoint(pos);
+            CutObj.transform.position = scrWldPos;
+            if (Input.GetMouseButtonDown(0))
+            {
+                setOnOff = false;
+            }
+        }
+    }
+
+    public bool ReturnSetOnOff()
+    {
+        return setOnOff;
     }
 
     //カットボタンを押した時
     public void OnCut()
     {
-        if (PasteNum > 0)
+        if (CutNum > 0)
         {
             CutObj = ChoiseObj;
-            Destroy(ChoiseObj);
-            Debug.Log(CutObj);
+            ChoiseObj = null;
+            CutObj.SetActive(false);
+        }
+    }
+
+    //ペーストするとき
+    public void OnPaste()
+    {
+        if (PasteNum > 0)
+        {
+            setOnOff = true;
+            CutObj.SetActive(true);
+            switch (layerChange.ReturnLayreNum())
+            {
+                case 1:
+                    CutObj.layer = LayerMask.NameToLayer("Layer1");
+                    break;
+
+                case 2:
+                    CutObj.layer = LayerMask.NameToLayer("Layer2");
+                    break;
+
+                case 3:
+                    CutObj.layer = LayerMask.NameToLayer("Layer3");
+                    break;
+            }
+
+            //カーソルを強制的に画面中央に移動(今後追加予定)
         }
     }
 
