@@ -21,6 +21,10 @@ public class CutAndPaste : MonoBehaviour
     private Vector3 pos;
     private Vector3 scrWldPos;
 
+    //ペーストできるかどうか
+    //false=設置可能 true=設置不可
+    private bool checkPeast = false;
+
     void Start()
     {
         ChoiseObj = null;
@@ -74,7 +78,7 @@ public class CutAndPaste : MonoBehaviour
 
             scrWldPos = Camera.main.ScreenToWorldPoint(pos);
             CutObj.transform.position = scrWldPos;
-            if (Input.GetMouseButtonDown(0))
+            if (Input.GetMouseButtonDown(0) && !checkPeast)
             {
                 layerChange.ChangeObjectList();
                 setOnOff = false;
@@ -124,5 +128,6 @@ public class CutAndPaste : MonoBehaviour
             //カーソルを強制的に画面中央に移動(今後追加予定)
         }
     }
+
 
 }
