@@ -8,8 +8,11 @@ public class LayerChange : MonoBehaviour
     [SerializeField] private CutAndPaste cp;
 
     [SerializeField] private Text LayerNo;
+    //現在選択しているレイヤー番号
     //layerNum : 0 = 7.全体, 1 = 8.layer1, 2 = 9.layer2, 3 = 10.layer3
     private int layerNum = 0;
+    //最後に選択したレイヤー番号 1～3
+    private int lastLayerNum = 1;
     [SerializeField, Header("レイヤーの最大値")] private int maxLayerNum;
     [SerializeField, Header("レイヤーの最小値")] private int minLayerNum;
     private bool changeLayer = false;
@@ -96,6 +99,11 @@ public class LayerChange : MonoBehaviour
         {
             LayerPanel.SetActive(false);
         }
+
+        if (layerNum != 0)
+        {
+            lastLayerNum = layerNum;
+        }
     }
 
     //全てのオブジェクトのレイヤーを取得
@@ -140,20 +148,24 @@ public class LayerChange : MonoBehaviour
     //レイヤー1オブジェクトの色合い変更
     private void Layer1ColorChange()
     {
-        //レイヤーが全体か1を選択しているとき
-        if (layerNum == 1 || layerNum == 0)
+        //オブジェクトが配列に存在するときのみ
+        if (Layer1AllObj != null)
         {
-            for(int i = 0; i < Layer1AllObj.Length; i++)
+            //レイヤーが全体か1を選択しているとき
+            if (layerNum == 1 || layerNum == 0)
             {
-                Layer1AllObj[i].GetComponent<SpriteRenderer>().sortingOrder = 5;
+                for (int i = 0; i < Layer1AllObj.Length; i++)
+                {
+                    Layer1AllObj[i].GetComponent<SpriteRenderer>().sortingOrder = 5;
+                }
             }
-        }
-        //それ以外の時
-        else
-        {
-            for (int i = 0; i < Layer1AllObj.Length; i++)
+            //それ以外の時
+            else
             {
-                Layer1AllObj[i].GetComponent<SpriteRenderer>().sortingOrder = 3;
+                for (int i = 0; i < Layer1AllObj.Length; i++)
+                {
+                    Layer1AllObj[i].GetComponent<SpriteRenderer>().sortingOrder = 3;
+                }
             }
         }
     }
@@ -161,20 +173,24 @@ public class LayerChange : MonoBehaviour
     //レイヤー２オブジェクトの色合い変更
     private void Layer2ColorChange()
     {
-        //レイヤーが全体か2を選択しているとき
-        if (layerNum == 2 || layerNum == 0)
+        //オブジェクトが配列に存在するときのみ
+        if (Layer2AllObj != null)
         {
-            for(int i = 0; i < Layer2AllObj.Length; i++)
+            //レイヤーが全体か2を選択しているとき
+            if (layerNum == 2 || layerNum == 0)
             {
-                Layer2AllObj[i].GetComponent<SpriteRenderer>().sortingOrder = 5;
+                for (int i = 0; i < Layer2AllObj.Length; i++)
+                {
+                    Layer2AllObj[i].GetComponent<SpriteRenderer>().sortingOrder = 5;
+                }
             }
-        }
-        //それ以外の時
-        else
-        {
-            for (int i = 0; i < Layer2AllObj.Length; i++)
+            //それ以外の時
+            else
             {
-                Layer2AllObj[i].GetComponent<SpriteRenderer>().sortingOrder = 3;
+                for (int i = 0; i < Layer2AllObj.Length; i++)
+                {
+                    Layer2AllObj[i].GetComponent<SpriteRenderer>().sortingOrder = 3;
+                }
             }
         }
     }
@@ -182,27 +198,37 @@ public class LayerChange : MonoBehaviour
     //レイヤー３オブジェクトの色合い変更
     private void Layer3ColorChange()
     {
-        //レイヤーが全体か3を選択しているとき
-        if (layerNum == 3 || layerNum == 0)
+        //オブジェクトが配列に存在するときのみ
+        if (Layer3AllObj != null)
         {
-            for(int i = 0; i < Layer3AllObj.Length; i++)
+            //レイヤーが全体か3を選択しているとき
+            if (layerNum == 3 || layerNum == 0)
             {
-                Layer3AllObj[i].GetComponent<SpriteRenderer>().sortingOrder = 5;
+                for (int i = 0; i < Layer3AllObj.Length; i++)
+                {
+                    Layer3AllObj[i].GetComponent<SpriteRenderer>().sortingOrder = 5;
+                }
             }
-        }
-        //それ以外の時
-        else
-        {
-            for (int i = 0; i < Layer3AllObj.Length; i++)
+            //それ以外の時
+            else
             {
-                Layer3AllObj[i].GetComponent<SpriteRenderer>().sortingOrder = 3;
+                for (int i = 0; i < Layer3AllObj.Length; i++)
+                {
+                    Layer3AllObj[i].GetComponent<SpriteRenderer>().sortingOrder = 3;
+                }
             }
         }
     }
 
+    //現在のレイヤー番号を返す
     public int ReturnLayreNum()
     {
         return layerNum;
+    }
+    //最後に選択したレイヤー番号を返す
+    public int ReturnLastLayerNum()
+    {
+        return lastLayerNum;
     }
 
     //外部からのレイヤー変更
@@ -215,5 +241,13 @@ public class LayerChange : MonoBehaviour
             LayerPanel.SetActive(true);
         }
         ChangeLayer();
+    }
+
+    //ペースト時にレイヤーごとに分けたオブジェクト配列を上書き
+    public void ChangeObjectList()
+    {
+        Layer1AllObj = GetLayerAllObj(LayerMask.NameToLayer("Layer1"));
+        Layer2AllObj = GetLayerAllObj(LayerMask.NameToLayer("Layer2"));
+        Layer3AllObj = GetLayerAllObj(LayerMask.NameToLayer("Layer3"));
     }
 }

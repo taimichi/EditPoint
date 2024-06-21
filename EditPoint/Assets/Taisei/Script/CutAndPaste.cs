@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class CutAndPaste : MonoBehaviour
 {
@@ -36,7 +37,7 @@ public class CutAndPaste : MonoBehaviour
                 Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
                 RaycastHit2D hit2d = Physics2D.Raycast((Vector2)ray.origin, (Vector2)ray.direction);
 
-                if (hit2d != false && hit2d.collider.gameObject.layer == LayerMask.NameToLayer("UI"))
+                if (EventSystem.current.IsPointerOverGameObject())
                 {
                     Debug.Log("UIだよ");
                     return;
@@ -75,6 +76,7 @@ public class CutAndPaste : MonoBehaviour
             CutObj.transform.position = scrWldPos;
             if (Input.GetMouseButtonDown(0))
             {
+                layerChange.ChangeObjectList();
                 setOnOff = false;
             }
         }
@@ -103,7 +105,7 @@ public class CutAndPaste : MonoBehaviour
         {
             setOnOff = true;
             CutObj.SetActive(true);
-            switch (layerChange.ReturnLayreNum())
+            switch (layerChange.ReturnLastLayerNum())
             {
                 case 1:
                     CutObj.layer = LayerMask.NameToLayer("Layer1");
@@ -117,6 +119,7 @@ public class CutAndPaste : MonoBehaviour
                     CutObj.layer = LayerMask.NameToLayer("Layer3");
                     break;
             }
+            CutObj.GetComponent<SpriteRenderer>().sortingOrder = 5;
 
             //カーソルを強制的に画面中央に移動(今後追加予定)
         }
