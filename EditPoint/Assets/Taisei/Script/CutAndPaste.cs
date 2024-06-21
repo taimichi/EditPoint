@@ -8,7 +8,7 @@ public class CutAndPaste : MonoBehaviour
     private GameObject ChoiseObj;
     private GameObject CutObj;
 
-    [SerializeField] private LayerChange layerChange;
+    [SerializeField] private LayerController layerChange;
 
     [SerializeField, Header("ペーストできる回数")] private int PasteNum = 1;
     [SerializeField, Header("カットできる回数")] private int CutNum = 1;

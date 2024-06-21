@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class LayerChange : MonoBehaviour
+public class LayerController : MonoBehaviour
 {
     [SerializeField] private CutAndPaste cp;
 
@@ -249,5 +249,40 @@ public class LayerChange : MonoBehaviour
         Layer1AllObj = GetLayerAllObj(LayerMask.NameToLayer("Layer1"));
         Layer2AllObj = GetLayerAllObj(LayerMask.NameToLayer("Layer2"));
         Layer3AllObj = GetLayerAllObj(LayerMask.NameToLayer("Layer3"));
+    }
+
+    //各レイヤーの表示非表示
+    //レイヤー１
+    public void Layer1Active()
+    {
+        if(Layer1AllObj != null)
+        {
+            for(int i = 0; i < Layer1AllObj.Length; i++)
+            {
+                Layer1AllObj[i].SetActive(Layer1AllObj[i].activeSelf == false ? true : false);
+            }
+        }
+    }
+    //レイヤー２
+    public void Layer2Active()
+    {
+        if (Layer2AllObj != null)
+        {
+            for(int i = 0; i < Layer2AllObj.Length; i++)
+            {
+                Layer2AllObj[i].SetActive(Layer2AllObj[i].activeSelf == false ? true : false);
+            }
+        }
+    }
+    //レイヤー３
+    public void Layer3Active()
+    {
+        if (Layer3AllObj != null)
+        {
+            for(int i = 0; i < Layer3AllObj.Length; i++)
+            {
+                Layer3AllObj[i].SetActive(Layer3AllObj[i].activeSelf == false ? true : false);
+            }
+        }
     }
 }
