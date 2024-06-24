@@ -4,17 +4,26 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    [SerializeField] private BoxCollider2D plCol;
-    [SerializeField] private Rigidbody2D plrig;
+    private BoxCollider2D plCol;
+    private Rigidbody2D plrig;
 
-    [SerializeField] private CutAndPaste cap;
-    [SerializeField] private GameManager gm;
+    private CutAndPaste cap;
+    private GameManager gm;
 
     private bool plCheckTrigger;
 
     void Start()
     {
-        
+        //プレイヤーの当たり判定とリジットボディを取得
+        GameObject pl = GameObject.Find("Player");
+        plCol = pl.GetComponent<BoxCollider2D>();
+        plrig = pl.GetComponent<Rigidbody2D>();
+
+        //ゲームマネージャーのスクリプトを取得
+        GameObject GM = GameObject.Find("PlayerControll");
+        cap = GM.GetComponent<CutAndPaste>();
+        gm = GM.GetComponent<GameManager>();
+
     }
 
     void Update()

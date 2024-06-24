@@ -886,7 +886,7 @@ GameObject:
   - component: {fileID: 761243852}
   - component: {fileID: 761243853}
   m_Layer: 3
-  m_Name: "\u4EEE\u4E3B\u4EBA\u516C"
+  m_Name: Player
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1017,10 +1017,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dcbc052ac7f673f409f96ddd4474895b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  plCol: {fileID: 761243851}
-  plrig: {fileID: 761243852}
-  cap: {fileID: 798522122}
-  gm: {fileID: 798522123}
 --- !u!1 &798522119
 GameObject:
   m_ObjectHideFlags: 0
