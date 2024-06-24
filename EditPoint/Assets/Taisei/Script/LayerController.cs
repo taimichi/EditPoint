@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class LayerController : MonoBehaviour
 {
+    [SerializeField] private GameManager gm;
     [SerializeField] private CutAndPaste cp;
 
     [SerializeField] private Text LayerNo;
@@ -37,28 +38,32 @@ public class LayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (!cp.ReturnSetOnOff())
+        //ï“èWÉÇÅ[ÉhÇ™ONÇÃéû
+        if (gm.ReturnEditMode() == true)
         {
-            Wheel();
-            if (changeLayer)
+            if (!cp.ReturnSetOnOff())
             {
-                if (!LayerPanel.activeSelf)
+                Wheel();
+                if (changeLayer)
                 {
-                    LayerPanel.SetActive(true);
+                    if (!LayerPanel.activeSelf)
+                    {
+                        LayerPanel.SetActive(true);
+                    }
+                    ChangeLayer();
                 }
-                ChangeLayer();
+                else
+                {
+                    if (LayerPanel.activeSelf)
+                    {
+                        LayerPanel.SetActive(false);
+                    }
+                }
             }
             else
             {
-                if (LayerPanel.activeSelf)
-                {
-                    LayerPanel.SetActive(false);
-                }
-            }
-        }
-        else
-        {
 
+            }
         }
     }
 

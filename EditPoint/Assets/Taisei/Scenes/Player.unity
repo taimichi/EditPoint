@@ -952,7 +952,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 761243848}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -2.94, z: 0}
+  m_LocalPosition: {x: 0, y: -1.86, z: 0}
   m_LocalScale: {x: 0.25, y: 0.25, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -996,7 +996,7 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 1.1741815
+  m_Mass: 1
   m_LinearDrag: 0
   m_AngularDrag: 0.05
   m_GravityScale: 1
@@ -1017,6 +1017,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dcbc052ac7f673f409f96ddd4474895b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  plCol: {fileID: 761243851}
+  plrig: {fileID: 761243852}
+  cap: {fileID: 798522122}
+  gm: {fileID: 798522123}
 --- !u!1 &798522119
 GameObject:
   m_ObjectHideFlags: 0
@@ -1028,6 +1032,7 @@ GameObject:
   - component: {fileID: 798522121}
   - component: {fileID: 798522120}
   - component: {fileID: 798522122}
+  - component: {fileID: 798522123}
   m_Layer: 0
   m_Name: PlayerControll
   m_TagString: Untagged
@@ -1047,6 +1052,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b9d5d353b08076749888dae946c3e828, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gm: {fileID: 798522123}
   cp: {fileID: 798522122}
   LayerNo: {fileID: 149667978}
   maxLayerNum: 3
@@ -1078,9 +1084,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 896b6f692c983654687c47878a2e6682, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gm: {fileID: 798522123}
   layerChange: {fileID: 798522120}
   PasteNum: 1
   CutNum: 1
+--- !u!114 &798522123
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 798522119}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cacaa0f3bb424d2439047dcc346f2002, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &873407034
 GameObject:
   m_ObjectHideFlags: 0
