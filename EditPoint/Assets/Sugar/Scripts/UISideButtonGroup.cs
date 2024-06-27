@@ -3,12 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class UISideButtonGroup : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
+public class UISideButtonGroup : MonoBehaviour//IPointerExitHandler //IPointerEnterHandler 
 {
     // 動かすターゲットUI
     [SerializeField]
     RectTransform TargetRct;
-
     // 初期の座標値
     [SerializeField]
     Vector2 startPos = new Vector2(0, 0);
@@ -25,23 +24,41 @@ public class UISideButtonGroup : MonoBehaviour, IPointerEnterHandler, IPointerEx
 
     // アニメーションの状態
     [SerializeField] // デバッグ用に触れるようにする
-    int state = 0;
+    int state;
 
     private void Start()
     {
         UAnim = new ClassUIAnim();
     }
-    public void OnPointerEnter(PointerEventData eventData)
-    {
-        state = 1;
-        Debug.Log("触れた");
-    }
 
-    public void OnPointerExit(PointerEventData eventData)
+    public int Statereceive
     {
-        state = 3;
-        Debug.Log("離れた");
+        set
+        {
+            state = value;
+        }
     }
+    //public void OnPointerEnter(PointerEventData eventData)
+    //{
+    //    state = 1;
+    //    Debug.Log("触れた");
+    //}
+
+    //public void OptionGroupButton()
+    //{
+    //    // 既に目標にいるなら動作しない
+    //    if (TargetRct.anchoredPosition == TargetPos) { return; }
+
+    //    state = 1;
+    //}
+
+    //public void OnPointerExit(PointerEventData eventData)
+    //{
+    //    // UIが動いてないなら動作なし
+    //    if (TargetRct.anchoredPosition==startPos) { return; }
+    //    state = 3;
+    //    Debug.Log("離れた");
+    //}
 
     void Update()
     {
@@ -57,7 +74,7 @@ public class UISideButtonGroup : MonoBehaviour, IPointerEnterHandler, IPointerEx
                 break;
 
             case 1:
-                if (TargetRct.anchoredPosition.x >= TargetPos.x)
+                if (TargetRct.anchoredPosition.y >= TargetPos.y)
                 {
                     TargetRct = UAnim.anim_PosChange(TargetRct, spdX, spdY);
                 }
@@ -69,9 +86,9 @@ public class UISideButtonGroup : MonoBehaviour, IPointerEnterHandler, IPointerEx
                 break;
 
             case 3:
-                if (TargetRct.anchoredPosition.x <= startPos.x)
+                if (TargetRct.anchoredPosition.y <= startPos.y)
                 {
-                    TargetRct = UAnim.anim_PosChange(TargetRct, -spdX, spdY);
+                    TargetRct = UAnim.anim_PosChange(TargetRct, -spdX, -spdY);
                 }
                 else
                 {
