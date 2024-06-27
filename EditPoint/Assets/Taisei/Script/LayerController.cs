@@ -33,6 +33,8 @@ public class LayerController : MonoBehaviour
         Layer1AllObj = GetLayerAllObj(LayerMask.NameToLayer("Layer1"));
         Layer2AllObj = GetLayerAllObj(LayerMask.NameToLayer("Layer2"));
         Layer3AllObj = GetLayerAllObj(LayerMask.NameToLayer("Layer3"));
+
+        ChangeLayer();
     }
 
     // Update is called once per frame
@@ -65,6 +67,7 @@ public class LayerController : MonoBehaviour
 
             }
         }
+        LayerNo.text = layerNum.ToString();
     }
 
     //マウスホイール
@@ -87,10 +90,7 @@ public class LayerController : MonoBehaviour
                 layerNum = minLayerNum;
             }
             changeLayer = true;
-        }
-
-        LayerNo.text = layerNum.ToString();
-        
+        }        
     }
 
     //レイヤー変更時
@@ -157,7 +157,14 @@ public class LayerController : MonoBehaviour
         if (Layer1AllObj != null)
         {
             //レイヤーが全体か1を選択しているとき
-            if (layerNum == 1 || layerNum == 0)
+            if (layerNum == 0)
+            {
+                for(int i = 0; i < Layer1AllObj.Length; i++)
+                {
+                    Layer1AllObj[i].GetComponent<SpriteRenderer>().sortingOrder = 5;
+                }
+            }
+            else if (layerNum == 1)
             {
                 for (int i = 0; i < Layer1AllObj.Length; i++)
                 {
@@ -182,7 +189,14 @@ public class LayerController : MonoBehaviour
         if (Layer2AllObj != null)
         {
             //レイヤーが全体か2を選択しているとき
-            if (layerNum == 2 || layerNum == 0)
+            if(layerNum == 0)
+            {
+                for (int i = 0; i < Layer2AllObj.Length; i++)
+                {
+                    Layer2AllObj[i].GetComponent<SpriteRenderer>().sortingOrder = 6;
+                }
+            }
+            else if (layerNum == 2)
             {
                 for (int i = 0; i < Layer2AllObj.Length; i++)
                 {
@@ -207,7 +221,15 @@ public class LayerController : MonoBehaviour
         if (Layer3AllObj != null)
         {
             //レイヤーが全体か3を選択しているとき
-            if (layerNum == 3 || layerNum == 0)
+            if (layerNum == 0)
+            {
+                for (int i = 0; i < Layer3AllObj.Length; i++)
+                {
+                    Layer3AllObj[i].GetComponent<SpriteRenderer>().sortingOrder = 7;
+                }
+
+            }
+            else if (layerNum == 3)
             {
                 for (int i = 0; i < Layer3AllObj.Length; i++)
                 {
@@ -288,6 +310,29 @@ public class LayerController : MonoBehaviour
             {
                 Layer3AllObj[i].SetActive(Layer3AllObj[i].activeSelf == false ? true : false);
             }
+        }
+    }
+
+    //ペースト時にオブジェクトのレイヤーに変更
+    public void PasteChangeLayer(LayerMask layerMask)
+    {
+        LayerPanel.SetActive(true);
+        switch (layerMask)
+        {
+            case 8:
+                layerNum = 1;
+                ChangeLayer();
+                break;
+
+            case 9:
+                layerNum = 2;
+                ChangeLayer();
+                break;
+
+            case 10:
+                layerNum = 3;
+                ChangeLayer();
+                break;
         }
     }
 }

@@ -215,7 +215,7 @@ GameObject:
   - component: {fileID: 159457023}
   - component: {fileID: 159457022}
   m_Layer: 5
-  m_Name: ActiveButton
+  m_Name: Lyaer1ActiveButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -840,7 +840,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 579319536}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 2.61, y: 1.74, z: 0}
+  m_LocalPosition: {x: 0.75, y: 1.74, z: 0}
   m_LocalScale: {x: 0.25, y: 0.25, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -1030,7 +1030,7 @@ GameObject:
   - component: {fileID: 798522122}
   - component: {fileID: 798522123}
   m_Layer: 0
-  m_Name: PlayerControll
+  m_Name: EditControll
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1447,7 +1447,7 @@ GameObject:
   - component: {fileID: 1490156643}
   - component: {fileID: 1490156642}
   m_Layer: 5
-  m_Name: ActiveButton (1)
+  m_Name: Layer2ActiveButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1645,7 +1645,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1556178866}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -2.74, y: 1.62, z: 0}
+  m_LocalPosition: {x: -0.88, y: 1.62, z: 0}
   m_LocalScale: {x: 0.25, y: 0.25, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -2235,7 +2235,7 @@ GameObject:
   - component: {fileID: 2121109487}
   - component: {fileID: 2121109486}
   m_Layer: 5
-  m_Name: ActiveButton (2)
+  m_Name: Layer3ActiveButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

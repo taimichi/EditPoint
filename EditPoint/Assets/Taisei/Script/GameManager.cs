@@ -9,7 +9,7 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
-        
+        editMode = true;   
     }
 
     void Update()

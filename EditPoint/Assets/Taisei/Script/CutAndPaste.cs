@@ -84,8 +84,10 @@ public class CutAndPaste : MonoBehaviour
                 CutObj.transform.position = scrWldPos;
                 if (Input.GetMouseButtonDown(0) && !checkPeast)
                 {
+                    CutObj.GetComponent<Collider2D>().isTrigger = false;
                     layerChange.ChangeObjectList();
                     setOnOff = false;
+                    CutObj = null;
                 }
                 else if (checkPeast)
                 {
@@ -118,21 +120,25 @@ public class CutAndPaste : MonoBehaviour
         {
             setOnOff = true;
             CutObj.SetActive(true);
-            switch (layerChange.ReturnLastLayerNum())
-            {
-                case 1:
-                    CutObj.layer = LayerMask.NameToLayer("Layer1");
-                    break;
+            CutObj.GetComponent<Collider2D>().isTrigger = true;
+            //switch (layerChange.ReturnLastLayerNum())
+            //{
+            //    case 1:
+            //        CutObj.layer = LayerMask.NameToLayer("Layer1");
+            //        break;
 
-                case 2:
-                    CutObj.layer = LayerMask.NameToLayer("Layer2");
-                    break;
+            //    case 2:
+            //        CutObj.layer = LayerMask.NameToLayer("Layer2");
+            //        break;
 
-                case 3:
-                    CutObj.layer = LayerMask.NameToLayer("Layer3");
-                    break;
-            }
+            //    case 3:
+            //        CutObj.layer = LayerMask.NameToLayer("Layer3");
+            //        break;
+            //}
             CutObj.GetComponent<SpriteRenderer>().sortingOrder = 5;
+
+            layerChange.PasteChangeLayer(CutObj.layer);
+            Debug.Log(CutObj.layer);
 
             //カーソルを強制的に画面中央に移動(今後追加予定)
         }
@@ -142,6 +148,5 @@ public class CutAndPaste : MonoBehaviour
     {
         checkPeast = trigger;
     }
-
 
 }
