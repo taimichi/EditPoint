@@ -18,6 +18,11 @@ public class LayerController : MonoBehaviour
     [SerializeField, Header("レイヤーの最小値")] private int minLayerNum;
     private bool changeLayer = false;
 
+    //order in layerの値
+    private int orderInLayer1Num = 5;
+    private int orderInLayer2Num = 6;
+    private int orderInLayer3Num = 7;
+
     private GameObject[] GroundLayer;
     private GameObject[] Layer1AllObj;
     private GameObject[] Layer2AllObj;
@@ -61,6 +66,7 @@ public class LayerController : MonoBehaviour
                         LayerPanel.SetActive(false);
                     }
                 }
+                LayerReplacement();
             }
             else
             {
@@ -161,7 +167,7 @@ public class LayerController : MonoBehaviour
             {
                 for(int i = 0; i < Layer1AllObj.Length; i++)
                 {
-                    Layer1AllObj[i].GetComponent<SpriteRenderer>().sortingOrder = 5;
+                    Layer1AllObj[i].GetComponent<SpriteRenderer>().sortingOrder = orderInLayer1Num;
                 }
             }
             else if (layerNum == 1)
@@ -193,7 +199,7 @@ public class LayerController : MonoBehaviour
             {
                 for (int i = 0; i < Layer2AllObj.Length; i++)
                 {
-                    Layer2AllObj[i].GetComponent<SpriteRenderer>().sortingOrder = 6;
+                    Layer2AllObj[i].GetComponent<SpriteRenderer>().sortingOrder = orderInLayer2Num;
                 }
             }
             else if (layerNum == 2)
@@ -225,7 +231,7 @@ public class LayerController : MonoBehaviour
             {
                 for (int i = 0; i < Layer3AllObj.Length; i++)
                 {
-                    Layer3AllObj[i].GetComponent<SpriteRenderer>().sortingOrder = 7;
+                    Layer3AllObj[i].GetComponent<SpriteRenderer>().sortingOrder = orderInLayer3Num;
                 }
 
             }
@@ -246,6 +252,13 @@ public class LayerController : MonoBehaviour
             }
         }
     }
+
+    //レイヤーの表示順を変えた時
+    private void LayerReplacement()
+    {
+        
+    }
+
 
     //現在のレイヤー番号を返す
     public int ReturnLayreNum()
