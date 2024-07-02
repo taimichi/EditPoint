@@ -30,7 +30,7 @@ public class Button : MonoBehaviour
     {
         Debug.Log("C_Button");
         fade.FadeIn(0.5f, () => { 
-            SceneManager.LoadScene("R");
+            SceneManager.LoadScene("TitleScene");
         });
     }
 }

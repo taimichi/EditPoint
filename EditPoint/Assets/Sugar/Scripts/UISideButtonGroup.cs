@@ -62,10 +62,10 @@ public class UISideButtonGroup : MonoBehaviour//IPointerExitHandler //IPointerEn
 
     void Update()
     {
-        anim();
+        UICONTROLL();
     }
 
-    void anim()
+    void UICONTROLL()
     {
         switch (state)
         {
