@@ -30,7 +30,10 @@ public class LayerController : MonoBehaviour
 
     [SerializeField] private GameObject LayerPanel;
 
-    // Start is called before the first frame update
+    [SerializeField, Header("レイヤー表示順用　レイヤー1番")] private GameObject Layer1Rep;
+    [SerializeField, Header("レイヤー表示順用　レイヤー2番")] private GameObject Layer2Rep;
+    [SerializeField, Header("レイヤー表示順用　レイヤー3番")] private GameObject Layer3Rep;
+
     void Start()
     {
         LayerPanel.SetActive(false);
@@ -42,7 +45,6 @@ public class LayerController : MonoBehaviour
         ChangeLayer();
     }
 
-    // Update is called once per frame
     void Update()
     {
         //編集モードがONの時
@@ -57,7 +59,6 @@ public class LayerController : MonoBehaviour
                     {
                         LayerPanel.SetActive(true);
                     }
-                    ChangeLayer();
                 }
                 else
                 {
@@ -67,6 +68,8 @@ public class LayerController : MonoBehaviour
                     }
                 }
                 LayerReplacement();
+                ChangeLayer();
+
             }
             else
             {
@@ -256,7 +259,53 @@ public class LayerController : MonoBehaviour
     //レイヤーの表示順を変えた時
     private void LayerReplacement()
     {
-        
+        //レイヤー1
+        switch (Layer1Rep.transform.GetSiblingIndex() - 2)
+        {
+            case 0:
+                orderInLayer1Num = 7;
+                break;
+
+            case 1:
+                orderInLayer1Num = 6;
+                break;
+
+            case 2:
+                orderInLayer1Num = 5;
+                break;
+        }
+
+        //レイヤー2
+        switch (Layer2Rep.transform.GetSiblingIndex() - 2)
+        {
+            case 0:
+                orderInLayer2Num = 7;
+                break;
+
+            case 1:
+                orderInLayer2Num = 6;
+                break;
+
+            case 2:
+                orderInLayer2Num = 5;
+                break;
+        }
+
+        //レイヤー3
+        switch (Layer3Rep.transform.GetSiblingIndex() - 2)
+        {
+            case 0:
+                orderInLayer3Num = 7;
+                break;
+
+            case 1:
+                orderInLayer3Num = 6;
+                break;
+
+            case 2:
+                orderInLayer3Num = 5;
+                break;
+        }
     }
 
 
