@@ -7,18 +7,14 @@ public class PlayerController : MonoBehaviour
     GroundChecker gc;
     Rigidbody2D rb;
 
-    const float moveSpeed = 5.0f;
-    const float jumpPower = 10;
-
-    [Range(-1, 1)] int inputLR = 0;
-    bool inputJump = false;
-
-    Vector3 moveVelocity;
+    MoveController mc;
 
     void Start()
     {
         gc = GetComponent<GroundChecker>();
         rb = GetComponent<Rigidbody2D>();
+
+        mc = new MoveController(rb);
 
         gc.InitCol();
     }
@@ -27,32 +23,24 @@ public class PlayerController : MonoBehaviour
     {
         gc.CheckGround();
 
-        MoveController(inputLR);
+        mc.MoveLR();
 
         PlayerInput();
-
-    }
-
-    void MoveController(int input)
-    {
-        moveVelocity = rb.velocity;
-        moveVelocity.x = input * moveSpeed;
-        rb.velocity = moveVelocity;
     }
 
     void PlayerInput()
     {
         if (Input.GetKey(KeyCode.D))
         {
-            inputLR = 1;
+            mc.inputLR = 1;
         }
         else if (Input.GetKey(KeyCode.A))
         {
-            inputLR = -1;
+            mc.inputLR = -1;
         }
         else
         {
-            inputLR = 0;
+            mc.inputLR = 0;
         }
     }
 
