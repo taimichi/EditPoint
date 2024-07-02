@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class Button : MonoBehaviour
+public class OptionGroupButton : MonoBehaviour
 {
     [SerializeField] Fade fade; // FadeCanvas
     string StageName;
