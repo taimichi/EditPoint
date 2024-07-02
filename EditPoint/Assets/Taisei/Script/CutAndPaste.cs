@@ -26,6 +26,10 @@ public class CutAndPaste : MonoBehaviour
     //false=設置可能 true=設置不可
     private bool checkPeast = false;
 
+    //ペースト時のオブジェクト
+    private GameObject PasteObj;
+    private string pasteObjName;
+
     void Start()
     {
         ChoiseObj = null;
@@ -81,13 +85,20 @@ public class CutAndPaste : MonoBehaviour
                 pos.z = 10;
 
                 scrWldPos = Camera.main.ScreenToWorldPoint(pos);
-                CutObj.transform.position = scrWldPos;
+                PasteObj.transform.position = scrWldPos;
                 if (Input.GetMouseButtonDown(0) && !checkPeast)
                 {
-                    CutObj.GetComponent<Collider2D>().isTrigger = false;
+                    pasteObjName = CutObj.name;
+                    PasteObj.name = pasteObjName;
+                    Destroy(CutObj);
+
+                    PasteObj.GetComponent<Collider2D>().isTrigger = false;
                     layerChange.ChangeObjectList();
                     setOnOff = false;
+
                     CutObj = null;
+                    pasteObjName = null;
+
                 }
                 else if (checkPeast)
                 {
@@ -109,7 +120,7 @@ public class CutAndPaste : MonoBehaviour
         {
             CutObj = ChoiseObj;
             ChoiseObj = null;
-            CutObj.SetActive(false);
+            CutObj.GetComponent<SpriteRenderer>().color = new Color(255f / 255f, 255f / 255f, 255 / 255f, 50f / 255f);
         }
     }
 
@@ -119,26 +130,12 @@ public class CutAndPaste : MonoBehaviour
         if (PasteNum > 0)
         {
             setOnOff = true;
-            CutObj.SetActive(true);
-            CutObj.GetComponent<Collider2D>().isTrigger = true;
-            //switch (layerChange.ReturnLastLayerNum())
-            //{
-            //    case 1:
-            //        CutObj.layer = LayerMask.NameToLayer("Layer1");
-            //        break;
-
-            //    case 2:
-            //        CutObj.layer = LayerMask.NameToLayer("Layer2");
-            //        break;
-
-            //    case 3:
-            //        CutObj.layer = LayerMask.NameToLayer("Layer3");
-            //        break;
-            //}
+            PasteObj = Instantiate(CutObj);
+            PasteObj.GetComponent<Collider2D>().isTrigger = true;
+            PasteObj.GetComponent<SpriteRenderer>().color = new Color(255f / 255f, 255f / 255f, 255f / 255f, 255f / 255f);
             CutObj.GetComponent<SpriteRenderer>().sortingOrder = 5;
 
             layerChange.PasteChangeLayer(CutObj.layer);
-            Debug.Log(CutObj.layer);
 
             //カーソルを強制的に画面中央に移動(今後追加予定)
         }
