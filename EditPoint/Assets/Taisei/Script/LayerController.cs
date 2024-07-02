@@ -18,6 +18,11 @@ public class LayerController : MonoBehaviour
     [SerializeField, Header("レイヤーの最小値")] private int minLayerNum;
     private bool changeLayer = false;
 
+    //order in layerの値
+    private int orderInLayer1Num = 5;
+    private int orderInLayer2Num = 6;
+    private int orderInLayer3Num = 7;
+
     private GameObject[] GroundLayer;
     private GameObject[] Layer1AllObj;
     private GameObject[] Layer2AllObj;
@@ -25,7 +30,10 @@ public class LayerController : MonoBehaviour
 
     [SerializeField] private GameObject LayerPanel;
 
-    // Start is called before the first frame update
+    [SerializeField, Header("レイヤー表示順用　レイヤー1番")] private GameObject Layer1Rep;
+    [SerializeField, Header("レイヤー表示順用　レイヤー2番")] private GameObject Layer2Rep;
+    [SerializeField, Header("レイヤー表示順用　レイヤー3番")] private GameObject Layer3Rep;
+
     void Start()
     {
         LayerPanel.SetActive(false);
@@ -37,7 +45,6 @@ public class LayerController : MonoBehaviour
         ChangeLayer();
     }
 
-    // Update is called once per frame
     void Update()
     {
         //編集モードがONの時
@@ -52,7 +59,6 @@ public class LayerController : MonoBehaviour
                     {
                         LayerPanel.SetActive(true);
                     }
-                    ChangeLayer();
                 }
                 else
                 {
@@ -61,6 +67,9 @@ public class LayerController : MonoBehaviour
                         LayerPanel.SetActive(false);
                     }
                 }
+                LayerReplacement();
+                ChangeLayer();
+
             }
             else
             {
@@ -161,7 +170,7 @@ public class LayerController : MonoBehaviour
             {
                 for(int i = 0; i < Layer1AllObj.Length; i++)
                 {
-                    Layer1AllObj[i].GetComponent<SpriteRenderer>().sortingOrder = 5;
+                    Layer1AllObj[i].GetComponent<SpriteRenderer>().sortingOrder = orderInLayer1Num;
                 }
             }
             else if (layerNum == 1)
@@ -193,7 +202,7 @@ public class LayerController : MonoBehaviour
             {
                 for (int i = 0; i < Layer2AllObj.Length; i++)
                 {
-                    Layer2AllObj[i].GetComponent<SpriteRenderer>().sortingOrder = 6;
+                    Layer2AllObj[i].GetComponent<SpriteRenderer>().sortingOrder = orderInLayer2Num;
                 }
             }
             else if (layerNum == 2)
@@ -225,7 +234,7 @@ public class LayerController : MonoBehaviour
             {
                 for (int i = 0; i < Layer3AllObj.Length; i++)
                 {
-                    Layer3AllObj[i].GetComponent<SpriteRenderer>().sortingOrder = 7;
+                    Layer3AllObj[i].GetComponent<SpriteRenderer>().sortingOrder = orderInLayer3Num;
                 }
 
             }
@@ -246,6 +255,59 @@ public class LayerController : MonoBehaviour
             }
         }
     }
+
+    //レイヤーの表示順を変えた時
+    private void LayerReplacement()
+    {
+        //レイヤー1
+        switch (Layer1Rep.transform.GetSiblingIndex() - 2)
+        {
+            case 0:
+                orderInLayer1Num = 7;
+                break;
+
+            case 1:
+                orderInLayer1Num = 6;
+                break;
+
+            case 2:
+                orderInLayer1Num = 5;
+                break;
+        }
+
+        //レイヤー2
+        switch (Layer2Rep.transform.GetSiblingIndex() - 2)
+        {
+            case 0:
+                orderInLayer2Num = 7;
+                break;
+
+            case 1:
+                orderInLayer2Num = 6;
+                break;
+
+            case 2:
+                orderInLayer2Num = 5;
+                break;
+        }
+
+        //レイヤー3
+        switch (Layer3Rep.transform.GetSiblingIndex() - 2)
+        {
+            case 0:
+                orderInLayer3Num = 7;
+                break;
+
+            case 1:
+                orderInLayer3Num = 6;
+                break;
+
+            case 2:
+                orderInLayer3Num = 5;
+                break;
+        }
+    }
+
 
     //現在のレイヤー番号を返す
     public int ReturnLayreNum()
@@ -335,4 +397,7 @@ public class LayerController : MonoBehaviour
                 break;
         }
     }
+
+    
+
 }
