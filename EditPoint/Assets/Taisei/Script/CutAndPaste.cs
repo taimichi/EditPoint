@@ -49,9 +49,12 @@ public class CutAndPaste : MonoBehaviour
                     Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
                     RaycastHit2D hit2d = Physics2D.Raycast((Vector2)ray.origin, (Vector2)ray.direction);
 
-                    if (EventSystem.current.IsPointerOverGameObject())
+                    if (EventSystem.current.IsPointerOverGameObject() && 
+                        //レイヤーのオブジェクトじゃないとき
+                        (hit2d.collider.gameObject.layer != LayerMask.NameToLayer("Layer1") &&
+                         hit2d.collider.gameObject.layer != LayerMask.NameToLayer("Layer2") &&
+                         hit2d.collider.gameObject.layer != LayerMask.NameToLayer("Layer3")))
                     {
-                        Debug.Log("UIだよ");
                         return;
                     }
 
