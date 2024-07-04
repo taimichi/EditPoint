@@ -17,6 +17,8 @@ public class OptionGroup : MonoBehaviour,IPointerExitHandler
     {
         // 既に目標にいるなら動作しない
         if (state == 1) { return; }
+        // UIを表示する
+        //  UISideButtonGroupにてswitch文処理に使う
         state = 1;
         State();
     }
@@ -25,11 +27,13 @@ public class OptionGroup : MonoBehaviour,IPointerExitHandler
     {
         // UIが動いてないなら動作なし
         if (state == 3) { return; }
-
+        // 離れた場合にUIを隠す
         state = 3;
         State();
     }
 
+
+    // タイミングの送信
     void State()
     {
         SetState[0].Statereceive = state;

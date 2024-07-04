@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class Button : MonoBehaviour
+public class OptionGroupButton : MonoBehaviour
 {
     [SerializeField] Fade fade; // FadeCanvas
     string StageName;
@@ -15,7 +15,7 @@ public class Button : MonoBehaviour
         });
         StageName = SceneManager.GetActiveScene().name;
     }
-    public void GroupSettings()
+    public void GroupSettings() // ê›íËâÊñ 
     {
         Debug.Log("A_Button");
     }

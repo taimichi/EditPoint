@@ -11,12 +11,17 @@ public class LayerController : MonoBehaviour
     [SerializeField] private Text LayerNo;
     //現在選択しているレイヤー番号
     //layerNum : 0 = 7.全体, 1 = 8.layer1, 2 = 9.layer2, 3 = 10.layer3
-    private int layerNum = 0;
+    private int i_layerNum = 0;
     //最後に選択したレイヤー番号 1～3
     private int lastLayerNum = 1;
-    [SerializeField, Header("レイヤーの最大値")] private int maxLayerNum;
-    [SerializeField, Header("レイヤーの最小値")] private int minLayerNum;
-    private bool changeLayer = false;
+    [SerializeField, Header("レイヤーの最大値")] private int i_maxLayerNum;
+    [SerializeField, Header("レイヤーの最小値")] private int i_minLayerNum;
+    private bool b_changeLayer = false;
+
+    //order in layerの値
+    private int i_orderInLayer1Num = 5;
+    private int i_orderInLayer2Num = 6;
+    private int i_orderInLayer3Num = 7;
 
     private GameObject[] GroundLayer;
     private GameObject[] Layer1AllObj;
@@ -25,7 +30,10 @@ public class LayerController : MonoBehaviour
 
     [SerializeField] private GameObject LayerPanel;
 
-    // Start is called before the first frame update
+    [SerializeField, Header("レイヤー表示順用　レイヤー1番")] private GameObject Layer1Rep;
+    [SerializeField, Header("レイヤー表示順用　レイヤー2番")] private GameObject Layer2Rep;
+    [SerializeField, Header("レイヤー表示順用　レイヤー3番")] private GameObject Layer3Rep;
+
     void Start()
     {
         LayerPanel.SetActive(false);
@@ -37,7 +45,6 @@ public class LayerController : MonoBehaviour
         ChangeLayer();
     }
 
-    // Update is called once per frame
     void Update()
     {
         //編集モードがONの時
@@ -46,13 +53,12 @@ public class LayerController : MonoBehaviour
             if (!cp.ReturnSetOnOff())
             {
                 Wheel();
-                if (changeLayer)
+                if (b_changeLayer)
                 {
                     if (!LayerPanel.activeSelf)
                     {
                         LayerPanel.SetActive(true);
                     }
-                    ChangeLayer();
                 }
                 else
                 {
@@ -61,13 +67,16 @@ public class LayerController : MonoBehaviour
                         LayerPanel.SetActive(false);
                     }
                 }
+                LayerReplacement();
+                ChangeLayer();
+
             }
             else
             {
 
             }
         }
-        LayerNo.text = layerNum.ToString();
+        LayerNo.text = i_layerNum.ToString();
     }
 
     //マウスホイール
@@ -75,21 +84,21 @@ public class LayerController : MonoBehaviour
     {
         if (Input.mouseScrollDelta.y > 0 && Input.GetKey(KeyCode.R))
         {
-            layerNum++;
-            if (layerNum >= maxLayerNum)
+            i_layerNum++;
+            if (i_layerNum >= i_maxLayerNum)
             {
-                layerNum = maxLayerNum;
+                i_layerNum = i_maxLayerNum;
             }
-            changeLayer = true;
+            b_changeLayer = true;
         }
         else if (Input.mouseScrollDelta.y < 0 && Input.GetKey(KeyCode.R))
         {
-            layerNum--;
-            if (layerNum <= minLayerNum)
+            i_layerNum--;
+            if (i_layerNum <= i_minLayerNum)
             {
-                layerNum = minLayerNum;
+                i_layerNum = i_minLayerNum;
             }
-            changeLayer = true;
+            b_changeLayer = true;
         }        
     }
 
@@ -100,14 +109,14 @@ public class LayerController : MonoBehaviour
         Layer1ColorChange();
         Layer2ColorChange();
         Layer3ColorChange();
-        if (layerNum == 0)
+        if (i_layerNum == 0)
         {
             LayerPanel.SetActive(false);
         }
 
-        if (layerNum != 0)
+        if (i_layerNum != 0)
         {
-            lastLayerNum = layerNum;
+            lastLayerNum = i_layerNum;
         }
     }
 
@@ -134,7 +143,7 @@ public class LayerController : MonoBehaviour
     //その他のレイヤーオブジェクトの色合い変更
     private void GroundLayerChange()
     {
-        if (layerNum == 0)
+        if (i_layerNum == 0)
         {
             for(int i = 0; i < GroundLayer.Length; i++)
             {
@@ -157,18 +166,25 @@ public class LayerController : MonoBehaviour
         if (Layer1AllObj != null)
         {
             //レイヤーが全体か1を選択しているとき
-            if (layerNum == 0)
+            if (i_layerNum == 0)
             {
                 for(int i = 0; i < Layer1AllObj.Length; i++)
                 {
-                    Layer1AllObj[i].GetComponent<SpriteRenderer>().sortingOrder = 5;
+                    //
+                    if(Layer1AllObj[i] != null)
+                    {
+                        Layer1AllObj[i].GetComponent<SpriteRenderer>().sortingOrder = i_orderInLayer1Num;
+                    }
                 }
             }
-            else if (layerNum == 1)
+            else if (i_layerNum == 1)
             {
                 for (int i = 0; i < Layer1AllObj.Length; i++)
                 {
-                    Layer1AllObj[i].GetComponent<SpriteRenderer>().sortingOrder = 5;
+                    if(Layer1AllObj[i] != null)
+                    {
+                        Layer1AllObj[i].GetComponent<SpriteRenderer>().sortingOrder = 5;
+                    }
                 }
             }
             //それ以外の時
@@ -176,7 +192,10 @@ public class LayerController : MonoBehaviour
             {
                 for (int i = 0; i < Layer1AllObj.Length; i++)
                 {
-                    Layer1AllObj[i].GetComponent<SpriteRenderer>().sortingOrder = 3;
+                    if (Layer1AllObj[i] != null)
+                    {
+                        Layer1AllObj[i].GetComponent<SpriteRenderer>().sortingOrder = 3;
+                    }
                 }
             }
         }
@@ -189,14 +208,14 @@ public class LayerController : MonoBehaviour
         if (Layer2AllObj != null)
         {
             //レイヤーが全体か2を選択しているとき
-            if(layerNum == 0)
+            if(i_layerNum == 0)
             {
                 for (int i = 0; i < Layer2AllObj.Length; i++)
                 {
-                    Layer2AllObj[i].GetComponent<SpriteRenderer>().sortingOrder = 6;
+                    Layer2AllObj[i].GetComponent<SpriteRenderer>().sortingOrder = i_orderInLayer2Num;
                 }
             }
-            else if (layerNum == 2)
+            else if (i_layerNum == 2)
             {
                 for (int i = 0; i < Layer2AllObj.Length; i++)
                 {
@@ -221,15 +240,15 @@ public class LayerController : MonoBehaviour
         if (Layer3AllObj != null)
         {
             //レイヤーが全体か3を選択しているとき
-            if (layerNum == 0)
+            if (i_layerNum == 0)
             {
                 for (int i = 0; i < Layer3AllObj.Length; i++)
                 {
-                    Layer3AllObj[i].GetComponent<SpriteRenderer>().sortingOrder = 7;
+                    Layer3AllObj[i].GetComponent<SpriteRenderer>().sortingOrder = i_orderInLayer3Num;
                 }
 
             }
-            else if (layerNum == 3)
+            else if (i_layerNum == 3)
             {
                 for (int i = 0; i < Layer3AllObj.Length; i++)
                 {
@@ -247,10 +266,63 @@ public class LayerController : MonoBehaviour
         }
     }
 
+    //レイヤーの表示順を変えた時
+    private void LayerReplacement()
+    {
+        //レイヤー1
+        switch (Layer1Rep.transform.GetSiblingIndex() - 2)
+        {
+            case 0:
+                i_orderInLayer1Num = 7;
+                break;
+
+            case 1:
+                i_orderInLayer1Num = 6;
+                break;
+
+            case 2:
+                i_orderInLayer1Num = 5;
+                break;
+        }
+
+        //レイヤー2
+        switch (Layer2Rep.transform.GetSiblingIndex() - 2)
+        {
+            case 0:
+                i_orderInLayer2Num = 7;
+                break;
+
+            case 1:
+                i_orderInLayer2Num = 6;
+                break;
+
+            case 2:
+                i_orderInLayer2Num = 5;
+                break;
+        }
+
+        //レイヤー3
+        switch (Layer3Rep.transform.GetSiblingIndex() - 2)
+        {
+            case 0:
+                i_orderInLayer3Num = 7;
+                break;
+
+            case 1:
+                i_orderInLayer3Num = 6;
+                break;
+
+            case 2:
+                i_orderInLayer3Num = 5;
+                break;
+        }
+    }
+
+
     //現在のレイヤー番号を返す
     public int ReturnLayreNum()
     {
-        return layerNum;
+        return i_layerNum;
     }
     //最後に選択したレイヤー番号を返す
     public int ReturnLastLayerNum()
@@ -261,8 +333,8 @@ public class LayerController : MonoBehaviour
     //外部からのレイヤー変更
     public void OutChangeLayerNum(int outNum)
     {
-        changeLayer = true;
-        layerNum = outNum;
+        b_changeLayer = true;
+        i_layerNum = outNum;
         if (outNum != 0)
         {
             LayerPanel.SetActive(true);
@@ -320,19 +392,22 @@ public class LayerController : MonoBehaviour
         switch (layerMask)
         {
             case 8:
-                layerNum = 1;
+                i_layerNum = 1;
                 ChangeLayer();
                 break;
 
             case 9:
-                layerNum = 2;
+                i_layerNum = 2;
                 ChangeLayer();
                 break;
 
             case 10:
-                layerNum = 3;
+                i_layerNum = 3;
                 ChangeLayer();
                 break;
         }
     }
+
+    
+
 }
