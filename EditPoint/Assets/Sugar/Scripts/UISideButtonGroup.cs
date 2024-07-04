@@ -28,9 +28,11 @@ public class UISideButtonGroup : MonoBehaviour//IPointerExitHandler //IPointerEn
 
     private void Start()
     {
+        // インスタンス生成
         UAnim = new ClassUIAnim();
     }
 
+    // UIを動かすタイミングの受け取り
     public int Statereceive
     {
         set
@@ -38,33 +40,13 @@ public class UISideButtonGroup : MonoBehaviour//IPointerExitHandler //IPointerEn
             state = value;
         }
     }
-    //public void OnPointerEnter(PointerEventData eventData)
-    //{
-    //    state = 1;
-    //    Debug.Log("触れた");
-    //}
-
-    //public void OptionGroupButton()
-    //{
-    //    // 既に目標にいるなら動作しない
-    //    if (TargetRct.anchoredPosition == TargetPos) { return; }
-
-    //    state = 1;
-    //}
-
-    //public void OnPointerExit(PointerEventData eventData)
-    //{
-    //    // UIが動いてないなら動作なし
-    //    if (TargetRct.anchoredPosition==startPos) { return; }
-    //    state = 3;
-    //    Debug.Log("離れた");
-    //}
 
     void Update()
     {
         UICONTROLL();
     }
 
+    // UIを動かす
     void UICONTROLL()
     {
         switch (state)
@@ -99,6 +81,8 @@ public class UISideButtonGroup : MonoBehaviour//IPointerExitHandler //IPointerEn
 
         }
     }
+
+    // 初期化用の関数
     void Setup()
     {
         TargetRct = UAnim.anim_Start(TargetRct, startPos);

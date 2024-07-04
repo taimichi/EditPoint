@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using DG.Tweening;  //DOTween‚ðŽg‚¤‚Æ‚«‚Í‚±‚Ìusing‚ð“ü‚ê‚é
 
 public class ClassUIAnim
 {
@@ -41,5 +42,10 @@ public class ClassUIAnim
         //tf.localEulerAngles += new Vector3(x, y, z);
         tf.rotation = Quaternion.Euler(x, y, z);
         return tf;
+    }
+
+    public void POSITION(RectTransform rct)
+    {
+        rct.DOMove(new Vector3(5f, 0f, 0f), 3f);
     }
 }

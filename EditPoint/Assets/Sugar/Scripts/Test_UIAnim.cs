@@ -93,6 +93,7 @@ public class Test_UIAnim : MonoBehaviour
                 else
                 {
                     TargetRct.sizeDelta = new Vector2(Width,Height);
+                   
                     state++;
                 }
                 break;
