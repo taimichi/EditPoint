@@ -65,12 +65,12 @@ public class GroundChecker : MonoBehaviour
             if (result.collider != null)
             {
                 isGround = true;        // 地面と接触した
-                Debug.Log("地面と接触");
+                //Debug.Log("地面と接触");
                 return;                 // 終了
             }
             foot.x += width;
         }
-        Debug.Log("空中");
+        //Debug.Log("空中");
     }
     // 地面に接している変数を取得
     public bool IsGround() { return isGround; }
