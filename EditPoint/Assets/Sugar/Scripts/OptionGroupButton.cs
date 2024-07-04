@@ -15,7 +15,7 @@ public class OptionGroupButton : MonoBehaviour
         });
         StageName = SceneManager.GetActiveScene().name;
     }
-    public void GroupSettings()
+    public void GroupSettings() // İ’è‰æ–Ê
     {
         Debug.Log("A_Button");
     }
