@@ -11,20 +11,24 @@ public class CutAndPaste : MonoBehaviour
 
     [SerializeField] private LayerController layerChange;
 
-    [SerializeField, Header("ペーストできる回数")] private int PasteNum = 1;
-    [SerializeField, Header("カットできる回数")] private int CutNum = 1;
+    [SerializeField, Header("ペーストできる回数")] private int i_PasteNum = 1;
+    [SerializeField, Header("カットできる回数")] private int i_CutNum = 1;
 
     //オブジェクトのペーストや移動するときにtrueにする
-    private bool setOnOff = false;
+    private bool b_setOnOff = false;
     //選択状態かどうか
-    private bool choiseOnOff = false;
+    private bool b_choiseOnOff = false;
 
-    private Vector3 pos;
-    private Vector3 scrWldPos;
+    private Vector3 v3_pos;
+    private Vector3 v3_scrWldPos;
 
     //ペーストできるかどうか
     //false=設置可能 true=設置不可
-    private bool checkPeast = false;
+    private bool b_checkPeast = false;
+
+    //ペースト時のオブジェクト
+    private GameObject PasteObj;
+    private string s_pasteObjName;
 
     void Start()
     {
@@ -38,7 +42,7 @@ public class CutAndPaste : MonoBehaviour
         if (gm.ReturnEditMode() == true)
         {
             //ペースト・オブジェクト移動状態じゃないとき
-            if (!setOnOff)
+            if (!b_setOnOff)
             {
                 if (Input.GetMouseButtonDown(0))
                 {
@@ -77,19 +81,28 @@ public class CutAndPaste : MonoBehaviour
             //ペースト・オブジェクト移動状態の時
             else
             {
-                pos = Input.mousePosition;
-                pos.z = 10;
+                v3_pos = Input.mousePosition;
+                v3_pos.z = 10;
 
-                scrWldPos = Camera.main.ScreenToWorldPoint(pos);
-                CutObj.transform.position = scrWldPos;
-                if (Input.GetMouseButtonDown(0) && !checkPeast)
+                v3_scrWldPos = Camera.main.ScreenToWorldPoint(v3_pos);
+                PasteObj.transform.position = v3_scrWldPos;
+                
+                //クリックしたらカーソルの位置にオブジェクトを置く
+                if (Input.GetMouseButtonDown(0) && !b_checkPeast)
                 {
-                    CutObj.GetComponent<Collider2D>().isTrigger = false;
+                    s_pasteObjName = CutObj.name;
+                    PasteObj.name = s_pasteObjName;
+                    Destroy(CutObj);
+
+                    PasteObj.GetComponent<Collider2D>().isTrigger = false;
                     layerChange.ChangeObjectList();
-                    setOnOff = false;
+                    b_setOnOff = false;
+
                     CutObj = null;
+                    s_pasteObjName = null;
+
                 }
-                else if (checkPeast)
+                else if (b_checkPeast)
                 {
                     Debug.Log("おけません");
                 }
@@ -99,46 +112,32 @@ public class CutAndPaste : MonoBehaviour
 
     public bool ReturnSetOnOff()
     {
-        return setOnOff;
+        return b_setOnOff;
     }
 
     //カットボタンを押した時
     public void OnCut()
     {
-        if (CutNum > 0)
+        if (i_CutNum > 0)
         {
             CutObj = ChoiseObj;
             ChoiseObj = null;
-            CutObj.SetActive(false);
+            CutObj.GetComponent<SpriteRenderer>().color = new Color(255f / 255f, 255f / 255f, 255 / 255f, 50f / 255f);
         }
     }
 
     //ペーストするとき
     public void OnPaste()
     {
-        if (PasteNum > 0)
+        if (i_PasteNum > 0)
         {
-            setOnOff = true;
-            CutObj.SetActive(true);
-            CutObj.GetComponent<Collider2D>().isTrigger = true;
-            //switch (layerChange.ReturnLastLayerNum())
-            //{
-            //    case 1:
-            //        CutObj.layer = LayerMask.NameToLayer("Layer1");
-            //        break;
-
-            //    case 2:
-            //        CutObj.layer = LayerMask.NameToLayer("Layer2");
-            //        break;
-
-            //    case 3:
-            //        CutObj.layer = LayerMask.NameToLayer("Layer3");
-            //        break;
-            //}
+            b_setOnOff = true;
+            PasteObj = Instantiate(CutObj);
+            PasteObj.GetComponent<Collider2D>().isTrigger = true;
+            PasteObj.GetComponent<SpriteRenderer>().color = new Color(255f / 255f, 255f / 255f, 255f / 255f, 255f / 255f);
             CutObj.GetComponent<SpriteRenderer>().sortingOrder = 5;
 
             layerChange.PasteChangeLayer(CutObj.layer);
-            Debug.Log(CutObj.layer);
 
             //カーソルを強制的に画面中央に移動(今後追加予定)
         }
@@ -146,7 +145,7 @@ public class CutAndPaste : MonoBehaviour
 
     public void CheckPasteTrigger(bool trigger)
     {
-        checkPeast = trigger;
+        b_checkPeast = trigger;
     }
 
 }
