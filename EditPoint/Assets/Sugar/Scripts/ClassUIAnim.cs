@@ -37,15 +37,52 @@ public class ClassUIAnim
         return Col;
     }
     // âÒì]
-    public Transform anim_rotation(Transform tf,float x,float y,float z)
+    public Transform T_anim_rotation(Transform tf,float x,float y,float z)
     {
         //tf.localEulerAngles += new Vector3(x, y, z);
         tf.rotation = Quaternion.Euler(x, y, z);
         return tf;
     }
 
+    public RectTransform R_anim_rotation(RectTransform tf, float x, float y, float z)
+    {
+        //tf.localEulerAngles += new Vector3(x, y, z);
+        tf.rotation = Quaternion.Euler(x, y, z);
+        return tf;
+    }
+
+
+    public enum RotateMode
+    {
+        //
+        // äTóv:
+        //     Fastest way that never rotates beyond 360Åã
+        Fast = 0,
+        //
+        // äTóv:
+        //     Fastest way that rotates beyond 360Åã
+        FastBeyond360 = 1,
+        //
+        // äTóv:
+        //     Adds the given rotation to the transform using world axis and an advanced precision
+        //     mode (like when using transform.Rotate(Space.World)).
+        //     In this mode the end value is is always considered relative
+        WorldAxisAdd = 2,
+        //
+        // äTóv:
+        //     Adds the given rotation to the transform's local axis (like when rotating an
+        //     object with the "local" switch enabled in Unity's editor or using transform.Rotate(Space.Self)).
+        //     In this mode the end value is is always considered relative
+        LocalAxisAdd = 3
+    }
+
     public void POSITION(RectTransform rct)
     {
         rct.DOMove(new Vector3(5f, 0f, 0f), 3f);
+    }
+
+    public void ROTATION_Z(RectTransform rct,float rotSpd,float timer)
+    {
+        rct.DORotate(Vector3.forward * rotSpd,timer);
     }
 }
