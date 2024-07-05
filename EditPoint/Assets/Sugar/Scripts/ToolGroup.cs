@@ -39,7 +39,6 @@ public class ToolGroup : MonoBehaviour
         {
             UICONTROLL();
         }
-        Debug.Log(state);
     }
 
     void UICONTROLL()
