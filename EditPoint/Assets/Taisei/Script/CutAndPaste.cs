@@ -51,7 +51,8 @@ public class CutAndPaste : MonoBehaviour
 
                     if (EventSystem.current.IsPointerOverGameObject() || 
                         hit2d.collider.gameObject.layer == LayerMask.NameToLayer("Ground") || 
-                        hit2d.collider.tag == "Player")
+                        hit2d.collider.tag == "Player" || 
+                        hit2d.collider.tag == "RangeSelect")
                     {
                         return;
                     }
