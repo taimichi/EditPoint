@@ -19,7 +19,7 @@ public class GroundChecker : MonoBehaviour
     }
 
     // プレイヤーの中心位置（胸元）を取得
-    Vector3 GetCenterPos()
+    public Vector3 GetCenterPos()
     {
         Vector3 pos = transform.position;
         // ボックスコライダーのオフセットから中心を計算
@@ -29,7 +29,7 @@ public class GroundChecker : MonoBehaviour
     }
 
     // プレイヤーの足元座標を取得
-    Vector3 GetFootPos()
+    public Vector3 GetFootPos()
     {
         Vector3 pos = GetCenterPos();
         pos.y -= col.size.y / 2 * transform.localScale.y;
