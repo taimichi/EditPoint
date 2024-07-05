@@ -192,7 +192,7 @@ public class Test_UIAnim : MonoBehaviour
                 if (startRot.z <= 0)
                 {
                     startRot.z += rotZ;
-                    UAnim.anim_rotation(tf, startRot.x, startRot.y, startRot.z);
+                    UAnim.T_anim_rotation(tf, startRot.x, startRot.y, startRot.z);
                 }
                 else
                 {
