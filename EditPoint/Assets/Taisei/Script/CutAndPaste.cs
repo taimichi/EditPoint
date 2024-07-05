@@ -50,7 +50,8 @@ public class CutAndPaste : MonoBehaviour
                     RaycastHit2D hit2d = Physics2D.Raycast((Vector2)ray.origin, (Vector2)ray.direction);
 
                     if (EventSystem.current.IsPointerOverGameObject() || 
-                        hit2d.collider.gameObject.layer == LayerMask.NameToLayer("Ground"))
+                        hit2d.collider.gameObject.layer == LayerMask.NameToLayer("Ground") || 
+                        hit2d.collider.tag == "Player")
                     {
                         return;
                     }

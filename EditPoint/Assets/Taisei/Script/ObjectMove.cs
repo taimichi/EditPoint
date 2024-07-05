@@ -33,7 +33,8 @@ public class ObjectMove : MonoBehaviour
 
             //UI‚¾‚Á‚½‚ç‰½‚à‚µ‚È‚¢
             if (EventSystem.current.IsPointerOverGameObject() || 
-                hit2d.collider.gameObject.layer == LayerMask.NameToLayer("Ground"))
+                hit2d.collider.gameObject.layer == LayerMask.NameToLayer("Ground") ||
+                hit2d.collider.tag == "Player")
             {
                 return;
             }
