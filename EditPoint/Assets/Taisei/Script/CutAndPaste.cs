@@ -19,8 +19,8 @@ public class CutAndPaste : MonoBehaviour
     //選択状態かどうか
     private bool b_choiseOnOff = false;
 
-    private Vector3 v3_pos;
-    private Vector3 v3_scrWldPos;
+    private Vector3 v3_mousePos;    //マウスの座標
+    private Vector3 v3_scrWldPos;   //マウスの座標をワールド座標に
 
     //ペーストできるかどうか
     //false=設置可能 true=設置不可
@@ -49,11 +49,8 @@ public class CutAndPaste : MonoBehaviour
                     Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
                     RaycastHit2D hit2d = Physics2D.Raycast((Vector2)ray.origin, (Vector2)ray.direction);
 
-                    if (EventSystem.current.IsPointerOverGameObject() && 
-                        //レイヤーのオブジェクトじゃないとき
-                        (hit2d.collider.gameObject.layer != LayerMask.NameToLayer("Layer1") &&
-                         hit2d.collider.gameObject.layer != LayerMask.NameToLayer("Layer2") &&
-                         hit2d.collider.gameObject.layer != LayerMask.NameToLayer("Layer3")))
+                    if (EventSystem.current.IsPointerOverGameObject() || 
+                        hit2d.collider.gameObject.layer == LayerMask.NameToLayer("Ground"))
                     {
                         return;
                     }
@@ -84,10 +81,10 @@ public class CutAndPaste : MonoBehaviour
             //ペースト・オブジェクト移動状態の時
             else
             {
-                v3_pos = Input.mousePosition;
-                v3_pos.z = 10;
+                v3_mousePos = Input.mousePosition;
+                v3_mousePos.z = 10;
 
-                v3_scrWldPos = Camera.main.ScreenToWorldPoint(v3_pos);
+                v3_scrWldPos = Camera.main.ScreenToWorldPoint(v3_mousePos);
                 PasteObj.transform.position = v3_scrWldPos;
                 
                 //クリックしたらカーソルの位置にオブジェクトを置く
