@@ -19,7 +19,7 @@ public class GroundChecker : MonoBehaviour
     }
 
     // プレイヤーの中心位置（胸元）を取得
-    Vector3 GetCenterPos()
+    public Vector3 GetCenterPos()
     {
         Vector3 pos = transform.position;
         // ボックスコライダーのオフセットから中心を計算
@@ -29,7 +29,7 @@ public class GroundChecker : MonoBehaviour
     }
 
     // プレイヤーの足元座標を取得
-    Vector3 GetFootPos()
+    public Vector3 GetFootPos()
     {
         Vector3 pos = GetCenterPos();
         pos.y -= col.size.y / 2 * transform.localScale.y;
@@ -65,12 +65,12 @@ public class GroundChecker : MonoBehaviour
             if (result.collider != null)
             {
                 isGround = true;        // 地面と接触した
-                Debug.Log("地面と接触");
+                //Debug.Log("地面と接触");
                 return;                 // 終了
             }
             foot.x += width;
         }
-        Debug.Log("空中");
+        //Debug.Log("空中");
     }
     // 地面に接している変数を取得
     public bool IsGround() { return isGround; }
