@@ -62,13 +62,21 @@ public class CutAndPaste : MonoBehaviour
                     Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
                     RaycastHit2D hit2d = Physics2D.Raycast((Vector2)ray.origin, (Vector2)ray.direction);
 
-                    if (hit2d.collider.gameObject.layer == LayerMask.NameToLayer("UI")
+                    if (hit2d == false
                         || hit2d.collider.gameObject.layer == LayerMask.NameToLayer("Ground") ||
                         hit2d.collider.tag == "Player" ||
-                        hit2d.collider.tag == "RangeSelect"
-                        )
+                        hit2d.collider.tag == "RangeSelect")
                     {
-                        ClickObj.GetComponent<SpriteRenderer>().material = materials[0];
+                        if (EventSystem.current.IsPointerOverGameObject())
+                        {
+                            return;
+                        }
+                        Debug.Log("‚È‚µ");
+                        ChoiseObj = null;
+                        if (ClickObj != null)
+                        {
+                            ClickObj.GetComponent<SpriteRenderer>().material = materials[0];
+                        }
                         ClickObj = null;
                         return;
                     }
@@ -141,6 +149,7 @@ public class CutAndPaste : MonoBehaviour
                     CutObj.SetActive(false);
 
                     PasteObj.GetComponent<Collider2D>().isTrigger = false;
+                    PasteObj.GetComponent<SpriteRenderer>().material = materials[0];
                     layerChange.ChangeObjectList();
                     b_setOnOff = false;
 
@@ -167,7 +176,7 @@ public class CutAndPaste : MonoBehaviour
         {
             CutObj = ChoiseObj;
             ChoiseObj = null;
-            CutObj.GetComponent<SpriteRenderer>().color = new Color(255f / 255f, 255f / 255f, 255 / 255f, 50f / 255f);
+            CutObj.GetComponent<SpriteRenderer>().color = new Color(255f / 255f, 255f / 255f, 255f / 255f, 50f / 255f);
             i_PasteCnt = 0;
             PasteObj = null;
         }

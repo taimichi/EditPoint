@@ -24,8 +24,8 @@ public class Player : MonoBehaviour
 
     void Update()
     {
-        force = new Vector3(7.5f, 0, 0);
-        rb.AddForce(force);
+        //force = new Vector3(7.5f, 0, 0);
+        //rb.AddForce(force);
 
         objMove.CheckPlTrigger(plCheckTrigger);
         cap.CheckPasteTrigger(plCheckTrigger);

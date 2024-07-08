@@ -8,7 +8,7 @@ Shader "Custom/2DOutline"
     }
         SubShader
         {
-            Tags { "RenderType" = "Opaque" }
+            Tags { "RenderType" = "Transparent" "Queue" = "Transparent" }
             LOD 100
 
             Pass
@@ -17,8 +17,8 @@ Shader "Custom/2DOutline"
                 Tags { "LightMode" = "Always" }
 
                 Cull Off
-                ZWrite On
-                ZTest LEqual
+                ZWrite Off
+                Blend SrcAlpha OneMinusSrcAlpha
 
                 CGPROGRAM
                 #pragma vertex vert
@@ -29,12 +29,14 @@ Shader "Custom/2DOutline"
                 {
                     float4 vertex : POSITION;
                     float2 uv : TEXCOORD0;
+                    float4 color : COLOR;
                 };
 
                 struct v2f
                 {
                     float2 uv : TEXCOORD0;
                     float4 vertex : SV_POSITION;
+                    float4 color : COLOR;
                 };
 
                 sampler2D _MainTex;
@@ -49,6 +51,7 @@ Shader "Custom/2DOutline"
                     v2f o;
                     o.vertex = UnityObjectToClipPos(v.vertex);
                     o.uv = TRANSFORM_TEX(v.uv, _MainTex);
+                    o.color = v.color; // Pass the color to fragment shader
                     return o;
                 }
 
@@ -59,7 +62,7 @@ Shader "Custom/2DOutline"
                     {
                         discard;
                     }
-                    return _OutlineColor;
+                    return half4(_OutlineColor.rgb, _OutlineColor.a * i.color.a);
                 }
                 ENDCG
             }
@@ -68,6 +71,10 @@ Shader "Custom/2DOutline"
             {
                 Name "TEXTURE"
                 Tags { "LightMode" = "Always" }
+
+                Cull Off
+                ZWrite Off
+                Blend SrcAlpha OneMinusSrcAlpha
 
                 CGPROGRAM
                 #pragma vertex vert
@@ -78,12 +85,14 @@ Shader "Custom/2DOutline"
                 {
                     float4 vertex : POSITION;
                     float2 uv : TEXCOORD0;
+                    float4 color : COLOR;
                 };
 
                 struct v2f
                 {
                     float2 uv : TEXCOORD0;
                     float4 vertex : SV_POSITION;
+                    float4 color : COLOR;
                 };
 
                 sampler2D _MainTex;
@@ -94,12 +103,13 @@ Shader "Custom/2DOutline"
                     v2f o;
                     o.vertex = UnityObjectToClipPos(v.vertex);
                     o.uv = TRANSFORM_TEX(v.uv, _MainTex);
+                    o.color = v.color; // Pass the color to fragment shader
                     return o;
                 }
 
                 half4 frag(v2f i) : SV_Target
                 {
-                    half4 c = tex2D(_MainTex, i.uv);
+                    half4 c = tex2D(_MainTex, i.uv) * i.color; // Apply vertex color
                     return c;
                 }
                 ENDCG

@@ -39,6 +39,8 @@ public class RangeSelection : MonoBehaviour
 
     [SerializeField] private Material[] materials = new Material[2];
 
+    //オブジェクトを取得した時に範囲選択モードフラグをオンにする
+    private bool b_selectNow = false;
 
     void Start()
     {
@@ -47,6 +49,15 @@ public class RangeSelection : MonoBehaviour
 
     void Update()
     {
+        if(L_SelectedObj.Count == 0)
+        {
+            b_selectNow = false;
+        }
+        else
+        {
+            b_selectNow = true;
+        }
+
         if (!b_checkSelect)
         {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
@@ -174,6 +185,27 @@ public class RangeSelection : MonoBehaviour
         {
             L_SelectedObj.Remove(collision.gameObject);
         }
+    }
+
+    public void CancelObjs()
+    {
+        for(int i = 0; i < L_SelectedObj.Count; i++)
+        {
+            L_SelectedObj[i].GetComponent<SpriteRenderer>().material = materials[0];
+        }
+
+        L_SelectedObj = new List<GameObject>();
+
+    }
+
+    public GameObject[] ReturnRangeSelectObj()
+    {
+        return L_SelectedObj.ToArray();
+    }
+
+    public bool ReturnSelectNow()
+    {
+        return b_selectNow;
     }
 
 }

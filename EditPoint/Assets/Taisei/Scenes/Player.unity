@@ -2008,6 +2008,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 742db5be8e2541148b006c052cf4ad29, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  rangeSelect: {fileID: 429118156}
 --- !u!1 &873407034
 GameObject:
   m_ObjectHideFlags: 0
