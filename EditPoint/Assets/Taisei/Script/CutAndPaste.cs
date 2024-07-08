@@ -29,11 +29,23 @@ public class CutAndPaste : MonoBehaviour
     //ペースト時のオブジェクト
     private GameObject PasteObj;
     private string s_pasteObjName;
+    //ペースト回数
+    private int i_PasteCnt = 0;
+
+    //選択したオブジェクト
+    private GameObject ClickObj;
+    //選択時と非選択時に変更するマテリアル
+    //0 = デフォルトマテリアル
+    //1 = 選択時のアウトラインマテリアル
+    [SerializeField] private Material[] materials = new Material[2];
+
+
 
     void Start()
     {
         ChoiseObj = null;
         CutObj = null;
+        PasteObj = null;
     }
 
     void Update()
@@ -44,33 +56,46 @@ public class CutAndPaste : MonoBehaviour
             //ペースト・オブジェクト移動状態じゃないとき
             if (!b_setOnOff)
             {
+                //クリックしたときに選択したオブジェクトのレイヤーに変更
                 if (Input.GetMouseButtonDown(0))
                 {
                     Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
                     RaycastHit2D hit2d = Physics2D.Raycast((Vector2)ray.origin, (Vector2)ray.direction);
 
-                    if (EventSystem.current.IsPointerOverGameObject() || 
-                        hit2d.collider.gameObject.layer == LayerMask.NameToLayer("Ground") || 
-                        hit2d.collider.tag == "Player" || 
-                        hit2d.collider.tag == "RangeSelect")
+                    if (EventSystem.current.IsPointerOverGameObject()
+                        //|| 
+                        //hit2d.collider.gameObject.layer == LayerMask.NameToLayer("Ground") || 
+                        //hit2d.collider.tag == "Player" || 
+                        //hit2d.collider.tag == "RangeSelect"
+                        )
                     {
+                        ClickObj.GetComponent<SpriteRenderer>().material = materials[0];
+                        ClickObj = null;
                         return;
                     }
 
-                    if (hit2d == false)
+                    if (ClickObj != null)
                     {
-                        layerChange.OutChangeLayerNum(0);
+                        ClickObj.GetComponent<SpriteRenderer>().material = materials[0];
                     }
-                    else if (hit2d.collider.gameObject.layer == LayerMask.NameToLayer("Layer1"))
+                    //if (hit2d == false)
+                    //{
+                    //    ClickObj = null;
+                    //    layerChange.OutChangeLayerNum(0);
+                    //}
+                    if (hit2d.collider.gameObject.layer == LayerMask.NameToLayer("Layer1"))
                     {
+                        ClickObj = hit2d.collider.gameObject;
                         layerChange.OutChangeLayerNum(1);
                     }
                     else if (hit2d.collider.gameObject.layer == LayerMask.NameToLayer("Layer2"))
                     {
+                        ClickObj = hit2d.collider.gameObject;
                         layerChange.OutChangeLayerNum(2);
                     }
                     else if (hit2d.collider.gameObject.layer == LayerMask.NameToLayer("Layer3"))
                     {
+                        ClickObj = hit2d.collider.gameObject;
                         layerChange.OutChangeLayerNum(3);
                     }
 
@@ -78,11 +103,22 @@ public class CutAndPaste : MonoBehaviour
                     {
                         ChoiseObj = hit2d.transform.gameObject;
                     }
+
+                    //クリックしたオブジェクトが選択可能オブジェクトだったら
+                    if (ClickObj != null)
+                    {
+                        ClickObj.GetComponent<SpriteRenderer>().material = materials[1];
+
+                    }
                 }
             }
             //ペースト・オブジェクト移動状態の時
             else
             {
+                if (i_PasteCnt > 0)
+                {
+                    PasteObj.SetActive(true);
+                }
                 v3_mousePos = Input.mousePosition;
                 v3_mousePos.z = 10;
 
@@ -92,15 +128,23 @@ public class CutAndPaste : MonoBehaviour
                 //クリックしたらカーソルの位置にオブジェクトを置く
                 if (Input.GetMouseButtonDown(0) && !b_checkPeast)
                 {
-                    s_pasteObjName = CutObj.name;
+                    if (i_PasteCnt > 0)
+                    {
+                        s_pasteObjName = CutObj.name + "(Clone" + i_PasteCnt + ")";
+                    }
+                    else
+                    {
+                        s_pasteObjName = CutObj.name;
+                    }
+                    i_PasteCnt++;
+
                     PasteObj.name = s_pasteObjName;
-                    Destroy(CutObj);
+                    CutObj.SetActive(false);
 
                     PasteObj.GetComponent<Collider2D>().isTrigger = false;
                     layerChange.ChangeObjectList();
                     b_setOnOff = false;
 
-                    CutObj = null;
                     s_pasteObjName = null;
 
                 }
@@ -125,6 +169,8 @@ public class CutAndPaste : MonoBehaviour
             CutObj = ChoiseObj;
             ChoiseObj = null;
             CutObj.GetComponent<SpriteRenderer>().color = new Color(255f / 255f, 255f / 255f, 255 / 255f, 50f / 255f);
+            i_PasteCnt = 0;
+            PasteObj = null;
         }
     }
 
