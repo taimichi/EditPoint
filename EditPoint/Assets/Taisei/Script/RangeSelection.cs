@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class RangeSelection : MonoBehaviour
 {
+    [SerializeField] private LayerController layerController;
+
     //初期のステータス
     [SerializeField, Header("範囲選択オブジェクトの初期スケール")] private Vector3 v3_initScale;
     //現在のスケール
@@ -129,9 +131,40 @@ public class RangeSelection : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (!L_SelectedObj.Contains(collision.gameObject))
+        switch (layerController.ReturnLayreNum())
         {
-            L_SelectedObj.Add(collision.gameObject);
+            case 0:
+                break;
+
+            case 1:
+                if(collision.gameObject.layer == LayerMask.NameToLayer("Layer1"))
+                {
+                    if (!L_SelectedObj.Contains(collision.gameObject))
+                    {
+                        L_SelectedObj.Add(collision.gameObject);
+                    }
+                }
+                break;
+
+            case 2:
+                if (collision.gameObject.layer == LayerMask.NameToLayer("Layer2"))
+                {
+                    if (!L_SelectedObj.Contains(collision.gameObject))
+                    {
+                        L_SelectedObj.Add(collision.gameObject);
+                    }
+                }
+                break;
+
+            case 3:
+                if (collision.gameObject.layer == LayerMask.NameToLayer("Layer3"))
+                {
+                    if (!L_SelectedObj.Contains(collision.gameObject))
+                    {
+                        L_SelectedObj.Add(collision.gameObject);
+                    }
+                }
+                break;
         }
     }
 

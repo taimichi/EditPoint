@@ -62,11 +62,10 @@ public class CutAndPaste : MonoBehaviour
                     Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
                     RaycastHit2D hit2d = Physics2D.Raycast((Vector2)ray.origin, (Vector2)ray.direction);
 
-                    if (EventSystem.current.IsPointerOverGameObject()
-                        //|| 
-                        //hit2d.collider.gameObject.layer == LayerMask.NameToLayer("Ground") || 
-                        //hit2d.collider.tag == "Player" || 
-                        //hit2d.collider.tag == "RangeSelect"
+                    if (hit2d.collider.gameObject.layer == LayerMask.NameToLayer("UI")
+                        || hit2d.collider.gameObject.layer == LayerMask.NameToLayer("Ground") ||
+                        hit2d.collider.tag == "Player" ||
+                        hit2d.collider.tag == "RangeSelect"
                         )
                     {
                         ClickObj.GetComponent<SpriteRenderer>().material = materials[0];

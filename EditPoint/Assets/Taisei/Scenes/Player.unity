@@ -928,6 +928,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0b888206fad94ba49b30dc8a486cf883, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  layerController: {fileID: 798522120}
   v3_initScale: {x: 0.001, y: 0.001, z: 1}
   targetRenderer: {fileID: 429118154}
   materials:
@@ -1944,7 +1945,7 @@ MonoBehaviour:
   gm: {fileID: 798522123}
   cp: {fileID: 798522122}
   LayerNo: {fileID: 149667978}
-  i_maxLayerNum: 0
+  i_maxLayerNum: 3
   i_minLayerNum: 0
   LayerPanel: {fileID: 1802905811}
   Layer1Rep: {fileID: 1228444830}
