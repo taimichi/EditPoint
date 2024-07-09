@@ -212,14 +212,20 @@ public class LayerController : MonoBehaviour
             {
                 for (int i = 0; i < Layer2AllObj.Length; i++)
                 {
-                    Layer2AllObj[i].GetComponent<SpriteRenderer>().sortingOrder = i_orderInLayer2Num;
+                    if (Layer2AllObj[i] != null)
+                    {
+                        Layer2AllObj[i].GetComponent<SpriteRenderer>().sortingOrder = i_orderInLayer2Num;
+                    }
                 }
             }
             else if (i_layerNum == 2)
             {
                 for (int i = 0; i < Layer2AllObj.Length; i++)
                 {
-                    Layer2AllObj[i].GetComponent<SpriteRenderer>().sortingOrder = 5;
+                    if (Layer2AllObj[i] != null)
+                    {
+                        Layer2AllObj[i].GetComponent<SpriteRenderer>().sortingOrder = 5;
+                    }
                 }
             }
             //‚»‚êˆÈŠO‚ÌŽž
@@ -227,7 +233,10 @@ public class LayerController : MonoBehaviour
             {
                 for (int i = 0; i < Layer2AllObj.Length; i++)
                 {
-                    Layer2AllObj[i].GetComponent<SpriteRenderer>().sortingOrder = 3;
+                    if (Layer2AllObj[i] != null)
+                    {
+                        Layer2AllObj[i].GetComponent<SpriteRenderer>().sortingOrder = 3;
+                    }
                 }
             }
         }
@@ -244,7 +253,10 @@ public class LayerController : MonoBehaviour
             {
                 for (int i = 0; i < Layer3AllObj.Length; i++)
                 {
-                    Layer3AllObj[i].GetComponent<SpriteRenderer>().sortingOrder = i_orderInLayer3Num;
+                    if (Layer3AllObj[i] != null)
+                    {
+                        Layer3AllObj[i].GetComponent<SpriteRenderer>().sortingOrder = i_orderInLayer3Num;
+                    }
                 }
 
             }
@@ -252,7 +264,10 @@ public class LayerController : MonoBehaviour
             {
                 for (int i = 0; i < Layer3AllObj.Length; i++)
                 {
-                    Layer3AllObj[i].GetComponent<SpriteRenderer>().sortingOrder = 5;
+                    if (Layer3AllObj[i] != null)
+                    {
+                        Layer3AllObj[i].GetComponent<SpriteRenderer>().sortingOrder = 5;
+                    }
                 }
             }
             //‚»‚êˆÈŠO‚ÌŽž
@@ -260,7 +275,10 @@ public class LayerController : MonoBehaviour
             {
                 for (int i = 0; i < Layer3AllObj.Length; i++)
                 {
-                    Layer3AllObj[i].GetComponent<SpriteRenderer>().sortingOrder = 3;
+                    if (Layer3AllObj[i] != null)
+                    {
+                        Layer3AllObj[i].GetComponent<SpriteRenderer>().sortingOrder = 3;
+                    }
                 }
             }
         }
