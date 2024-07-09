@@ -1978,6 +1978,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gm: {fileID: 798522123}
+  rangeSelect: {fileID: 429118156}
   layerChange: {fileID: 798522120}
   i_PasteNum: 1
   i_CutNum: 1
