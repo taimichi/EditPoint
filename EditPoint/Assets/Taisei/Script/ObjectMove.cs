@@ -26,12 +26,12 @@ public class ObjectMove : MonoBehaviour
 
     private bool b_ojbMove = false;
 
-    //オブジェクトがプレイヤーの上にあるかどうか
-    private bool b_plTrigger = false;
+
+    private PlayerLayer plLayer;
 
     void Start()
     {
-        
+        plLayer = GameObject.Find("Player").GetComponent<PlayerLayer>();   
     }
 
 
@@ -129,7 +129,7 @@ public class ObjectMove : MonoBehaviour
                     Destroy(CopyObj);
                     CopyObj = null;
 
-                    if (b_plTrigger)
+                    if (plLayer.ReturnPlTrigger())
                     {
                         Obj.transform.position = v3_objPos;
                         return;
@@ -140,7 +140,7 @@ public class ObjectMove : MonoBehaviour
                 //複数
                 else
                 {
-                    if (b_plTrigger)
+                    if (plLayer.ReturnPlTrigger())
                     {
                         b_plTriggers = true;
                     }
@@ -163,11 +163,6 @@ public class ObjectMove : MonoBehaviour
                 }
             }
         }
-    }
-
-    public void CheckPlTrigger(bool trigger)
-    {
-        b_plTrigger = trigger;
     }
 
     public bool ReturnObjMove()
