@@ -33,14 +33,31 @@ public class LayerController : MonoBehaviour
     [SerializeField, Header("レイヤー表示順用　レイヤー1番")] private GameObject Layer1Rep;
     [SerializeField, Header("レイヤー表示順用　レイヤー2番")] private GameObject Layer2Rep;
     [SerializeField, Header("レイヤー表示順用　レイヤー3番")] private GameObject Layer3Rep;
+    private int i_layer1RepIndex;
+    private int i_layer2RepIndex;
+    private int i_layer3RepIndex;
+
+    private GameObject Pl;
+    private SpriteRenderer PlSpriteRender;
+    private PlayerLayer plLayer;
+    private int i_plLayerNum;
 
     void Start()
     {
+        Pl = GameObject.Find("Player");
+        PlSpriteRender = Pl.GetComponent<SpriteRenderer>();
+        plLayer = Pl.GetComponent<PlayerLayer>();
+        i_plLayerNum = plLayer.ReturnPLLayer() - 1;
+
         LayerPanel.SetActive(false);
         GroundLayer = GetLayerAllObj(LayerMask.NameToLayer("Ground"));
         Layer1AllObj = GetLayerAllObj(LayerMask.NameToLayer("Layer1"));
         Layer2AllObj = GetLayerAllObj(LayerMask.NameToLayer("Layer2"));
         Layer3AllObj = GetLayerAllObj(LayerMask.NameToLayer("Layer3"));
+
+        i_layer1RepIndex = Layer1Rep.transform.GetSiblingIndex() - 2;
+        i_layer2RepIndex = Layer2Rep.transform.GetSiblingIndex() - 2;
+        i_layer3RepIndex = Layer3Rep.transform.GetSiblingIndex() - 2;
 
         ChangeLayer();
     }
@@ -105,10 +122,13 @@ public class LayerController : MonoBehaviour
     //レイヤー変更時
     private void ChangeLayer()
     {
+        PlayerLayerChange();
         GroundLayerChange();
         Layer1ColorChange();
         Layer2ColorChange();
         Layer3ColorChange();
+
+
         if (i_layerNum == 0)
         {
             LayerPanel.SetActive(false);
@@ -138,6 +158,59 @@ public class LayerController : MonoBehaviour
             return null;
         }
         return goList.ToArray();
+    }
+
+    //プレイヤーのレイヤー
+    private void PlayerLayerChange()
+    {
+        switch (i_plLayerNum)
+        {
+            case 0:
+                if (i_layerNum == 0)
+                {
+                    PlSpriteRender.sortingOrder = i_orderInLayer1Num;
+                }
+                else if (i_layerNum == 1)
+                {
+                    PlSpriteRender.sortingOrder = 5;
+                }
+                else
+                {
+                    PlSpriteRender.sortingOrder = 3;
+                }
+                break;
+
+            case 1:
+                if (i_layerNum == 0)
+                {
+                    PlSpriteRender.sortingOrder = i_orderInLayer2Num;
+                }
+                else if (i_layerNum == 2)
+                {
+                    PlSpriteRender.sortingOrder = 5;
+                }
+                else
+                {
+                    PlSpriteRender.sortingOrder = 3;
+                }
+                break;
+
+            case 2:
+                if (i_layerNum == 0)
+                {
+                    PlSpriteRender.sortingOrder = i_orderInLayer3Num;
+                }
+                else if (i_layerNum == 3)
+                {
+                    PlSpriteRender.sortingOrder = 5;
+                }
+                else
+                {
+                    PlSpriteRender.sortingOrder = 3;
+                }
+                break;
+        }
+
     }
 
     //その他のレイヤーオブジェクトの色合い変更
@@ -170,7 +243,6 @@ public class LayerController : MonoBehaviour
             {
                 for(int i = 0; i < Layer1AllObj.Length; i++)
                 {
-                    //
                     if(Layer1AllObj[i] != null)
                     {
                         Layer1AllObj[i].GetComponent<SpriteRenderer>().sortingOrder = i_orderInLayer1Num;
@@ -287,8 +359,11 @@ public class LayerController : MonoBehaviour
     //レイヤーの表示順を変えた時
     private void LayerReplacement()
     {
+        i_layer1RepIndex = Layer1Rep.transform.GetSiblingIndex() - 2;
+        i_layer2RepIndex = Layer2Rep.transform.GetSiblingIndex() - 2;
+        i_layer3RepIndex = Layer3Rep.transform.GetSiblingIndex() - 2;
         //レイヤー1
-        switch (Layer1Rep.transform.GetSiblingIndex() - 2)
+        switch (i_layer1RepIndex)
         {
             case 0:
                 i_orderInLayer1Num = 7;
@@ -304,7 +379,7 @@ public class LayerController : MonoBehaviour
         }
 
         //レイヤー2
-        switch (Layer2Rep.transform.GetSiblingIndex() - 2)
+        switch (i_layer2RepIndex)
         {
             case 0:
                 i_orderInLayer2Num = 7;
@@ -320,7 +395,7 @@ public class LayerController : MonoBehaviour
         }
 
         //レイヤー3
-        switch (Layer3Rep.transform.GetSiblingIndex() - 2)
+        switch (i_layer3RepIndex)
         {
             case 0:
                 i_orderInLayer3Num = 7;
@@ -334,6 +409,131 @@ public class LayerController : MonoBehaviour
                 i_orderInLayer3Num = 5;
                 break;
         }
+
+        //レイヤーの表示順(左が手前側、右が奥側)
+        //123,132,213,231,312,321
+        //プレイヤーが
+        switch (i_plLayerNum)
+        {
+            //レイヤー1配置の時
+            case 0:
+                switch(i_layer1RepIndex)
+                {
+                    //123or132
+                    case 0:
+                        Debug.Log("123or132");
+                        Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("Layer1"), false);
+                        Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("Layer2"), true);
+                        Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("Layer3"), true);
+                        break;
+                    //213or312
+                    case 1:
+                        //213
+                        if(i_layer2RepIndex == 0)
+                        {
+                            Debug.Log("213");
+                            Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("Layer1"), false);
+                            Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("Layer2"), false);
+                            Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("Layer3"), true);
+                        }
+                        //312
+                        else if(i_layer3RepIndex == 0)
+                        {
+                            Debug.Log("312");
+                            Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("Layer1"), false);
+                            Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("Layer2"), true);
+                            Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("Layer3"), false);
+                        }
+                        break;
+                    //231or321
+                    case 2:
+                        Debug.Log("231or321");
+                        Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("Layer1"), false);
+                        Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("Layer2"), false);
+                        Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("Layer3"), false);
+                        break;
+                }
+                break;
+
+            //レイヤー2配置の時
+            case 1:
+                switch(i_layer2RepIndex)
+                {
+                    //213or231
+                    case 0:
+                        Debug.Log("213or231");
+                        Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("Layer1"), true);
+                        Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("Layer2"), false);
+                        Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("Layer3"), true);
+                        break;
+                    //123or321
+                    case 1:
+                        if(i_layer1RepIndex == 0)
+                        {
+                            Debug.Log("123");
+                            Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("Layer1"), false);
+                            Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("Layer2"), false);
+                            Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("Layer3"), true);
+                        }
+                        else if(i_layer3RepIndex == 0)
+                        {
+                            Debug.Log("321");
+                            Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("Layer1"), true);
+                            Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("Layer2"), false);
+                            Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("Layer3"), false);
+                        }
+                        break;
+                    //132or312
+                    case 2:
+                        Debug.Log("132or312");
+                        Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("Layer1"), false);
+                        Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("Layer2"), false);
+                        Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("Layer3"), false);
+                        break;
+                }
+                break;
+            
+            //レイヤー3配置の時
+            case 2:
+                switch(i_layer3RepIndex)
+                {
+                    //312or321
+                    case 0:
+                        Debug.Log("312or321");
+                        Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("Layer1"), true);
+                        Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("Layer2"), true);
+                        Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("Layer3"), false);
+                        break;
+                    //132or231
+                    case 1:
+                        //132
+                        if(i_layer1RepIndex == 0)
+                        {
+                            Debug.Log("132");
+                            Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("Layer1"), false);
+                            Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("Layer2"), true);
+                            Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("Layer3"), false);
+                        }
+                        //231
+                        else if(i_layer2RepIndex == 0)
+                        {
+                            Debug.Log("231");
+                            Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("Layer1"), true);
+                            Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("Layer2"), false);
+                            Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("Layer3"), false);
+                        }
+                        break;
+                    //123or213
+                    case 2:
+                        Debug.Log("123or213");
+                        Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("Layer1"), false);
+                        Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("Layer2"), false);
+                        Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("Layer3"), false);
+                        break;
+                }
+                break;
+        }
+
     }
 
 

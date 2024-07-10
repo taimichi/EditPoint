@@ -1,0 +1,89 @@
+{
+	"Version": 3,
+	"Parameters": [
+		{
+			"Id": "ParamAngleX",
+			"GroupId": "",
+			"Name": "右腕"
+		},
+		{
+			"Id": "ParamAngleY",
+			"GroupId": "",
+			"Name": "左腕"
+		},
+		{
+			"Id": "Param",
+			"GroupId": "",
+			"Name": "スカート揺れ"
+		},
+		{
+			"Id": "Param6",
+			"GroupId": "",
+			"Name": "リボン揺れ"
+		},
+		{
+			"Id": "Param7",
+			"GroupId": "",
+			"Name": "髪揺れ"
+		},
+		{
+			"Id": "Param5",
+			"GroupId": "",
+			"Name": "上下"
+		},
+		{
+			"Id": "Param8",
+			"GroupId": "",
+			"Name": "前後"
+		},
+		{
+			"Id": "Param3",
+			"GroupId": "",
+			"Name": "右足"
+		},
+		{
+			"Id": "Param4",
+			"GroupId": "",
+			"Name": "左足"
+		},
+		{
+			"Id": "Param2",
+			"GroupId": "",
+			"Name": "体"
+		},
+		{
+			"Id": "Param9",
+			"GroupId": "",
+			"Name": "表情差分ダメージ"
+		},
+		{
+			"Id": "Param10",
+			"GroupId": "",
+			"Name": "表情差分口閉じ"
+		},
+		{
+			"Id": "Param11",
+			"GroupId": "",
+			"Name": "表情差分通常"
+		}
+	],
+	"ParameterGroups": [],
+	"Parts": [
+		{
+			"Id": "Part",
+			"Name": "頭"
+		},
+		{
+			"Id": "Part4",
+			"Name": "体"
+		},
+		{
+			"Id": "Part2",
+			"Name": "サイドテール"
+		},
+		{
+			"Id": "Part3",
+			"Name": "表情"
+		}
+	]
+}
