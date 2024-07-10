@@ -5,62 +5,79 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     GroundChecker gc;
-    //Rigidbody2D rb;
+    Rigidbody2D rb;
 
-    //MoveController mc;
+    [SerializeField]
+    Animator anim;
 
-    Vector3 scale;
+    MoveController mc;
 
     [SerializeField]
     float moveSpeed = 0.1f;
 
+    [Range(-1, 1), SerializeField]
     int inputLR = 0;
-    Vector3 movePos;
 
     void Start()
     {
         gc = GetComponent<GroundChecker>();
-        //rb = GetComponent<Rigidbody2D>();
+        rb = GetComponent<Rigidbody2D>();
 
-        //mc = new MoveController(rb);
+        //anim = GetComponent<Animator>();
+
+        mc = new MoveController(rb);
 
         gc.InitCol();
 
-        inputLR = 1;
     }
 
     void Update()
     {
+        //TestMove();
 
-        //mc.MoveLR();
+        mc.MoveLR(inputLR);
 
-        //PlayerInput();
+        ManualInput();
 
-        TestMove();
-
-        AutoInput();
+        //AutoInput();
 
         gc.CheckGround();
+
+        AnimPlay();
+
+
     }
 
     void TestMove()
     {
-        movePos = this.transform.position;
+        Vector3 movePos = this.transform.position;
         if (inputLR != 0)
         {
             movePos.x += inputLR * moveSpeed;
         }
         this.transform.position = movePos;
+    }
 
-        scale = this.transform.localScale;
+    void AnimPlay()
+    {
+        Vector3 scale = this.transform.localScale;
         if (inputLR != 0)
         {
             scale.x = Mathf.Abs(scale.x) * inputLR;
         }
         this.transform.localScale = scale;
+
+        if (inputLR != 0)
+        {
+            anim.Play("Move_Base");
+        }
+        else
+        {
+            anim.Play("Idle_Base");
+        }
     }
 
-    void PlayerInput()
+    void ManualInput()
     {
         if (Input.GetKey(KeyCode.D))
         {
@@ -81,11 +98,21 @@ public class PlayerController : MonoBehaviour
 
     void AutoInput()
     {
+        if (Input.GetKeyDown(KeyCode.A))
+        {
+            inputLR = (int)Mathf.Sign(transform.localScale.x);
+        }
+
+        if (Input.GetKeyDown(KeyCode.S))
+        {
+            inputLR = 0;
+        }
+
         bool isHit = false;
 
-        float RayLength = 2;
+        float RayLength = 0.5f;
         Vector3 center = gc.GetCenterPos();    // énì_
-        Vector3 len = Vector3.right * RayLength * transform.localScale.x; // í∑Ç≥
+        Vector3 len = Vector3.right * RayLength; // í∑Ç≥
 
         // ìñÇΩÇËîªíËÇÃåãâ ópÇÃïœêî
         RaycastHit2D result;
@@ -100,11 +127,11 @@ public class PlayerController : MonoBehaviour
         if (result.collider != null)
         {
             isHit = true;
-            Debug.Log("Ç‘Ç¬Ç©Ç¡ÇΩ");
+            //Debug.Log("Ç‘Ç¬Ç©Ç¡ÇΩ");
         }
         else
         {
-            Debug.Log("Ç∑Ç∑Çﬁ");
+            //Debug.Log("Ç∑Ç∑Çﬁ");
         }
 
         // å¸Ç´êÿÇËë÷Ç¶

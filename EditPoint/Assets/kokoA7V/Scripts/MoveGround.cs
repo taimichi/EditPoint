@@ -50,7 +50,7 @@ public class MoveGround : MonoBehaviour
             {
                 nowPath = 0;
             }
-            Debug.Log(nowPath + " “ž’…");
+            //Debug.Log(nowPath + " “ž’…");
             timer = pathTime[nowPath];
         }
     }
