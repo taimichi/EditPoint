@@ -73,7 +73,7 @@ public class CutAndPaste : MonoBehaviour
                         {
                             return;
                         }
-                        Debug.Log("‚È‚µ");
+                        //Debug.Log("‚È‚µ");
                         ChoiseObj = null;
                         if (ClickObj != null)
                         {
@@ -204,7 +204,7 @@ public class CutAndPaste : MonoBehaviour
                 }
                 else if (plLayer.ReturnPlTrigger())
                 {
-                    Debug.Log("‚¨‚¯‚Ü‚¹‚ñ");
+                    //Debug.Log("‚¨‚¯‚Ü‚¹‚ñ");
                 }
             }
         }
