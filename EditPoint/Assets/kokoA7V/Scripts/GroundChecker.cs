@@ -61,17 +61,22 @@ public class GroundChecker : MonoBehaviour
             // デバッグ表示用
             Debug.DrawLine(foot, foot + len);
 
-            if (result.collider.gameObject.TryGetComponent<TypeAttr>(out var typeAttr))
-            {
-                Debug.Log(typeAttr.isGround);
-            }
-
             // コライダーと接触したかチェック
             if (result.collider != null)
             {
-                isGround = true;        // 地面と接触した
-                Debug.Log("地面と接触");
-                return;                 // 終了
+                if (result.collider.gameObject.TryGetComponent<TypeAttr>(out var typeAttr))
+                {
+                    if (typeAttr.isGround)
+                    {
+                        isGround = true;        // 地面と接触した
+                        //Debug.Log("地面と接触");
+                        return;                 // 終了
+                    }
+                }
+
+                //isGround = true;        // 地面と接触した
+                //Debug.Log("地面と接触");
+                //return;                 // 終了
             }
             foot.x += width;
         }
