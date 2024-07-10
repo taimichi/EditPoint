@@ -67,13 +67,14 @@ public class CutAndPaste : MonoBehaviour
                     if (hit2d == false
                         || hit2d.collider.gameObject.layer == LayerMask.NameToLayer("Ground") ||
                         hit2d.collider.tag == "Player" ||
-                        hit2d.collider.tag == "RangeSelect")
+                        hit2d.collider.tag == "RangeSelect" || 
+                        hit2d.collider.tag == "UnTouch")
                     {
                         if (EventSystem.current.IsPointerOverGameObject())
                         {
                             return;
                         }
-                        Debug.Log("‚È‚µ");
+                        //Debug.Log("‚È‚µ");
                         ChoiseObj = null;
                         if (ClickObj != null)
                         {
@@ -204,7 +205,7 @@ public class CutAndPaste : MonoBehaviour
                 }
                 else if (plLayer.ReturnPlTrigger())
                 {
-                    Debug.Log("‚¨‚¯‚Ü‚¹‚ñ");
+                    //Debug.Log("‚¨‚¯‚Ü‚¹‚ñ");
                 }
             }
         }
