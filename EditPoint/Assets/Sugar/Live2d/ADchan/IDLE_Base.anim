@@ -6,7 +6,7 @@ AnimationClip:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: IDLE_Base
+  m_Name: Idle_Base
   serializedVersion: 6
   m_Legacy: 0
   m_Compressed: 0
@@ -1217,5 +1217,5 @@ AnimationClip:
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
-    intParameter: -45734
+    intParameter: -13102
     messageOptions: 1
