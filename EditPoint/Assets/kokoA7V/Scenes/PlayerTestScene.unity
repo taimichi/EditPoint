@@ -834,6 +834,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6125975952040919145, guid: 2c18b183b063c4045a41a2b14a16554e, type: 3}
       propertyPath: m_GravityScale
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6125975952040919148, guid: 2c18b183b063c4045a41a2b14a16554e, type: 3}
+      propertyPath: moveSpeed
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6125975952040919158, guid: 2c18b183b063c4045a41a2b14a16554e, type: 3}
