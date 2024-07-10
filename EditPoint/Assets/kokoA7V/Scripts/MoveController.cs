@@ -4,17 +4,9 @@ using UnityEngine;
 
 public class MoveController
 {
-
     Rigidbody2D rb;
 
     const float moveSpeed = 5.0f;
-    const float jumpPower = 10;
-
-    [Range(-1, 1)]
-    public int inputLR = 0;
-    public bool inputJump = false;
-
-    Vector3 moveVelocity;
 
     public MoveController(Rigidbody2D _rb)
     {
@@ -22,10 +14,22 @@ public class MoveController
     }
 
     // update“à‚É“ü‚ê‚ÄinputLR‚Ì’l‚ð•Ï‚¦‚é‚±‚Æ‚Å‰¡ˆÚ“®‰Â”\
-    public void MoveLR()
+    public void MoveLR(int input)
     {
-        moveVelocity = rb.velocity;
-        moveVelocity.x = inputLR * moveSpeed;
+        Vector3 moveVelocity = rb.velocity;
+
+        // ‰¡ˆÚ“®
+        moveVelocity.x = input * moveSpeed;
+
+        // ŽÎ‚ßˆÚ“®Žž‚Ì•‚‚«ã‚ª‚è–hŽ~
+        if(input == 0)
+        {
+            if (moveVelocity.y > 0)
+            {
+                moveVelocity.y = 0;
+            }
+        }
+
         rb.velocity = moveVelocity;
     }
 }
