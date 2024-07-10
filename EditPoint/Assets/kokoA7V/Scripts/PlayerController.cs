@@ -31,15 +31,16 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
-        gc.CheckGround();
 
         //mc.MoveLR();
 
         //PlayerInput();
 
+        TestMove();
+
         AutoInput();
 
-        TestMove();
+        gc.CheckGround();
     }
 
     void TestMove()
