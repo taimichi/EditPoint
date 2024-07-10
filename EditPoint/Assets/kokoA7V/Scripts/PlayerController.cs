@@ -12,11 +12,11 @@ public class PlayerController : MonoBehaviour
 
     MoveController mc;
 
-    [SerializeField]
-    float moveSpeed = 0.1f;
-
     [Range(-1, 1), SerializeField]
     int inputLR = 0;
+
+    [SerializeField]
+    bool manual = true;
 
     void Start()
     {
@@ -33,29 +33,24 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
-        //TestMove();
-
         mc.MoveLR(inputLR);
 
-        ManualInput();
-
-        //AutoInput();
+        if (manual)
+        {
+            ManualInput();
+        }
+        else
+        {
+            AutoInput();
+            if (inputLR == 0)
+            {
+                inputLR = (int)Mathf.Sign(transform.localScale.x);
+            }
+        }
 
         gc.CheckGround();
 
         AnimPlay();
-
-
-    }
-
-    void TestMove()
-    {
-        Vector3 movePos = this.transform.position;
-        if (inputLR != 0)
-        {
-            movePos.x += inputLR * moveSpeed;
-        }
-        this.transform.position = movePos;
     }
 
     void AnimPlay()
@@ -98,16 +93,6 @@ public class PlayerController : MonoBehaviour
 
     void AutoInput()
     {
-        if (Input.GetKeyDown(KeyCode.A))
-        {
-            inputLR = (int)Mathf.Sign(transform.localScale.x);
-        }
-
-        if (Input.GetKeyDown(KeyCode.S))
-        {
-            inputLR = 0;
-        }
-
         bool isHit = false;
 
         float RayLength = 0.5f;
