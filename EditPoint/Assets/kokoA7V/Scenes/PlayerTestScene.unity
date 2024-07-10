@@ -735,6 +735,18 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 7
       objectReference: {fileID: 0}
+    - target: {fileID: 233923792031900403, guid: d5b7421853e1bd24ca1a76d54ba62374, type: 3}
+      propertyPath: path.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 233923792031900403, guid: d5b7421853e1bd24ca1a76d54ba62374, type: 3}
+      propertyPath: vpath.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 233923792031900403, guid: d5b7421853e1bd24ca1a76d54ba62374, type: 3}
+      propertyPath: pathTime.Array.size
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 233923792031900405, guid: d5b7421853e1bd24ca1a76d54ba62374, type: 3}
       propertyPath: m_RootOrder
       value: 4

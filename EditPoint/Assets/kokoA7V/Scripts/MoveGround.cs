@@ -5,31 +5,22 @@ using UnityEngine;
 public class MoveGround : MonoBehaviour
 {
     [SerializeField]
-    Vector3[] path =
-    {
-        new Vector3(0f,0f,0f),
-        new Vector3(5f,0f,0f),
-        new Vector3(0f,0f,0f),
-    };
+    List<Vector3> path = new List<Vector3>();
 
     [SerializeField]
-    float[] pathTime =
-    {
-        1,
-        1,
-        0,
-    };
+    List<float> pathTime = new List<float>();
 
-    [SerializeField]
     int nowPath = 0;
 
-    [SerializeField]
     float timer;
 
     private void Start()
     {
         this.transform.position = path[0];
         timer = pathTime[0];
+
+        path.Add(Vector3.zero);
+        pathTime.Add(0);
     }
 
     private void Update()
@@ -38,7 +29,7 @@ public class MoveGround : MonoBehaviour
         Vector3 movePos = this.transform.position;
 
         Vector3 dist = path[nowPath + 1] - path[nowPath];
-        if (nowPath == path.Length)
+        if (nowPath == path.Count)
         {
             dist = path[0] - path[nowPath];
         }
@@ -55,7 +46,7 @@ public class MoveGround : MonoBehaviour
         if (timer <= 0)
         {
             nowPath++;
-            if (nowPath == path.Length - 1)
+            if (nowPath == path.Count - 1)
             {
                 nowPath = 0;
             }
@@ -66,6 +57,7 @@ public class MoveGround : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
+        // Playerを子オブジェクト化
         if (collision.gameObject.tag == "Player")
         {
             collision.transform.parent = this.transform;
@@ -74,6 +66,7 @@ public class MoveGround : MonoBehaviour
 
     private void OnCollisionExit2D(Collision2D collision)
     {
+        // Playerが離れたら子オブジェクト解除
         if (collision.gameObject.tag == "Player")
         {
             collision.transform.parent = null;
