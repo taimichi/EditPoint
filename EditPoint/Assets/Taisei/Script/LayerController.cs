@@ -8,7 +8,6 @@ public class LayerController : MonoBehaviour
     [SerializeField] private GameManager gm;
     [SerializeField] private CutAndPaste cp;
 
-    [SerializeField] private Text LayerNo;
     //現在選択しているレイヤー番号
     //layerNum : 0 = 7.全体, 1 = 8.layer1, 2 = 9.layer2, 3 = 10.layer3
     private int i_layerNum = 0;
@@ -93,7 +92,6 @@ public class LayerController : MonoBehaviour
 
             }
         }
-        LayerNo.text = i_layerNum.ToString();
     }
 
     //マウスホイール
@@ -421,7 +419,7 @@ public class LayerController : MonoBehaviour
                 {
                     //123or132
                     case 0:
-                        Debug.Log("123or132");
+                        //Debug.Log("123or132");
                         Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("Layer1"), false);
                         Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("Layer2"), true);
                         Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("Layer3"), true);
@@ -431,7 +429,7 @@ public class LayerController : MonoBehaviour
                         //213
                         if(i_layer2RepIndex == 0)
                         {
-                            Debug.Log("213");
+                            //Debug.Log("213");
                             Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("Layer1"), false);
                             Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("Layer2"), false);
                             Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("Layer3"), true);
@@ -439,7 +437,7 @@ public class LayerController : MonoBehaviour
                         //312
                         else if(i_layer3RepIndex == 0)
                         {
-                            Debug.Log("312");
+                            //Debug.Log("312");
                             Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("Layer1"), false);
                             Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("Layer2"), true);
                             Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("Layer3"), false);
@@ -447,7 +445,7 @@ public class LayerController : MonoBehaviour
                         break;
                     //231or321
                     case 2:
-                        Debug.Log("231or321");
+                        //Debug.Log("231or321");
                         Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("Layer1"), false);
                         Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("Layer2"), false);
                         Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("Layer3"), false);
@@ -461,7 +459,7 @@ public class LayerController : MonoBehaviour
                 {
                     //213or231
                     case 0:
-                        Debug.Log("213or231");
+                        //Debug.Log("213or231");
                         Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("Layer1"), true);
                         Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("Layer2"), false);
                         Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("Layer3"), true);
@@ -470,14 +468,14 @@ public class LayerController : MonoBehaviour
                     case 1:
                         if(i_layer1RepIndex == 0)
                         {
-                            Debug.Log("123");
+                            //Debug.Log("123");
                             Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("Layer1"), false);
                             Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("Layer2"), false);
                             Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("Layer3"), true);
                         }
                         else if(i_layer3RepIndex == 0)
                         {
-                            Debug.Log("321");
+                            //Debug.Log("321");
                             Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("Layer1"), true);
                             Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("Layer2"), false);
                             Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("Layer3"), false);
@@ -485,7 +483,7 @@ public class LayerController : MonoBehaviour
                         break;
                     //132or312
                     case 2:
-                        Debug.Log("132or312");
+                        //Debug.Log("132or312");
                         Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("Layer1"), false);
                         Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("Layer2"), false);
                         Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("Layer3"), false);
@@ -499,7 +497,7 @@ public class LayerController : MonoBehaviour
                 {
                     //312or321
                     case 0:
-                        Debug.Log("312or321");
+                        //Debug.Log("312or321");
                         Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("Layer1"), true);
                         Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("Layer2"), true);
                         Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("Layer3"), false);
@@ -509,7 +507,7 @@ public class LayerController : MonoBehaviour
                         //132
                         if(i_layer1RepIndex == 0)
                         {
-                            Debug.Log("132");
+                            //Debug.Log("132");
                             Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("Layer1"), false);
                             Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("Layer2"), true);
                             Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("Layer3"), false);
@@ -517,7 +515,7 @@ public class LayerController : MonoBehaviour
                         //231
                         else if(i_layer2RepIndex == 0)
                         {
-                            Debug.Log("231");
+                            //Debug.Log("231");
                             Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("Layer1"), true);
                             Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("Layer2"), false);
                             Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("Layer3"), false);
@@ -525,7 +523,7 @@ public class LayerController : MonoBehaviour
                         break;
                     //123or213
                     case 2:
-                        Debug.Log("123or213");
+                        //Debug.Log("123or213");
                         Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("Layer1"), false);
                         Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("Layer2"), false);
                         Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("Layer3"), false);
