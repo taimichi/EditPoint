@@ -21,10 +21,6 @@ public class CutAndPaste : MonoBehaviour
     private Vector3 v3_mousePos;    //マウスの座標
     private Vector3 v3_scrWldPos;   //マウスの座標をワールド座標に
 
-    //ペーストできるかどうか
-    //false=設置可能 true=設置不可
-    private bool b_checkPeast = false;
-
     //ペースト時のオブジェクト
     private GameObject PasteObj;
     private string s_pasteObjName;
@@ -44,10 +40,11 @@ public class CutAndPaste : MonoBehaviour
     //1 = 選択時のアウトラインマテリアル
     [SerializeField] private Material[] materials = new Material[2];
 
-
+    private PlayerLayer plLayer;
 
     void Start()
     {
+        plLayer = GameObject.Find("Player").GetComponent<PlayerLayer>();
         ChoiseObj = null;
         CutObj = null;
         PasteObj = null;
@@ -153,7 +150,7 @@ public class CutAndPaste : MonoBehaviour
                 }
 
                 //クリックしたらカーソルの位置にオブジェクトを置く
-                if (Input.GetMouseButtonDown(0) && !b_checkPeast)
+                if (Input.GetMouseButtonDown(0) && !plLayer.ReturnPlTrigger())
                 {
                     //単体
                     if (!rangeSelect.ReturnSelectNow())
@@ -205,7 +202,7 @@ public class CutAndPaste : MonoBehaviour
                     }
 
                 }
-                else if (b_checkPeast)
+                else if (plLayer.ReturnPlTrigger())
                 {
                     Debug.Log("おけません");
                 }
@@ -291,11 +288,6 @@ public class CutAndPaste : MonoBehaviour
                 }
             }
         }
-    }
-
-    public void CheckPasteTrigger(bool trigger)
-    {
-        b_checkPeast = trigger;
     }
 
 }
