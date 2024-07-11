@@ -23,8 +23,8 @@ public class GroundChecker : MonoBehaviour
     {
         Vector3 pos = transform.position;
         // ボックスコライダーのオフセットから中心を計算
-        pos.x += col.offset.x * transform.localScale.x;
-        pos.y += col.offset.y * transform.localScale.y;
+        pos.x += col.offset.x;
+        pos.y += col.offset.y;
         return pos;
     }
 
@@ -32,7 +32,7 @@ public class GroundChecker : MonoBehaviour
     public Vector3 GetFootPos()
     {
         Vector3 pos = GetCenterPos();
-        pos.y -= col.size.y / 2 * transform.localScale.y;
+        pos.y -= col.size.y / 2;
         return pos;
     }
 
@@ -45,7 +45,7 @@ public class GroundChecker : MonoBehaviour
         // デバッグ用に線を出す
         Vector3 foot = GetFootPos();    // 始点
         Vector3 len = -Vector3.up * RayLength; // 長さ
-        float width = col.size.x / 2 * transform.localScale.x;   // 当たり判定の幅
+        float width = col.size.x / 2;   // 当たり判定の幅
 
         // 左端、中央、右端の順にチェックしていく
         foot.x += -width;               // 初期位置を左にずらす
@@ -54,7 +54,7 @@ public class GroundChecker : MonoBehaviour
         {
             // 当たり判定の結果用の変数
             RaycastHit2D result;
-    
+
             // レイを飛ばして、指定したレイヤーにぶつかるかチェック
             result = Physics2D.Linecast(foot, foot + len, LayerMask);
 
@@ -64,13 +64,23 @@ public class GroundChecker : MonoBehaviour
             // コライダーと接触したかチェック
             if (result.collider != null)
             {
-                isGround = true;        // 地面と接触した
+                if (result.collider.gameObject.TryGetComponent<GroundAttr>(out var typeAttr))
+                {
+                    if (typeAttr.isGround)
+                    {
+                        isGround = true;        // 地面と接触した
+                        //Debug.Log("地面と接触");
+                        return;                 // 終了
+                    }
+                }
+
+                //isGround = true;        // 地面と接触した
                 //Debug.Log("地面と接触");
-                return;                 // 終了
+                //return;                 // 終了
             }
             foot.x += width;
         }
-        //Debug.Log("空中");
+        Debug.Log("空中");
     }
     // 地面に接している変数を取得
     public bool IsGround() { return isGround; }
