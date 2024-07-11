@@ -7,7 +7,7 @@ public class GroundChecker : MonoBehaviour
     // パブリック変数
     public LayerMask L_LayerMask; // チェック用のレイヤー
     // 変数
-    BoxCollider2D col;          // ボックスコライダー2D
+    CapsuleCollider2D col;          // ボックスコライダー2D
     bool isGround;              // 地面チェック用の変数
 
     const float RayLength = 0.1f;
@@ -40,7 +40,7 @@ public class GroundChecker : MonoBehaviour
     // 初期化
     public void InitCol()
     {
-        col = GetComponent<BoxCollider2D>();
+        col = GetComponent<CapsuleCollider2D>();
     }
 
     // プレイヤーの中心位置（胸元）を取得
