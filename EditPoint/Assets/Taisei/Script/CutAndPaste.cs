@@ -42,6 +42,8 @@ public class CutAndPaste : MonoBehaviour
 
     private PlayerLayer plLayer;
 
+    private Color startColor;
+
     void Start()
     {
         plLayer = GameObject.Find("Player").GetComponent<PlayerLayer>();
@@ -226,7 +228,8 @@ public class CutAndPaste : MonoBehaviour
             {
                 CutObj = ChoiseObj;
                 ChoiseObj = null;
-                CutObj.GetComponent<SpriteRenderer>().color = new Color(255f / 255f, 255f / 255f, 255f / 255f, 50f / 255f);
+                startColor = CutObj.GetComponent<SpriteRenderer>().color;
+                CutObj.GetComponent<SpriteRenderer>().color = new Color(startColor.r, startColor.g, startColor.b, 50f / 255f);
                 i_PasteCnt = 0;
                 PasteObj = null;
             }
@@ -241,7 +244,8 @@ public class CutAndPaste : MonoBehaviour
                 PasteObjs = new GameObject[CutObjs.Length];
                 for (int i = 0; i < CutObjs.Length; i++)
                 {
-                    CutObjs[i].GetComponent<SpriteRenderer>().color = new Color(255f / 255f, 255f / 255f, 255f / 255f, 50f / 255f);
+                    startColor = CutObjs[i].GetComponent<SpriteRenderer>().color;
+                    CutObjs[i].GetComponent<SpriteRenderer>().color = new Color(startColor.r, startColor.g, startColor.b, 50f / 255f);
                     v3_offset[i] = CutObjs[i].transform.position - CutObjs[0].transform.position;
                     PasteObjs[i] = null;
 
@@ -263,7 +267,7 @@ public class CutAndPaste : MonoBehaviour
                 i_PasteCnt++;
                 PasteObj = Instantiate(CutObj);
                 PasteObj.GetComponent<Collider2D>().isTrigger = true;
-                PasteObj.GetComponent<SpriteRenderer>().color = new Color(255f / 255f, 255f / 255f, 255f / 255f, 255f / 255f);
+                PasteObj.GetComponent<SpriteRenderer>().color = new Color(startColor.r, startColor.g, startColor.b, 255f / 255f);
                 CutObj.GetComponent<SpriteRenderer>().sortingOrder = 5;
 
                 layerChange.PasteChangeLayer(CutObj.layer);
@@ -282,7 +286,7 @@ public class CutAndPaste : MonoBehaviour
                 {
                     PasteObjs[i] = Instantiate(CutObjs[i]);
                     PasteObjs[i].GetComponent<Collider2D>().isTrigger = true;
-                    PasteObjs[i].GetComponent<SpriteRenderer>().color = new Color(255f / 255f, 255f / 255f, 255f / 255f, 255f / 255f);
+                    PasteObjs[i].GetComponent<SpriteRenderer>().color = new Color(startColor.r, startColor.g, startColor.b, 255f / 255f);
                     CutObjs[i].GetComponent<SpriteRenderer>().sortingOrder = 5;
 
                     layerChange.PasteChangeLayer(CutObjs[i].layer);
