@@ -130,4 +130,9 @@ public class PlayerController : MonoBehaviour
     {
         Debug.Log(value + "ÇæÇﬂÅ[Ç∂ÅI");
     }
+
+    public void PlayerStart()
+    {
+        inputLR = 1;
+    }
 }
