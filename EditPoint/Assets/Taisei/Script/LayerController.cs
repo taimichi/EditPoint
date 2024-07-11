@@ -37,14 +37,14 @@ public class LayerController : MonoBehaviour
     private int i_layer3RepIndex;
 
     private GameObject Pl;
-    private SpriteRenderer PlSpriteRender;
+    //private SpriteRenderer PlSpriteRender;
     private PlayerLayer plLayer;
     private int i_plLayerNum;
 
     void Start()
     {
         Pl = GameObject.Find("Player");
-        PlSpriteRender = Pl.GetComponent<SpriteRenderer>();
+        //PlSpriteRender = Pl.GetComponent<SpriteRenderer>();
         plLayer = Pl.GetComponent<PlayerLayer>();
         i_plLayerNum = plLayer.ReturnPLLayer() - 1;
 
@@ -59,6 +59,7 @@ public class LayerController : MonoBehaviour
         i_layer3RepIndex = Layer3Rep.transform.GetSiblingIndex() - 2;
 
         ChangeLayer();
+        LayerReplacement();
     }
 
     void Update()
@@ -161,71 +162,74 @@ public class LayerController : MonoBehaviour
     //プレイヤーのレイヤー
     private void PlayerLayerChange()
     {
-        switch (i_plLayerNum)
-        {
-            case 0:
-                if (i_layerNum == 0)
-                {
-                    PlSpriteRender.sortingOrder = i_orderInLayer1Num;
-                }
-                else if (i_layerNum == 1)
-                {
-                    PlSpriteRender.sortingOrder = 5;
-                }
-                else
-                {
-                    PlSpriteRender.sortingOrder = 3;
-                }
-                break;
+        //switch (i_plLayerNum)
+        //{
+        //    case 0:
+        //        if (i_layerNum == 0)
+        //        {
+        //            PlSpriteRender.sortingOrder = i_orderInLayer1Num;
+        //        }
+        //        else if (i_layerNum == 1)
+        //        {
+        //            PlSpriteRender.sortingOrder = 5;
+        //        }
+        //        else
+        //        {
+        //            PlSpriteRender.sortingOrder = 3;
+        //        }
+        //        break;
 
-            case 1:
-                if (i_layerNum == 0)
-                {
-                    PlSpriteRender.sortingOrder = i_orderInLayer2Num;
-                }
-                else if (i_layerNum == 2)
-                {
-                    PlSpriteRender.sortingOrder = 5;
-                }
-                else
-                {
-                    PlSpriteRender.sortingOrder = 3;
-                }
-                break;
+        //    case 1:
+        //        if (i_layerNum == 0)
+        //        {
+        //            PlSpriteRender.sortingOrder = i_orderInLayer2Num;
+        //        }
+        //        else if (i_layerNum == 2)
+        //        {
+        //            PlSpriteRender.sortingOrder = 5;
+        //        }
+        //        else
+        //        {
+        //            PlSpriteRender.sortingOrder = 3;
+        //        }
+        //        break;
 
-            case 2:
-                if (i_layerNum == 0)
-                {
-                    PlSpriteRender.sortingOrder = i_orderInLayer3Num;
-                }
-                else if (i_layerNum == 3)
-                {
-                    PlSpriteRender.sortingOrder = 5;
-                }
-                else
-                {
-                    PlSpriteRender.sortingOrder = 3;
-                }
-                break;
-        }
+        //    case 2:
+        //        if (i_layerNum == 0)
+        //        {
+        //            PlSpriteRender.sortingOrder = i_orderInLayer3Num;
+        //        }
+        //        else if (i_layerNum == 3)
+        //        {
+        //            PlSpriteRender.sortingOrder = 5;
+        //        }
+        //        else
+        //        {
+        //            PlSpriteRender.sortingOrder = 3;
+        //        }
+        //        break;
+        //}
 
     }
 
     //その他のレイヤーオブジェクトの色合い変更
     private void GroundLayerChange()
     {
-        if (i_layerNum == 0)
+        if(GroundLayer != null)
         {
-            for(int i = 0; i < GroundLayer.Length; i++)
+            if (i_layerNum == 0)
             {
-                GroundLayer[i].GetComponent<SpriteRenderer>().sortingOrder = 5;
+                for (int i = 0; i < GroundLayer.Length; i++)
+                {
+                    GroundLayer[i].GetComponent<SpriteRenderer>().sortingOrder = 5;
+                }
             }
-        }
-        else
-        {
-            for(int i = 0; i < GroundLayer.Length; i++)
+            else
             {
-                GroundLayer[i].GetComponent<SpriteRenderer>().sortingOrder = 2;
+                for (int i = 0; i < GroundLayer.Length; i++)
+                {
+                    GroundLayer[i].GetComponent<SpriteRenderer>().sortingOrder = 2;
+                }
             }
         }
     }
