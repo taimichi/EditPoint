@@ -42,12 +42,15 @@ public class ObjectMove : MonoBehaviour
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit2D hit2d = Physics2D.Raycast((Vector2)ray.origin, (Vector2)ray.direction);
 
+            var hittag = hit2d.collider.tag;
             //UI‚¾‚Á‚½‚ç‰½‚à‚µ‚È‚¢
             if (hit2d == false
                 || hit2d.collider.gameObject.layer == LayerMask.NameToLayer("Ground") ||
-                hit2d.collider.tag == "Player" ||
-                hit2d.collider.tag == "RangeSelect" || 
-                hit2d.collider.tag == "UnTouch")
+                hittag == "Player" ||
+                hittag == "RangeSelect" || 
+                hittag == "UnTouch" || 
+                hittag == "LayerPanel" || 
+                hittag == "CutObj")
             {
                 if (EventSystem.current.IsPointerOverGameObject())
                 {

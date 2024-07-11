@@ -50,6 +50,9 @@ public class CutAndPaste : MonoBehaviour
         ChoiseObj = null;
         CutObj = null;
         PasteObj = null;
+
+        i_CutNum = 0;
+        i_PasteNum = 0;
     }
 
     void Update()
@@ -70,7 +73,9 @@ public class CutAndPaste : MonoBehaviour
                         || hit2d.collider.gameObject.layer == LayerMask.NameToLayer("Ground") ||
                         hit2d.collider.tag == "Player" ||
                         hit2d.collider.tag == "RangeSelect" || 
-                        hit2d.collider.tag == "UnTouch")
+                        hit2d.collider.tag == "UnTouch" || 
+                        hit2d.collider.tag == "LayerPanel" || 
+                        hit2d.collider.tag == "CutObj")
                     {
                         if (EventSystem.current.IsPointerOverGameObject())
                         {
@@ -83,6 +88,8 @@ public class CutAndPaste : MonoBehaviour
                             ClickObj.GetComponent<SpriteRenderer>().material = materials[0];
                         }
                         ClickObj = null;
+                        Debug.Log("なにもない");
+                        layerChange.OutChangeLayerNum(0);
                         return;
                     }
 
@@ -90,11 +97,9 @@ public class CutAndPaste : MonoBehaviour
                     {
                         ClickObj.GetComponent<SpriteRenderer>().material = materials[0];
                     }
-                    //if (hit2d == false)
-                    //{
-                    //    ClickObj = null;
-                    //    layerChange.OutChangeLayerNum(0);
-                    //}
+                    if (hit2d == false || hit2d.collider.tag == "LayerPanel")
+                    {
+                    }
                     if (hit2d.collider.gameObject.layer == LayerMask.NameToLayer("Layer1"))
                     {
                         ClickObj = hit2d.collider.gameObject;
@@ -168,6 +173,7 @@ public class CutAndPaste : MonoBehaviour
                         }
 
                         PasteObj.name = s_pasteObjName;
+                        CutObj.tag = "Untagged";
                         CutObj.SetActive(false);
 
                         PasteObj.GetComponent<Collider2D>().isTrigger = false;
@@ -193,6 +199,7 @@ public class CutAndPaste : MonoBehaviour
                             }
 
                             PasteObjs[i].name = s_pasteObjNames[i];
+                            CutObjs[i].tag = "Untagged";
                             CutObjs[i].SetActive(false);
 
                             PasteObjs[i].GetComponent<Collider2D>().isTrigger = false;
@@ -229,9 +236,11 @@ public class CutAndPaste : MonoBehaviour
                 CutObj = ChoiseObj;
                 ChoiseObj = null;
                 startColor = CutObj.GetComponent<SpriteRenderer>().color;
+                CutObj.tag = "CutObj";
                 CutObj.GetComponent<SpriteRenderer>().color = new Color(startColor.r, startColor.g, startColor.b, 50f / 255f);
                 i_PasteCnt = 0;
                 PasteObj = null;
+                i_CutNum++;
             }
         }
         //複数
@@ -245,12 +254,14 @@ public class CutAndPaste : MonoBehaviour
                 for (int i = 0; i < CutObjs.Length; i++)
                 {
                     startColor = CutObjs[i].GetComponent<SpriteRenderer>().color;
+                    CutObjs[i].tag = "CutObj";
                     CutObjs[i].GetComponent<SpriteRenderer>().color = new Color(startColor.r, startColor.g, startColor.b, 50f / 255f);
                     v3_offset[i] = CutObjs[i].transform.position - CutObjs[0].transform.position;
                     PasteObjs[i] = null;
 
                 }
                 i_PasteCnt = 0;
+                i_CutNum++;
             }
         }
     }
@@ -272,6 +283,7 @@ public class CutAndPaste : MonoBehaviour
 
                 layerChange.PasteChangeLayer(CutObj.layer);
 
+                i_PasteNum++;
                 //カーソルを強制的に画面中央に移動(今後追加予定)
             }
         }
@@ -291,6 +303,7 @@ public class CutAndPaste : MonoBehaviour
 
                     layerChange.PasteChangeLayer(CutObjs[i].layer);
                 }
+                i_PasteNum++;
             }
         }
     }

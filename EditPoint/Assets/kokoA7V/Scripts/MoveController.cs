@@ -6,7 +6,7 @@ public class MoveController
 {
     Rigidbody2D rb;
 
-    const float moveSpeed = 5.0f;
+    const float moveSpeed = 2.5f;
 
     public MoveController(Rigidbody2D _rb)
     {

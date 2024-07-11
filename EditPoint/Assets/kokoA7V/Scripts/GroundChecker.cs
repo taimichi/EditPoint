@@ -120,27 +120,27 @@ public class GroundChecker : MonoBehaviour
             case 0:
                 switch (i_1Index)
                 {
-                    //‚P‚¾‚¯
+                    //‚P‚Æ‚Q‚Æ‚R
                     case 0:
-                        SetMultipleLayerMask(new int[] {8});
+                        SetMultipleLayerMask(new int[] { 7, 8, 9, 10 });
                         break;
 
                     case 1:
-                        //‚P‚Æ‚Q
+                        //‚P‚Æ‚R
                         if(i_2Index == 0)
                         {
-                            SetMultipleLayerMask(new int[] { 8, 9 });
+                            SetMultipleLayerMask(new int[] { 7, 8, 10 });
                         }
-                        //‚P‚Æ‚R
+                        //‚P‚Æ‚Q
                         else if (i_3Index == 0)
                         {
-                            SetMultipleLayerMask(new int[] { 8, 10 });
+                            SetMultipleLayerMask(new int[] { 7, 8, 9 });
                         }
                         break;
 
-                    //‚P‚Æ‚Q‚Æ‚R
+                    //‚P‚Ì‚Ý
                     case 2:
-                        SetMultipleLayerMask(new int[] { 8, 9, 10 });
+                        SetMultipleLayerMask(new int[] { 7, 8 });
                         break;
                 }
                 break;
@@ -149,27 +149,27 @@ public class GroundChecker : MonoBehaviour
             case 1:
                 switch (i_2Index)
                 {
-                    //‚Q‚Ì‚Ý
+                    //‚P‚Æ‚Q‚Æ‚R
                     case 0:
-                        SetMultipleLayerMask(new int[] { 9 });
+                        SetMultipleLayerMask(new int[] { 7, 8, 9, 10 });
                         break;
 
                     case 1:
-                        //‚P‚Æ‚Q
+                        //‚Q‚Æ‚R
                         if(i_1Index == 0)
                         {
-                            SetMultipleLayerMask(new int[] { 8, 9 });
+                            SetMultipleLayerMask(new int[] { 7, 9, 10 });
                         }
-                        //‚Q‚Æ‚R
+                        //‚P‚Æ‚Q
                         else if(i_3Index == 0)
                         {
-                            SetMultipleLayerMask(new int[] { 9, 10 });
+                            SetMultipleLayerMask(new int[] { 7, 8, 9 });
                         }
                         break;
 
-                    //‚P‚Æ‚Q‚Æ‚R
+                    //‚Q‚Ì‚Ý
                     case 2:
-                        SetMultipleLayerMask(new int[] { 8, 9, 10 });
+                        SetMultipleLayerMask(new int[] { 7, 9 });
                         break;
                 }
                 break;
@@ -178,27 +178,27 @@ public class GroundChecker : MonoBehaviour
             case 2:
                 switch (i_3Index)
                 {
-                    //‚R‚Ì‚Ý
+                    //‚P‚Æ‚Q‚Æ‚R
                     case 0:
-                        SetMultipleLayerMask(new int[] { 10 });
+                        SetMultipleLayerMask(new int[] { 7, 8, 9, 10 });
                         break;
 
                     case 1:
-                        //‚P‚Æ‚R
+                        //‚Q‚Æ‚R
                         if(i_1Index == 0)
                         {
-                            SetMultipleLayerMask(new int[] { 8, 10 });
+                            SetMultipleLayerMask(new int[] { 7, 9, 10 });
                         }
-                        //‚Q‚Æ‚R
+                        //‚P‚Æ‚R
                         else if (i_2Index == 0)
                         {
-                            SetMultipleLayerMask(new int[] { 9, 10 });
+                            SetMultipleLayerMask(new int[] { 7, 8, 10 });
                         }
                         break;
 
-                    //‚P‚Æ‚Q‚Æ‚R
+                    //‚R‚Ì‚Ý
                     case 2:
-                        SetMultipleLayerMask(new int[] { 8, 9, 10 });
+                        SetMultipleLayerMask(new int[] { 7, 10 });
                         break;
                 }
                 break;
