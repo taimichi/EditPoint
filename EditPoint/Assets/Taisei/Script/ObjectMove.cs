@@ -23,11 +23,11 @@ public class ObjectMove : MonoBehaviour
     private Vector3[] v3_offset;    //基準オブジェクトからの距離
     private bool b_plTriggers = false;  //複数のオブジェクトのうち一つがプレイヤーに触れているかどうか
 
-
     private bool b_ojbMove = false;
 
-
     private PlayerLayer plLayer;
+
+    private Color startColor;
 
     void Start()
     {
@@ -67,7 +67,8 @@ public class ObjectMove : MonoBehaviour
 
                     CopyObj = Instantiate(Obj);
                     CopyObj.transform.position = v3_objPos;
-                    CopyObj.GetComponent<SpriteRenderer>().color = new Color(255f / 255f, 255f / 255f, 255f / 255f, 50f / 255f);
+                    startColor = CopyObj.GetComponent<SpriteRenderer>().color;
+                    CopyObj.GetComponent<SpriteRenderer>().color = new Color(startColor.r, startColor.g, startColor.b, 50f / 255f);
 
                     Obj.GetComponent<Collider2D>().isTrigger = true;
                     b_ojbMove = true;
@@ -85,7 +86,8 @@ public class ObjectMove : MonoBehaviour
                         v3_offset[i] = Objs[i].transform.position - Objs[0].transform.position;
                         CopyObjs[i] = Instantiate(Objs[i]);
                         CopyObjs[i].transform.position = v3_objsPos[i];
-                        CopyObjs[i].GetComponent<SpriteRenderer>().color= new Color(255f / 255f, 255f / 255f, 255f / 255f, 50f / 255f);
+                        startColor = CopyObjs[i].GetComponent<SpriteRenderer>().color;
+                        CopyObjs[i].GetComponent<SpriteRenderer>().color= new Color(startColor.r, startColor.g, startColor.b, 50f / 255f);
 
                         Objs[i].GetComponent<Collider2D>().isTrigger = true;
                         b_ojbMove = true;
