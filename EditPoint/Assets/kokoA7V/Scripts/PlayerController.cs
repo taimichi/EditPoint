@@ -35,18 +35,16 @@ public class PlayerController : MonoBehaviour
     {
         mc.MoveLR(inputLR);
 
-        if (manual)
-        {
-            ManualInput();
-        }
-        else
-        {
-            AutoInput();
-            if (inputLR == 0)
-            {
-                inputLR = (int)Mathf.Sign(transform.localScale.x);
-            }
-        }
+        //if (manual)
+        //{
+        //    ManualInput();
+        //}
+        //else
+        //{
+        //    AutoInput();
+        //}
+
+        AutoInput();
 
         gc.CheckGround();
 
@@ -97,7 +95,7 @@ public class PlayerController : MonoBehaviour
 
         float RayLength = 0.5f;
         Vector3 center = gc.GetCenterPos();    // 始点
-        Vector3 len = Vector3.right * RayLength; // 長さ
+        Vector3 len = Vector3.right * RayLength * inputLR; // 長さ
 
         // 当たり判定の結果用の変数
         RaycastHit2D result;
@@ -108,15 +106,15 @@ public class PlayerController : MonoBehaviour
         // デバッグ表示用
         Debug.DrawLine(center, center + len);
 
-        // コライダーと接触したかチェック
         if (result.collider != null)
         {
-            isHit = true;
-            //Debug.Log("ぶつかった");
-        }
-        else
-        {
-            //Debug.Log("すすむ");
+            if (result.collider.gameObject.TryGetComponent<GroundAttr>(out var typeAttr))
+            {
+                if (typeAttr.isGround)
+                {
+                    isHit = true;
+                }
+            }
         }
 
         // 向き切り替え
@@ -125,5 +123,11 @@ public class PlayerController : MonoBehaviour
             inputLR *= -1;
             isHit = false;
         }
+    }
+
+    // 被ダメージ
+    public void TakeDamage(int value)
+    {
+        Debug.Log(value + "だめーじ！");
     }
 }

@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TypeAttr : MonoBehaviour
+public class GroundAttr : MonoBehaviour
 {
     public bool isGround = true;
 }

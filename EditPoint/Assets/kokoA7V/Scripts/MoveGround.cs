@@ -10,6 +10,7 @@ public class MoveGround : MonoBehaviour
     [SerializeField]
     List<float> pathTime = new List<float>();
 
+    [SerializeField]
     int nowPath = 0;
 
     float timer;
@@ -29,7 +30,7 @@ public class MoveGround : MonoBehaviour
         Vector3 movePos = this.transform.position;
 
         Vector3 dist = path[nowPath + 1] - path[nowPath];
-        if (nowPath == path.Count)
+        if (nowPath + 1 == path.Count - 1)
         {
             dist = path[0] - path[nowPath];
         }

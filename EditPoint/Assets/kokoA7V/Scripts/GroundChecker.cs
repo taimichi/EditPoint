@@ -64,7 +64,7 @@ public class GroundChecker : MonoBehaviour
             // コライダーと接触したかチェック
             if (result.collider != null)
             {
-                if (result.collider.gameObject.TryGetComponent<TypeAttr>(out var typeAttr))
+                if (result.collider.gameObject.TryGetComponent<GroundAttr>(out var typeAttr))
                 {
                     if (typeAttr.isGround)
                     {
