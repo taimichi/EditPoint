@@ -100,8 +100,9 @@ public class PlayerController : MonoBehaviour
         // 当たり判定の結果用の変数
         RaycastHit2D result;
 
+        
         // レイを飛ばして、指定したレイヤーにぶつかるかチェック
-        result = Physics2D.Linecast(center, center + len, gc.LayerMask);
+        result = Physics2D.Linecast(center, center + len, gc.L_LayerMask);
 
         // デバッグ表示用
         Debug.DrawLine(center, center + len);

@@ -5,13 +5,38 @@ using UnityEngine;
 public class GroundChecker : MonoBehaviour
 {
     // パブリック変数
-    public LayerMask LayerMask; // チェック用のレイヤー
+    public LayerMask L_LayerMask; // チェック用のレイヤー
     // 変数
     CapsuleCollider2D col;          // ボックスコライダー2D
     bool isGround;              // 地面チェック用の変数
 
     const float RayLength = 0.1f;
-    
+
+    [SerializeField] private GameObject layer1obj;
+    [SerializeField] private GameObject layer2obj;
+    [SerializeField] private GameObject layer3obj;
+
+    private int i_1Index;
+    private int i_2Index;
+    private int i_3Index;
+
+    [SerializeField] private PlayerLayer plLayer;
+
+    private void Start()
+    {
+        i_1Index = layer1obj.transform.GetSiblingIndex() - 2;
+        i_2Index = layer2obj.transform.GetSiblingIndex() - 2;
+        i_3Index = layer3obj.transform.GetSiblingIndex() - 2;
+    }
+
+    private void Update()
+    {
+        i_1Index = layer1obj.transform.GetSiblingIndex() - 2;
+        i_2Index = layer2obj.transform.GetSiblingIndex() - 2;
+        i_3Index = layer3obj.transform.GetSiblingIndex() - 2;
+
+    }
+
     // 初期化
     public void InitCol()
     {
@@ -55,8 +80,10 @@ public class GroundChecker : MonoBehaviour
             // 当たり判定の結果用の変数
             RaycastHit2D result;
 
+            LayerCheck();
+
             // レイを飛ばして、指定したレイヤーにぶつかるかチェック
-            result = Physics2D.Linecast(foot, foot + len, LayerMask);
+            result = Physics2D.Linecast(foot, foot + len, L_LayerMask);
 
             // デバッグ表示用
             Debug.DrawLine(foot, foot + len);
@@ -84,4 +111,106 @@ public class GroundChecker : MonoBehaviour
     }
     // 地面に接している変数を取得
     public bool IsGround() { return isGround; }
+
+    private void LayerCheck()
+    {
+        switch (plLayer.ReturnPLLayer() - 1)
+        {
+            //レイヤー1
+            case 0:
+                switch (i_1Index)
+                {
+                    //１だけ
+                    case 0:
+                        SetMultipleLayerMask(new int[] {8});
+                        break;
+
+                    case 1:
+                        //１と２
+                        if(i_2Index == 0)
+                        {
+                            SetMultipleLayerMask(new int[] { 8, 9 });
+                        }
+                        //１と３
+                        else if (i_3Index == 0)
+                        {
+                            SetMultipleLayerMask(new int[] { 8, 10 });
+                        }
+                        break;
+
+                    //１と２と３
+                    case 2:
+                        SetMultipleLayerMask(new int[] { 8, 9, 10 });
+                        break;
+                }
+                break;
+
+            //レイヤー２
+            case 1:
+                switch (i_2Index)
+                {
+                    //２のみ
+                    case 0:
+                        SetMultipleLayerMask(new int[] { 9 });
+                        break;
+
+                    case 1:
+                        //１と２
+                        if(i_1Index == 0)
+                        {
+                            SetMultipleLayerMask(new int[] { 8, 9 });
+                        }
+                        //２と３
+                        else if(i_3Index == 0)
+                        {
+                            SetMultipleLayerMask(new int[] { 9, 10 });
+                        }
+                        break;
+
+                    //１と２と３
+                    case 2:
+                        SetMultipleLayerMask(new int[] { 8, 9, 10 });
+                        break;
+                }
+                break;
+
+            //レイヤー３
+            case 2:
+                switch (i_3Index)
+                {
+                    //３のみ
+                    case 0:
+                        SetMultipleLayerMask(new int[] { 10 });
+                        break;
+
+                    case 1:
+                        //１と３
+                        if(i_1Index == 0)
+                        {
+                            SetMultipleLayerMask(new int[] { 8, 10 });
+                        }
+                        //２と３
+                        else if (i_2Index == 0)
+                        {
+                            SetMultipleLayerMask(new int[] { 9, 10 });
+                        }
+                        break;
+
+                    //１と２と３
+                    case 2:
+                        SetMultipleLayerMask(new int[] { 8, 9, 10 });
+                        break;
+                }
+                break;
+        }
+    }
+
+    void SetMultipleLayerMask(int[] layers)
+    {
+        L_LayerMask = 0;
+        foreach (int layer in layers)
+        {
+            L_LayerMask |= (1 << layer);
+        }
+    }
 }

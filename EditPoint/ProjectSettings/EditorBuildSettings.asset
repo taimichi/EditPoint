@@ -5,9 +5,9 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 0
-    path: 
-    guid: 00000000000000000000000000000000
+  - enabled: 1
+    path: Assets/Sugar/Scenes/Title.unity
+    guid: 08cec35019e8a1e48867416f0315ceba
   - enabled: 1
     path: Assets/Sugar/Scenes/TestSample.unity
     guid: 79b23b5c2a541634f939e237aeec59e0
@@ -17,4 +17,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/kokoA7V/Scenes/PlayerTestScene.unity
     guid: 85c42c56c92c6be4f850cd0b2fa4ad05
+  - enabled: 1
+    path: Assets/kokoA7V/Scenes/TestStage.unity
+    guid: 6a744c07025cb674d88859de27cdfee1
   m_configObjects: {}
