@@ -39,7 +39,7 @@ public class ToolButton : MonoBehaviour
     {
         // フェード
         fade.FadeIn(0.5f, () => {
-            SceneManager.LoadScene("TitleScene");
+            SceneManager.LoadScene("Title");
         });
     }
 }
