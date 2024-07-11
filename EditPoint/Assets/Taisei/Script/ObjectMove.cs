@@ -23,15 +23,15 @@ public class ObjectMove : MonoBehaviour
     private Vector3[] v3_offset;    //基準オブジェクトからの距離
     private bool b_plTriggers = false;  //複数のオブジェクトのうち一つがプレイヤーに触れているかどうか
 
-
     private bool b_ojbMove = false;
 
-    //オブジェクトがプレイヤーの上にあるかどうか
-    private bool b_plTrigger = false;
+    private PlayerLayer plLayer;
+
+    private Color startColor;
 
     void Start()
     {
-        
+        plLayer = GameObject.Find("Player").GetComponent<PlayerLayer>();   
     }
 
 
@@ -46,7 +46,8 @@ public class ObjectMove : MonoBehaviour
             if (hit2d == false
                 || hit2d.collider.gameObject.layer == LayerMask.NameToLayer("Ground") ||
                 hit2d.collider.tag == "Player" ||
-                hit2d.collider.tag == "RangeSelect")
+                hit2d.collider.tag == "RangeSelect" || 
+                hit2d.collider.tag == "UnTouch")
             {
                 if (EventSystem.current.IsPointerOverGameObject())
                 {
@@ -66,7 +67,8 @@ public class ObjectMove : MonoBehaviour
 
                     CopyObj = Instantiate(Obj);
                     CopyObj.transform.position = v3_objPos;
-                    CopyObj.GetComponent<SpriteRenderer>().color = new Color(255f / 255f, 255f / 255f, 255f / 255f, 50f / 255f);
+                    startColor = CopyObj.GetComponent<SpriteRenderer>().color;
+                    CopyObj.GetComponent<SpriteRenderer>().color = new Color(startColor.r, startColor.g, startColor.b, 50f / 255f);
 
                     Obj.GetComponent<Collider2D>().isTrigger = true;
                     b_ojbMove = true;
@@ -84,7 +86,8 @@ public class ObjectMove : MonoBehaviour
                         v3_offset[i] = Objs[i].transform.position - Objs[0].transform.position;
                         CopyObjs[i] = Instantiate(Objs[i]);
                         CopyObjs[i].transform.position = v3_objsPos[i];
-                        CopyObjs[i].GetComponent<SpriteRenderer>().color= new Color(255f / 255f, 255f / 255f, 255f / 255f, 50f / 255f);
+                        startColor = CopyObjs[i].GetComponent<SpriteRenderer>().color;
+                        CopyObjs[i].GetComponent<SpriteRenderer>().color= new Color(startColor.r, startColor.g, startColor.b, 50f / 255f);
 
                         Objs[i].GetComponent<Collider2D>().isTrigger = true;
                         b_ojbMove = true;
@@ -129,7 +132,7 @@ public class ObjectMove : MonoBehaviour
                     Destroy(CopyObj);
                     CopyObj = null;
 
-                    if (b_plTrigger)
+                    if (plLayer.ReturnPlTrigger())
                     {
                         Obj.transform.position = v3_objPos;
                         return;
@@ -140,7 +143,7 @@ public class ObjectMove : MonoBehaviour
                 //複数
                 else
                 {
-                    if (b_plTrigger)
+                    if (plLayer.ReturnPlTrigger())
                     {
                         b_plTriggers = true;
                     }
@@ -163,11 +166,6 @@ public class ObjectMove : MonoBehaviour
                 }
             }
         }
-    }
-
-    public void CheckPlTrigger(bool trigger)
-    {
-        b_plTrigger = trigger;
     }
 
     public bool ReturnObjMove()

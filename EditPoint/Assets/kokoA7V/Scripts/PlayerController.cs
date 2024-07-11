@@ -5,61 +5,72 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     GroundChecker gc;
-    //Rigidbody2D rb;
-
-    //MoveController mc;
-
-    Vector3 scale;
+    Rigidbody2D rb;
 
     [SerializeField]
-    float moveSpeed = 0.1f;
+    Animator anim;
 
+    MoveController mc;
+
+    [Range(-1, 1), SerializeField]
     int inputLR = 0;
-    Vector3 movePos;
+
+    [SerializeField]
+    bool manual = true;
 
     void Start()
     {
         gc = GetComponent<GroundChecker>();
-        //rb = GetComponent<Rigidbody2D>();
+        rb = GetComponent<Rigidbody2D>();
 
-        //mc = new MoveController(rb);
+        //anim = GetComponent<Animator>();
+
+        mc = new MoveController(rb);
 
         gc.InitCol();
 
-        inputLR = 1;
     }
 
     void Update()
     {
-        gc.CheckGround();
+        mc.MoveLR(inputLR);
 
-        //mc.MoveLR();
-
-        //PlayerInput();
+        //if (manual)
+        //{
+        //    ManualInput();
+        //}
+        //else
+        //{
+        //    AutoInput();
+        //}
 
         AutoInput();
 
-        TestMove();
+        gc.CheckGround();
+
+        AnimPlay();
     }
 
-    void TestMove()
+    void AnimPlay()
     {
-        movePos = this.transform.position;
-        if (inputLR != 0)
-        {
-            movePos.x += inputLR * moveSpeed;
-        }
-        this.transform.position = movePos;
-
-        scale = this.transform.localScale;
+        Vector3 scale = this.transform.localScale;
         if (inputLR != 0)
         {
             scale.x = Mathf.Abs(scale.x) * inputLR;
         }
         this.transform.localScale = scale;
+
+        if (inputLR != 0)
+        {
+            anim.Play("Move_Base");
+        }
+        else
+        {
+            anim.Play("Idle_Base");
+        }
     }
 
-    void PlayerInput()
+    void ManualInput()
     {
         if (Input.GetKey(KeyCode.D))
         {
@@ -82,9 +93,9 @@ public class PlayerController : MonoBehaviour
     {
         bool isHit = false;
 
-        float RayLength = 2;
+        float RayLength = 0.5f;
         Vector3 center = gc.GetCenterPos();    // 始点
-        Vector3 len = Vector3.right * RayLength * transform.localScale.x; // 長さ
+        Vector3 len = Vector3.right * RayLength * inputLR; // 長さ
 
         // 当たり判定の結果用の変数
         RaycastHit2D result;
@@ -95,15 +106,15 @@ public class PlayerController : MonoBehaviour
         // デバッグ表示用
         Debug.DrawLine(center, center + len);
 
-        // コライダーと接触したかチェック
         if (result.collider != null)
         {
-            isHit = true;
-            Debug.Log("ぶつかった");
-        }
-        else
-        {
-            Debug.Log("すすむ");
+            if (result.collider.gameObject.TryGetComponent<GroundAttr>(out var typeAttr))
+            {
+                if (typeAttr.isGround)
+                {
+                    isHit = true;
+                }
+            }
         }
 
         // 向き切り替え
@@ -112,5 +123,11 @@ public class PlayerController : MonoBehaviour
             inputLR *= -1;
             isHit = false;
         }
+    }
+
+    // 被ダメージ
+    public void TakeDamage(int value)
+    {
+        Debug.Log(value + "だめーじ！");
     }
 }
