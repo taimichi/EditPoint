@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEditor.SceneManagement;
+using UnityEngine.SceneManagement;
 
 public class GoalController : MonoBehaviour
 {
@@ -11,7 +11,7 @@ public class GoalController : MonoBehaviour
         {
             if (playerItemData.isKey)
             {
-                EditorSceneManager.LoadScene("ClearTestScene");
+                SceneManager.LoadScene("ClearTestScene");
             }
         }
     }
