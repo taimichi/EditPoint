@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 public class StageSelect : MonoBehaviour
 {
     // FadeCanvas
@@ -127,7 +128,7 @@ public class StageSelect : MonoBehaviour
                 }
                 break;
         }
-    }
+    }    
 
     // 左ボタン
     public void LButton()
@@ -155,6 +156,7 @@ public class StageSelect : MonoBehaviour
 
         Click = false;
     }
+
     // 右ボタン
     public void RButton()
     {
@@ -180,5 +182,36 @@ public class StageSelect : MonoBehaviour
         targetRct[rctState].anchoredPosition = LeftStartPos;
 
         Click = false;
+    }
+
+    // ここからステージボタン
+
+    // eventSystem型の変数を宣言　インスペクターにEventSystemをアタッチして取得しておく
+    [SerializeField] private EventSystem eventSystem;
+
+    //GameObject型の変数を宣言　ボタンオブジェクトを入れる箱
+    private GameObject button_ob;
+
+    //GameObject型の変数を宣言　テキストオブジェクトを入れる箱
+    private GameObject NameText_ob;
+
+    //Text型の変数を宣言　テキストコンポーネントを入れる箱
+    private Text name_text;
+
+    public void StageButton(string Scenename)
+    {
+        button_ob = eventSystem.currentSelectedGameObject;
+
+        //ボタンの子のテキストオブジェクトを名前指定で取得 この場合Text100と名前が付いているテキストオブジェクトを探す
+        NameText_ob = button_ob.transform.Find("Text").gameObject;
+
+        //テキストオブジェクトのテキストを取得
+        name_text = NameText_ob.GetComponent<Text>();
+
+        if (name_text.text == "Rock") { return; }
+        // フェード
+        fade.FadeIn(0.5f, () => {
+            SceneManager.LoadScene(Scenename);
+        });
     }
 }
