@@ -7,7 +7,7 @@ using Live2D.Cubism.Rendering;
 public class LayerController : MonoBehaviour
 {
     [SerializeField] private GameManager gm;
-    [SerializeField] private CutAndPaste cp;
+    [SerializeField] private CopyAndPaste cp;
 
     //現在選択しているレイヤー番号
     //layerNum : 0 = 7.全体, 1 = 8.layer1, 2 = 9.layer2, 3 = 10.layer3
@@ -101,7 +101,7 @@ public class LayerController : MonoBehaviour
     //マウスホイール
     private void Wheel()
     {
-        if (Input.mouseScrollDelta.y > 0 && Input.GetKey(KeyCode.R))
+        if (Input.mouseScrollDelta.y > 0)
         {
             i_layerNum++;
             if (i_layerNum >= i_maxLayerNum)
@@ -110,7 +110,7 @@ public class LayerController : MonoBehaviour
             }
             b_changeLayer = true;
         }
-        else if (Input.mouseScrollDelta.y < 0 && Input.GetKey(KeyCode.R))
+        else if (Input.mouseScrollDelta.y < 0)
         {
             i_layerNum--;
             if (i_layerNum <= i_minLayerNum)
