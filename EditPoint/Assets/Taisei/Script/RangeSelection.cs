@@ -153,7 +153,7 @@ public class RangeSelection : MonoBehaviour
                 break;
 
             case 1:
-                if(collision.gameObject.layer == LayerMask.NameToLayer("Layer1"))
+                if(collision.gameObject.layer == LayerMask.NameToLayer("Layer1") && collision.gameObject.tag != "UnTouch")
                 {
                     if (!L_SelectedObj.Contains(collision.gameObject))
                     {
@@ -163,7 +163,7 @@ public class RangeSelection : MonoBehaviour
                 break;
 
             case 2:
-                if (collision.gameObject.layer == LayerMask.NameToLayer("Layer2"))
+                if (collision.gameObject.layer == LayerMask.NameToLayer("Layer2") && collision.gameObject.tag != "UnTouch")
                 {
                     if (!L_SelectedObj.Contains(collision.gameObject))
                     {
@@ -173,7 +173,7 @@ public class RangeSelection : MonoBehaviour
                 break;
 
             case 3:
-                if (collision.gameObject.layer == LayerMask.NameToLayer("Layer3"))
+                if (collision.gameObject.layer == LayerMask.NameToLayer("Layer3") && collision.gameObject.tag != "UnTouch")
                 {
                     if (!L_SelectedObj.Contains(collision.gameObject))
                     {
