@@ -51,8 +51,6 @@ public class CutAndPaste : MonoBehaviour
         CutObj = null;
         PasteObj = null;
 
-        i_CutNum = 0;
-        i_PasteNum = 0;
     }
 
     void Update()
@@ -82,14 +80,12 @@ public class CutAndPaste : MonoBehaviour
                             return;
                         }
                         //Debug.Log("‚È‚µ");
-                        ChoiseObj = null;
                         if (ClickObj != null)
                         {
                             ClickObj.GetComponent<SpriteRenderer>().material = materials[0];
                         }
+                        ChoiseObj = null;
                         ClickObj = null;
-                        Debug.Log("‚È‚É‚à‚È‚¢");
-                        layerChange.OutChangeLayerNum(0);
                         return;
                     }
 
@@ -97,9 +93,13 @@ public class CutAndPaste : MonoBehaviour
                     {
                         ClickObj.GetComponent<SpriteRenderer>().material = materials[0];
                     }
-                    if (hit2d == false || hit2d.collider.tag == "LayerPanel")
-                    {
-                    }
+                    //if (hit2d == false || hit2d.collider.tag == "LayerPanel")
+                    //{
+                    //    ClickObj = null;
+                    //    Debug.Log("‚È‚É‚à‚È‚¢");
+                    //    layerChange.OutChangeLayerNum(0);
+
+                    //}
                     if (hit2d.collider.gameObject.layer == LayerMask.NameToLayer("Layer1"))
                     {
                         ClickObj = hit2d.collider.gameObject;
