@@ -14,9 +14,10 @@ public class ToolButton : MonoBehaviour
 
     private void Start()
     {
-        fade.cutoutRange = 1;
+     /* fade.cutoutRange = 1;
         // シーンの始まりでフェード
         fade.FadeOut(1.0f);
+     */
 
         // 現在のシーン名を取得(シーンリロードに使う)
         S_stageName = SceneManager.GetActiveScene().name;
