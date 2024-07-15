@@ -55,6 +55,7 @@ public class CopyAndPaste : MonoBehaviour
         if (b_copyMode)
         {
             Copy();
+            return;
         }
 
         if(b_setOnOff && b_pasteMode)
