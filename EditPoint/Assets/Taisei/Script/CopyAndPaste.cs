@@ -2,9 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 public class CopyAndPaste : MonoBehaviour
 {
+    [SerializeField] private Text copyModeText;
+
     [SerializeField] private RangeSelection rangeSelect;
     //コピー元のオブジェクト
     private GameObject CopyObj;
@@ -46,7 +49,7 @@ public class CopyAndPaste : MonoBehaviour
         plLayer = GameObject.Find("Player").GetComponent<PlayerLayer>();
         CopyObj = null;
         PasteObj = null;
-
+        copyModeText.enabled = false;
     }
 
     void Update()
@@ -129,6 +132,7 @@ public class CopyAndPaste : MonoBehaviour
                 }
                 b_pasteMode = false;
                 b_setOnOff = false;
+                copyModeText.enabled = false;
             }
         }
         
@@ -224,11 +228,17 @@ public class CopyAndPaste : MonoBehaviour
                 b_copyMode = false;
             }
         }
+
+        if (Input.GetMouseButtonDown(1))
+        {
+            b_copyMode = false;
+        }
     }
 
     //ペースト
     private void Paste()
     {
+        copyModeText.text = "現在ペーストモードです";
         //単体
         if (!rangeSelect.ReturnSelectNow())
         {
@@ -265,12 +275,9 @@ public class CopyAndPaste : MonoBehaviour
     public void OnCopy()
     {
         b_copyMode = true;
+        copyModeText.enabled = true;
+        copyModeText.text = "現在コピーモードです";
     }
 
-    //ペーストするとき
-    public void OnPaste()
-    {
-
-    }
 
 }
