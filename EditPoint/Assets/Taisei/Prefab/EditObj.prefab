@@ -296,7 +296,7 @@ MonoBehaviour:
   cp: {fileID: 2640032978919354879}
   i_maxLayerNum: 3
   i_minLayerNum: 0
-  LayerPanel: {fileID: 0}
+  LayerPanel: {fileID: 8679661816609637681}
   Layer1Rep: {fileID: 0}
   Layer2Rep: {fileID: 0}
   Layer3Rep: {fileID: 0}
