@@ -9,6 +9,9 @@ EditorBuildSettings:
     path: Assets/Sugar/Scenes/Title.unity
     guid: 08cec35019e8a1e48867416f0315ceba
   - enabled: 1
+    path: Assets/Sugar/Scenes/Select.unity
+    guid: 04416c198e049ca4ead49fa4cfb2fbc7
+  - enabled: 1
     path: Assets/Stage/TestStage.unity
     guid: 6a744c07025cb674d88859de27cdfee1
   - enabled: 1
