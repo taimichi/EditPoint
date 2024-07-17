@@ -14,7 +14,7 @@ public class SelectNow : MonoBehaviour, IPointerEnterHandler, IPointerExitHandle
     /*----float----*/
     const float F_rotSpd = 2.0f;
     float F_timer ;
-    const float F_settimer = 2.0f;
+    const float F_settimer = 0.5f;
 
     /*----string----*/
 
