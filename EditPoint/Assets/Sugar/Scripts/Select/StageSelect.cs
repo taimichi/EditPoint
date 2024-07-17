@@ -77,12 +77,12 @@ public class StageSelect : MonoBehaviour
         NOWpage = Nowpage_INT.ToString();
 
         // テキストに反映
-        page.text = NOWpage + "/" + ALLpage;
+        page.text = "修正中";//NOWpage + "/" + ALLpage;
 
         UICon();
     }
 
-    // Rectを動かす処理
+    /// Rectを動かす処理
     void UICon()
     {
         switch (state)
@@ -140,12 +140,12 @@ public class StageSelect : MonoBehaviour
         if (rctState == min)
         {
             rctState = max;
-            Nowpage_INT = targetRct.Length;
+            Nowpage_INT = 1;
         }
         else
         {
             rctState--;
-            Nowpage_INT--;
+            Nowpage_INT++;
         }
 
         // アニメーション処理
@@ -167,12 +167,12 @@ public class StageSelect : MonoBehaviour
         if (rctState == max)
         {
             rctState = min;
-            Nowpage_INT = 1;
+            Nowpage_INT = ALLpage.Length;
         }
         else
         {
             rctState++;
-            Nowpage_INT++;
+            Nowpage_INT--;
         }
 
         // アニメーション処理

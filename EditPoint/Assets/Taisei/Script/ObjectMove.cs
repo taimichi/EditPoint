@@ -9,6 +9,7 @@ public class ObjectMove : MonoBehaviour
     [SerializeField] private LayerController layerControll;
     [SerializeField] private CopyAndPaste CaP;
 
+    //マウス座標
     private Vector3 v3_pos;
     private Vector3 v3_scrWldPos;
     //取得したオブジェクトの元の座標
@@ -25,7 +26,7 @@ public class ObjectMove : MonoBehaviour
     private Vector3[] v3_offset;    //基準オブジェクトからの距離
     private bool b_plTriggers = false;  //複数のオブジェクトのうち一つがプレイヤーに触れているかどうか
 
-    private bool b_ojbMove = false;
+    private bool b_objMove = false;
 
     private PlayerLayer plLayer;
 
@@ -106,7 +107,7 @@ public class ObjectMove : MonoBehaviour
                     CopyObj.GetComponent<SpriteRenderer>().color = new Color(startColor.r, startColor.g, startColor.b, 50f / 255f);
 
                     Obj.GetComponent<Collider2D>().isTrigger = true;
-                    b_ojbMove = true;
+                    b_objMove = true;
                 }
                 //複数
                 else
@@ -125,14 +126,14 @@ public class ObjectMove : MonoBehaviour
                         CopyObjs[i].GetComponent<SpriteRenderer>().color= new Color(startColor.r, startColor.g, startColor.b, 50f / 255f);
 
                         Objs[i].GetComponent<Collider2D>().isTrigger = true;
-                        b_ojbMove = true;
+                        b_objMove = true;
                     }
                 }
             }
 
         }
 
-        if (b_ojbMove)
+        if (b_objMove)
         {
             if (Input.GetMouseButton(0))
             {
@@ -157,7 +158,7 @@ public class ObjectMove : MonoBehaviour
             }
             else if (Input.GetMouseButtonUp(0))
             {
-                b_ojbMove = false;
+                b_objMove = false;
 
                 //単体
                 if (!rangeSelect.ReturnSelectNow())
@@ -211,6 +212,6 @@ public class ObjectMove : MonoBehaviour
 
     public bool ReturnObjMove()
     {
-        return b_ojbMove;
+        return b_objMove;
     }
 }

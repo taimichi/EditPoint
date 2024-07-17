@@ -90,6 +90,7 @@ public class CopyAndPaste : MonoBehaviour
                     if (!rangeSelect.ReturnSelectNow())
                     {
                         PasteObj.GetComponent<SpriteRenderer>().material = materials[0];
+                        PasteObj.GetComponent<Collider2D>().isTrigger = false;
                         layerControll.ChangeObjectList();
 
                     }
@@ -99,6 +100,7 @@ public class CopyAndPaste : MonoBehaviour
                         for (int i = 0; i < PasteObjs.Length; i++)
                         {
                             PasteObjs[i].GetComponent<SpriteRenderer>().material = materials[0];
+                            PasteObjs[i]. GetComponent<Collider2D>().isTrigger = false;
                             layerControll.ChangeObjectList();
 
                         }
@@ -274,6 +276,7 @@ public class CopyAndPaste : MonoBehaviour
     //コピーボタンを押した時
     public void OnCopy()
     {
+        i_CopyNum--;
         b_copyMode = true;
         copyModeText.enabled = true;
         copyModeText.text = "現在コピーモードです";
