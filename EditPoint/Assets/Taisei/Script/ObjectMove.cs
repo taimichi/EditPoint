@@ -6,6 +6,8 @@ using UnityEngine.EventSystems;
 public class ObjectMove : MonoBehaviour
 {
     [SerializeField] private RangeSelection rangeSelect;
+    [SerializeField] private LayerController layerControll;
+    [SerializeField] private CopyAndPaste CaP;
 
     private Vector3 v3_pos;
     private Vector3 v3_scrWldPos;
@@ -29,6 +31,10 @@ public class ObjectMove : MonoBehaviour
 
     private Color startColor;
 
+    //選択時にアウトラインをつける
+    private GameObject ClickObj;
+    [SerializeField] private Material[] materials;
+
     void Start()
     {
         plLayer = GameObject.Find("Player").GetComponent<PlayerLayer>();   
@@ -37,28 +43,54 @@ public class ObjectMove : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0) && !CaP.ReturnSetOnOff())
         {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit2D hit2d = Physics2D.Raycast((Vector2)ray.origin, (Vector2)ray.direction);
 
-            var hittag = hit2d.collider.tag;
-            //UIだったら何もしない
-            if (hit2d == false
-                || hit2d.collider.gameObject.layer == LayerMask.NameToLayer("Ground") ||
-                hittag == "Player" ||
-                hittag == "RangeSelect" || 
-                hittag == "UnTouch" || 
-                hittag == "LayerPanel" || 
-                hittag == "CutObj")
+            if (EventSystem.current.IsPointerOverGameObject())
             {
-                if (EventSystem.current.IsPointerOverGameObject())
-                {
-                    return;
-                }
                 return;
             }
 
+            //UIや動かしたくないオブジェクトだったらだったら何もしない
+            if (hit2d == false ||
+                hit2d.collider.gameObject.layer == LayerMask.NameToLayer("Ground") ||
+                hit2d.collider.tag == "Player" ||
+                hit2d.collider.tag == "RangeSelect" ||
+                hit2d.collider.tag == "UnTouch" ||
+                hit2d.collider.tag == "LayerPanel")
+            {
+                if (ClickObj != null)
+                {
+                    ClickObj.GetComponent<SpriteRenderer>().material = materials[0];
+                }
+                ClickObj = null;
+                return;
+            }
+
+            if(ClickObj != null)
+            {
+                ClickObj.GetComponent<SpriteRenderer>().material = materials[0];
+            }
+            if (hit2d.collider.gameObject.layer == LayerMask.NameToLayer("Layer1"))
+            {
+                ClickObj = hit2d.collider.gameObject;
+                layerControll.OutChangeLayerNum(1);
+                ClickObj.GetComponent<SpriteRenderer>().material = materials[1];
+            }
+            else if (hit2d.collider.gameObject.layer == LayerMask.NameToLayer("Layer2"))
+            {
+                ClickObj = hit2d.collider.gameObject;
+                layerControll.OutChangeLayerNum(2);
+                ClickObj.GetComponent<SpriteRenderer>().material = materials[1];
+            }
+            else if (hit2d.collider.gameObject.layer == LayerMask.NameToLayer("Layer3"))
+            {
+                ClickObj = hit2d.collider.gameObject;
+                layerControll.OutChangeLayerNum(3);
+                ClickObj.GetComponent<SpriteRenderer>().material = materials[1];
+            }
 
             if (hit2d)
             {
@@ -168,6 +200,12 @@ public class ObjectMove : MonoBehaviour
                     b_plTriggers = false;
                 }
             }
+        }
+
+        //右クリックしたらレイヤー表示を全体にする
+        if (Input.GetMouseButtonDown(1))
+        {
+            layerControll.OutChangeLayerNum(0);
         }
     }
 
