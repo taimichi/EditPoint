@@ -294,7 +294,7 @@ MonoBehaviour:
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: 
+          m_StringArgument: Tutorial_CopyPaste1
           m_BoolArgument: 0
         m_CallState: 2
 --- !u!114 &88963295
@@ -2140,7 +2140,7 @@ MonoBehaviour:
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: 
+          m_StringArgument: Tutorial_CopyPaste1
           m_BoolArgument: 0
         m_CallState: 2
 --- !u!114 &869674803
@@ -2880,7 +2880,7 @@ MonoBehaviour:
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: 
+          m_StringArgument: Tutorial_ObjMove3
           m_BoolArgument: 0
         m_CallState: 2
 --- !u!114 &1125585564
@@ -3430,7 +3430,7 @@ MonoBehaviour:
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: 
+          m_StringArgument: Tutorial_Layer2
           m_BoolArgument: 0
         m_CallState: 2
 --- !u!114 &1299761891
@@ -3642,7 +3642,7 @@ MonoBehaviour:
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: 
+          m_StringArgument: Tutorial_Layer3
           m_BoolArgument: 0
         m_CallState: 2
 --- !u!114 &1384243312
@@ -3987,7 +3987,7 @@ MonoBehaviour:
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: 
+          m_StringArgument: Tutorial_Layer1
           m_BoolArgument: 0
         m_CallState: 2
 --- !u!114 &1427078639
@@ -4120,7 +4120,7 @@ MonoBehaviour:
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: TestStage
+          m_StringArgument: Tutorial_CopyPaste1
           m_BoolArgument: 0
         m_CallState: 2
 --- !u!114 &1456523339
@@ -4559,7 +4559,7 @@ MonoBehaviour:
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: 
+          m_StringArgument: Tutorial_ObjMove1
           m_BoolArgument: 0
         m_CallState: 2
 --- !u!114 &1503722523
@@ -5528,7 +5528,7 @@ MonoBehaviour:
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: 
+          m_StringArgument: Tutorial_ObjMove2
           m_BoolArgument: 0
         m_CallState: 2
 --- !u!114 &1715786187
