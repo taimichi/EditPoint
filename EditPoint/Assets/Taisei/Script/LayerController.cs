@@ -44,6 +44,8 @@ public class LayerController : MonoBehaviour
 
     [SerializeField] private CubismRenderController live2DRender;
 
+    private Color objColor;
+
     void Start()
     {
         Pl = GameObject.Find("Player");
@@ -585,6 +587,7 @@ public class LayerController : MonoBehaviour
         {
             for(int i = 0; i < Layer1AllObj.Length; i++)
             {
+                objColor = Layer1AllObj[i].GetComponent<SpriteRenderer>().color;
                 Layer1AllObj[i].SetActive(Layer1AllObj[i].activeSelf == false ? true : false);
             }
         }
