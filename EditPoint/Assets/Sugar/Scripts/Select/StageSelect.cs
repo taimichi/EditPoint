@@ -4,27 +4,35 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
+
 public class StageSelect : MonoBehaviour
 {
+    // Rectを動かす時の判断用
+    enum RectMove
+    {
+        rightFeed, // 右送り処理
+        leftFeed,  // 左送り処理
+        etc        // 終了処理
+    }
+
+// 変数
+#region variable
+    // インスペクター側で設定するもの
+#region Inspector
     // FadeCanvas
+    // Textで今何ページか分かりやすくする
     [SerializeField] 
-    Fade fade;          
+    Text page;
+
+    [SerializeField]
+    Fade fade;
 
     // 動かす対象
-    [SerializeField] 
+    [SerializeField]
     RectTransform[] targetRct;
 
-    // Rect配列に使う番号
-    int rctState = 0;
-
-    // 配列の最大値と最小値
-    int max;
-    int min;
-
-    // Rectが移動終わるまでボタンを機能させない
-    bool Click = true;
-    
     // 初期の座標値
+    // 中央、左、右
     [SerializeField]
     Vector2 CenterStartPos = new Vector2(0, 0);
     [SerializeField]
@@ -44,160 +52,234 @@ public class StageSelect : MonoBehaviour
     [SerializeField]
     float spdX = 0, spdY = 0;
 
-    // アニメーション状態
-    int state = 100;
+    // eventSystem型の変数を宣言　インスペクターにEventSystemをアタッチして取得しておく
+    [SerializeField] private EventSystem eventSystem;
+#endregion
+    // Rect配列に使う番号
+    int rctNum = 0;
+    // 配列の最大値と最小値
+    int max;
+    int min;
+    // ページの計算に使う最大と最小
+    int pMax;
+    int pMin;
+    // 現在のページ数カウント用
+    int INT_nowPage = 1;
 
-    // クラス
+    // Rectが移動終わるまでボタンを機能させない
+    bool isClick = true;
+  
+    // 全体ページと現在ページの文字
+    string allPage;
+    string nowPage;
+
+    /// <summary>
+    /// enum変数
+    /// </summary>
+    RectMove rMove;
+
+    // UIを動かすクラス
     ClassUIAnim UAnim;
 
-    // Text何ページか分かりやすく
-    [SerializeField] Text page;
+    // ボタンオブジェクトを入れる箱
+    private GameObject button_ob;
 
-    int Nowpage_INT=1;
-    
-    string ALLpage;
-    string NOWpage;
+    // テキストオブジェクトを入れる箱
+    private GameObject NameText_ob;
 
+    // テキストコンポーネントを入れる箱
+    private Text name_text;
+
+#endregion
+// メソッド
+#region Method
     void Start()
     {
+        // ページの計算用
+        pMax = targetRct.Length;
+        pMin = targetRct.Length / targetRct.Length;
+
+        // 配列に使いたいので要素数から値を-1
         max = targetRct.Length - 1;
         min = 0;
 
         // ページの最大数
-        ALLpage = targetRct.Length.ToString();
+        allPage = targetRct.Length.ToString();
 
+        // インスタンス生成
         UAnim = new ClassUIAnim();
     }
 
-    // Update is called once per frame
     void Update()
     {
-        // 現在のページ
-        // rctStateは配列で使うため数字がー１されるので＋１する
-        NOWpage = Nowpage_INT.ToString();
+        // 現在のページカウントををstringに変換
+        nowPage = INT_nowPage.ToString();
 
         // テキストに反映
-        page.text = "修正中";//NOWpage + "/" + ALLpage;
+        page.text = nowPage + "/" + allPage;
 
+        // Rect処理
         UICon();
     }
 
+    /// <summary>
     /// Rectを動かす処理
+    /// </summary>
     void UICon()
     {
-        switch (state)
+        switch (rMove)
         {
-            case 0:
-                if (targetRct[rctState].anchoredPosition.x >= CenterStartPos.x)
+            case RectMove.leftFeed: // 右送り
+
+                // 動かす対象のRectと目標座標（センター）を比較
+                if (targetRct[rctNum].anchoredPosition.x >= CenterStartPos.x)
                 {
-                    targetRct[rctState] = UAnim.anim_PosChange(targetRct[rctState], -spdX, spdY);
-                    if (rctState == max) 
+                    // 動かす対象のRectを目標座標（センター）に近づける
+                    targetRct[rctNum] = UAnim.anim_PosChange(targetRct[rctNum], -spdX, spdY);
+
+                    // センターにすでにあるUIをカメラの外へ
+                    // センターに動かす予定のRct配列の次の要素を動かす
+                    // 最大は超えないように
+                    if (rctNum == max) 
                     {
                         targetRct[min] = UAnim.anim_PosChange(targetRct[min], -spdX, spdY);
                     }
                     else
                     {
-                        targetRct[rctState+1] = UAnim.anim_PosChange(targetRct[rctState+1], -spdX, spdY);
+                        targetRct[rctNum+1] = UAnim.anim_PosChange(targetRct[rctNum+1], -spdX, spdY);
                     }
                 }
+                // 動かし終わったら指定の場所にずれがないようにセット
                 else
                 {
-                    targetRct[rctState].anchoredPosition = CenterStartPos;
-                    Click = true;
-                    state++;
+                    targetRct[rctNum].anchoredPosition = CenterStartPos;
+
+                    // 移動が終わったので次のボタン入力を受け付ける
+                    isClick = true;
+
+                    // 処理終了
+                    rMove = RectMove.etc;
                 }
                 break;
-            case 10:
-                if (targetRct[rctState].anchoredPosition.x <= CenterStartPos.x)
+            case RectMove.rightFeed: // 左送り
+
+                // 動かす対象のRectと目標座標（センター）を比較
+                if (targetRct[rctNum].anchoredPosition.x <= CenterStartPos.x)
                 {
-                    targetRct[rctState] = UAnim.anim_PosChange(targetRct[rctState], spdX, spdY);
-                    if (rctState == min)
+                    // 動かす対象のRectを目標座標（センター）に近づける
+                    targetRct[rctNum] = UAnim.anim_PosChange(targetRct[rctNum], spdX, spdY);
+
+                    // センターにすでにあるUIをカメラの外へ
+                    // センターに動かす予定のRct配列の一個前の要素を動かす
+                    // 最大は超えないように
+                    if (rctNum == min)
                     {
                         targetRct[max] = UAnim.anim_PosChange(targetRct[max], spdX, spdY);
                     }
                     else
                     {
-                        targetRct[rctState-1] = UAnim.anim_PosChange(targetRct[rctState - 1], spdX, spdY);
+                        targetRct[rctNum-1] = UAnim.anim_PosChange(targetRct[rctNum - 1], spdX, spdY);
                     }
                 }
                 else
                 {
-                    targetRct[rctState].anchoredPosition = CenterStartPos;
-                    Click = true;
-                    state++;
+                    targetRct[rctNum].anchoredPosition = CenterStartPos;
+
+                    // 移動が終わったので次のボタン入力を受け付ける
+                    isClick = true;
+
+                    // 処理終了
+                    rMove = RectMove.etc;
                 }
                 break;
         }
-    }    
+    }
 
-    // 左ボタン
+    /// <summary>
+    /// 左矢印ボタンのメソッド
+    /// </summary>
     public void LButton()
     {
         // 移動中ならreturn
-        if (!Click) { return; }
-
+        if (!isClick) { return; }
         // 最大値を越さないように
-        if (rctState == min)
+        if (rctNum == min)
         {
-            rctState = max;
-            Nowpage_INT = 1;
+            rctNum = max;
         }
         else
         {
-            rctState--;
-            Nowpage_INT++;
+            rctNum--;
         }
 
-        // アニメーション処理
-        state = 0;
-
+        // 配列の要素数を超えないようにする
+        if (INT_nowPage == pMin)
+        {
+            // 最小値である1を求める
+            // minだと配列用にしてあるので0になってしまうため
+            INT_nowPage = pMax;
+        }
+        else
+        {
+            INT_nowPage--;
+        }
+        
         // 動かす物を右初期座標に移動
-        targetRct[rctState].anchoredPosition = RightStartPos;
+        targetRct[rctNum].anchoredPosition = RightStartPos;
 
-        Click = false;
+        // アニメーション処理
+        rMove = RectMove.leftFeed;
+
+        // 移動状態
+        isClick = false;
     }
-
-    // 右ボタン
+    
+    /// <summary>
+    /// 右矢印ボタンのメソッド
+    /// </summary>
     public void RButton()
     {
         // 移動中ならreturn
-        if (!Click) { return; }
+        if (!isClick) { return; }
+
 
         // 動かす対象Rectの計算
-        if (rctState == max)
+        if (rctNum == max)
         {
-            rctState = min;
-            Nowpage_INT = ALLpage.Length;
+            rctNum = min;
         }
         else
         {
-            rctState++;
-            Nowpage_INT--;
+            rctNum++;
+
         }
 
-        // アニメーション処理
-        state = 10;
+        // 配列の要素数を超えないようにする
+        if (INT_nowPage==pMax)
+        {
+            // 最小値である1を求める
+            // minだと配列用にしてあるので0になってしまうため
+            INT_nowPage = pMin;
+        }
+        else
+        {
+            INT_nowPage++;
+        }
 
         // 動かす物を左初期座標に移動
-        targetRct[rctState].anchoredPosition = LeftStartPos;
+        targetRct[rctNum].anchoredPosition = LeftStartPos;
 
-        Click = false;
+        // アニメーション処理
+        rMove = RectMove.rightFeed;
+
+        // 移動状態
+        isClick = false;
     }
 
-    // ここからステージボタン
-
-    // eventSystem型の変数を宣言　インスペクターにEventSystemをアタッチして取得しておく
-    [SerializeField] private EventSystem eventSystem;
-
-    //GameObject型の変数を宣言　ボタンオブジェクトを入れる箱
-    private GameObject button_ob;
-
-    //GameObject型の変数を宣言　テキストオブジェクトを入れる箱
-    private GameObject NameText_ob;
-
-    //Text型の変数を宣言　テキストコンポーネントを入れる箱
-    private Text name_text;
-
+    /// <summary>
+    /// ステージに遷移するボタンのメソッド
+    /// </summary>
+    /// <param name="Scenename"> 遷移先のステージ名を入れる</param>
     public void StageButton(string Scenename)
     {
         button_ob = eventSystem.currentSelectedGameObject;
@@ -208,10 +290,22 @@ public class StageSelect : MonoBehaviour
         //テキストオブジェクトのテキストを取得
         name_text = NameText_ob.GetComponent<Text>();
 
-        if (name_text.text == "Rock") { return; }
+        // もしステージ名がRockならシーン遷移させない
+        if (name_text.text == TypeName.Rock) { return; }
+
         // フェード
         fade.FadeIn(0.5f, () => {
             SceneManager.LoadScene(Scenename);
         });
     }
+#endregion
+}
+
+// StageButtonで使う
+/// <summary>
+/// 特定のステージ名に対して制限する
+/// </summary>
+public static class TypeName
+{
+    public static string Rock = "Rock";
 }
