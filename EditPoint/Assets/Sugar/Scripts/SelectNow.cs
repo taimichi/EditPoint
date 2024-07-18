@@ -5,6 +5,7 @@ using UnityEngine.UI;
 using UnityEngine.EventSystems;    // UI
 public class SelectNow : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
+    #region field
     /*----Vector----*/
     Vector3 startRot = new Vector3(0, 0, 0);
 
@@ -14,7 +15,7 @@ public class SelectNow : MonoBehaviour, IPointerEnterHandler, IPointerExitHandle
     /*----float----*/
     const float F_rotSpd = 2.0f;
     float F_timer ;
-    const float F_settimer = 0.5f;
+    const float F_settimer = 0.0f;
 
     /*----string----*/
 
@@ -29,8 +30,8 @@ public class SelectNow : MonoBehaviour, IPointerEnterHandler, IPointerExitHandle
 
     [SerializeField]
     GameObject Obj; // ツール機能の紹介するオブジェクト
+    #endregion
 
-    // Start is called before the first frame update
     void Start()
     {
         // インスタンス生成
@@ -40,13 +41,16 @@ public class SelectNow : MonoBehaviour, IPointerEnterHandler, IPointerExitHandle
         F_timer = F_settimer;
     }
 
-    // Update is called once per frame
     void Update()
     { 
         SelectButton();
         UIName();
     }
 
+    #region Method
+    /// <summary>
+    /// 対象のUIの機能を紹介するテキストオブジェクトを表示
+    /// </summary>
     void UIName()
     {
         if (!B_onUI) { return; }
@@ -60,6 +64,9 @@ public class SelectNow : MonoBehaviour, IPointerEnterHandler, IPointerExitHandle
         }
     }
 
+    /// <summary>
+    /// 対象のUIボタンを回転させる
+    /// </summary>
     void SelectButton()
     {
         switch (I_state)
@@ -110,4 +117,5 @@ public class SelectNow : MonoBehaviour, IPointerEnterHandler, IPointerExitHandle
         if (Obj.activeSelf == true) { Obj.SetActive(false); }
         B_onUI = false;
     }
+    #endregion
 }

@@ -6,8 +6,9 @@ using DG.Tweening;  //DOTweenを使うときはこのusingを入れる
 
 public class ClassUIAnim
 {
+    #region UIMoveMethod
     // 動かすUI,初期座標,どこまで動かすかの目標,XとYの位置
-     public RectTransform anim_Start(RectTransform rct,Vector2 strPos)
+    public RectTransform anim_Start(RectTransform rct,Vector2 strPos)
     {
         rct.anchoredPosition = strPos;
         return rct;
@@ -50,8 +51,9 @@ public class ClassUIAnim
         tf.rotation = Quaternion.Euler(x, y, z);
         return tf;
     }
+    #endregion
 
-
+    #region DOTweenMethod
     public enum RotateMode
     {
         //
@@ -85,4 +87,5 @@ public class ClassUIAnim
     {
         rct.DORotate(Vector3.forward * rotSpd,timer);
     }
+    #endregion
 }
