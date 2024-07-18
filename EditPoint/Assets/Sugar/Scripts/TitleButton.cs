@@ -8,17 +8,6 @@ public class TitleButton : MonoBehaviour
     /*----その他変数（コンポーネントとかスクリプト）----*/
     [SerializeField]
     Fade fade;          // FadeCanvas
-
-    void Start()
-    {
-        
-    }
-
-    void Update()
-    {
-        
-    }
-
     public void STARTBUTTON()
     {
         // フェード

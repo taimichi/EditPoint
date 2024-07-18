@@ -7,6 +7,7 @@ using UnityEngine.UI;
 // タイミングを指定する
 public class ClearManager : MonoBehaviour
 {
+    #region field
     // クラス
     ClassUIAnim UAnim;
 
@@ -36,34 +37,33 @@ public class ClearManager : MonoBehaviour
     [SerializeField]
     float Fadespd=0.1f;
 
-    int state = 0;
-
-    // Start is called before the first frame update
+    // 処理の小分けするため
+    int num = 0;
+    #endregion
     void Start()
     {
         // インスタンス生成
         UAnim = new ClassUIAnim();
     }
 
-    // Update is called once per frame
     void Update()
     {
         UICONTROLL();
     }
     void UICONTROLL()
     {
-        switch (state)
+        switch (num)
         {
             case 0:
                 // 初期座標へ
                 BtnGroup.anchoredPosition = startPos;
-                state++;
+                num++;
                 break;
             case 1:
                 if (ClearPanel.color.a < 0.5f)
                     ClearPanel = UAnim.anim_Fade_I(ClearPanel, Fadespd);
                 else
-                    state++;
+                    num++;
                 break;
             case 2:
                 if (BtnGroup.anchoredPosition.x >= TargetPos.x)
@@ -72,7 +72,7 @@ public class ClearManager : MonoBehaviour
                 {
                     BtnGroup.anchoredPosition = TargetPos;
                     Destroy(panel);
-                    state++;
+                    num++;
                 }
                 break;
         }

@@ -303,7 +303,7 @@ public class StageSelect : MonoBehaviour
 
 // StageButtonで使う
 /// <summary>
-/// 特定のステージ名に対して制限する
+/// 特定のステージ名に対してシーン遷移しないように制限する
 /// </summary>
 public static class TypeName
 {
