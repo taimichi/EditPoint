@@ -4,6 +4,14 @@ using UnityEngine;
 
 public class LayerActive : MonoBehaviour
 {
+
+    enum SetUI
+    {
+        display,
+        hide,
+        CHECK
+    }
+
     // 動かすターゲットUI
     [SerializeField]
     RectTransform TargetRct;
@@ -20,63 +28,73 @@ public class LayerActive : MonoBehaviour
     [SerializeField]
     float spdX = 0, spdY = 0;
 
-    // アニメーション状態
-    int state = 3;
+    // 対象のRectの位置から表示するのか非表示にするのかチェックから
+    SetUI set;
 
     // クラス
     ClassUIAnim UAnim;
 
-    bool click = false;
-
+    bool isClick = false;
     void Start()
     {
         // インスタンス生成
         UAnim = new ClassUIAnim();
+
+        TargetRct.anchoredPosition = startPos;
+        set = TargetRct.anchoredPosition == startPos ? SetUI.hide : SetUI.display;
     }
 
-    // Update is called once per frame
-    void Update()
+    private void Update()
     {
-        if (click)
+        if (isClick)
         {
             UICONTROLL();
         }
+       
     }
 
-    private void UICONTROLL()
+    void UICONTROLL()
     {
-        switch (state)
+        switch (set)
         {
-            case 1: // グループ非表示
-                if (TargetRct.anchoredPosition.x <= startPos.x)
+            case SetUI.display: // グループ表示
+                if (TargetRct.anchoredPosition.x >= startPos.x)
                 {
                     TargetRct = UAnim.anim_PosChange(TargetRct, -spdX, spdY);
                 }
                 else
                 {
                     TargetRct.anchoredPosition = startPos;
-                    state = 10; //　処理の終了
+                    set = SetUI.CHECK; //　処理の終了
                 }
                 break;
-            case 3: // グループ表示
-                if (TargetRct.anchoredPosition.x>= TargetPos.x)
+            case SetUI.hide: // グループ非表示
+                if (TargetRct.anchoredPosition.x <= TargetPos.x)
                 {
                     TargetRct = UAnim.anim_PosChange(TargetRct, spdX, spdY);
                 }
                 else
                 {
                     TargetRct.anchoredPosition = TargetPos;
-                    state = 10; //　処理の終了
+                    set = SetUI.CHECK; //　処理の終了
                 }
                 break;
-            case 10:
-                click = false;
-                state = TargetRct.anchoredPosition == startPos ? 3 : 1;
+            case SetUI.CHECK:
+                isClick = false;
+
+                // 次にボタンが押されたときに表示するのか
+                // 表示/非表示にするのかチェックしてセット
+                set = TargetRct.anchoredPosition == startPos ? SetUI.hide : SetUI.display;
                 break;
         }
+
     }
-    public void LAYERBUTTON()
+
+    /// <summary>
+    /// ボタン入力チェック
+    /// </summary>
+    public void BUTTONCHECK()
     {
-        click = true;
+        isClick = true;
     }
 }

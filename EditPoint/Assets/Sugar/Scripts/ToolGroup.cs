@@ -4,6 +4,14 @@ using UnityEngine;
 
 public class ToolGroup : MonoBehaviour
 {
+
+    enum SetUI
+    {
+        display,
+        hide,
+        CHECK
+    }
+
     // 動かすターゲットUI
     [SerializeField]
     RectTransform TargetRct;
@@ -20,22 +28,24 @@ public class ToolGroup : MonoBehaviour
     [SerializeField]
     float spdX = 0, spdY = 0;
 
-    // アニメーション状態
-    int state = 3;
+    // 対象のRectの位置から表示するのか非表示にするのかチェックから
+    SetUI set =SetUI.CHECK ;
    
     // クラス
     ClassUIAnim UAnim;
 
-    bool click = false;
+    bool isClick = false;
     void Start()
     {
         // インスタンス生成
         UAnim = new ClassUIAnim();
+
+        set = TargetRct.anchoredPosition == startPos ? SetUI.hide : SetUI.display;
     }
 
     private void Update()
     {
-        if (click)
+        if (isClick)
         {
             UICONTROLL();
         }
@@ -43,40 +53,46 @@ public class ToolGroup : MonoBehaviour
 
     void UICONTROLL()
     {
-        switch (state)
+        switch (set)
         {
-            case 1: // グループ非表示
-                if (TargetRct.anchoredPosition.y <= startPos.y)
+            case SetUI.display: // グループ表示
+                if (TargetRct.anchoredPosition.y >= startPos.y)
                 {
                     TargetRct = UAnim.anim_PosChange(TargetRct, spdX, -spdY);
                 }
                 else
                 {
                     TargetRct.anchoredPosition = startPos;
-                    state=10; //　処理の終了
+                    set=SetUI.CHECK; //　処理の終了
                 }
                 break;
-            case 3: // グループ表示
-                if (TargetRct.anchoredPosition.y >= TargetPos.y)
+            case SetUI.hide: // グループ非表示
+                if (TargetRct.anchoredPosition.y <= TargetPos.y)
                 {
                     TargetRct = UAnim.anim_PosChange(TargetRct, spdX, spdY);
                 }
                 else
                 {
                     TargetRct.anchoredPosition = TargetPos;
-                    state=10; //　処理の終了
+                    set = SetUI.CHECK; //　処理の終了
                 }
                 break;
-            case 10:
-                click = false;
-                state = TargetRct.anchoredPosition == startPos ? 3 : 1;
+            case SetUI.CHECK:
+                isClick = false;
+
+                // 次にボタンが押されたときに表示するのか
+                // 表示/非表示にするのかチェックしてセット
+                set = TargetRct.anchoredPosition == startPos ? SetUI.hide : SetUI.display;
                 break;
         }
 
     }
 
+    /// <summary>
+    /// ボタン入力チェック
+    /// </summary>
     public void BUTTONCHECK()
     {
-        click = true;
+        isClick = true;
     }
 }
