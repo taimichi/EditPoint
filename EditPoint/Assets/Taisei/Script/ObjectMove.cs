@@ -64,7 +64,19 @@ public class ObjectMove : MonoBehaviour
             {
                 if (ClickObj != null)
                 {
-                    ClickObj.GetComponent<SpriteRenderer>().material = materials[0];
+                    if (ClickObj.layer == LayerMask.NameToLayer("Layer1"))
+                    {
+                        ClickObj.GetComponent<SpriteRenderer>().material = materials[3];
+                    }
+                    else if (ClickObj.layer == LayerMask.NameToLayer("Layer2"))
+                    {
+                        ClickObj.GetComponent<SpriteRenderer>().material = materials[4];
+                    }
+                    else if (ClickObj.layer == LayerMask.NameToLayer("Layer3"))
+                    {
+                        ClickObj.GetComponent<SpriteRenderer>().material = materials[5];
+                    }
+
                 }
                 ClickObj = null;
                 return;
@@ -72,25 +84,36 @@ public class ObjectMove : MonoBehaviour
 
             if(ClickObj != null)
             {
-                ClickObj.GetComponent<SpriteRenderer>().material = materials[0];
+                if (ClickObj.layer == LayerMask.NameToLayer("Layer1"))
+                {
+                    ClickObj.GetComponent<SpriteRenderer>().material = materials[3];
+                }
+                else if (ClickObj.layer == LayerMask.NameToLayer("Layer2"))
+                {
+                    ClickObj.GetComponent<SpriteRenderer>().material = materials[4];
+                }
+                else if (ClickObj.layer == LayerMask.NameToLayer("Layer3"))
+                {
+                    ClickObj.GetComponent<SpriteRenderer>().material = materials[5];
+                }
             }
             if (hit2d.collider.gameObject.layer == LayerMask.NameToLayer("Layer1"))
             {
                 ClickObj = hit2d.collider.gameObject;
                 layerControll.OutChangeLayerNum(1);
-                ClickObj.GetComponent<SpriteRenderer>().material = materials[1];
+                ClickObj.GetComponent<SpriteRenderer>().material = materials[6];
             }
             else if (hit2d.collider.gameObject.layer == LayerMask.NameToLayer("Layer2"))
             {
                 ClickObj = hit2d.collider.gameObject;
                 layerControll.OutChangeLayerNum(2);
-                ClickObj.GetComponent<SpriteRenderer>().material = materials[1];
+                ClickObj.GetComponent<SpriteRenderer>().material = materials[6];
             }
             else if (hit2d.collider.gameObject.layer == LayerMask.NameToLayer("Layer3"))
             {
                 ClickObj = hit2d.collider.gameObject;
                 layerControll.OutChangeLayerNum(3);
-                ClickObj.GetComponent<SpriteRenderer>().material = materials[1];
+                ClickObj.GetComponent<SpriteRenderer>().material = materials[6];
             }
 
             if (hit2d)

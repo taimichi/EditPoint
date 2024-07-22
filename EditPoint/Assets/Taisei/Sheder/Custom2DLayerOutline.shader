@@ -48,9 +48,9 @@ Shader "Custom/2DLayerOutline"
                 {
                     v2f o;
 
-                    // モデル空間でオフセットを計算
-                    float3 offset = normalize(mul((float3x3)unity_WorldToObject, v.vertex.xyz)) * _OutlineThickness;
-                    v.vertex.xyz += offset;
+                    // スプライトのローカル空間でのオフセットを計算
+                    float3 offset = float3(v.vertex.x * _OutlineThickness, v.vertex.y * _OutlineThickness, 0);
+                    v.vertex += float4(offset, 0);
 
                     o.vertex = UnityObjectToClipPos(v.vertex);
                     o.uv = TRANSFORM_TEX(v.uv, _MainTex);
@@ -65,7 +65,7 @@ Shader "Custom/2DLayerOutline"
                     {
                         discard;
                     }
-                    return half4(_OutlineColor.rgb, _OutlineColor.a * i.color.a);
+                    return half4(_OutlineColor.rgb, _OutlineColor.a);
                 }
                 ENDCG
             }

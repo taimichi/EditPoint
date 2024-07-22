@@ -223,7 +223,12 @@ MonoBehaviour:
   v3_initScale: {x: 0.001, y: 0.001, z: 1}
   targetRenderer: {fileID: 2640032978012887103}
   materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 82843c174175b684c9688617dca7f1cf, type: 2}
+  - {fileID: 2100000, guid: 808fe52a720a48047ae906c1c18554d7, type: 2}
+  - {fileID: 2100000, guid: c1cce839ac8d4d6479e51680315f8dda, type: 2}
+  - {fileID: 2100000, guid: f57395c25ad3d3c46b2de26e7de32684, type: 2}
+  - {fileID: 2100000, guid: e95d13a9737b6d641ab94418ba1292c7, type: 2}
+  - {fileID: 2100000, guid: 337e01ae3ab74b14fbb50b4e9cc5055c, type: 2}
   - {fileID: 2100000, guid: 274294fb297c0be4b9fefd05fb9d4019, type: 2}
 --- !u!50 &2640032978012887096
 Rigidbody2D:
@@ -292,7 +297,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b9d5d353b08076749888dae946c3e828, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gm: {fileID: 2640032978919354878}
   cp: {fileID: 2640032978919354879}
   i_maxLayerNum: 3
   i_minLayerNum: 0
@@ -319,7 +323,12 @@ MonoBehaviour:
   i_PasteNum: 1000
   i_CopyNum: 1000
   materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 82843c174175b684c9688617dca7f1cf, type: 2}
+  - {fileID: 2100000, guid: 808fe52a720a48047ae906c1c18554d7, type: 2}
+  - {fileID: 2100000, guid: c1cce839ac8d4d6479e51680315f8dda, type: 2}
+  - {fileID: 2100000, guid: f57395c25ad3d3c46b2de26e7de32684, type: 2}
+  - {fileID: 2100000, guid: e95d13a9737b6d641ab94418ba1292c7, type: 2}
+  - {fileID: 2100000, guid: 337e01ae3ab74b14fbb50b4e9cc5055c, type: 2}
   - {fileID: 2100000, guid: 274294fb297c0be4b9fefd05fb9d4019, type: 2}
 --- !u!114 &2640032978919354878
 MonoBehaviour:
@@ -349,7 +358,12 @@ MonoBehaviour:
   layerControll: {fileID: 2640032978919354877}
   CaP: {fileID: 2640032978919354879}
   materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 82843c174175b684c9688617dca7f1cf, type: 2}
+  - {fileID: 2100000, guid: 808fe52a720a48047ae906c1c18554d7, type: 2}
+  - {fileID: 2100000, guid: c1cce839ac8d4d6479e51680315f8dda, type: 2}
+  - {fileID: 2100000, guid: f57395c25ad3d3c46b2de26e7de32684, type: 2}
+  - {fileID: 2100000, guid: e95d13a9737b6d641ab94418ba1292c7, type: 2}
+  - {fileID: 2100000, guid: 337e01ae3ab74b14fbb50b4e9cc5055c, type: 2}
   - {fileID: 2100000, guid: 274294fb297c0be4b9fefd05fb9d4019, type: 2}
 --- !u!1 &7366906985672067413
 GameObject:

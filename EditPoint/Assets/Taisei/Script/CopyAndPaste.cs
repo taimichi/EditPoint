@@ -89,7 +89,18 @@ public class CopyAndPaste : MonoBehaviour
                     //単体
                     if (!rangeSelect.ReturnSelectNow())
                     {
-                        PasteObj.GetComponent<SpriteRenderer>().material = materials[0];
+                        if(PasteObj.layer == LayerMask.NameToLayer("Layer1"))
+                        {
+                            PasteObj.GetComponent<SpriteRenderer>().material = materials[3];
+                        }
+                        else if (PasteObj.layer == LayerMask.NameToLayer("Layer2"))
+                        {
+                            PasteObj.GetComponent<SpriteRenderer>().material = materials[4];
+                        }
+                        else if(PasteObj.layer == LayerMask.NameToLayer("Layer3"))
+                        {
+                            PasteObj.GetComponent<SpriteRenderer>().material = materials[5];
+                        }
                         PasteObj.GetComponent<Collider2D>().isTrigger = false;
                         layerControll.ChangeObjectList();
 
@@ -99,7 +110,18 @@ public class CopyAndPaste : MonoBehaviour
                     {
                         for (int i = 0; i < PasteObjs.Length; i++)
                         {
-                            PasteObjs[i].GetComponent<SpriteRenderer>().material = materials[0];
+                            if (PasteObjs[i].layer == LayerMask.NameToLayer("Layer1"))
+                            {
+                                PasteObjs[i].GetComponent<SpriteRenderer>().material = materials[3];
+                            }
+                            else if (PasteObjs[i].layer == LayerMask.NameToLayer("Layer2"))
+                            {
+                                PasteObjs[i].GetComponent<SpriteRenderer>().material = materials[4];
+                            }
+                            else if (PasteObjs[i].layer == LayerMask.NameToLayer("Layer3"))
+                            {
+                                PasteObjs[i].GetComponent<SpriteRenderer>().material = materials[5];
+                            }
                             PasteObjs[i]. GetComponent<Collider2D>().isTrigger = false;
                             layerControll.ChangeObjectList();
 
@@ -167,7 +189,19 @@ public class CopyAndPaste : MonoBehaviour
             {
                 if (ClickObj != null)
                 {
-                    ClickObj.GetComponent<SpriteRenderer>().material = materials[0];
+                    if (ClickObj.layer == LayerMask.NameToLayer("Layer1"))
+                    {
+                        ClickObj.GetComponent<SpriteRenderer>().material = materials[3];
+                    }
+                    else if (ClickObj.layer == LayerMask.NameToLayer("Layer2"))
+                    {
+                        ClickObj.GetComponent<SpriteRenderer>().material = materials[4];
+                    }
+                    else if (ClickObj.layer == LayerMask.NameToLayer("Layer3"))
+                    {
+                        ClickObj.GetComponent<SpriteRenderer>().material = materials[5];
+                    }
+
                 }
                 ClickObj = null;
                 layerControll.OutChangeLayerNum(0);
@@ -176,7 +210,18 @@ public class CopyAndPaste : MonoBehaviour
 
             if (ClickObj != null)
             {
-                ClickObj.GetComponent<SpriteRenderer>().material = materials[0];
+                if (ClickObj.layer == LayerMask.NameToLayer("Layer1"))
+                {
+                    ClickObj.GetComponent<SpriteRenderer>().material = materials[3];
+                }
+                else if (ClickObj.layer == LayerMask.NameToLayer("Layer2"))
+                {
+                    ClickObj.GetComponent<SpriteRenderer>().material = materials[4];
+                }
+                else if (ClickObj.layer == LayerMask.NameToLayer("Layer3"))
+                {
+                    ClickObj.GetComponent<SpriteRenderer>().material = materials[5];
+                }
             }
             if (hit2d.collider.gameObject.layer == LayerMask.NameToLayer("Layer1"))
             {
@@ -197,7 +242,7 @@ public class CopyAndPaste : MonoBehaviour
             //クリックしたオブジェクトが選択可能オブジェクトだったら
             if (ClickObj != null)
             {
-                ClickObj.GetComponent<SpriteRenderer>().material = materials[1];
+                ClickObj.GetComponent<SpriteRenderer>().material = materials[6];
 
                 //単体
                 if (!rangeSelect.ReturnSelectNow())

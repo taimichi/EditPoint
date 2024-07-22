@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: 2D_CopyOutline
+  m_Name: ALayer_TouchObj
   m_Shader: {fileID: 4800000, guid: 6171a3d4df337a34f9d9791ad993118a, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4

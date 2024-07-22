@@ -49,8 +49,10 @@ Shader "Custom/2DSelectSeparatedColors"
                 {
                     v2f_outline o;
 
-                    float3 offset = normalize(mul((float3x3)unity_WorldToObject, v.vertex.xyz)) * _OutlineThickness;
-                    v.vertex.xyz += offset;
+                    // ローカル空間でのオフセット計算
+                    float3 normal = float3(v.vertex.xy, 0);
+                    normal = normalize(normal);
+                    v.vertex.xy += normal.xy * _OutlineThickness;
 
                     o.vertex = UnityObjectToClipPos(v.vertex);
                     o.uv = TRANSFORM_TEX(v.uv, _MainTex);
