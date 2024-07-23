@@ -6,8 +6,8 @@ using Live2D.Cubism.Rendering;
 
 public class LayerController : MonoBehaviour
 {
-    [SerializeField] private GameManager gm;
-    [SerializeField] private CutAndPaste cp;
+    #region Field
+    [SerializeField] private CopyAndPaste cp;
 
     //現在選択しているレイヤー番号
     //layerNum : 0 = 7.全体, 1 = 8.layer1, 2 = 9.layer2, 3 = 10.layer3
@@ -28,6 +28,9 @@ public class LayerController : MonoBehaviour
     private GameObject[] Layer2AllObj;
     private GameObject[] Layer3AllObj;
 
+    /// <summary>
+    /// レイヤーパネル
+    /// </summary>
     [SerializeField] private GameObject LayerPanel;
 
     [SerializeField, Header("レイヤー表示順用　レイヤー1番")] private GameObject Layer1Rep;
@@ -43,6 +46,9 @@ public class LayerController : MonoBehaviour
     private int i_plLayerNum;
 
     [SerializeField] private CubismRenderController live2DRender;
+
+    private Color objColor;
+    #endregion
 
     void Start()
     {
@@ -67,41 +73,33 @@ public class LayerController : MonoBehaviour
 
     void Update()
     {
-        //編集モードがONの時
-        if (gm.ReturnEditMode() == true)
+        if (!cp.ReturnSetOnOff())
         {
-            if (!cp.ReturnSetOnOff())
+            Wheel();
+            if (b_changeLayer)
             {
-                Wheel();
-                if (b_changeLayer)
+                if (!LayerPanel.activeSelf)
                 {
-                    if (!LayerPanel.activeSelf)
-                    {
-                        LayerPanel.SetActive(true);
-                    }
+                    LayerPanel.SetActive(true);
                 }
-                else
-                {
-                    if (LayerPanel.activeSelf)
-                    {
-                        LayerPanel.SetActive(false);
-                    }
-                }
-                LayerReplacement();
-                ChangeLayer();
-
             }
             else
             {
-
+                if (LayerPanel.activeSelf)
+                {
+                    LayerPanel.SetActive(false);
+                }
             }
+            LayerReplacement();
+            ChangeLayer();
+
         }
     }
 
     //マウスホイール
     private void Wheel()
     {
-        if (Input.mouseScrollDelta.y > 0 && Input.GetKey(KeyCode.R))
+        if (Input.mouseScrollDelta.y > 0)
         {
             i_layerNum++;
             if (i_layerNum >= i_maxLayerNum)
@@ -110,7 +108,7 @@ public class LayerController : MonoBehaviour
             }
             b_changeLayer = true;
         }
-        else if (Input.mouseScrollDelta.y < 0 && Input.GetKey(KeyCode.R))
+        else if (Input.mouseScrollDelta.y < 0)
         {
             i_layerNum--;
             if (i_layerNum <= i_minLayerNum)
@@ -569,7 +567,10 @@ public class LayerController : MonoBehaviour
         ChangeLayer();
     }
 
-    //ペースト時にレイヤーごとに分けたオブジェクト配列を上書き
+    ///<summary>
+    ///ペースト時にレイヤーごとに分けたオブジェクト配列を上書き
+    /// </summary>
+    /// <remarks>注意点</remarks>
     public void ChangeObjectList()
     {
         Layer1AllObj = GetLayerAllObj(LayerMask.NameToLayer("Layer1"));
@@ -585,6 +586,7 @@ public class LayerController : MonoBehaviour
         {
             for(int i = 0; i < Layer1AllObj.Length; i++)
             {
+                objColor = Layer1AllObj[i].GetComponent<SpriteRenderer>().color;
                 Layer1AllObj[i].SetActive(Layer1AllObj[i].activeSelf == false ? true : false);
             }
         }

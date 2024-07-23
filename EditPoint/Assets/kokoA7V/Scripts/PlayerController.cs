@@ -18,6 +18,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     bool manual = true;
 
+    private bool b_firstButton = false;
+
     void Start()
     {
         gc = GetComponent<GroundChecker>();
@@ -29,6 +31,7 @@ public class PlayerController : MonoBehaviour
 
         gc.InitCol();
 
+        b_firstButton = false;  
     }
 
     void Update()
@@ -49,6 +52,12 @@ public class PlayerController : MonoBehaviour
         gc.CheckGround();
 
         AnimPlay();
+
+        //落下によるゲームオーバー
+        if (this.transform.position.y <= -50)
+        {
+
+        }
     }
 
     void AnimPlay()
@@ -134,6 +143,15 @@ public class PlayerController : MonoBehaviour
 
     public void PlayerStart()
     {
-        inputLR = 1;
+        if (!b_firstButton)
+        {
+            inputLR = 1;
+            b_firstButton = true;
+        }
+    }
+
+    public void PlayerStop()
+    {
+        inputLR = 0;
     }
 }

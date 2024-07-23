@@ -8,22 +8,11 @@ public class TitleButton : MonoBehaviour
     /*----その他変数（コンポーネントとかスクリプト）----*/
     [SerializeField]
     Fade fade;          // FadeCanvas
-
-    void Start()
-    {
-        
-    }
-
-    void Update()
-    {
-        
-    }
-
     public void STARTBUTTON()
     {
         // フェード
         fade.FadeIn(0.5f, () => {
-            SceneManager.LoadScene("TestStage");
+            SceneManager.LoadScene("Select");
         });
     }
 }
