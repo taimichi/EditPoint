@@ -79,6 +79,9 @@ public class StageSelect : MonoBehaviour
     RectMove rMove;
 
     // UIを動かすクラス
+    /// <summary>
+    /// サイズ変更やポジション移動等の処理のメソッドがあるクラス
+    /// </summary>
     ClassUIAnim UAnim;
 
     // ボタンオブジェクトを入れる箱
@@ -129,24 +132,24 @@ public class StageSelect : MonoBehaviour
     {
         switch (rMove)
         {
-            case RectMove.leftFeed: // 右送り
+            case RectMove.rightFeed: // 右送り
 
                 // 動かす対象のRectと目標座標（センター）を比較
                 if (targetRct[rctNum].anchoredPosition.x >= CenterStartPos.x)
                 {
                     // 動かす対象のRectを目標座標（センター）に近づける
-                    targetRct[rctNum] = UAnim.anim_PosChange(targetRct[rctNum], -spdX, spdY);
+                    UAnim.anim_PosChange(targetRct[rctNum], -spdX, spdY);
 
                     // センターにすでにあるUIをカメラの外へ
                     // センターに動かす予定のRct配列の次の要素を動かす
                     // 最大は超えないように
-                    if (rctNum == max) 
+                    if (rctNum == min) 
                     {
-                        targetRct[min] = UAnim.anim_PosChange(targetRct[min], -spdX, spdY);
+                        UAnim.anim_PosChange(targetRct[max], -spdX, spdY);
                     }
                     else
                     {
-                        targetRct[rctNum+1] = UAnim.anim_PosChange(targetRct[rctNum+1], -spdX, spdY);
+                        UAnim.anim_PosChange(targetRct[rctNum-1], -spdX, spdY);
                     }
                 }
                 // 動かし終わったら指定の場所にずれがないようにセット
@@ -161,24 +164,24 @@ public class StageSelect : MonoBehaviour
                     rMove = RectMove.etc;
                 }
                 break;
-            case RectMove.rightFeed: // 左送り
+            case RectMove.leftFeed: // 左送り
 
                 // 動かす対象のRectと目標座標（センター）を比較
                 if (targetRct[rctNum].anchoredPosition.x <= CenterStartPos.x)
                 {
                     // 動かす対象のRectを目標座標（センター）に近づける
-                    targetRct[rctNum] = UAnim.anim_PosChange(targetRct[rctNum], spdX, spdY);
+                    UAnim.anim_PosChange(targetRct[rctNum], spdX, spdY);
 
                     // センターにすでにあるUIをカメラの外へ
                     // センターに動かす予定のRct配列の一個前の要素を動かす
                     // 最大は超えないように
-                    if (rctNum == min)
+                    if (rctNum == max)
                     {
-                        targetRct[max] = UAnim.anim_PosChange(targetRct[max], spdX, spdY);
+                        UAnim.anim_PosChange(targetRct[min], spdX, spdY);
                     }
                     else
                     {
-                        targetRct[rctNum-1] = UAnim.anim_PosChange(targetRct[rctNum - 1], spdX, spdY);
+                        UAnim.anim_PosChange(targetRct[rctNum + 1], spdX, spdY);
                     }
                 }
                 else
@@ -225,7 +228,7 @@ public class StageSelect : MonoBehaviour
         }
         
         // 動かす物を右初期座標に移動
-        targetRct[rctNum].anchoredPosition = RightStartPos;
+        targetRct[rctNum].anchoredPosition = LeftStartPos;
 
         // アニメーション処理
         rMove = RectMove.leftFeed;
@@ -267,7 +270,7 @@ public class StageSelect : MonoBehaviour
         }
 
         // 動かす物を左初期座標に移動
-        targetRct[rctNum].anchoredPosition = LeftStartPos;
+        targetRct[rctNum].anchoredPosition = RightStartPos;
 
         // アニメーション処理
         rMove = RectMove.rightFeed;
