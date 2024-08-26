@@ -28,7 +28,7 @@ public class ClassUIAnim
     /// <returns>ˆÚ“®‚µ‚½rct‚ð•Ô‚·</returns>
     public RectTransform anim_PosChange(RectTransform rct,float spdX,float spdY)
     {
-        Debug.Log("PosChange");
+       // Debug.Log("PosChange");
         rct.anchoredPosition +=new Vector2( spdX,spdY);
         return rct;
     }
