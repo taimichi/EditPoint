@@ -6,7 +6,7 @@ using Live2D.Cubism.Rendering;
 
 public class LayerController : MonoBehaviour
 {
-    [SerializeField] private GameManager gm;
+    #region Field
     [SerializeField] private CopyAndPaste cp;
 
     //現在選択しているレイヤー番号
@@ -28,6 +28,9 @@ public class LayerController : MonoBehaviour
     private GameObject[] Layer2AllObj;
     private GameObject[] Layer3AllObj;
 
+    /// <summary>
+    /// レイヤーパネル
+    /// </summary>
     [SerializeField] private GameObject LayerPanel;
 
     [SerializeField, Header("レイヤー表示順用　レイヤー1番")] private GameObject Layer1Rep;
@@ -45,6 +48,7 @@ public class LayerController : MonoBehaviour
     [SerializeField] private CubismRenderController live2DRender;
 
     private Color objColor;
+    #endregion
 
     void Start()
     {
@@ -69,34 +73,26 @@ public class LayerController : MonoBehaviour
 
     void Update()
     {
-        //編集モードがONの時
-        if (gm.ReturnEditMode() == true)
+        if (!cp.ReturnSetOnOff())
         {
-            if (!cp.ReturnSetOnOff())
+            Wheel();
+            if (b_changeLayer)
             {
-                Wheel();
-                if (b_changeLayer)
+                if (!LayerPanel.activeSelf)
                 {
-                    if (!LayerPanel.activeSelf)
-                    {
-                        LayerPanel.SetActive(true);
-                    }
+                    LayerPanel.SetActive(true);
                 }
-                else
-                {
-                    if (LayerPanel.activeSelf)
-                    {
-                        LayerPanel.SetActive(false);
-                    }
-                }
-                LayerReplacement();
-                ChangeLayer();
-
             }
             else
             {
-
+                if (LayerPanel.activeSelf)
+                {
+                    LayerPanel.SetActive(false);
+                }
             }
+            LayerReplacement();
+            ChangeLayer();
+
         }
     }
 
@@ -571,7 +567,10 @@ public class LayerController : MonoBehaviour
         ChangeLayer();
     }
 
-    //ペースト時にレイヤーごとに分けたオブジェクト配列を上書き
+    ///<summary>
+    ///ペースト時にレイヤーごとに分けたオブジェクト配列を上書き
+    /// </summary>
+    /// <remarks>注意点</remarks>
     public void ChangeObjectList()
     {
         Layer1AllObj = GetLayerAllObj(LayerMask.NameToLayer("Layer1"));
