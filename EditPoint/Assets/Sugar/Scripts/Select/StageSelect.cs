@@ -55,16 +55,19 @@ public class StageSelect : MonoBehaviour
     // eventSystem型の変数を宣言　インスペクターにEventSystemをアタッチして取得しておく
     [SerializeField] private EventSystem eventSystem;
 #endregion
+
     // Rect配列に使う番号
     int rctNum = 0;
+
     // 配列の最大値と最小値
     int max;
     int min;
-    // ページの計算に使う最大と最小
+    // ページの計算に使う最大と最小の値
     int pMax;
     int pMin;
+
     // 現在のページ数カウント用
-    int INT_nowPage = 1;
+    int pageCount = 1;
 
     // Rectが移動終わるまでボタンを機能させない
     bool isClick = true;
@@ -116,7 +119,7 @@ public class StageSelect : MonoBehaviour
     void Update()
     {
         // 現在のページカウントををstringに変換
-        nowPage = INT_nowPage.ToString();
+        nowPage = pageCount.ToString();
 
         // テキストに反映
         page.text = nowPage + "/" + allPage;
@@ -216,15 +219,15 @@ public class StageSelect : MonoBehaviour
         }
 
         // 配列の要素数を超えないようにする
-        if (INT_nowPage == pMin)
+        if (pageCount == pMin)
         {
             // 最小値である1を求める
             // minだと配列用にしてあるので0になってしまうため
-            INT_nowPage = pMax;
+            pageCount = pMax;
         }
         else
         {
-            INT_nowPage--;
+            pageCount--;
         }
         
         // 動かす物を右初期座標に移動
@@ -258,15 +261,15 @@ public class StageSelect : MonoBehaviour
         }
 
         // 配列の要素数を超えないようにする
-        if (INT_nowPage==pMax)
+        if (pageCount==pMax)
         {
             // 最小値である1を求める
             // minだと配列用にしてあるので0になってしまうため
-            INT_nowPage = pMin;
+            pageCount = pMin;
         }
         else
         {
-            INT_nowPage++;
+            pageCount++;
         }
 
         // 動かす物を左初期座標に移動
