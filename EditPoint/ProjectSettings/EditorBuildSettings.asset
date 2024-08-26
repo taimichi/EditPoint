@@ -31,7 +31,7 @@ EditorBuildSettings:
     guid: 213c5ce5b1abda64590345bef982ceed
   - enabled: 1
     path: Assets/Stage/Tutorial_CopyPaste3.unity
-    guid: 046bcd0668a409d40ad98a83cae11f9f
+    guid: 57997f8cf2a110d49a1cb753073c4254
   - enabled: 1
     path: Assets/Stage/Tutorial_Layer1.unity
     guid: 84593c685a896a648992f774c438f0e8

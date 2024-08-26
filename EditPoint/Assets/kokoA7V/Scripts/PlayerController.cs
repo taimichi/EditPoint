@@ -18,6 +18,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     bool manual = true;
 
+    private bool b_firstButton = false;
+
     void Start()
     {
         gc = GetComponent<GroundChecker>();
@@ -28,6 +30,8 @@ public class PlayerController : MonoBehaviour
         mc = new MoveController(rb);
 
         gc.InitCol();
+
+        b_firstButton = false;  
     }
 
     void Update()
@@ -139,7 +143,11 @@ public class PlayerController : MonoBehaviour
 
     public void PlayerStart()
     {
-        inputLR = 1;
+        if (!b_firstButton)
+        {
+            inputLR = 1;
+            b_firstButton = true;
+        }
     }
 
     public void PlayerStop()
