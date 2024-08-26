@@ -1435,7 +1435,7 @@ GameObject:
   - component: {fileID: 520106756}
   - component: {fileID: 520106755}
   m_Layer: 0
-  m_Name: Step1
+  m_Name: Stage1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2808,7 +2808,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Step1
+  m_Text: Stage1
 --- !u!222 &1108676625
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -3187,7 +3187,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Step3
+  m_Text: Stage3
 --- !u!222 &1189843472
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -3282,7 +3282,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Step2
+  m_Text: Stage2
 --- !u!222 &1247895363
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -3876,7 +3876,7 @@ GameObject:
   - component: {fileID: 1417484249}
   - component: {fileID: 1417484248}
   m_Layer: 0
-  m_Name: Step2
+  m_Name: Stage2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4354,7 +4354,7 @@ GameObject:
   - component: {fileID: 1456717133}
   - component: {fileID: 1456717132}
   m_Layer: 0
-  m_Name: Step3
+  m_Name: Stage3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
