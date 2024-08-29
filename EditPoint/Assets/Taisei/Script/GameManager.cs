@@ -9,14 +9,15 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
-        editMode = true;   
+        Time.timeScale = 0;
     }
 
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.T))
         {
-            editMode = editMode == false ? true : false;
+            Debug.Log("éûä‘ïœçX");
+            Time.timeScale = Time.timeScale == 0 ? 1 : 0;
         }
     }
 
