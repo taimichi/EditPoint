@@ -28,8 +28,6 @@ public class SelectNow : MonoBehaviour, IPointerEnterHandler, IPointerExitHandle
 
     ClassUIAnim UAnim;  // UIのアニメーションクラス
 
-    [SerializeField]
-    GameObject Obj; // ツール機能の紹介するオブジェクト
     #endregion
 
     void Start()
@@ -54,12 +52,10 @@ public class SelectNow : MonoBehaviour, IPointerEnterHandler, IPointerExitHandle
     void UIName()
     {
         if (!B_onUI) { return; }
-        if (Obj.activeSelf == true) { return; }
 
         F_timer -= Time.deltaTime;
         if(F_timer<=0)
         {
-            Obj.SetActive(true);
             F_timer = F_settimer;
         }
     }
@@ -114,7 +110,6 @@ public class SelectNow : MonoBehaviour, IPointerEnterHandler, IPointerExitHandle
     {
         I_state = 0;
         F_timer = F_settimer;
-        if (Obj.activeSelf == true) { Obj.SetActive(false); }
         B_onUI = false;
     }
     #endregion

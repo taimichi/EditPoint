@@ -55,16 +55,19 @@ public class StageSelect : MonoBehaviour
     // eventSystem型の変数を宣言　インスペクターにEventSystemをアタッチして取得しておく
     [SerializeField] private EventSystem eventSystem;
 #endregion
+
     // Rect配列に使う番号
     int rctNum = 0;
+
     // 配列の最大値と最小値
     int max;
     int min;
-    // ページの計算に使う最大と最小
+    // ページの計算に使う最大と最小の値
     int pMax;
     int pMin;
+
     // 現在のページ数カウント用
-    int INT_nowPage = 1;
+    int pageCount = 1;
 
     // Rectが移動終わるまでボタンを機能させない
     bool isClick = true;
@@ -79,6 +82,9 @@ public class StageSelect : MonoBehaviour
     RectMove rMove;
 
     // UIを動かすクラス
+    /// <summary>
+    /// サイズ変更やポジション移動等の処理のメソッドがあるクラス
+    /// </summary>
     ClassUIAnim UAnim;
 
     // ボタンオブジェクトを入れる箱
@@ -113,7 +119,7 @@ public class StageSelect : MonoBehaviour
     void Update()
     {
         // 現在のページカウントををstringに変換
-        nowPage = INT_nowPage.ToString();
+        nowPage = pageCount.ToString();
 
         // テキストに反映
         page.text = nowPage + "/" + allPage;
@@ -129,24 +135,24 @@ public class StageSelect : MonoBehaviour
     {
         switch (rMove)
         {
-            case RectMove.leftFeed: // 右送り
+            case RectMove.rightFeed: // 右送り
 
                 // 動かす対象のRectと目標座標（センター）を比較
                 if (targetRct[rctNum].anchoredPosition.x >= CenterStartPos.x)
                 {
                     // 動かす対象のRectを目標座標（センター）に近づける
-                    targetRct[rctNum] = UAnim.anim_PosChange(targetRct[rctNum], -spdX, spdY);
+                    UAnim.anim_PosChange(targetRct[rctNum], -spdX, spdY);
 
                     // センターにすでにあるUIをカメラの外へ
                     // センターに動かす予定のRct配列の次の要素を動かす
                     // 最大は超えないように
-                    if (rctNum == max) 
+                    if (rctNum == min) 
                     {
-                        targetRct[min] = UAnim.anim_PosChange(targetRct[min], -spdX, spdY);
+                        UAnim.anim_PosChange(targetRct[max], -spdX, spdY);
                     }
                     else
                     {
-                        targetRct[rctNum+1] = UAnim.anim_PosChange(targetRct[rctNum+1], -spdX, spdY);
+                        UAnim.anim_PosChange(targetRct[rctNum-1], -spdX, spdY);
                     }
                 }
                 // 動かし終わったら指定の場所にずれがないようにセット
@@ -161,24 +167,24 @@ public class StageSelect : MonoBehaviour
                     rMove = RectMove.etc;
                 }
                 break;
-            case RectMove.rightFeed: // 左送り
+            case RectMove.leftFeed: // 左送り
 
                 // 動かす対象のRectと目標座標（センター）を比較
                 if (targetRct[rctNum].anchoredPosition.x <= CenterStartPos.x)
                 {
                     // 動かす対象のRectを目標座標（センター）に近づける
-                    targetRct[rctNum] = UAnim.anim_PosChange(targetRct[rctNum], spdX, spdY);
+                    UAnim.anim_PosChange(targetRct[rctNum], spdX, spdY);
 
                     // センターにすでにあるUIをカメラの外へ
                     // センターに動かす予定のRct配列の一個前の要素を動かす
                     // 最大は超えないように
-                    if (rctNum == min)
+                    if (rctNum == max)
                     {
-                        targetRct[max] = UAnim.anim_PosChange(targetRct[max], spdX, spdY);
+                        UAnim.anim_PosChange(targetRct[min], spdX, spdY);
                     }
                     else
                     {
-                        targetRct[rctNum-1] = UAnim.anim_PosChange(targetRct[rctNum - 1], spdX, spdY);
+                        UAnim.anim_PosChange(targetRct[rctNum + 1], spdX, spdY);
                     }
                 }
                 else
@@ -213,19 +219,19 @@ public class StageSelect : MonoBehaviour
         }
 
         // 配列の要素数を超えないようにする
-        if (INT_nowPage == pMin)
+        if (pageCount == pMin)
         {
             // 最小値である1を求める
             // minだと配列用にしてあるので0になってしまうため
-            INT_nowPage = pMax;
+            pageCount = pMax;
         }
         else
         {
-            INT_nowPage--;
+            pageCount--;
         }
         
         // 動かす物を右初期座標に移動
-        targetRct[rctNum].anchoredPosition = RightStartPos;
+        targetRct[rctNum].anchoredPosition = LeftStartPos;
 
         // アニメーション処理
         rMove = RectMove.leftFeed;
@@ -255,19 +261,19 @@ public class StageSelect : MonoBehaviour
         }
 
         // 配列の要素数を超えないようにする
-        if (INT_nowPage==pMax)
+        if (pageCount==pMax)
         {
             // 最小値である1を求める
             // minだと配列用にしてあるので0になってしまうため
-            INT_nowPage = pMin;
+            pageCount = pMin;
         }
         else
         {
-            INT_nowPage++;
+            pageCount++;
         }
 
         // 動かす物を左初期座標に移動
-        targetRct[rctNum].anchoredPosition = LeftStartPos;
+        targetRct[rctNum].anchoredPosition = RightStartPos;
 
         // アニメーション処理
         rMove = RectMove.rightFeed;

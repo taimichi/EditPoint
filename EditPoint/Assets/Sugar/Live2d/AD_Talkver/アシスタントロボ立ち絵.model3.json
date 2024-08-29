@@ -1,0 +1,22 @@
+{
+	"Version": 3,
+	"FileReferences": {
+		"Moc": "アシスタントロボ立ち絵.moc3",
+		"Textures": [
+			"アシスタントロボ立ち絵.1024/texture_00.png"
+		],
+		"DisplayInfo": "アシスタントロボ立ち絵.cdi3.json"
+	},
+	"Groups": [
+		{
+			"Target": "Parameter",
+			"Name": "LipSync",
+			"Ids": []
+		},
+		{
+			"Target": "Parameter",
+			"Name": "EyeBlink",
+			"Ids": []
+		}
+	]
+}
