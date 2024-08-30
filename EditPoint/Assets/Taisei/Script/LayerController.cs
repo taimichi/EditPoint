@@ -10,10 +10,11 @@ public class LayerController : MonoBehaviour
     [SerializeField] private CopyAndPaste cp;
 
     //現在選択しているレイヤー番号
-    //layerNum : 0 = 7.全体, 1 = 8.layer1, 2 = 9.layer2, 3 = 10.layer3
+    /// <summary>
+    /// 現在選択されているレイヤー
+    /// layerNum : 0 = 全体, 1 = layer1, 2 = layer2, 3 = layer3
+    /// </summary>
     private int i_layerNum = 0;
-    //最後に選択したレイヤー番号 1～3
-    private int lastLayerNum = 1;
     [SerializeField, Header("レイヤーの最大値")] private int i_maxLayerNum;
     [SerializeField, Header("レイヤーの最小値")] private int i_minLayerNum;
     private bool b_changeLayer = false;
@@ -32,6 +33,7 @@ public class LayerController : MonoBehaviour
     /// レイヤーパネル
     /// </summary>
     [SerializeField] private GameObject LayerPanel;
+    private Image layerImg;
 
     [SerializeField, Header("レイヤー表示順用　レイヤー1番")] private GameObject Layer1Rep;
     [SerializeField, Header("レイヤー表示順用　レイヤー2番")] private GameObject Layer2Rep;
@@ -45,9 +47,10 @@ public class LayerController : MonoBehaviour
     private PlayerLayer plLayer;
     private int i_plLayerNum;
 
-    [SerializeField] private CubismRenderController live2DRender;
+    private CubismRenderController live2DRender;
 
-    private Color objColor;
+    private Color layerColor;
+    private float f_layerColorAlfa;
     #endregion
 
     void Start()
@@ -57,6 +60,10 @@ public class LayerController : MonoBehaviour
         plLayer = Pl.GetComponent<PlayerLayer>();
         i_plLayerNum = plLayer.ReturnPLLayer() - 1;
 
+        live2DRender = GameObject.Find("ADChan").GetComponent<CubismRenderController>();
+
+        layerImg = LayerPanel.GetComponent<Image>();
+        f_layerColorAlfa = 90f / 255f;
         LayerPanel.SetActive(false);
         GroundLayer = GetLayerAllObj(LayerMask.NameToLayer("Ground"));
         Layer1AllObj = GetLayerAllObj(LayerMask.NameToLayer("Layer1"));
@@ -128,16 +135,27 @@ public class LayerController : MonoBehaviour
         Layer2ColorChange();
         Layer3ColorChange();
 
-
-        if (i_layerNum == 0)
+        switch (i_layerNum)
         {
-            LayerPanel.SetActive(false);
-        }
+            case 0:
+                LayerPanel.SetActive(false);
+                break;
 
-        if (i_layerNum != 0)
-        {
-            lastLayerNum = i_layerNum;
+            case 1:
+                layerColor = Color.red;
+                break;
+
+            case 2:
+                layerColor = Color.blue;
+                break;
+
+            case 3:
+                layerColor = Color.green;
+                break;
         }
+        layerColor.a = f_layerColorAlfa;
+        layerImg.color = layerColor;
+
     }
 
     //全てのオブジェクトのレイヤーを取得
@@ -418,125 +436,88 @@ public class LayerController : MonoBehaviour
         //プレイヤーが
         switch (i_plLayerNum)
         {
-            //レイヤー1配置の時
             case 0:
-                switch(i_layer1RepIndex)
+                switch (i_layer1RepIndex)
                 {
-                    //123or132
                     case 0:
-                        //Debug.Log("123or132");
-                        Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("Layer1"), false);
-                        Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("Layer2"), false);
-                        Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("Layer3"), false);
+                        SetLayerCollision("Layer1", "Layer2", "Layer3", false, false, false);
                         break;
-                    //213or312
                     case 1:
-                        //213
-                        if(i_layer2RepIndex == 0)
+                        if (i_layer2RepIndex == 0)
                         {
-                            //Debug.Log("213");
-                            Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("Layer1"), false);
-                            Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("Layer2"), true);
-                            Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("Layer3"), false);
+                            SetLayerCollision("Layer1", "Layer2", "Layer3", false, true, false);
                         }
-                        //312
-                        else if(i_layer3RepIndex == 0)
+                        else if (i_layer3RepIndex == 0)
                         {
-                            //Debug.Log("312");
-                            Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("Layer1"), false);
-                            Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("Layer2"), false);
-                            Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("Layer3"), true);
+                            SetLayerCollision("Layer1", "Layer2", "Layer3", false, false, true);
                         }
                         break;
-                    //231or321
                     case 2:
-                        //Debug.Log("231or321");
-                        Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("Layer1"), false);
-                        Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("Layer2"), true);
-                        Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("Layer3"), true);
+                        SetLayerCollision("Layer1", "Layer2", "Layer3", false, true, true);
                         break;
                 }
                 break;
 
-            //レイヤー2配置の時
             case 1:
-                switch(i_layer2RepIndex)
+                switch (i_layer2RepIndex)
                 {
-                    //213or231
                     case 0:
-                        //Debug.Log("213or231");
-                        Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("Layer1"), false);
-                        Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("Layer2"), false);
-                        Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("Layer3"), false);
+                        SetLayerCollision("Layer1", "Layer2", "Layer3", false, false, false);
                         break;
-                    //123or321
                     case 1:
-                        if(i_layer1RepIndex == 0)
+                        if (i_layer1RepIndex == 0)
                         {
-                            //Debug.Log("123");
-                            Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("Layer1"), true);
-                            Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("Layer2"), false);
-                            Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("Layer3"), false);
+                            SetLayerCollision("Layer1", "Layer2", "Layer3", true, false, false);
                         }
-                        else if(i_layer3RepIndex == 0)
+                        else if (i_layer3RepIndex == 0)
                         {
-                            //Debug.Log("321");
-                            Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("Layer1"), false);
-                            Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("Layer2"), false);
-                            Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("Layer3"), true);
+                            SetLayerCollision("Layer1", "Layer2", "Layer3", false, false, true);
                         }
                         break;
-                    //132or312
                     case 2:
-                        //Debug.Log("132or312");
-                        Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("Layer1"), true);
-                        Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("Layer2"), false);
-                        Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("Layer3"), true);
+                        SetLayerCollision("Layer1", "Layer2", "Layer3", true, false, true);
                         break;
                 }
                 break;
-            
-            //レイヤー3配置の時
+
             case 2:
-                switch(i_layer3RepIndex)
+                switch (i_layer3RepIndex)
                 {
-                    //312or321
                     case 0:
-                        //Debug.Log("312or321");
-                        Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("Layer1"), false);
-                        Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("Layer2"), false);
-                        Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("Layer3"), false);
+                        SetLayerCollision("Layer1", "Layer2", "Layer3", false, false, false);
                         break;
-                    //132or231
                     case 1:
-                        //132
-                        if(i_layer1RepIndex == 0)
+                        if (i_layer1RepIndex == 0)
                         {
-                            //Debug.Log("132");
-                            Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("Layer1"), true);
-                            Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("Layer2"), false);
-                            Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("Layer3"), false);
+                            SetLayerCollision("Layer1", "Layer2", "Layer3", true, false, false);
                         }
-                        //231
-                        else if(i_layer2RepIndex == 0)
+                        else if (i_layer2RepIndex == 0)
                         {
-                            //Debug.Log("231");
-                            Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("Layer1"), false);
-                            Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("Layer2"), true);
-                            Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("Layer3"), false);
+                            SetLayerCollision("Layer1", "Layer2", "Layer3", false, true, false);
                         }
                         break;
-                    //123or213
                     case 2:
-                        //Debug.Log("123or213");
-                        Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("Layer1"), true);
-                        Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("Layer2"), true);
-                        Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("Layer3"), false);
+                        SetLayerCollision("Layer1", "Layer2", "Layer3", true, true, false);
                         break;
                 }
                 break;
         }
+    }
 
+    /// <summary>
+    /// プレイヤーレイヤーと各レイヤーごとの当たり判定を有効にするかどうか
+    /// </summary>
+    /// <param name="layer1">string型"Layer1"セット</param>
+    /// <param name="layer2">string型"Layer2"セット</param>
+    /// <param name="layer3">string型"Layer3"セット</param>
+    /// <param name="collision1">プレイヤーとレイヤー1が当たるかどうかをtrue/falseで渡す</param>
+    /// <param name="collision2">プレイヤーとレイヤー2が当たるかどうかをtrue/falseで渡す</param>
+    /// <param name="collision3">プレイヤーとレイヤー3が当たるかどうかをtrue/falseで渡す</param>
+    private void SetLayerCollision(string layer1, string layer2, string layer3, bool collision1, bool collision2, bool collision3)
+    {
+        Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer(layer1), collision1);
+        Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer(layer2), collision2);
+        Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer(layer3), collision3);
     }
 
 
@@ -544,11 +525,6 @@ public class LayerController : MonoBehaviour
     public int ReturnLayreNum()
     {
         return i_layerNum;
-    }
-    //最後に選択したレイヤー番号を返す
-    public int ReturnLastLayerNum()
-    {
-        return lastLayerNum;
     }
 
     //外部からのレイヤー変更
@@ -586,7 +562,6 @@ public class LayerController : MonoBehaviour
         {
             for(int i = 0; i < Layer1AllObj.Length; i++)
             {
-                objColor = Layer1AllObj[i].GetComponent<SpriteRenderer>().color;
                 Layer1AllObj[i].SetActive(Layer1AllObj[i].activeSelf == false ? true : false);
             }
         }
