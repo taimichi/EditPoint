@@ -43,6 +43,7 @@ public class PlayerController : MonoBehaviour
         //mc.MoveLR(inputLR);
         mc.Run(new Vector2(inputLR * moveSpeed, 0));
         mc.MoveUpdate();
+        mc.Friction(0.98f);
 
         //if (manual)
         //{
