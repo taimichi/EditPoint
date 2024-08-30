@@ -5,9 +5,11 @@ using UnityEngine;
 public class TalkData
 {
     //  会話文はここでセット
-    private string[] talk= { 
-        "最初の文字だよ",
-        "次の文字だよ",
+    private string[] talk= {
+        "…。",
+        "この世界が開かれた気配！？もしかして！！！画面の前に誰かいますね！？",
+        "この時を待ってました！",
+        "どうも、はじめまして！この世界のアシスタントロボット、「エディ」と申します！",
     };
     // 会話キャラの名前
     private string[] name =
