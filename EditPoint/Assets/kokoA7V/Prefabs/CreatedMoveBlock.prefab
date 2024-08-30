@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 4548215590933385498}
   - component: {fileID: 8050675679213879650}
   - component: {fileID: 1231477577974793487}
-  m_Layer: 8
+  m_Layer: 7
   m_Name: CreatedMoveBlock
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -139,4 +139,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   path: []
   pathTime: []
+  speed: 1
   nowPath: 0
