@@ -8,6 +8,7 @@ TagManager:
   - UnTouch
   - LayerPanel
   - CutObj
+  - NotCreate
   layers:
   - Default
   - TransparentFX

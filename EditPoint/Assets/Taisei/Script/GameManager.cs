@@ -7,9 +7,14 @@ public class GameManager : MonoBehaviour
     //ï“èWÉÇÅ[Éh
     private bool editMode;
 
-    void Start()
+    private void Awake()
     {
         Time.timeScale = 0;
+    }
+
+    void Start()
+    {
+
     }
 
     void Update()

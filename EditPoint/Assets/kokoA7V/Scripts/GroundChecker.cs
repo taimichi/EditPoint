@@ -12,28 +12,28 @@ public class GroundChecker : MonoBehaviour
 
     const float RayLength = 0.1f;
 
-    [SerializeField] private GameObject layer1obj;
-    [SerializeField] private GameObject layer2obj;
-    [SerializeField] private GameObject layer3obj;
+    //[SerializeField] private GameObject layer1obj;
+    //[SerializeField] private GameObject layer2obj;
+    //[SerializeField] private GameObject layer3obj;
 
-    private int i_1Index;
-    private int i_2Index;
-    private int i_3Index;
+    //private int i_1Index;
+    //private int i_2Index;
+    //private int i_3Index;
 
-    [SerializeField] private PlayerLayer plLayer;
+    //[SerializeField] private PlayerLayer plLayer;
 
     private void Start()
     {
-        i_1Index = layer1obj.transform.GetSiblingIndex() - 2;
-        i_2Index = layer2obj.transform.GetSiblingIndex() - 2;
-        i_3Index = layer3obj.transform.GetSiblingIndex() - 2;
+        //i_1Index = layer1obj.transform.GetSiblingIndex() - 2;
+        //i_2Index = layer2obj.transform.GetSiblingIndex() - 2;
+        //i_3Index = layer3obj.transform.GetSiblingIndex() - 2;
     }
 
     private void Update()
     {
-        i_1Index = layer1obj.transform.GetSiblingIndex() - 2;
-        i_2Index = layer2obj.transform.GetSiblingIndex() - 2;
-        i_3Index = layer3obj.transform.GetSiblingIndex() - 2;
+        //i_1Index = layer1obj.transform.GetSiblingIndex() - 2;
+        //i_2Index = layer2obj.transform.GetSiblingIndex() - 2;
+        //i_3Index = layer3obj.transform.GetSiblingIndex() - 2;
 
     }
 
@@ -80,7 +80,7 @@ public class GroundChecker : MonoBehaviour
             // ìñÇΩÇËîªíËÇÃåãâ ópÇÃïœêî
             RaycastHit2D result;
 
-            LayerCheck();
+            //LayerCheck();
 
             // ÉåÉCÇîÚÇŒÇµÇƒÅAéwíËÇµÇΩÉåÉCÉÑÅ[Ç…Ç‘Ç¬Ç©ÇÈÇ©É`ÉFÉbÉN
             result = Physics2D.Linecast(foot, foot + len, L_LayerMask);
@@ -112,105 +112,105 @@ public class GroundChecker : MonoBehaviour
     // ínñ Ç…ê⁄ÇµÇƒÇ¢ÇÈïœêîÇéÊìæ
     public bool IsGround() { return isGround; }
 
-    private void LayerCheck()
-    {
-        switch (plLayer.ReturnPLLayer() - 1)
-        {
-            //ÉåÉCÉÑÅ[1
-            case 0:
-                switch (i_1Index)
-                {
-                    //ÇPÇ∆ÇQÇ∆ÇR
-                    case 0:
-                        SetMultipleLayerMask(new int[] { 7, 8, 9, 10 });
-                        break;
+    //private void LayerCheck()
+    //{
+    //    switch (plLayer.ReturnPLLayer() - 1)
+    //    {
+    //        //ÉåÉCÉÑÅ[1
+    //        case 0:
+    //            switch (i_1Index)
+    //            {
+    //                //ÇPÇ∆ÇQÇ∆ÇR
+    //                case 0:
+    //                    SetMultipleLayerMask(new int[] { 7, 8, 9, 10 });
+    //                    break;
 
-                    case 1:
-                        //ÇPÇ∆ÇR
-                        if(i_2Index == 0)
-                        {
-                            SetMultipleLayerMask(new int[] { 7, 8, 10 });
-                        }
-                        //ÇPÇ∆ÇQ
-                        else if (i_3Index == 0)
-                        {
-                            SetMultipleLayerMask(new int[] { 7, 8, 9 });
-                        }
-                        break;
+    //                case 1:
+    //                    //ÇPÇ∆ÇR
+    //                    if(i_2Index == 0)
+    //                    {
+    //                        SetMultipleLayerMask(new int[] { 7, 8, 10 });
+    //                    }
+    //                    //ÇPÇ∆ÇQ
+    //                    else if (i_3Index == 0)
+    //                    {
+    //                        SetMultipleLayerMask(new int[] { 7, 8, 9 });
+    //                    }
+    //                    break;
 
-                    //ÇPÇÃÇ›
-                    case 2:
-                        SetMultipleLayerMask(new int[] { 7, 8 });
-                        break;
-                }
-                break;
+    //                //ÇPÇÃÇ›
+    //                case 2:
+    //                    SetMultipleLayerMask(new int[] { 7, 8 });
+    //                    break;
+    //            }
+    //            break;
 
-            //ÉåÉCÉÑÅ[ÇQ
-            case 1:
-                switch (i_2Index)
-                {
-                    //ÇPÇ∆ÇQÇ∆ÇR
-                    case 0:
-                        SetMultipleLayerMask(new int[] { 7, 8, 9, 10 });
-                        break;
+    //        //ÉåÉCÉÑÅ[ÇQ
+    //        case 1:
+    //            switch (i_2Index)
+    //            {
+    //                //ÇPÇ∆ÇQÇ∆ÇR
+    //                case 0:
+    //                    SetMultipleLayerMask(new int[] { 7, 8, 9, 10 });
+    //                    break;
 
-                    case 1:
-                        //ÇQÇ∆ÇR
-                        if(i_1Index == 0)
-                        {
-                            SetMultipleLayerMask(new int[] { 7, 9, 10 });
-                        }
-                        //ÇPÇ∆ÇQ
-                        else if(i_3Index == 0)
-                        {
-                            SetMultipleLayerMask(new int[] { 7, 8, 9 });
-                        }
-                        break;
+    //                case 1:
+    //                    //ÇQÇ∆ÇR
+    //                    if(i_1Index == 0)
+    //                    {
+    //                        SetMultipleLayerMask(new int[] { 7, 9, 10 });
+    //                    }
+    //                    //ÇPÇ∆ÇQ
+    //                    else if(i_3Index == 0)
+    //                    {
+    //                        SetMultipleLayerMask(new int[] { 7, 8, 9 });
+    //                    }
+    //                    break;
 
-                    //ÇQÇÃÇ›
-                    case 2:
-                        SetMultipleLayerMask(new int[] { 7, 9 });
-                        break;
-                }
-                break;
+    //                //ÇQÇÃÇ›
+    //                case 2:
+    //                    SetMultipleLayerMask(new int[] { 7, 9 });
+    //                    break;
+    //            }
+    //            break;
 
-            //ÉåÉCÉÑÅ[ÇR
-            case 2:
-                switch (i_3Index)
-                {
-                    //ÇPÇ∆ÇQÇ∆ÇR
-                    case 0:
-                        SetMultipleLayerMask(new int[] { 7, 8, 9, 10 });
-                        break;
+    //        //ÉåÉCÉÑÅ[ÇR
+    //        case 2:
+    //            switch (i_3Index)
+    //            {
+    //                //ÇPÇ∆ÇQÇ∆ÇR
+    //                case 0:
+    //                    SetMultipleLayerMask(new int[] { 7, 8, 9, 10 });
+    //                    break;
 
-                    case 1:
-                        //ÇQÇ∆ÇR
-                        if(i_1Index == 0)
-                        {
-                            SetMultipleLayerMask(new int[] { 7, 9, 10 });
-                        }
-                        //ÇPÇ∆ÇR
-                        else if (i_2Index == 0)
-                        {
-                            SetMultipleLayerMask(new int[] { 7, 8, 10 });
-                        }
-                        break;
+    //                case 1:
+    //                    //ÇQÇ∆ÇR
+    //                    if(i_1Index == 0)
+    //                    {
+    //                        SetMultipleLayerMask(new int[] { 7, 9, 10 });
+    //                    }
+    //                    //ÇPÇ∆ÇR
+    //                    else if (i_2Index == 0)
+    //                    {
+    //                        SetMultipleLayerMask(new int[] { 7, 8, 10 });
+    //                    }
+    //                    break;
 
-                    //ÇRÇÃÇ›
-                    case 2:
-                        SetMultipleLayerMask(new int[] { 7, 10 });
-                        break;
-                }
-                break;
-        }
-    }
+    //                //ÇRÇÃÇ›
+    //                case 2:
+    //                    SetMultipleLayerMask(new int[] { 7, 10 });
+    //                    break;
+    //            }
+    //            break;
+    //    }
+    //}
 
-    void SetMultipleLayerMask(int[] layers)
-    {
-        L_LayerMask = 0;
-        foreach (int layer in layers)
-        {
-            L_LayerMask |= (1 << layer);
-        }
-    }
+    //void SetMultipleLayerMask(int[] layers)
+    //{
+    //    L_LayerMask = 0;
+    //    foreach (int layer in layers)
+    //    {
+    //        L_LayerMask |= (1 << layer);
+    //    }
+    //}
 }

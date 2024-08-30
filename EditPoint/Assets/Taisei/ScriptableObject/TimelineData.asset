@@ -12,5 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9ebdf94720e1d774e895f3dddef47ac3, type: 3}
   m_Name: TimelineData
   m_EditorClassIdentifier: 
+  f_oneResize: 140
   f_oneTickWidht: 140
-  f_oneTickHeight: 74
+  f_oneTickHeight: 75
+  f_timelineEndLeft: -30
+  f_timelineEndRight: 83300
+  f_timelineEndUp: -15
+  f_timelineEndDown: -310

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class BlockCreater : MonoBehaviour
 {
@@ -10,10 +11,19 @@ public class BlockCreater : MonoBehaviour
         Create,
     }
 
-    public bool isMoveBlock = false;
+    public enum LayerType
+    {
+        Ground,
+        Layer1,
+        Layer2,
+        Layer3
+    }
 
     [SerializeField]
     State nowState = State.none;
+
+    [SerializeField]
+    LayerType nowLayer = LayerType.Ground;
 
     bool isDrag;
 
@@ -21,9 +31,6 @@ public class BlockCreater : MonoBehaviour
 
     [SerializeField]
     GameObject blockPrefab;
-
-    [SerializeField]
-    GameObject moveBlockPrefab;
 
     [SerializeField]
     GameObject markerPrefab;
@@ -34,90 +41,91 @@ public class BlockCreater : MonoBehaviour
     Vector2 startPosition;
     Vector2 endPosition;
 
+    private int blockCounter = 1;
+
+    private ClipGenerator clipGenerator;
+
+    private string createName = "CreateBlock";
+
     private void Start()
     {
         marker = Instantiate(markerPrefab);
         bm = marker.GetComponent<BlockMarker>();
         bm.isActive = false;
+
+        clipGenerator = GameObject.Find("AllClip").GetComponent<ClipGenerator>();
     }
 
     private void Update()
     {
-
         mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
         if (nowState == State.Create)
         {
-            if (Input.GetMouseButtonDown(0))
+            if (!EventSystem.current.IsPointerOverGameObject())
             {
-                startPosition = mousePosition;
-                bm.isActive = true;
-                isDrag = true;
-            }
-
-            if (Input.GetMouseButtonUp(0))
-            {
-                endPosition = mousePosition;
-
-                if (!bm.isHitGround)
+                if (Input.GetMouseButtonDown(0))
                 {
-                    if (!isMoveBlock)
-                    {
-                        CreateBlock();
-                    }
-                    else
-                    {
-                        CreateMoveBlock();
-                    }
+                    startPosition = mousePosition;
+                    bm.isActive = true;
+                    isDrag = true;
                 }
 
-                bm.isActive = false;
-                isDrag = false;
-            }
+                if (Input.GetMouseButtonUp(0))
+                {
+                    endPosition = mousePosition;
 
-            if (isDrag)
-            {
-                Vector3 markerSize = Vector3.zero;
-                markerSize.x = mousePosition.x - startPosition.x;
-                markerSize.y = mousePosition.y - startPosition.y;
-                marker.transform.localScale = markerSize;
+                    if (!bm.isHitGround)
+                    {
+                        CreateBlock(nowLayer);
+                    }
 
-                marker.transform.position = (Vector3)startPosition + (markerSize / 2);
+                    bm.isActive = false;
+                    isDrag = false;
+                }
+
+                if (isDrag)
+                {
+                    Vector3 markerSize = Vector3.zero;
+                    markerSize.x = mousePosition.x - startPosition.x;
+                    markerSize.y = mousePosition.y - startPosition.y;
+                    marker.transform.localScale = markerSize;
+
+                    marker.transform.position = (Vector3)startPosition + (markerSize / 2);
+                }
+
             }
+        }
+
+        if (Input.GetMouseButtonDown(1) && !isDrag)
+        {
+            nowState = State.none;
         }
     }
 
-    private void CreateBlock()
+    private void CreateBlock(LayerType _nowLayer)
     {
         GameObject created = Instantiate(blockPrefab);
         created.transform.localScale = marker.transform.localScale;
         created.transform.position = marker.transform.position;
+        created.name = createName + blockCounter;
+        clipGenerator.ClipGene();
+
+        blockCounter++;
     }
 
-    private void CreateMoveBlock()
+    public void CreateSetActive()
     {
-        GameObject created = Instantiate(moveBlockPrefab);
-        created.transform.localScale = marker.transform.localScale;
-        created.transform.position = marker.transform.position;
-
-        MoveGround mg = created.GetComponent<MoveGround>();
-        Vector3 markerPos = marker.transform.position;
-        mg.path.Add(markerPos);
-        mg.path.Add(new Vector3(markerPos.x, markerPos.y + 2, markerPos.z));
-        mg.pathTime.Add(1);
-        mg.pathTime.Add(1);
-
+        nowState = nowState == State.none ? State.Create : State.none;
     }
 
-    public void CreateSetActive(bool tf)
+    public int ReturnBlockCount()
     {
-        if (tf)
-        {
-            nowState = State.Create;
-        }
-        else
-        {
-            nowState = State.none;
-        }
+        return blockCounter;
+    }
+
+    public string ReturnName()
+    {
+        return createName;
     }
 }
