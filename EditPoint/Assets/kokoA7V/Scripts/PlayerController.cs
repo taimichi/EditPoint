@@ -63,7 +63,7 @@ public class PlayerController : MonoBehaviour
         //落下によるゲームオーバー
         if (this.transform.position.y <= -50)
         {
-
+            Debug.Log("ｱﾜﾜﾜﾜ!!!");
         }
     }
 
