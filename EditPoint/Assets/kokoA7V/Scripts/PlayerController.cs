@@ -10,7 +10,10 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     Animator anim;
 
-    MoveController mc;
+    // MoveController mc;
+    GeneralMoveController mc;
+
+    public float moveSpeed = 2.5f;
 
     [Range(-1, 1), SerializeField]
     int inputLR = 0;
@@ -27,7 +30,8 @@ public class PlayerController : MonoBehaviour
 
         //anim = GetComponent<Animator>();
 
-        mc = new MoveController(rb);
+        //mc = new MoveController(rb);
+        mc = GetComponent<GeneralMoveController>();
 
         gc.InitCol();
 
@@ -36,7 +40,10 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
-        mc.MoveLR(inputLR);
+        //mc.MoveLR(inputLR);
+        mc.Run(new Vector2(inputLR * moveSpeed, 0));
+        mc.MoveUpdate();
+        mc.Friction(0.98f);
 
         //if (manual)
         //{
@@ -102,29 +109,34 @@ public class PlayerController : MonoBehaviour
     {
         bool isHit = false;
 
-        float RayLength = 0.5f;
+        float rayLength = 0.3f;
+        float rayWidth = 0.25f;
         Vector3 center = gc.GetCenterPos();    // 始点
-        Vector3 len = Vector3.right * RayLength * inputLR; // 長さ
+        Vector3 len = Vector3.right * rayLength * inputLR; // 長さ
 
         // 当たり判定の結果用の変数
         RaycastHit2D result;
 
-        
-        // レイを飛ばして、指定したレイヤーにぶつかるかチェック
-        result = Physics2D.Linecast(center, center + len, gc.L_LayerMask);
+        center.y += rayWidth;
 
-        // デバッグ表示用
-        Debug.DrawLine(center, center + len);
-
-        if (result.collider != null)
+        for (int i = 0; i < 3; i++)
         {
-            if (result.collider.gameObject.TryGetComponent<GroundAttr>(out var typeAttr))
+            // レイを飛ばして、指定したレイヤーにぶつかるかチェック
+            result = Physics2D.Linecast(center, center + len, gc.L_LayerMask);
+            // デバッグ表示用
+            Debug.DrawLine(center, center + len);
+
+            if (result.collider != null)
             {
-                if (typeAttr.isGround)
+                if (result.collider.gameObject.TryGetComponent<GroundAttr>(out var typeAttr))
                 {
-                    isHit = true;
+                    if (typeAttr.isGround)
+                    {
+                        isHit = true;
+                    }
                 }
             }
+            center.y -= rayWidth;
         }
 
         // 向き切り替え

@@ -7,16 +7,22 @@ public class GameManager : MonoBehaviour
     //編集モード
     private bool editMode;
 
+    private void Awake()
+    {
+        Time.timeScale = 0;
+    }
+
     void Start()
     {
-        editMode = true;   
+
     }
 
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.T))
         {
-            editMode = editMode == false ? true : false;
+            Debug.Log("時間変更");
+            Time.timeScale = Time.timeScale == 0 ? 1 : 0;
         }
     }
 
