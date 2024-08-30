@@ -2960,7 +2960,6 @@ GameObject:
   - component: {fileID: 5500888277332905345}
   - component: {fileID: 5500888277332905344}
   - component: {fileID: 5500888277332905351}
-  - component: {fileID: -7819053812928047201}
   - component: {fileID: 243569006782596961}
   m_Layer: 3
   m_Name: Player
@@ -3051,19 +3050,6 @@ MonoBehaviour:
   anim: {fileID: 1716000904443615251}
   inputLR: 0
   manual: 1
---- !u!114 &-7819053812928047201
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5500888277332905350}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 615361a234cf7374ba17456c52faba39, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  i_plLayer: 1
 --- !u!114 &243569006782596961
 MonoBehaviour:
   m_ObjectHideFlags: 0
