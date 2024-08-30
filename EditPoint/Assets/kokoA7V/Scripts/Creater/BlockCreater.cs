@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class BlockCreater : MonoBehaviour
 {
@@ -12,6 +13,7 @@ public class BlockCreater : MonoBehaviour
 
     public enum LayerType
     {
+        Ground,
         Layer1,
         Layer2,
         Layer3
@@ -21,7 +23,7 @@ public class BlockCreater : MonoBehaviour
     State nowState = State.none;
 
     [SerializeField]
-    LayerType nowLayer = LayerType.Layer1;
+    LayerType nowLayer = LayerType.Ground;
 
     bool isDrag;
 
@@ -39,49 +41,65 @@ public class BlockCreater : MonoBehaviour
     Vector2 startPosition;
     Vector2 endPosition;
 
+    private int blockCounter = 1;
+
+    private ClipGenerator clipGenerator;
+
+    private string createName = "CreateBlock";
+
     private void Start()
     {
         marker = Instantiate(markerPrefab);
         bm = marker.GetComponent<BlockMarker>();
         bm.isActive = false;
+
+        clipGenerator = GameObject.Find("AllClip").GetComponent<ClipGenerator>();
     }
 
     private void Update()
     {
-
         mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
         if (nowState == State.Create)
         {
-            if (Input.GetMouseButtonDown(0))
+            if (!EventSystem.current.IsPointerOverGameObject())
             {
-                startPosition = mousePosition;
-                bm.isActive = true;
-                isDrag = true;
-            }
-
-            if (Input.GetMouseButtonUp(0))
-            {
-                endPosition = mousePosition;
-
-                if (!bm.isHitGround)
+                if (Input.GetMouseButtonDown(0))
                 {
-                    CreateBlock(nowLayer);
+                    startPosition = mousePosition;
+                    bm.isActive = true;
+                    isDrag = true;
                 }
 
-                bm.isActive = false;
-                isDrag = false;
-            }
+                if (Input.GetMouseButtonUp(0))
+                {
+                    endPosition = mousePosition;
 
-            if (isDrag)
-            {
-                Vector3 markerSize = Vector3.zero;
-                markerSize.x = mousePosition.x - startPosition.x;
-                markerSize.y = mousePosition.y - startPosition.y;
-                marker.transform.localScale = markerSize;
+                    if (!bm.isHitGround)
+                    {
+                        CreateBlock(nowLayer);
+                    }
 
-                marker.transform.position = (Vector3)startPosition + (markerSize / 2);
+                    bm.isActive = false;
+                    isDrag = false;
+                }
+
+                if (isDrag)
+                {
+                    Vector3 markerSize = Vector3.zero;
+                    markerSize.x = mousePosition.x - startPosition.x;
+                    markerSize.y = mousePosition.y - startPosition.y;
+                    marker.transform.localScale = markerSize;
+
+                    marker.transform.position = (Vector3)startPosition + (markerSize / 2);
+                }
+
             }
+        }
+
+        if (Input.GetMouseButtonDown(1) && !isDrag)
+        {
+            nowState = State.none;
         }
     }
 
@@ -90,17 +108,24 @@ public class BlockCreater : MonoBehaviour
         GameObject created = Instantiate(blockPrefab);
         created.transform.localScale = marker.transform.localScale;
         created.transform.position = marker.transform.position;
+        created.name = createName + blockCounter;
+        clipGenerator.ClipGene();
+
+        blockCounter++;
     }
 
-    public void CreateSetActive(bool tf)
+    public void CreateSetActive()
     {
-        if (tf)
-        {
-            nowState = State.Create;
-        }
-        else
-        {
-            nowState = State.none;
-        }
+        nowState = nowState == State.none ? State.Create : State.none;
+    }
+
+    public int ReturnBlockCount()
+    {
+        return blockCounter;
+    }
+
+    public string ReturnName()
+    {
+        return createName;
     }
 }

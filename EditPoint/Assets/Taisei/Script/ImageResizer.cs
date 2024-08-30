@@ -1,14 +1,14 @@
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
+using System;
 
 public class ImageResizer : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHandler
 {
-    [SerializeField] private RectTransform targetImage;  //クリップのRectTransform
+    [SerializeField] private RectTransform targetImage;  //クリップ画像のRectTransform
     private Vector2 initialSizeDelta;
     private Vector2 initialMousePosition;
 
-    private Vector3 center;
     private Vector2 offset;
 
     private bool isResizingRight;  // 右側をリサイズ中かどうかのフラグ
@@ -25,14 +25,16 @@ public class ImageResizer : MonoBehaviour, IDragHandler, IBeginDragHandler, IEnd
 
     private float f_dotMove = 0;
     [SerializeField] private TimelineData timelineData;
-    private float f_onetick;
+    private float f_onetick;            //サイズ変更時、1回にサイズ変更する量
 
-    private Vector3 v3_mousePos;
-    private Vector3 v3_offset;
+    private Vector2 v2_mousePos;        //マウスの座標
+    private Vector2 v2_newPos;          //新しい座標
     private float f_dotWidth = 0f;
+    private float f_newWidth;           //新しい横の移動位置
     private float f_dotHeight = 0f;
-    private float f_oneWidth;
-    private float f_oneHeight;
+    private float f_newHeight;          //新しいタテの移動位置
+    private float f_oneWidth;           //移動時、一回に移動する量　横
+    private float f_oneHeight;          //移動時、一回に移動する量　縦
 
     private int i_resizeCount = 0;
 
@@ -47,11 +49,10 @@ public class ImageResizer : MonoBehaviour, IDragHandler, IBeginDragHandler, IEnd
     }
     private CLIP_MODE mode = CLIP_MODE.normal;
 
-
     private void Awake()
     {
         //リサイズ用
-        f_onetick = timelineData.f_oneTickWidht;
+        f_onetick = timelineData.f_oneResize;
 
         //クリップ移動用
         f_oneWidth = timelineData.f_oneTickWidht;
@@ -60,15 +61,29 @@ public class ImageResizer : MonoBehaviour, IDragHandler, IBeginDragHandler, IEnd
         //タイムラインの端のRectTransform取得
         rect_outLeft = GameObject.Find("LeftOutLine").GetComponent<RectTransform>();
         rect_outRight = GameObject.Find("RightOutLine").GetComponent<RectTransform>();
+
+        CalculationWidth(targetImage.localPosition.x);
+        CalculationHeight(targetImage.localPosition.y);
+        CheckWidth();
+        CheckHeight();
+        v2_newPos = new Vector2(f_newWidth, f_newHeight);
+        targetImage.localPosition = new Vector3(v2_newPos.x, v2_newPos.y, 0);
+
+        if(this.gameObject.tag != "NotCreate")
+        {
+            f_newWidth += f_oneWidth;
+            CheckWidth();
+            v2_newPos = new Vector2(f_newWidth, f_newHeight);
+            targetImage.localPosition = new Vector3(v2_newPos.x, v2_newPos.y, 0);
+        }
     }
     private void Start()
     {
-        center = targetImage.TransformPoint(targetImage.rect.center);
     }
 
     private void Update()
     {
-        center = targetImage.TransformPoint(targetImage.rect.center);
+        
     }
 
     public void OnBeginDrag(PointerEventData eventData)
@@ -100,6 +115,7 @@ public class ImageResizer : MonoBehaviour, IDragHandler, IBeginDragHandler, IEnd
         {
             // 端以外の場合はリサイズを無効化、クリップ移動モードにする
             mode = CLIP_MODE.move;
+            SetPivot(targetImage, new Vector2(0, 0.5f));
         }
 
         if (mode == CLIP_MODE.resize)
@@ -123,17 +139,25 @@ public class ImageResizer : MonoBehaviour, IDragHandler, IBeginDragHandler, IEnd
                 return;
             }
 
-            //クリップ移動処理
-            v3_mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            v3_mousePos.z = 0;
+            ////クリップ移動処理
+            RectTransformUtility.ScreenPointToLocalPointInRectangle(
+                (RectTransform)targetImage.parent,
+                eventData.position,
+                eventData.pressEventCamera,
+                out v2_mousePos
+            );
 
-            v3_offset = targetImage.transform.position - center;
 
             //ドット移動用
-            CalculationHeight();
-            CalculationWidth();
+            CalculationWidth(v2_mousePos.x);
+            CalculationHeight(v2_mousePos.y);
 
-            targetImage.transform.position = v3_mousePos + v3_offset;
+            //タイムラインの範囲外に出た時
+            CheckWidth();
+            CheckHeight();
+            v2_newPos = new Vector2(f_newWidth, f_newHeight);
+            targetImage.localPosition = new Vector3(v2_newPos.x, v2_newPos.y, 0);
+
 
             return;
         }
@@ -184,8 +208,6 @@ public class ImageResizer : MonoBehaviour, IDragHandler, IBeginDragHandler, IEnd
         }
 
         targetImage.sizeDelta = new Vector2(f_newSize, targetImage.sizeDelta.y);
-
-        center = targetImage.TransformPoint(targetImage.rect.center);
     }
 
     public void OnEndDrag(PointerEventData eventData)
@@ -237,14 +259,17 @@ public class ImageResizer : MonoBehaviour, IDragHandler, IBeginDragHandler, IEnd
     }
 
     /// <summary>
-    /// サイズをドット移動するための計算
+    /// サイズ変更するための計算
     /// </summary>
     private void CalculationSize()
     {
-        f_dotMove = Mathf.Round(f_newSize / f_onetick);
+        f_dotMove = (float)Math.Round(f_newSize / f_onetick);
         f_newSize = f_dotMove * f_onetick;
     }
 
+    /// <summary>
+    /// クリップが画面外に行ってしまった場合用
+    /// </summary>
     private void ReCalculationSize()
     {
         f_dotMove -= i_resizeCount;
@@ -256,17 +281,63 @@ public class ImageResizer : MonoBehaviour, IDragHandler, IBeginDragHandler, IEnd
     /// <summary>
     /// X座標の計算用
     /// </summary>
-    private void CalculationWidth()
+    private void CalculationWidth(float posX)
     {
-
+        f_dotWidth = posX - ((float)Math.Round(posX / f_oneWidth) * f_oneWidth);
+        if (f_dotWidth < f_oneWidth / 2)
+        {
+            f_newWidth = (float)Math.Round(posX / f_oneWidth) * f_oneWidth - 30f;
+        }
+        else
+        {
+            f_newWidth = ((float)Math.Round(posX / f_oneWidth) + 1) * f_oneWidth - 30f;
+        }
     }
 
     /// <summary>
     /// Y座標の計算用
     /// </summary>
-    private void CalculationHeight()
+    private void CalculationHeight(float posY)
     {
+        f_dotHeight = posY - ((float)Math.Round(posY / f_oneHeight) * f_oneHeight);
+        if (f_dotHeight < f_oneHeight / 2)
+        {
+            f_newHeight = (float)Math.Round(posY / f_oneHeight) * f_oneHeight - 15f;
+        }
+        else
+        {
+            f_newHeight = ((float)Math.Round(posY / f_oneHeight) + 1) * f_oneHeight - 15f;
+        }
+    }
 
+    /// <summary>
+    /// クリップがタイムラインの左右の範囲外に出た時
+    /// </summary>
+    private void CheckWidth()
+    {
+        if (f_newWidth < timelineData.f_timelineEndLeft)
+        {
+            f_newWidth = timelineData.f_timelineEndLeft;
+        }
+        else if (f_newWidth > timelineData.f_timelineEndRight)
+        {
+            f_newWidth = timelineData.f_timelineEndRight;
+        }
+    }
+
+    /// <summary>
+    /// クリップがタイムラインの上下の範囲外に出た時
+    /// </summary>
+    private void CheckHeight()
+    {
+        if (f_newHeight > timelineData.f_timelineEndUp)
+        {
+            f_newHeight = timelineData.f_timelineEndUp;
+        }
+        else if (f_newHeight < timelineData.f_timelineEndDown)
+        {
+            f_newHeight = timelineData.f_timelineEndDown;
+        }
     }
 
 

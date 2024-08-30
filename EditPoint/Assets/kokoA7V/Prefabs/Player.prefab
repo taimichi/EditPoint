@@ -3035,11 +3035,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   L_LayerMask:
     serializedVersion: 2
-    m_Bits: 0
-  layer1obj: {fileID: 0}
-  layer2obj: {fileID: 0}
-  layer3obj: {fileID: 0}
-  plLayer: {fileID: -7819053812928047201}
+    m_Bits: 128
 --- !u!114 &5500888277332905351
 MonoBehaviour:
   m_ObjectHideFlags: 0

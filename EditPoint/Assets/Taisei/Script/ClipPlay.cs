@@ -7,6 +7,7 @@ public class ClipPlay : MonoBehaviour
 {
     private RectTransform rect_timeBar;
     [SerializeField] private RectTransform rect_Clip;
+    [SerializeField] private Text clipName;
 
     private float f_timer = 0;
     /// <summary>
@@ -14,13 +15,31 @@ public class ClipPlay : MonoBehaviour
     /// </summary>
     private bool b_clipPlay = false;
 
+    [SerializeField] private List<GameObject> correspondenceObj = new List<GameObject>();
+
+    private BlockCreater blockCreater;
+
+
     void Start()
     {
         //タイムバーのRectTransformを取得
         rect_timeBar = GameObject.Find("Timebar").GetComponent<RectTransform>();
+        blockCreater = GameObject.Find("BlockCreater").GetComponent<BlockCreater>();
+
+        //生成したクリップの場合
+        if (correspondenceObj.Count == 0)
+        {
+            correspondenceObj.Add(GameObject.Find("CreateBlock" + (blockCreater.ReturnBlockCount() - 1)));
+            clipName.text = "新しく生成したクリップ" + (blockCreater.ReturnBlockCount() - 1);
+        }
     }
 
     void Update()
+    {
+
+    }
+
+    private void FixedUpdate()
     {
         if (IsOverlapping(rect_Clip, rect_timeBar))
         {
@@ -33,22 +52,37 @@ public class ClipPlay : MonoBehaviour
             b_clipPlay = false;
         }
 
+
         //クリップ再生中の処理
         if (b_clipPlay)
         {
+            for(int i = 0; i < correspondenceObj.Count; i++)
+            {
+                correspondenceObj[i].SetActive(true);
+            }
             f_timer += Time.deltaTime;
 
         }
         //クリップ再生してないときの処理
         else
         {
+            for (int i = 0; i < correspondenceObj.Count; i++)
+            {
+                correspondenceObj[i].SetActive(false);
+            }
             f_timer = 0f;
         }
+
     }
 
     public float ReturnClipTime()
     {
         return f_timer;
+    }
+
+    public bool ReturnTriggerTimeber()
+    {
+        return IsOverlapping(rect_Clip, rect_timeBar);
     }
 
     /// <summary>
