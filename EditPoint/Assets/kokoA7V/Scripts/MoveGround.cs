@@ -4,11 +4,11 @@ using UnityEngine;
 
 public class MoveGround : MonoBehaviour
 {
-    [SerializeField]
-    List<Vector3> path = new List<Vector3>();
+    public List<Vector3> path = new List<Vector3>();
 
-    [SerializeField]
-    List<float> pathTime = new List<float>();
+    public List<float> pathTime = new List<float>();
+
+    public float speed = 1;
 
     [SerializeField]
     int nowPath = 0;
@@ -35,14 +35,14 @@ public class MoveGround : MonoBehaviour
             dist = path[0] - path[nowPath];
         }
         Vector3 moveSpeed = dist / pathTime[nowPath];
-        movePos += moveSpeed * Time.deltaTime;
+        movePos += moveSpeed * Time.deltaTime * speed;
 
         this.transform.position = movePos;
 
 
 
         // éûä‘ä«óù
-        timer -= Time.deltaTime;
+        timer -= Time.deltaTime * speed;
 
         if (timer <= 0)
         {
