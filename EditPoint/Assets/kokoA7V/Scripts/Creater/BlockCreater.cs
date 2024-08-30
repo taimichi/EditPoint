@@ -9,21 +9,11 @@ public class BlockCreater : MonoBehaviour
     {
         none,
         Create,
-    }
-
-    public enum LayerType
-    {
-        Ground,
-        Layer1,
-        Layer2,
-        Layer3
+        MoveCreate
     }
 
     [SerializeField]
     State nowState = State.none;
-
-    [SerializeField]
-    LayerType nowLayer = LayerType.Ground;
 
     bool isDrag;
 
@@ -31,6 +21,9 @@ public class BlockCreater : MonoBehaviour
 
     [SerializeField]
     GameObject blockPrefab;
+
+    [SerializeField]
+    GameObject moveBlockPrefab;
 
     [SerializeField]
     GameObject markerPrefab;
@@ -60,7 +53,7 @@ public class BlockCreater : MonoBehaviour
     {
         mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
-        if (nowState == State.Create)
+        if (nowState == State.Create || nowState == State.MoveCreate)
         {
             if (!EventSystem.current.IsPointerOverGameObject())
             {
@@ -77,7 +70,23 @@ public class BlockCreater : MonoBehaviour
 
                     if (!bm.isHitGround)
                     {
-                        CreateBlock(nowLayer);
+                        if (nowState == State.Create)
+                        {
+                            CreateBlock();
+                            if (clipGenerator != null)
+                            {
+                                clipGenerator.ClipGene();
+                            }
+                        }
+                        else if (nowState == State.MoveCreate)
+                        {
+                            CreateMoveBlock();
+                            if (clipGenerator != null)
+                            {
+                                clipGenerator.ClipGene();
+                            }
+                        }
+
                     }
 
                     bm.isActive = false;
@@ -103,14 +112,29 @@ public class BlockCreater : MonoBehaviour
         }
     }
 
-    private void CreateBlock(LayerType _nowLayer)
+    private void CreateBlock()
     {
         GameObject created = Instantiate(blockPrefab);
         created.transform.localScale = marker.transform.localScale;
         created.transform.position = marker.transform.position;
-        created.name = createName + blockCounter;
-        clipGenerator.ClipGene();
 
+        created.name = createName + blockCounter;
+        blockCounter++;
+    }
+
+    private void CreateMoveBlock()
+    {
+        GameObject created = Instantiate(moveBlockPrefab);
+        created.transform.localScale = marker.transform.localScale;
+        created.transform.position = marker.transform.position;
+
+        MoveGround mg = created.GetComponent<MoveGround>();
+        mg.path.Add(marker.transform.position);
+        mg.path.Add(new Vector3(marker.transform.position.x, marker.transform.position.y + 2, marker.transform.position.z));
+        mg.pathTime.Add(1);
+        mg.pathTime.Add(1);
+
+        created.name = createName + blockCounter;
         blockCounter++;
     }
 
