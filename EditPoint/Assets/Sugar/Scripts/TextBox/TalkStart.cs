@@ -8,16 +8,12 @@ public class TalkStart : MonoBehaviour
     [SerializeField] GameObject TalkCanvas;
     [SerializeField] GameObject fadeObj;
 
+    [SerializeField] bool isDebug = false;
     private void Update()
     {
-        if(Input.GetKeyDown(KeyCode.Return))
+        if (isDebug)
         {
             StartTalk();
-        }
-
-        if(!TalkCanvas.activeSelf)
-        {
-            Time.timeScale = 1.0f;
         }
     }
 
