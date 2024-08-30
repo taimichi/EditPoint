@@ -10,18 +10,10 @@ public class BlockCreater : MonoBehaviour
         Create,
     }
 
-    public enum LayerType
-    {
-        Layer1,
-        Layer2,
-        Layer3
-    }
+    public bool isMoveBlock = false;
 
     [SerializeField]
     State nowState = State.none;
-
-    [SerializeField]
-    LayerType nowLayer = LayerType.Layer1;
 
     bool isDrag;
 
@@ -29,6 +21,9 @@ public class BlockCreater : MonoBehaviour
 
     [SerializeField]
     GameObject blockPrefab;
+
+    [SerializeField]
+    GameObject moveBlockPrefab;
 
     [SerializeField]
     GameObject markerPrefab;
@@ -66,7 +61,14 @@ public class BlockCreater : MonoBehaviour
 
                 if (!bm.isHitGround)
                 {
-                    CreateBlock(nowLayer);
+                    if (!isMoveBlock)
+                    {
+                        CreateBlock();
+                    }
+                    else
+                    {
+                        CreateMoveBlock();
+                    }
                 }
 
                 bm.isActive = false;
@@ -85,11 +87,26 @@ public class BlockCreater : MonoBehaviour
         }
     }
 
-    private void CreateBlock(LayerType _nowLayer)
+    private void CreateBlock()
     {
         GameObject created = Instantiate(blockPrefab);
         created.transform.localScale = marker.transform.localScale;
         created.transform.position = marker.transform.position;
+    }
+
+    private void CreateMoveBlock()
+    {
+        GameObject created = Instantiate(moveBlockPrefab);
+        created.transform.localScale = marker.transform.localScale;
+        created.transform.position = marker.transform.position;
+
+        MoveGround mg = created.GetComponent<MoveGround>();
+        Vector3 markerPos = marker.transform.position;
+        mg.path.Add(markerPos);
+        mg.path.Add(new Vector3(markerPos.x, markerPos.y + 2, markerPos.z));
+        mg.pathTime.Add(1);
+        mg.pathTime.Add(1);
+
     }
 
     public void CreateSetActive(bool tf)

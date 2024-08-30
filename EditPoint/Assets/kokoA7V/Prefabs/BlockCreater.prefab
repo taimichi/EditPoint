@@ -43,7 +43,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1bb94c80ca3336342943f4ffa6065cd8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isMoveBlock: 0
   nowState: 1
-  nowLayer: 0
   blockPrefab: {fileID: 6273398648508357651, guid: f0b44d28f1369b94998e2c2705066196, type: 3}
+  moveBlockPrefab: {fileID: 1231477577974793484, guid: 718c6633cc6e57747b6e657462a37781, type: 3}
   markerPrefab: {fileID: 489113700231075631, guid: f42bc11e1cb55894f8d163c30571a673, type: 3}
