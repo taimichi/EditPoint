@@ -12,7 +12,7 @@ public class TalkData
     // 会話キャラの名前
     private string[] name =
     {
-        "AD",
+        "エディ",
     };
 
     /// <summary>

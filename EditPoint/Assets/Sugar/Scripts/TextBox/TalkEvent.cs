@@ -16,6 +16,8 @@ public class TalkEvent : MonoBehaviour
     [SerializeField] Text[] nameText;
     [SerializeField] Text[] talkText;
 
+    [SerializeField] GameObject CanvasFolder;
+
     // ¶¬‚·‚éƒLƒƒƒ‰‚ğ•Û‘¶‚·‚é
     GameObject gObj;
 
@@ -126,7 +128,7 @@ public class TalkEvent : MonoBehaviour
                     num=0;
                     resTalk = "";
                     ClearManager(true, true, true);
-                    this.gameObject.SetActive(false);
+                    CanvasFolder.SetActive(false);
                 }
                 break;
         }
