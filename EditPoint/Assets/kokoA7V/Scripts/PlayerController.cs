@@ -10,7 +10,10 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     Animator anim;
 
-    MoveController mc;
+    // MoveController mc;
+    GeneralMoveController mc;
+
+    public float moveSpeed = 2.5f;
 
     [Range(-1, 1), SerializeField]
     int inputLR = 0;
@@ -27,7 +30,8 @@ public class PlayerController : MonoBehaviour
 
         //anim = GetComponent<Animator>();
 
-        mc = new MoveController(rb);
+        //mc = new MoveController(rb);
+        mc = GetComponent<GeneralMoveController>();
 
         gc.InitCol();
 
@@ -36,7 +40,9 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
-        mc.MoveLR(inputLR);
+        //mc.MoveLR(inputLR);
+        mc.Run(new Vector2(inputLR * moveSpeed, 0));
+        mc.MoveUpdate();
 
         //if (manual)
         //{
@@ -125,7 +131,7 @@ public class PlayerController : MonoBehaviour
                 {
                     if (typeAttr.isGround)
                     {
-                        //isHit = true;
+                        isHit = true;
                     }
                 }
             }
