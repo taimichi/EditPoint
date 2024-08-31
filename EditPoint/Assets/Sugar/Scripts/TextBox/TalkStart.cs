@@ -9,7 +9,8 @@ public class TalkStart : MonoBehaviour
     [SerializeField] GameObject fadeObj;
 
     [SerializeField] bool isDebug = false;
-    private void Update()
+
+    private void Start()
     {
         if (isDebug)
         {
