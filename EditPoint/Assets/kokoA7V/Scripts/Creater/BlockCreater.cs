@@ -36,7 +36,6 @@ public class BlockCreater : MonoBehaviour
 
     private int blockCounter = 1;
 
-    private ClipGenerator clipGenerator;
 
     private string createName = "CreateBlock";
 
@@ -46,7 +45,7 @@ public class BlockCreater : MonoBehaviour
         bm = marker.GetComponent<BlockMarker>();
         bm.isActive = false;
 
-        clipGenerator = GameObject.Find("AllClip").GetComponent<ClipGenerator>();
+        marker.SetActive(false);
     }
 
     private void Update()
@@ -59,6 +58,7 @@ public class BlockCreater : MonoBehaviour
             {
                 if (Input.GetMouseButtonDown(0))
                 {
+                    marker.SetActive(true);
                     startPosition = mousePosition;
                     bm.isActive = true;
                     isDrag = true;
@@ -73,24 +73,17 @@ public class BlockCreater : MonoBehaviour
                         if (nowState == State.Create)
                         {
                             CreateBlock();
-                            if (clipGenerator != null)
-                            {
-                                clipGenerator.ClipGene();
-                            }
                         }
                         else if (nowState == State.MoveCreate)
                         {
                             CreateMoveBlock();
-                            if (clipGenerator != null)
-                            {
-                                clipGenerator.ClipGene();
-                            }
                         }
 
                     }
 
                     bm.isActive = false;
                     isDrag = false;
+                    marker.SetActive(false);
                 }
 
                 if (isDrag)
@@ -109,6 +102,7 @@ public class BlockCreater : MonoBehaviour
         if (Input.GetMouseButtonDown(1) && !isDrag)
         {
             nowState = State.none;
+            marker.SetActive(false);
         }
     }
 
@@ -117,6 +111,8 @@ public class BlockCreater : MonoBehaviour
         GameObject created = Instantiate(blockPrefab);
         created.transform.localScale = marker.transform.localScale;
         created.transform.position = marker.transform.position;
+        created.GetComponent<Collider2D>().enabled = false;
+        created.GetComponent<Collider2D>().enabled = true;
 
         created.name = createName + blockCounter;
         blockCounter++;
