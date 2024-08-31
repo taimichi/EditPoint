@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 public class ClipPlay : MonoBehaviour
 {
@@ -17,30 +18,73 @@ public class ClipPlay : MonoBehaviour
 
     [SerializeField] private List<GameObject> correspondenceObj = new List<GameObject>();
 
-    private BlockCreater blockCreater;
+    private ClipGenerator clipGenerator;
 
+    private bool b_getObjMode = false;
+
+    [SerializeField] private Image buttonImage;
+
+    private ObjectMove objectMove;
 
     void Start()
     {
         //タイムバーのRectTransformを取得
         rect_timeBar = GameObject.Find("Timebar").GetComponent<RectTransform>();
-        blockCreater = GameObject.Find("BlockCreater").GetComponent<BlockCreater>();
+        clipGenerator = GameObject.Find("AllClip").GetComponent<ClipGenerator>();
+        objectMove = GameObject.Find("GameManager").GetComponent<ObjectMove>();
 
         //生成したクリップの場合
         if (correspondenceObj.Count == 0)
         {
-            correspondenceObj.Add(GameObject.Find("CreateBlock" + (blockCreater.ReturnBlockCount() - 1)));
-            clipName.text = "新しく生成したクリップ" + (blockCreater.ReturnBlockCount() - 1);
+            clipName.text = "生成したクリップ" + clipGenerator.ReturnCount();
         }
     }
 
-    void Update()
+    private void Update()
     {
+        if (b_getObjMode)
+        {
+            if (!EventSystem.current.IsPointerOverGameObject())
+            {
+                if (Input.GetMouseButtonDown(0)) // 左クリック
+                {
+                    Physics2D.Simulate(Time.fixedDeltaTime);
+                    Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                    RaycastHit2D hit = Physics2D.Raycast(mousePosition, Vector2.zero);
+
+                    Debug.Log(hit.collider.gameObject.name);
+
+                    if (hit.collider != null)
+                    {
+                        if(hit.collider.tag != "Marcker")
+                        {
+                            GameObject clickedObject = hit.collider.gameObject;
+                            Debug.Log(clickedObject);
+
+                            for (int i = 0; i < correspondenceObj.Count; i++)
+                            {
+                                if (clickedObject.name != correspondenceObj[i].name)
+                                {
+                                    Debug.Log("新しいオブジェクト追加");
+                                    correspondenceObj.Add(clickedObject);
+                                }
+                            }
+                            if (correspondenceObj.Count == 0)
+                            {
+                                Debug.Log("新しいオブジェクト追加");
+                                correspondenceObj.Add(clickedObject);
+                            }
+                        }
+                    }
+                }
+            }
+        }
 
     }
 
     private void FixedUpdate()
     {
+
         if (IsOverlapping(rect_Clip, rect_timeBar))
         {
             Debug.Log("UIオブジェクトが接触しています");
@@ -74,6 +118,15 @@ public class ClipPlay : MonoBehaviour
         }
 
     }
+
+    //オブジェクト取得モードフラグを変更
+    public void OnGetObj()
+    {
+        b_getObjMode = b_getObjMode == false ? true : false;
+        objectMove.ObjSetMode(b_getObjMode);
+        buttonImage.color = b_getObjMode == false ? Color.white : Color.red;
+    }
+
 
     public float ReturnClipTime()
     {

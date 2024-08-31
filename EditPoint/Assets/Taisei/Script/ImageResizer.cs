@@ -41,6 +41,11 @@ public class ImageResizer : MonoBehaviour, IDragHandler, IBeginDragHandler, IEnd
     private RectTransform rect_outLeft;    //タイムラインの左端
     private RectTransform rect_outRight;   //タイムラインの右端
 
+    private GameObject[] Clips;
+    private RectTransform[] ClipsRect;
+
+    private Vector3 v3_beforePos;
+
     private enum CLIP_MODE
     {
         normal,
@@ -68,22 +73,56 @@ public class ImageResizer : MonoBehaviour, IDragHandler, IBeginDragHandler, IEnd
         CheckHeight();
         v2_newPos = new Vector2(f_newWidth, f_newHeight);
         targetImage.localPosition = new Vector3(v2_newPos.x, v2_newPos.y, 0);
-
-        if(this.gameObject.tag != "NotCreate")
+    }
+    private void Start()
+    {
+        if (this.gameObject.tag == "CreateClip")
         {
             f_newWidth += f_oneWidth;
             CheckWidth();
             v2_newPos = new Vector2(f_newWidth, f_newHeight);
             targetImage.localPosition = new Vector3(v2_newPos.x, v2_newPos.y, 0);
         }
-    }
-    private void Start()
-    {
+
+        GetClipRect();
+        for(int i = 0; i < ClipsRect.Length; i++)
+        {
+            //他のクリップと重なった場合
+            if (IsOverlapping(targetImage, ClipsRect[i]))
+            {
+                //重なったクリップの下に移動
+                f_newHeight = ClipsRect[i].localPosition.y - f_oneHeight;
+                CheckHeight();
+
+                //クリップが一番下で重なった場合
+                if (ClipsRect[i].localPosition.y <= timelineData.f_timelineEndDown)
+                {
+                    f_newHeight = 0 * f_oneHeight - 15f;
+
+                    //重なったクリップの右端の座標を取得
+                    Vector2 overRapSize = ClipsRect[i].rect.size;
+                    float pivotX = ClipsRect[i].pivot.x;
+                    float rightEdgeX = (0.5f - pivotX) * overRapSize.x;
+                    Vector3 rightLocalPos = new Vector3(rightEdgeX, 0, 0);
+
+
+                    f_newWidth = rightLocalPos.x + f_oneWidth * (i-1);
+                    CalculationWidth(f_newWidth);
+                    CalculationHeight(f_newHeight);
+
+                }
+                v2_newPos = new Vector2(f_newWidth, f_newHeight);
+                targetImage.localPosition = new Vector3(v2_newPos.x, v2_newPos.y, 0);
+            }
+        }
+
+        this.gameObject.tag = "SetClip";
+        v3_beforePos = this.transform.localPosition;
     }
 
     private void Update()
     {
-        
+
     }
 
     public void OnBeginDrag(PointerEventData eventData)
@@ -212,18 +251,30 @@ public class ImageResizer : MonoBehaviour, IDragHandler, IBeginDragHandler, IEnd
 
     public void OnEndDrag(PointerEventData eventData)
     {
+        //重なった場合
+        GetClipRect();
+        for (int i = 0; i < ClipsRect.Length; i++)
+        {
+            if (IsOverlapping(targetImage, ClipsRect[i]))
+            {
+                //同じオブジェクトじゃないとき
+                if(targetImage.name != Clips[i].name)
+                {
+                    Debug.Log("重なった");
+                    targetImage.localPosition = v3_beforePos;
+                }
+            }
+        }
+
+        v3_beforePos = this.transform.localPosition;
+
         if(mode != CLIP_MODE.normal)
         {
             //左端とクリップが重なってる場合
             if (IsOverlapping(targetImage, rect_outLeft))
             {
-                //クリップ移動による場合
-                if(mode == CLIP_MODE.move)
-                {
-
-                }
                 //サイズ変更による場合
-                else if(mode == CLIP_MODE.resize)
+                if(mode == CLIP_MODE.resize)
                 {
                     ReCalculationSize();
                 }
@@ -231,13 +282,8 @@ public class ImageResizer : MonoBehaviour, IDragHandler, IBeginDragHandler, IEnd
             //右端とクリップが重なってる場合
             else if (IsOverlapping(targetImage, rect_outRight))
             {
-                //クリップ移動による場合
-                if (mode == CLIP_MODE.move)
-                {
-
-                }
                 //サイズ変更による場合
-                else if (mode == CLIP_MODE.resize)
+                if (mode == CLIP_MODE.resize)
                 {
                     ReCalculationSize();
                 }
@@ -372,4 +418,13 @@ public class ImageResizer : MonoBehaviour, IDragHandler, IBeginDragHandler, IEnd
         return new Rect(corners[0], corners[2] - corners[0]);
     }
 
+    private void GetClipRect()
+    {
+        Clips = GameObject.FindGameObjectsWithTag("SetClip");
+        ClipsRect = new RectTransform[Clips.Length];
+        for(int i = 0; i < Clips.Length; i++)
+        {
+            ClipsRect[i] = Clips[i].GetComponent<RectTransform>();
+        }
+    }
 }
