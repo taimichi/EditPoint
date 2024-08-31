@@ -15,4 +15,16 @@ public class TitleButton : MonoBehaviour
             SceneManager.LoadScene("Select");
         });
     }
+
+    private void Update()
+    {
+        if (Input.GetMouseButtonDown(0) || Input.GetMouseButtonDown(1))
+        {
+            // フェード
+            fade.FadeIn(0.5f, () => {
+                SceneManager.LoadScene("Select");
+            });
+
+        }
+    }
 }

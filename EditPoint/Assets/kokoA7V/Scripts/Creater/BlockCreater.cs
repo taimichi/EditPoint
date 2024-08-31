@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 public class BlockCreater : MonoBehaviour
 {
@@ -36,8 +37,9 @@ public class BlockCreater : MonoBehaviour
 
     private int blockCounter = 1;
 
-
     private string createName = "CreateBlock";
+    [SerializeField] private Image blockButton;
+    [SerializeField] private Image moveBlockButton;
 
     private void Start()
     {
@@ -136,7 +138,33 @@ public class BlockCreater : MonoBehaviour
 
     public void CreateSetActive()
     {
-        nowState = nowState == State.none ? State.Create : State.none;
+        if (nowState != State.MoveCreate)
+        {
+            nowState = nowState == State.none ? State.Create : State.none;
+            blockButton.color = nowState == State.none ? Color.white : Color.yellow;
+        }
+        else
+        {
+            nowState = State.Create;
+            blockButton.color = Color.yellow;
+            moveBlockButton.color = Color.white;
+        }
+    }
+
+    public void CreateMoveSetActive()
+    {
+        if(nowState != State.Create)
+        {
+            nowState = nowState == State.none ? State.MoveCreate : State.none;
+            moveBlockButton.color = nowState == State.none ? Color.white : Color.yellow;
+        }
+        else
+        {
+            nowState = State.MoveCreate;
+            blockButton.color = Color.white;
+            moveBlockButton.color = Color.yellow;
+
+        }
     }
 
     public int ReturnBlockCount()

@@ -4,12 +4,11 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    //編集モード
-    private bool editMode;
+    private bool b_start = false;
 
     private void Awake()
     {
-        Time.timeScale = 1;
+        b_start = false;
     }
 
     void Start()
@@ -19,15 +18,24 @@ public class GameManager : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.T))
+        //デバッグ用機能
+        if (Input.GetKey(KeyCode.LeftShift))
         {
-            Debug.Log("時間変更");
-            Time.timeScale = Time.timeScale == 0 ? 1 : 0;
+            if (Input.GetKeyDown(KeyCode.T))
+            {
+                Debug.Log("時間変更");
+                Time.timeScale = Time.timeScale == 0 ? 1 : 0;
+            }
         }
     }
 
-    public bool ReturnEditMode()
+
+    public void OnStart()
     {
-        return editMode;
+        if (!b_start)
+        {
+            Time.timeScale = 1;
+            b_start = true;
+        }
     }
 }

@@ -46,6 +46,8 @@ public class ImageResizer : MonoBehaviour, IDragHandler, IBeginDragHandler, IEnd
 
     private Vector3 v3_beforePos;
 
+    [SerializeField] private bool b_Lock = false;
+
     private enum CLIP_MODE
     {
         normal,
@@ -82,42 +84,44 @@ public class ImageResizer : MonoBehaviour, IDragHandler, IBeginDragHandler, IEnd
             CheckWidth();
             v2_newPos = new Vector2(f_newWidth, f_newHeight);
             targetImage.localPosition = new Vector3(v2_newPos.x, v2_newPos.y, 0);
-        }
 
-        GetClipRect();
-        for(int i = 0; i < ClipsRect.Length; i++)
-        {
-            //他のクリップと重なった場合
-            if (IsOverlapping(targetImage, ClipsRect[i]))
+            GetClipRect();
+            for (int i = 0; i < ClipsRect.Length; i++)
             {
-                //重なったクリップの下に移動
-                f_newHeight = ClipsRect[i].localPosition.y - f_oneHeight;
-                CheckHeight();
-
-                //クリップが一番下で重なった場合
-                if (ClipsRect[i].localPosition.y <= timelineData.f_timelineEndDown)
+                //他のクリップと重なった場合
+                if (IsOverlapping(targetImage, ClipsRect[i]))
                 {
-                    f_newHeight = 0 * f_oneHeight - 15f;
+                    //重なったクリップの下に移動
+                    f_newHeight = ClipsRect[i].localPosition.y - f_oneHeight;
+                    CheckHeight();
 
-                    //重なったクリップの右端の座標を取得
-                    Vector2 overRapSize = ClipsRect[i].rect.size;
-                    float pivotX = ClipsRect[i].pivot.x;
-                    float rightEdgeX = (0.5f - pivotX) * overRapSize.x;
-                    Vector3 rightLocalPos = new Vector3(rightEdgeX, 0, 0);
+                    //クリップが一番下で重なった場合
+                    if (ClipsRect[i].localPosition.y <= timelineData.f_timelineEndDown)
+                    {
+                        f_newHeight = 0 * f_oneHeight - 15f;
+
+                        //重なったクリップの右端の座標を取得
+                        Vector2 overRapSize = ClipsRect[i].rect.size;
+                        float pivotX = ClipsRect[i].pivot.x;
+                        float rightEdgeX = (0.5f - pivotX) * overRapSize.x;
+                        Vector3 rightLocalPos = new Vector3(rightEdgeX, 0, 0);
 
 
-                    f_newWidth = rightLocalPos.x + f_oneWidth * (i-1);
-                    CalculationWidth(f_newWidth);
-                    CalculationHeight(f_newHeight);
+                        f_newWidth = rightLocalPos.x + f_oneWidth * (i - 1);
+                        CalculationWidth(f_newWidth);
+                        CalculationHeight(f_newHeight);
 
+                    }
+                    v2_newPos = new Vector2(f_newWidth, f_newHeight);
+                    targetImage.localPosition = new Vector3(v2_newPos.x, v2_newPos.y, 0);
                 }
-                v2_newPos = new Vector2(f_newWidth, f_newHeight);
-                targetImage.localPosition = new Vector3(v2_newPos.x, v2_newPos.y, 0);
             }
+
+            this.gameObject.tag = "SetClip";
+            v3_beforePos = this.transform.localPosition;
+
         }
 
-        this.gameObject.tag = "SetClip";
-        v3_beforePos = this.transform.localPosition;
     }
 
     private void Update()
@@ -127,169 +131,178 @@ public class ImageResizer : MonoBehaviour, IDragHandler, IBeginDragHandler, IEnd
 
     public void OnBeginDrag(PointerEventData eventData)
     {
-        initialSizeDelta = targetImage.sizeDelta;
-        RectTransformUtility.ScreenPointToLocalPointInRectangle(
-            targetImage,
-            eventData.position,
-            eventData.pressEventCamera,
-            out Vector2 localMousePosition
-        );
-
-        // マウス位置が画像の右端か左端かをチェック
-        if (Mathf.Abs(localMousePosition.x - (-targetImage.rect.width * targetImage.pivot.x)) <= f_edgeRange)
+        if (!b_Lock)
         {
-            // 左端
-            SetPivot(targetImage, new Vector2(1, 0.5f));
-            isResizingRight = false;
-            mode = CLIP_MODE.resize;
-        }
-        else if (Mathf.Abs(localMousePosition.x - (targetImage.rect.width * (1 - targetImage.pivot.x))) <= f_edgeRange)
-        {
-            // 右端
-            SetPivot(targetImage, new Vector2(0, 0.5f));
-            isResizingRight = true;
-            mode = CLIP_MODE.resize;
-        }
-        else
-        {
-            // 端以外の場合はリサイズを無効化、クリップ移動モードにする
-            mode = CLIP_MODE.move;
-            SetPivot(targetImage, new Vector2(0, 0.5f));
-        }
-
-        if (mode == CLIP_MODE.resize)
-        {
+            initialSizeDelta = targetImage.sizeDelta;
             RectTransformUtility.ScreenPointToLocalPointInRectangle(
-                (RectTransform)targetImage.parent,
+                targetImage,
                 eventData.position,
                 eventData.pressEventCamera,
-                out initialMousePosition
+                out Vector2 localMousePosition
             );
+
+            // マウス位置が画像の右端か左端かをチェック
+            if (Mathf.Abs(localMousePosition.x - (-targetImage.rect.width * targetImage.pivot.x)) <= f_edgeRange)
+            {
+                // 左端
+                SetPivot(targetImage, new Vector2(1, 0.5f));
+                isResizingRight = false;
+                mode = CLIP_MODE.resize;
+            }
+            else if (Mathf.Abs(localMousePosition.x - (targetImage.rect.width * (1 - targetImage.pivot.x))) <= f_edgeRange)
+            {
+                // 右端
+                SetPivot(targetImage, new Vector2(0, 0.5f));
+                isResizingRight = true;
+                mode = CLIP_MODE.resize;
+            }
+            else
+            {
+                // 端以外の場合はリサイズを無効化、クリップ移動モードにする
+                mode = CLIP_MODE.move;
+                SetPivot(targetImage, new Vector2(0, 0.5f));
+            }
+
+            if (mode == CLIP_MODE.resize)
+            {
+                RectTransformUtility.ScreenPointToLocalPointInRectangle(
+                    (RectTransform)targetImage.parent,
+                    eventData.position,
+                    eventData.pressEventCamera,
+                    out initialMousePosition
+                );
+            }
         }
     }
 
     public void OnDrag(PointerEventData eventData)
     {
-        if (mode != CLIP_MODE.resize)
+        if (!b_Lock)
         {
-            if (targetImage == null)
+            if (mode != CLIP_MODE.resize)
             {
-                mode = CLIP_MODE.normal;
+                if (targetImage == null)
+                {
+                    mode = CLIP_MODE.normal;
+                    return;
+                }
+
+                ////クリップ移動処理
+                RectTransformUtility.ScreenPointToLocalPointInRectangle(
+                    (RectTransform)targetImage.parent,
+                    eventData.position,
+                    eventData.pressEventCamera,
+                    out v2_mousePos
+                );
+
+
+                //ドット移動用
+                CalculationWidth(v2_mousePos.x);
+                CalculationHeight(v2_mousePos.y);
+
+                //タイムラインの範囲外に出た時
+                CheckWidth();
+                CheckHeight();
+                v2_newPos = new Vector2(f_newWidth, f_newHeight);
+                targetImage.localPosition = new Vector3(v2_newPos.x, v2_newPos.y, 0);
+
+
                 return;
             }
 
-            ////クリップ移動処理
             RectTransformUtility.ScreenPointToLocalPointInRectangle(
                 (RectTransform)targetImage.parent,
                 eventData.position,
                 eventData.pressEventCamera,
-                out v2_mousePos
+                out Vector2 currentMousePosition
             );
 
+            offset = currentMousePosition - initialMousePosition;
 
-            //ドット移動用
-            CalculationWidth(v2_mousePos.x);
-            CalculationHeight(v2_mousePos.y);
-
-            //タイムラインの範囲外に出た時
-            CheckWidth();
-            CheckHeight();
-            v2_newPos = new Vector2(f_newWidth, f_newHeight);
-            targetImage.localPosition = new Vector3(v2_newPos.x, v2_newPos.y, 0);
-
-
-            return;
-        }
-
-        RectTransformUtility.ScreenPointToLocalPointInRectangle(
-            (RectTransform)targetImage.parent,
-            eventData.position,
-            eventData.pressEventCamera,
-            out Vector2 currentMousePosition
-        );
-
-        offset = currentMousePosition - initialMousePosition;
-
-        if (isResizingRight)
-        {
-            f_newSize = initialSizeDelta.x + offset.x;
-        }
-        else
-        {
-            f_newSize = initialSizeDelta.x - offset.x;
-        }
-
-        CalculationSize();
-
-        f_newSize = Mathf.Clamp(f_newSize, f_minSize, f_maxSize);
-
-        if(IsOverlapping(targetImage,rect_outLeft) || IsOverlapping(targetImage, rect_outRight))
-        {
-            if(i_resizeCount == 0)
+            if (isResizingRight)
             {
-                i_resizeCount = 1;
+                f_newSize = initialSizeDelta.x + offset.x;
+            }
+            else
+            {
+                f_newSize = initialSizeDelta.x - offset.x;
             }
 
-            //リサイズ前が大きい場合
-            if (targetImage.sizeDelta.x > f_newSize)
-            {
-                i_resizeCount--;
+            CalculationSize();
 
-                Debug.Log("い");
-            }
-            //リサイズ前が小さい場合
-            else if (targetImage.sizeDelta.x < f_newSize)
-            {
-                Debug.Log("あ");
+            f_newSize = Mathf.Clamp(f_newSize, f_minSize, f_maxSize);
 
-                i_resizeCount++;
+            if (IsOverlapping(targetImage, rect_outLeft) || IsOverlapping(targetImage, rect_outRight))
+            {
+                if (i_resizeCount == 0)
+                {
+                    i_resizeCount = 1;
+                }
+
+                //リサイズ前が大きい場合
+                if (targetImage.sizeDelta.x > f_newSize)
+                {
+                    i_resizeCount--;
+
+                    Debug.Log("い");
+                }
+                //リサイズ前が小さい場合
+                else if (targetImage.sizeDelta.x < f_newSize)
+                {
+                    Debug.Log("あ");
+
+                    i_resizeCount++;
+                }
             }
+
+            targetImage.sizeDelta = new Vector2(f_newSize, targetImage.sizeDelta.y);
         }
-
-        targetImage.sizeDelta = new Vector2(f_newSize, targetImage.sizeDelta.y);
     }
 
     public void OnEndDrag(PointerEventData eventData)
     {
-        //重なった場合
-        GetClipRect();
-        for (int i = 0; i < ClipsRect.Length; i++)
+        if (!b_Lock)
         {
-            if (IsOverlapping(targetImage, ClipsRect[i]))
+            //重なった場合
+            GetClipRect();
+            for (int i = 0; i < ClipsRect.Length; i++)
             {
-                //同じオブジェクトじゃないとき
-                if(targetImage.name != Clips[i].name)
+                if (IsOverlapping(targetImage, ClipsRect[i]))
                 {
-                    Debug.Log("重なった");
-                    targetImage.localPosition = v3_beforePos;
+                    //同じオブジェクトじゃないとき
+                    if (targetImage.name != Clips[i].name)
+                    {
+                        Debug.Log("重なった");
+                        targetImage.localPosition = v3_beforePos;
+                    }
                 }
             }
-        }
 
-        v3_beforePos = this.transform.localPosition;
+            v3_beforePos = this.transform.localPosition;
 
-        if(mode != CLIP_MODE.normal)
-        {
-            //左端とクリップが重なってる場合
-            if (IsOverlapping(targetImage, rect_outLeft))
+            if (mode != CLIP_MODE.normal)
             {
-                //サイズ変更による場合
-                if(mode == CLIP_MODE.resize)
+                //左端とクリップが重なってる場合
+                if (IsOverlapping(targetImage, rect_outLeft))
                 {
-                    ReCalculationSize();
+                    //サイズ変更による場合
+                    if (mode == CLIP_MODE.resize)
+                    {
+                        ReCalculationSize();
+                    }
                 }
-            }
-            //右端とクリップが重なってる場合
-            else if (IsOverlapping(targetImage, rect_outRight))
-            {
-                //サイズ変更による場合
-                if (mode == CLIP_MODE.resize)
+                //右端とクリップが重なってる場合
+                else if (IsOverlapping(targetImage, rect_outRight))
                 {
-                    ReCalculationSize();
+                    //サイズ変更による場合
+                    if (mode == CLIP_MODE.resize)
+                    {
+                        ReCalculationSize();
+                    }
                 }
+                i_resizeCount = 0;
+                mode = CLIP_MODE.normal;
             }
-            i_resizeCount = 0;
-            mode = CLIP_MODE.normal;
         }
 
     }
