@@ -95,7 +95,7 @@ MeshRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 2000
+  m_SortingOrder: 1000
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!114 &1188965580298290513
 MonoBehaviour:
@@ -117,7 +117,7 @@ MonoBehaviour:
   _screenColor: {r: 0, g: 0, b: 0, a: 0}
   _mainTexture: {fileID: 2800000, guid: 9f20901c035bdc74a930beb39a8edbe8, type: 3}
   _sortingMode: 0
-  _sortingOrder: 2000
+  _sortingOrder: 1000
   _renderOrder: 20
   _depthOffset: 0.00001
   _opacity: 1
@@ -294,7 +294,7 @@ MeshRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 2000
+  m_SortingOrder: 1000
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!114 &2137892327598012104
 MonoBehaviour:
@@ -316,7 +316,7 @@ MonoBehaviour:
   _screenColor: {r: 0, g: 0, b: 0, a: 0}
   _mainTexture: {fileID: 2800000, guid: 9f20901c035bdc74a930beb39a8edbe8, type: 3}
   _sortingMode: 0
-  _sortingOrder: 2000
+  _sortingOrder: 1000
   _renderOrder: 24
   _depthOffset: 0.00001
   _opacity: 1
@@ -626,7 +626,7 @@ MeshRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 2000
+  m_SortingOrder: 1000
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!114 &9104415942987022016
 MonoBehaviour:
@@ -648,7 +648,7 @@ MonoBehaviour:
   _screenColor: {r: 0, g: 0, b: 0, a: 0}
   _mainTexture: {fileID: 2800000, guid: 9f20901c035bdc74a930beb39a8edbe8, type: 3}
   _sortingMode: 0
-  _sortingOrder: 2000
+  _sortingOrder: 1000
   _renderOrder: 5
   _depthOffset: 0.00001
   _opacity: 1
@@ -807,7 +807,7 @@ MeshRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 2000
+  m_SortingOrder: 1000
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!114 &18478300072935958
 MonoBehaviour:
@@ -829,7 +829,7 @@ MonoBehaviour:
   _screenColor: {r: 0, g: 0, b: 0, a: 0}
   _mainTexture: {fileID: 2800000, guid: 9f20901c035bdc74a930beb39a8edbe8, type: 3}
   _sortingMode: 0
-  _sortingOrder: 2000
+  _sortingOrder: 1000
   _renderOrder: 1
   _depthOffset: 0.00001
   _opacity: 1
@@ -988,7 +988,7 @@ MeshRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 2000
+  m_SortingOrder: 1000
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!114 &8300192513323773287
 MonoBehaviour:
@@ -1010,7 +1010,7 @@ MonoBehaviour:
   _screenColor: {r: 0, g: 0, b: 0, a: 0}
   _mainTexture: {fileID: 2800000, guid: 9f20901c035bdc74a930beb39a8edbe8, type: 3}
   _sortingMode: 0
-  _sortingOrder: 2000
+  _sortingOrder: 1000
   _renderOrder: 7
   _depthOffset: 0.00001
   _opacity: 1
@@ -1109,7 +1109,7 @@ MeshRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 2000
+  m_SortingOrder: 1000
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!114 &6244219971513674692
 MonoBehaviour:
@@ -1131,7 +1131,7 @@ MonoBehaviour:
   _screenColor: {r: 0, g: 0, b: 0, a: 0}
   _mainTexture: {fileID: 2800000, guid: 9f20901c035bdc74a930beb39a8edbe8, type: 3}
   _sortingMode: 0
-  _sortingOrder: 2000
+  _sortingOrder: 1000
   _renderOrder: 18
   _depthOffset: 0.00001
   _opacity: 1
@@ -1449,7 +1449,7 @@ MeshRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 2000
+  m_SortingOrder: 1000
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!114 &1123887149429574941
 MonoBehaviour:
@@ -1471,7 +1471,7 @@ MonoBehaviour:
   _screenColor: {r: 0, g: 0, b: 0, a: 0}
   _mainTexture: {fileID: 2800000, guid: 9f20901c035bdc74a930beb39a8edbe8, type: 3}
   _sortingMode: 0
-  _sortingOrder: 2000
+  _sortingOrder: 1000
   _renderOrder: 16
   _depthOffset: 0.00001
   _opacity: 1
@@ -1570,7 +1570,7 @@ MeshRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 2000
+  m_SortingOrder: 1000
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!114 &57114545269839969
 MonoBehaviour:
@@ -1592,7 +1592,7 @@ MonoBehaviour:
   _screenColor: {r: 0, g: 0, b: 0, a: 0}
   _mainTexture: {fileID: 2800000, guid: 9f20901c035bdc74a930beb39a8edbe8, type: 3}
   _sortingMode: 0
-  _sortingOrder: 2000
+  _sortingOrder: 1000
   _renderOrder: 10
   _depthOffset: 0.00001
   _opacity: 1
@@ -1751,7 +1751,7 @@ MeshRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 2000
+  m_SortingOrder: 1000
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!114 &5867661960849367037
 MonoBehaviour:
@@ -1773,7 +1773,7 @@ MonoBehaviour:
   _screenColor: {r: 0, g: 0, b: 0, a: 0}
   _mainTexture: {fileID: 2800000, guid: 9f20901c035bdc74a930beb39a8edbe8, type: 3}
   _sortingMode: 0
-  _sortingOrder: 2000
+  _sortingOrder: 1000
   _renderOrder: 9
   _depthOffset: 0.00001
   _opacity: 1
@@ -1872,7 +1872,7 @@ MeshRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 2000
+  m_SortingOrder: 1000
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!114 &4665918382267066412
 MonoBehaviour:
@@ -1894,7 +1894,7 @@ MonoBehaviour:
   _screenColor: {r: 0, g: 0, b: 0, a: 0}
   _mainTexture: {fileID: 2800000, guid: 9f20901c035bdc74a930beb39a8edbe8, type: 3}
   _sortingMode: 0
-  _sortingOrder: 2000
+  _sortingOrder: 1000
   _renderOrder: 3
   _depthOffset: 0.00001
   _opacity: 1
@@ -2073,7 +2073,7 @@ MeshRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 2000
+  m_SortingOrder: 1000
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!114 &4513942358073338736
 MonoBehaviour:
@@ -2095,7 +2095,7 @@ MonoBehaviour:
   _screenColor: {r: 0, g: 0, b: 0, a: 0}
   _mainTexture: {fileID: 2800000, guid: 9f20901c035bdc74a930beb39a8edbe8, type: 3}
   _sortingMode: 0
-  _sortingOrder: 2000
+  _sortingOrder: 1000
   _renderOrder: 30
   _depthOffset: 0.00001
   _opacity: 1
@@ -2194,7 +2194,7 @@ MeshRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 2000
+  m_SortingOrder: 1000
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!114 &4399086682799937542
 MonoBehaviour:
@@ -2216,7 +2216,7 @@ MonoBehaviour:
   _screenColor: {r: 0, g: 0, b: 0, a: 0}
   _mainTexture: {fileID: 2800000, guid: 9f20901c035bdc74a930beb39a8edbe8, type: 3}
   _sortingMode: 0
-  _sortingOrder: 2000
+  _sortingOrder: 1000
   _renderOrder: 31
   _depthOffset: 0.00001
   _opacity: 1
@@ -2321,7 +2321,7 @@ MonoBehaviour:
   _modelScreenColor: {r: 0, g: 0, b: 0, a: 0}
   _sortingLayerId: 0
   _sortingMode: 0
-  _sortingOrder: 2000
+  _sortingOrder: 1000
   CameraToFace: {fileID: 0}
   _drawOrderHandler: {fileID: 0}
   _opacityHandler: {fileID: 0}
@@ -2584,7 +2584,7 @@ MeshRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 2000
+  m_SortingOrder: 1000
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!114 &8272974186447718946
 MonoBehaviour:
@@ -2606,7 +2606,7 @@ MonoBehaviour:
   _screenColor: {r: 0, g: 0, b: 0, a: 0}
   _mainTexture: {fileID: 2800000, guid: 9f20901c035bdc74a930beb39a8edbe8, type: 3}
   _sortingMode: 0
-  _sortingOrder: 2000
+  _sortingOrder: 1000
   _renderOrder: 8
   _depthOffset: 0.00001
   _opacity: 1
@@ -2963,7 +2963,7 @@ MeshRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 2000
+  m_SortingOrder: 1000
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!114 &7306617194692851592
 MonoBehaviour:
@@ -2985,7 +2985,7 @@ MonoBehaviour:
   _screenColor: {r: 0, g: 0, b: 0, a: 0}
   _mainTexture: {fileID: 2800000, guid: 9f20901c035bdc74a930beb39a8edbe8, type: 3}
   _sortingMode: 0
-  _sortingOrder: 2000
+  _sortingOrder: 1000
   _renderOrder: 12
   _depthOffset: 0.00001
   _opacity: 1
@@ -3144,7 +3144,7 @@ MeshRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 2000
+  m_SortingOrder: 1000
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!114 &7218669441707945286
 MonoBehaviour:
@@ -3166,7 +3166,7 @@ MonoBehaviour:
   _screenColor: {r: 0, g: 0, b: 0, a: 0}
   _mainTexture: {fileID: 2800000, guid: 9f20901c035bdc74a930beb39a8edbe8, type: 3}
   _sortingMode: 0
-  _sortingOrder: 2000
+  _sortingOrder: 1000
   _renderOrder: 26
   _depthOffset: 0.00001
   _opacity: 1
@@ -3265,7 +3265,7 @@ MeshRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 2000
+  m_SortingOrder: 1000
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!114 &5350737114297935727
 MonoBehaviour:
@@ -3287,7 +3287,7 @@ MonoBehaviour:
   _screenColor: {r: 0, g: 0, b: 0, a: 0}
   _mainTexture: {fileID: 2800000, guid: 9f20901c035bdc74a930beb39a8edbe8, type: 3}
   _sortingMode: 0
-  _sortingOrder: 2000
+  _sortingOrder: 1000
   _renderOrder: 22
   _depthOffset: 0.00001
   _opacity: 1
@@ -3386,7 +3386,7 @@ MeshRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 2000
+  m_SortingOrder: 1000
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!114 &495053367313617900
 MonoBehaviour:
@@ -3408,7 +3408,7 @@ MonoBehaviour:
   _screenColor: {r: 0, g: 0, b: 0, a: 0}
   _mainTexture: {fileID: 2800000, guid: 9f20901c035bdc74a930beb39a8edbe8, type: 3}
   _sortingMode: 0
-  _sortingOrder: 2000
+  _sortingOrder: 1000
   _renderOrder: 0
   _depthOffset: 0.00001
   _opacity: 1
@@ -3507,7 +3507,7 @@ MeshRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 2000
+  m_SortingOrder: 1000
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!114 &335817196301897287
 MonoBehaviour:
@@ -3529,7 +3529,7 @@ MonoBehaviour:
   _screenColor: {r: 0, g: 0, b: 0, a: 0}
   _mainTexture: {fileID: 2800000, guid: 9f20901c035bdc74a930beb39a8edbe8, type: 3}
   _sortingMode: 0
-  _sortingOrder: 2000
+  _sortingOrder: 1000
   _renderOrder: 14
   _depthOffset: 0.00001
   _opacity: 1
@@ -3771,7 +3771,7 @@ MeshRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 2000
+  m_SortingOrder: 1000
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!114 &972141094014586763
 MonoBehaviour:
@@ -3793,7 +3793,7 @@ MonoBehaviour:
   _screenColor: {r: 0, g: 0, b: 0, a: 0}
   _mainTexture: {fileID: 2800000, guid: 9f20901c035bdc74a930beb39a8edbe8, type: 3}
   _sortingMode: 0
-  _sortingOrder: 2000
+  _sortingOrder: 1000
   _renderOrder: 21
   _depthOffset: 0.00001
   _opacity: 1
@@ -3892,7 +3892,7 @@ MeshRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 2000
+  m_SortingOrder: 1000
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!114 &4700531800500503592
 MonoBehaviour:
@@ -3914,7 +3914,7 @@ MonoBehaviour:
   _screenColor: {r: 0, g: 0, b: 0, a: 0}
   _mainTexture: {fileID: 2800000, guid: 9f20901c035bdc74a930beb39a8edbe8, type: 3}
   _sortingMode: 0
-  _sortingOrder: 2000
+  _sortingOrder: 1000
   _renderOrder: 2
   _depthOffset: 0.00001
   _opacity: 1
@@ -4013,7 +4013,7 @@ MeshRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 2000
+  m_SortingOrder: 1000
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!114 &8907491017654406061
 MonoBehaviour:
@@ -4035,7 +4035,7 @@ MonoBehaviour:
   _screenColor: {r: 0, g: 0, b: 0, a: 0}
   _mainTexture: {fileID: 2800000, guid: 9f20901c035bdc74a930beb39a8edbe8, type: 3}
   _sortingMode: 0
-  _sortingOrder: 2000
+  _sortingOrder: 1000
   _renderOrder: 4
   _depthOffset: 0.00001
   _opacity: 1
@@ -4134,7 +4134,7 @@ MeshRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 2000
+  m_SortingOrder: 1000
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!114 &3891193462523723894
 MonoBehaviour:
@@ -4156,7 +4156,7 @@ MonoBehaviour:
   _screenColor: {r: 0, g: 0, b: 0, a: 0}
   _mainTexture: {fileID: 2800000, guid: 9f20901c035bdc74a930beb39a8edbe8, type: 3}
   _sortingMode: 0
-  _sortingOrder: 2000
+  _sortingOrder: 1000
   _renderOrder: 28
   _depthOffset: 0.00001
   _opacity: 1
@@ -4255,7 +4255,7 @@ MeshRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 2000
+  m_SortingOrder: 1000
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!114 &8000250185672797907
 MonoBehaviour:
@@ -4277,7 +4277,7 @@ MonoBehaviour:
   _screenColor: {r: 0, g: 0, b: 0, a: 0}
   _mainTexture: {fileID: 2800000, guid: 9f20901c035bdc74a930beb39a8edbe8, type: 3}
   _sortingMode: 0
-  _sortingOrder: 2000
+  _sortingOrder: 1000
   _renderOrder: 6
   _depthOffset: 0.00001
   _opacity: 1
@@ -4436,7 +4436,7 @@ MeshRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 2000
+  m_SortingOrder: 1000
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!114 &8278282469732077988
 MonoBehaviour:
@@ -4458,7 +4458,7 @@ MonoBehaviour:
   _screenColor: {r: 0, g: 0, b: 0, a: 0}
   _mainTexture: {fileID: 2800000, guid: 9f20901c035bdc74a930beb39a8edbe8, type: 3}
   _sortingMode: 0
-  _sortingOrder: 2000
+  _sortingOrder: 1000
   _renderOrder: 34
   _depthOffset: 0.00001
   _opacity: 1
@@ -4638,7 +4638,7 @@ MeshRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 2000
+  m_SortingOrder: 1000
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!114 &5443063482024838735
 MonoBehaviour:
@@ -4660,7 +4660,7 @@ MonoBehaviour:
   _screenColor: {r: 0, g: 0, b: 0, a: 0}
   _mainTexture: {fileID: 2800000, guid: 9f20901c035bdc74a930beb39a8edbe8, type: 3}
   _sortingMode: 0
-  _sortingOrder: 2000
+  _sortingOrder: 1000
   _renderOrder: 11
   _depthOffset: 0.00001
   _opacity: 1
@@ -4842,7 +4842,7 @@ MeshRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 2000
+  m_SortingOrder: 1000
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!114 &375397042246427607
 MonoBehaviour:
@@ -4864,7 +4864,7 @@ MonoBehaviour:
   _screenColor: {r: 0, g: 0, b: 0, a: 0}
   _mainTexture: {fileID: 2800000, guid: 9f20901c035bdc74a930beb39a8edbe8, type: 3}
   _sortingMode: 0
-  _sortingOrder: 2000
+  _sortingOrder: 1000
   _renderOrder: 29
   _depthOffset: 0.00001
   _opacity: 1
@@ -5105,7 +5105,7 @@ MeshRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 2000
+  m_SortingOrder: 1000
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!114 &5786113467257255150
 MonoBehaviour:
@@ -5127,7 +5127,7 @@ MonoBehaviour:
   _screenColor: {r: 0, g: 0, b: 0, a: 0}
   _mainTexture: {fileID: 2800000, guid: 9f20901c035bdc74a930beb39a8edbe8, type: 3}
   _sortingMode: 0
-  _sortingOrder: 2000
+  _sortingOrder: 1000
   _renderOrder: 33
   _depthOffset: 0.00001
   _opacity: 1
@@ -5226,7 +5226,7 @@ MeshRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 2000
+  m_SortingOrder: 1000
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!114 &3162817991643384345
 MonoBehaviour:
@@ -5248,7 +5248,7 @@ MonoBehaviour:
   _screenColor: {r: 0, g: 0, b: 0, a: 0}
   _mainTexture: {fileID: 2800000, guid: 9f20901c035bdc74a930beb39a8edbe8, type: 3}
   _sortingMode: 0
-  _sortingOrder: 2000
+  _sortingOrder: 1000
   _renderOrder: 25
   _depthOffset: 0.00001
   _opacity: 1
@@ -5570,7 +5570,7 @@ MeshRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 2000
+  m_SortingOrder: 1000
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!114 &459959987460750203
 MonoBehaviour:
@@ -5592,7 +5592,7 @@ MonoBehaviour:
   _screenColor: {r: 0, g: 0, b: 0, a: 0}
   _mainTexture: {fileID: 2800000, guid: 9f20901c035bdc74a930beb39a8edbe8, type: 3}
   _sortingMode: 0
-  _sortingOrder: 2000
+  _sortingOrder: 1000
   _renderOrder: 32
   _depthOffset: 0.00001
   _opacity: 1
@@ -5833,7 +5833,7 @@ MeshRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 2000
+  m_SortingOrder: 1000
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!114 &8091649656342419008
 MonoBehaviour:
@@ -5855,7 +5855,7 @@ MonoBehaviour:
   _screenColor: {r: 0, g: 0, b: 0, a: 0}
   _mainTexture: {fileID: 2800000, guid: 9f20901c035bdc74a930beb39a8edbe8, type: 3}
   _sortingMode: 0
-  _sortingOrder: 2000
+  _sortingOrder: 1000
   _renderOrder: 23
   _depthOffset: 0.00001
   _opacity: 1
@@ -5954,7 +5954,7 @@ MeshRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 2000
+  m_SortingOrder: 1000
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!114 &3169937655724140365
 MonoBehaviour:
@@ -5976,7 +5976,7 @@ MonoBehaviour:
   _screenColor: {r: 0, g: 0, b: 0, a: 0}
   _mainTexture: {fileID: 2800000, guid: 9f20901c035bdc74a930beb39a8edbe8, type: 3}
   _sortingMode: 0
-  _sortingOrder: 2000
+  _sortingOrder: 1000
   _renderOrder: 27
   _depthOffset: 0.00001
   _opacity: 1
@@ -6075,7 +6075,7 @@ MeshRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 2000
+  m_SortingOrder: 1000
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!114 &7332708866479309419
 MonoBehaviour:
@@ -6097,7 +6097,7 @@ MonoBehaviour:
   _screenColor: {r: 0, g: 0, b: 0, a: 0}
   _mainTexture: {fileID: 2800000, guid: 9f20901c035bdc74a930beb39a8edbe8, type: 3}
   _sortingMode: 0
-  _sortingOrder: 2000
+  _sortingOrder: 1000
   _renderOrder: 17
   _depthOffset: 0.00001
   _opacity: 1
@@ -6196,7 +6196,7 @@ MeshRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 2000
+  m_SortingOrder: 1000
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!114 &8605726211384125232
 MonoBehaviour:
@@ -6218,7 +6218,7 @@ MonoBehaviour:
   _screenColor: {r: 0, g: 0, b: 0, a: 0}
   _mainTexture: {fileID: 2800000, guid: 9f20901c035bdc74a930beb39a8edbe8, type: 3}
   _sortingMode: 0
-  _sortingOrder: 2000
+  _sortingOrder: 1000
   _renderOrder: 19
   _depthOffset: 0.00001
   _opacity: 1
@@ -6377,7 +6377,7 @@ MeshRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 2000
+  m_SortingOrder: 1000
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!114 &8804766493574714133
 MonoBehaviour:
@@ -6399,7 +6399,7 @@ MonoBehaviour:
   _screenColor: {r: 0, g: 0, b: 0, a: 0}
   _mainTexture: {fileID: 2800000, guid: 9f20901c035bdc74a930beb39a8edbe8, type: 3}
   _sortingMode: 0
-  _sortingOrder: 2000
+  _sortingOrder: 1000
   _renderOrder: 13
   _depthOffset: 0.00001
   _opacity: 1
@@ -6576,7 +6576,7 @@ MeshRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 2000
+  m_SortingOrder: 1000
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!114 &4168650665407565661
 MonoBehaviour:
@@ -6598,7 +6598,7 @@ MonoBehaviour:
   _screenColor: {r: 0, g: 0, b: 0, a: 0}
   _mainTexture: {fileID: 2800000, guid: 9f20901c035bdc74a930beb39a8edbe8, type: 3}
   _sortingMode: 0
-  _sortingOrder: 2000
+  _sortingOrder: 1000
   _renderOrder: 15
   _depthOffset: 0.00001
   _opacity: 1

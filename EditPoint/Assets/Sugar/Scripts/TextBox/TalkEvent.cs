@@ -16,11 +16,17 @@ public class TalkEvent : MonoBehaviour
     [SerializeField] Text[] nameText;
     [SerializeField] Text[] talkText;
 
+    [SerializeField] GameObject CanvasFolder;
+
+
+    [SerializeField] GameObject SelectButtonBox;
     // 生成するキャラを保存する
     GameObject gObj;
 
     // 会話番号
     int num=0;
+
+    bool select = false;
 
     // Switchで使う
     int Snum=0;
@@ -64,6 +70,15 @@ public class TalkEvent : MonoBehaviour
         tData = new TalkData();
     }
 
+    public int ParamSnum
+    {
+        set
+        {
+            // 最初は0
+            Snum = value;
+        }
+    }
+
     void Update()
     {
         Debug.Log(resTalk);
@@ -89,10 +104,18 @@ public class TalkEvent : MonoBehaviour
             case 1: // 会話送り
                 if(Input.GetMouseButtonDown(0))
                 {
+                    if (talkText[(int)sBox].text == resTalk)
+                    {
+                        Snum++;
+                        resTalk = "";
+                        num++;
+                    }
+
+                    // 一文字ずつ送るコルーチンの停止
                     StopAllCoroutines();
-                    Snum++;
-                    num++;
-                    resTalk = "";
+                    // 全文表示
+                    talkText[(int)sBox].text = resTalk;
+                                       
                 }
                 break;
             case 2: // 会話番号2のセット
@@ -117,7 +140,84 @@ public class TalkEvent : MonoBehaviour
 
                 Snum++;
                 break;
-            case 3: // 終了
+            case 3:// 選択肢
+                if (Input.GetMouseButtonDown(0))
+                {
+                    StopAllCoroutines();
+                    // 全文表示
+                    talkText[(int)sBox].text = resTalk;
+
+                    resTalk = "";
+                    SelectButtonBox.SetActive(true);
+                }
+                break;
+            case 4: // Yesルート 会話番号3のセット
+                    // 初期化
+                ClearManager(true, true, true);
+                // 使うテキストボックスを変更するならこれで今まで
+                // 使ってたものを非表示に
+                ActiveFalse();
+                sBox = SelectBox.Down;
+
+                // 会話と名前のセット
+                DataSet(num, CharaName.AD);
+
+                // どの段のテキストボックスを使うか
+                UseTalkBox(sBox);
+
+                // キャラの表示
+                gObj = Instantiate(charaObj[(int)CharaName.AD], charaPos[(int)SelectPos.Cenetr].position, Quaternion.identity);
+
+                Snum=6;
+                break;
+            case 5:// Noルート
+                Snum=2;
+                break;
+            case 6:
+                if (Input.GetMouseButtonDown(0))
+                {
+                    if (talkText[(int)sBox].text == resTalk)
+                    {
+                        Snum++;
+                        resTalk = "";
+                        num++;
+                    }
+                    // 一文字ずつ送るコルーチンの停止
+                    StopAllCoroutines();
+                    // 全文表示
+                    talkText[(int)sBox].text = resTalk;
+                }
+                break;
+            case 7:// 会話番号4のセット
+                // 初期化
+                ClearManager(true, true, true);
+                // 使うテキストボックスを変更するならこれで今まで
+                // 使ってたものを非表示に
+                ActiveFalse();
+                sBox = SelectBox.Down;
+
+                // 会話と名前のセット
+                DataSet(num, CharaName.AD);
+
+                // どの段のテキストボックスを使うか
+                UseTalkBox(sBox);
+
+                // キャラの表示
+                gObj = Instantiate(charaObj[(int)CharaName.AD], charaPos[(int)SelectPos.Cenetr].position, Quaternion.identity);
+                Snum = 999;
+                break;
+            case 999:
+                if (Input.GetMouseButtonDown(0))
+                {
+                    // 一文字ずつ送るコルーチンの停止
+                    StopAllCoroutines();
+                    // 全文表示
+                    talkText[(int)sBox].text = resTalk;
+                    Snum++;
+                    resTalk = "";
+                }
+                break;
+            case 1000: // 終了
                 if (Input.GetMouseButtonDown(0))
                 {
                     StopAllCoroutines();
@@ -126,11 +226,28 @@ public class TalkEvent : MonoBehaviour
                     num=0;
                     resTalk = "";
                     ClearManager(true, true, true);
-                    this.gameObject.SetActive(false);
+                    CanvasFolder.SetActive(false);
                 }
                 break;
         }
     }
+
+    public void YesButton()
+    {
+        select = true;
+        SelectButtonBox.SetActive(false);
+        num++;
+        Snum++;
+    }
+
+    public void NoButton()
+    {
+        select = false;
+        SelectButtonBox.SetActive(false);
+        num += 2;
+        Snum+=2;
+    }
+
     IEnumerator RevealText(SelectBox selectBox)
     {
         // 一文字ずつ表示
