@@ -85,20 +85,25 @@ public class TalkEvent : MonoBehaviour
         switch (Snum)
         {
             case 0: // 会話番号1のセット
-                // 初期化
-                ClearManager(true,true,true);
+                    // 初期化
+                ClearManager(true, true, true);
 
+                // 使うテキストボックスを変更するならこれで今まで
+                // 使ってたものを非表示に
+                ActiveFalse();
+
+                // どの段を使うか指定
                 sBox = SelectBox.Down;
 
                 // 会話と名前のセット
                 DataSet(num, CharaName.AD);
-                
+
                 // どの段のテキストボックスを使うか
                 UseTalkBox(sBox);
 
                 // キャラの表示
                 gObj = Instantiate(charaObj[(int)CharaName.AD], charaPos[(int)SelectPos.Cenetr].position, Quaternion.identity);
-                
+
                 Snum++;
                 break;
             case 1: // 会話送り
@@ -127,7 +132,7 @@ public class TalkEvent : MonoBehaviour
                 ActiveFalse();
 
                 // どの段を使うか指定
-                sBox = SelectBox.Up;
+                sBox = SelectBox.Down;
 
                 // 会話と名前のセット
                 DataSet(num, CharaName.AD);
@@ -136,7 +141,7 @@ public class TalkEvent : MonoBehaviour
                 UseTalkBox(sBox);
 
                 // キャラの表示
-                gObj = Instantiate(charaObj[(int)CharaName.AD], charaPos[(int)SelectPos.Right].position, Quaternion.identity);
+                gObj = Instantiate(charaObj[(int)CharaName.AD], charaPos[(int)SelectPos.Cenetr].position, Quaternion.identity);
 
                 Snum++;
                 break;
@@ -204,7 +209,73 @@ public class TalkEvent : MonoBehaviour
 
                 // キャラの表示
                 gObj = Instantiate(charaObj[(int)CharaName.AD], charaPos[(int)SelectPos.Cenetr].position, Quaternion.identity);
-                Snum = 999;
+                Snum ++;
+                break;
+            case 8:
+                if (Input.GetMouseButtonDown(0))
+                {
+                    if (talkText[(int)sBox].text == resTalk)
+                    {
+                        Snum++;
+                        resTalk = "";
+                        num++;
+                    }
+                    // 一文字ずつ送るコルーチンの停止
+                    StopAllCoroutines();
+                    // 全文表示
+                    talkText[(int)sBox].text = resTalk;
+                }
+                break;
+            case 9:// 会話番号5のセット
+                // 初期化
+                ClearManager(true, true, true);
+                // 使うテキストボックスを変更するならこれで今まで
+                // 使ってたものを非表示に
+                ActiveFalse();
+                sBox = SelectBox.Down;
+
+                // 会話と名前のセット
+                DataSet(num, CharaName.AD);
+
+                // どの段のテキストボックスを使うか
+                UseTalkBox(sBox);
+
+                // キャラの表示
+                gObj = Instantiate(charaObj[(int)CharaName.AD], charaPos[(int)SelectPos.Cenetr].position, Quaternion.identity);
+                Snum++;
+                break;
+            case 10:
+                if (Input.GetMouseButtonDown(0))
+                {
+                    if (talkText[(int)sBox].text == resTalk)
+                    {
+                        Snum++;
+                        resTalk = "";
+                        num++;
+                    }
+                    // 一文字ずつ送るコルーチンの停止
+                    StopAllCoroutines();
+                    // 全文表示
+                    talkText[(int)sBox].text = resTalk;
+                }
+                break;
+            case 11: // 会話番号6のセット
+                // 初期化
+                ClearManager(true, true, true);
+                // 使うテキストボックスを変更するならこれで今まで
+                // 使ってたものを非表示に
+                ActiveFalse();
+                sBox = SelectBox.Down;
+
+                // 会話と名前のセット
+                DataSet(num, CharaName.AD);
+
+                // どの段のテキストボックスを使うか
+                UseTalkBox(sBox);
+
+                // キャラの表示
+                gObj = Instantiate(charaObj[(int)CharaName.AD], charaPos[(int)SelectPos.Cenetr].position, Quaternion.identity);
+                Snum=999;
                 break;
             case 999:
                 if (Input.GetMouseButtonDown(0))
