@@ -43,6 +43,7 @@ public class PlayerController : MonoBehaviour
         //mc.MoveLR(inputLR);
         mc.Run(new Vector2(inputLR * moveSpeed, 0));
         mc.MoveUpdate();
+        mc.Friction(0.98f);
 
         //if (manual)
         //{
@@ -62,7 +63,7 @@ public class PlayerController : MonoBehaviour
         //落下によるゲームオーバー
         if (this.transform.position.y <= -50)
         {
-
+            Debug.Log("ｱﾜﾜﾜﾜ!!!");
         }
     }
 

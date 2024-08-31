@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.SceneManagement; // シーン遷移
+
 
 public class Select : MonoBehaviour
 {
@@ -22,6 +22,8 @@ public class Select : MonoBehaviour
     [SerializeField] GameObject[] Obj;
     // UIを動かすクラス
     ClassUIAnim UAnim;
+
+    [SerializeField]ClapperStart clapper;
 
     // 基準座標
     // constは一個辺りの差の値
@@ -150,9 +152,8 @@ public class Select : MonoBehaviour
 
         if(Input.GetKeyDown(KeyCode.Return))
         {
-            fade.FadeIn(0.5f, () => {
-                SceneManager.LoadScene(SDB.STAGE_DATA[numSDB].StageSceneName);
-            });
+            clapper.SceneName = SDB.STAGE_DATA[numSDB].StageSceneName;
+            startMove = true;
         }
     }
 
