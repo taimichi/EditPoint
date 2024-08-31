@@ -152,6 +152,8 @@ public class Select : MonoBehaviour
 
         if(Input.GetKeyDown(KeyCode.Return))
         {
+            // ‰½‚à“ü‚Á‚Ä‚È‚¢‚Æ‚«‚ÍÀs‚µ‚È‚¢
+            if (SDB.STAGE_DATA[numSDB].StageSceneName == "") { return; }
             clapper.SceneName = SDB.STAGE_DATA[numSDB].StageSceneName;
             startMove = true;
         }
