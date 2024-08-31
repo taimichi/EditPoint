@@ -15,4 +15,4 @@ MonoBehaviour:
   StageName: "\u30B9\u30C6\u30FC\u30B81"
   StageImage: {fileID: 0}
   infomation_Stage: "\u30C1\u30E5\u30FC\u30C8\u30EA\u30A2\u30EB"
-  StageSceneName: 
+  StageSceneName: Stage1

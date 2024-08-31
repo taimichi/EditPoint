@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   StageName: "\u30B9\u30C6\u30FC\u30B83"
   StageImage: {fileID: 0}
-  infomation_Stage: "\u8AAC\u660E\u7528\u306E\u30C6\u30AD\u30B9\u30C8\u3060\u30885"
+  infomation_Stage: "\u958B\u767A\u4E2D"
   StageSceneName: 

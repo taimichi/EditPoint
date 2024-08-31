@@ -27344,7 +27344,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7724036850426827008, guid: 84d06fdfb0e2ac748aa7e5355da16b66, type: 3}
       propertyPath: isDebug
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7724036850426827009, guid: 84d06fdfb0e2ac748aa7e5355da16b66, type: 3}
       propertyPath: m_RootOrder
