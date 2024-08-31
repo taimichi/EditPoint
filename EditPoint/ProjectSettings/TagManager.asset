@@ -8,7 +8,9 @@ TagManager:
   - UnTouch
   - LayerPanel
   - CutObj
-  - NotCreate
+  - CreateClip
+  - Marcker
+  - SetClip
   layers:
   - Default
   - TransparentFX

@@ -26,19 +26,19 @@ public class BlowerWind : MonoBehaviour
     {
         if (collision.gameObject.TryGetComponent<GeneralMoveController>(out var mc))
         {
-            if (blower.dir == Blower.Dir.up)
+            if (blower.dir == 0)
             {
                 mc.Flic(new Vector2(0, blower.power));
             }
-            else if (blower.dir == Blower.Dir.down)
+            else if (blower.dir == 2)
             {
                 mc.Flic(new Vector2(0, -blower.power));
             }
-            else if (blower.dir == Blower.Dir.left)
+            else if (blower.dir == 1)
             {
                 mc.Flic(new Vector2(-blower.power, 0));
             }
-            else if (blower.dir == Blower.Dir.right)
+            else if (blower.dir == 3)
             {
                 mc.Flic(new Vector2(blower.power, 0));
             }
