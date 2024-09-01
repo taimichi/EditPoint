@@ -18,6 +18,7 @@ public class ClipPlay : MonoBehaviour
 
     [SerializeField] private List<GameObject> correspondenceObj = new List<GameObject>();
 
+    private GameObject AllClip;
     private ClipGenerator clipGenerator;
 
     private bool b_getObjMode = false;
@@ -30,13 +31,16 @@ public class ClipPlay : MonoBehaviour
     private float speed = 0f;
     private List<MoveGround> moveGround = new List<MoveGround>();
     private CheckClipConnect checkClip;
-    
+
+    private AddTextManager addTextManager;
 
     void Start()
     {
         //タイムバーのRectTransformを取得
         rect_timeBar = GameObject.Find("Timebar").GetComponent<RectTransform>();
-        clipGenerator = GameObject.Find("AllClip").GetComponent<ClipGenerator>();
+        AllClip = GameObject.Find("AllClip");
+        clipGenerator = AllClip.GetComponent<ClipGenerator>();
+        addTextManager = AllClip.GetComponent<AddTextManager>();
         objectMove = GameObject.Find("GameManager").GetComponent<ObjectMove>();
 
         //生成したクリップの場合
@@ -94,6 +98,7 @@ public class ClipPlay : MonoBehaviour
                                         {
                                             moveGround.Add(clickedObject.GetComponent<MoveGround>());
                                         }
+                                        addTextManager.AddObj();
                                     }
                                 }
                                 if (correspondenceObj.Count == 0)
@@ -106,6 +111,7 @@ public class ClipPlay : MonoBehaviour
                                     {
                                         moveGround.Add(clickedObject.GetComponent<MoveGround>());
                                     }
+                                    addTextManager.AddObj();
                                 }
                             }
                         }

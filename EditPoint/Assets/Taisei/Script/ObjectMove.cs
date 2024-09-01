@@ -68,6 +68,10 @@ public class ObjectMove : MonoBehaviour
                     return;
                 }
 
+                if (ClickObj != null)
+                {
+                    ClickObj.GetComponent<SpriteRenderer>().material = materials.layerMaterials[7];
+                }
                 ClickObj = hit2d.collider.gameObject;
 
                 if (hit2d)
