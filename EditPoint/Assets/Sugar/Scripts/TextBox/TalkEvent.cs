@@ -18,6 +18,9 @@ public class TalkEvent : MonoBehaviour
 
     [SerializeField] GameObject CanvasFolder;
 
+    // クラッパー関連
+    [SerializeField] ClapperStart clapper;
+    [SerializeField] GameObject clpObj;
 
     [SerializeField] GameObject SelectButtonBox;
     // 生成するキャラを保存する
@@ -152,7 +155,7 @@ public class TalkEvent : MonoBehaviour
                     // 全文表示
                     talkText[(int)sBox].text = resTalk;
 
-                    resTalk = "";
+                    //resTalk = "";
                     SelectButtonBox.SetActive(true);
                 }
                 break;
@@ -298,6 +301,8 @@ public class TalkEvent : MonoBehaviour
                     resTalk = "";
                     ClearManager(true, true, true);
                     CanvasFolder.SetActive(false);
+                    clpObj.SetActive(true);
+                    clapper.SceneName = "Select";
                 }
                 break;
         }
