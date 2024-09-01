@@ -287,6 +287,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fade: {fileID: 2668471610414793107}
+  clpObj: {fileID: 0}
+  clapper: {fileID: 0}
 --- !u!1 &8014358231705053396
 GameObject:
   m_ObjectHideFlags: 0
@@ -1945,7 +1947,7 @@ GameObject:
   - component: {fileID: 8014358233278298022}
   - component: {fileID: 7437254689192209461}
   m_Layer: 5
-  m_Name: Play
+  m_Name: Copy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1968,7 +1970,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 75, y: 75}
+  m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8014358233278298019
 CanvasRenderer:
@@ -1998,7 +2000,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: af19b810ad81d8741ba1583f72a9d93c, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 59fc0f73e0df73b4cba6e5c5cab6b74c, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -2278,6 +2280,18 @@ PrefabInstance:
     - target: {fileID: 1883782378489860284, guid: 1f01a293903513743ba3248c94cab3ca, type: 3}
       propertyPath: m_Name
       value: ButtonName
+      objectReference: {fileID: 0}
+    - target: {fileID: 4365069149995695129, guid: 1f01a293903513743ba3248c94cab3ca, type: 3}
+      propertyPath: m_Name
+      value: Copy
+      objectReference: {fileID: 0}
+    - target: {fileID: 4365069149995695129, guid: 1f01a293903513743ba3248c94cab3ca, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5926173283359533478, guid: 1f01a293903513743ba3248c94cab3ca, type: 3}
+      propertyPath: m_Text
+      value: "\u30B3\u30D4\u30FC"
       objectReference: {fileID: 0}
     - target: {fileID: 8485509942475278504, guid: 1f01a293903513743ba3248c94cab3ca, type: 3}
       propertyPath: m_Text
