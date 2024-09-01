@@ -22,7 +22,7 @@ public class TitleButton : MonoBehaviour
         {
             // フェード
             fade.FadeIn(0.5f, () => {
-                SceneManager.LoadScene("Select");
+                SceneManager.LoadScene("Talk");
             });
 
         }

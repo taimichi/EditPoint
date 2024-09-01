@@ -60,6 +60,8 @@ public class ClapperStart : MonoBehaviour
                     }
                     return;
                 }
+                count++;
+                if (count <= 60) { return; }
                 num++;
                 SceneManager.LoadScene(name);
                 //fade.FadeIn(0.5f, () => {
