@@ -61,9 +61,10 @@ public class ClapperStart : MonoBehaviour
                     return;
                 }
                 num++;
-                fade.FadeIn(0.5f, () => {
-                    SceneManager.LoadScene(name);
-                });
+                SceneManager.LoadScene(name);
+                //fade.FadeIn(0.5f, () => {
+
+                //});
                 break;
         }
     }

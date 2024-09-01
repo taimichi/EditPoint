@@ -85,6 +85,7 @@ public class Select : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        Debug.Log(maxSDB);
         // マウスホイール
         // 左右クリックに変更
         Wheel();
@@ -99,7 +100,7 @@ public class Select : MonoBehaviour
         wh = Input.GetAxis("Mouse ScrollWheel");
 
         // ↑入力
-        if (Input.GetMouseButtonDown(0))
+        if (wh>0)
         {
             if (num != max)
             {
@@ -124,7 +125,7 @@ public class Select : MonoBehaviour
             moveNum = (int)MoveNum.UPWheel;
         }
         // ↓入力
-        else if (Input.GetMouseButtonDown(1))
+        else if (wh<0)
         {
             if (num != min)
             {
@@ -150,7 +151,7 @@ public class Select : MonoBehaviour
 
         }
 
-        if(Input.GetKeyDown(KeyCode.Return))
+        if(Input.GetMouseButtonDown(0))
         {
             // 何も入ってないときは実行しない
             if (SDB.STAGE_DATA[numSDB].StageSceneName == "") { return; }
@@ -184,8 +185,8 @@ public class Select : MonoBehaviour
         {
             if (rPos[i].anchoredPosition == vec2[0])
             {
-                if (numSDB + 2 ==7) { img[i].sprite = SDB.STAGE_DATA[min].StageImage; }
-                else if (numSDB + 2 ==8) { img[i].sprite = SDB.STAGE_DATA[min + 1].StageImage; }
+                if (numSDB + 2 ==maxSDB+1) { img[i].sprite = SDB.STAGE_DATA[min].StageImage; }
+                else if (numSDB + 2 ==maxSDB+2) { img[i].sprite = SDB.STAGE_DATA[min + 1].StageImage; }
                 else { img[i].sprite = SDB.STAGE_DATA[numSDB + 2].StageImage; }
             }
             if (rPos[i].anchoredPosition == vec2[4])
@@ -231,6 +232,14 @@ public class Select : MonoBehaviour
                         rPos[i] = UAnim.anim_PosChange(rPos[i], -spdX, -spdY);
                     }
                 }
+                else if(rPos[0].anchoredPosition.y==vec2[4].y)
+                {
+                    for (int i = 0; i < 5; i++)
+                    {
+                        rPos[i] = UAnim.anim_PosChange(rPos[i], -spdX, -spdY);
+                    }
+                    rPos[0].anchoredPosition = vec2[copyNum];
+                }
                 else
                 {
                     for (int i = 0; i < 5; i++)
@@ -245,8 +254,9 @@ public class Select : MonoBehaviour
                     SpriteSet();
                     moveNum = (int)MoveNum.Stay;
                     NowSelect();
+                    startMove = false;
+
                 }
-                startMove = false;
                 break;
             case (int)MoveNum.DOWNWheel:
                 if (rPos[0].anchoredPosition.y <= vec2[num].y)
@@ -255,6 +265,14 @@ public class Select : MonoBehaviour
                     {
                         rPos[i] = UAnim.anim_PosChange(rPos[i], spdX, spdY);
                     }
+                }
+                else if(rPos[0].anchoredPosition.y == vec2[0].y)
+                {
+                    for (int i = 0; i < 5; i++)
+                    {
+                        rPos[i] = UAnim.anim_PosChange(rPos[i], spdX, spdY);
+                    }
+                    rPos[0].anchoredPosition = vec2[copyNum];
                 }
                 else
                 {
@@ -270,8 +288,8 @@ public class Select : MonoBehaviour
                     SpriteSet();
                     moveNum = (int)MoveNum.Stay;
                     NowSelect();
+                    startMove = false;
                 }
-                startMove = false;
                 break;
         }
         

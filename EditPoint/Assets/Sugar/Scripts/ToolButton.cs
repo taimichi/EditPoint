@@ -12,6 +12,9 @@ public class ToolButton : MonoBehaviour
     [SerializeField]
     Fade fade;          // FadeCanvas
 
+    [SerializeField] GameObject clpObj;
+    [SerializeField] ClapperStart clapper;
+
     private void Start()
     {
      /* fade.cutoutRange = 1;
@@ -33,9 +36,12 @@ public class ToolButton : MonoBehaviour
     {
         Time.timeScale = 1;
         // フェード
-        fade.FadeIn(0.5f, () => {
-            SceneManager.LoadScene(S_stageName);
-        });
+        //clpObj.SetActive(true);
+        //clapper.SceneName = S_stageName;
+        SceneManager.LoadScene(S_stageName);
+        //    fade.FadeIn(0.5f, () => {
+        //        SceneManager.LoadScene(S_stageName);
+        //    });
     }
     public void GroupTitle() // タイトルシーンへ（[2024.07/05]今のところタイトルだがステージ選択に戻す可能性あり）
     {
