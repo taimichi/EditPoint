@@ -18,6 +18,7 @@ public class ClipPlay : MonoBehaviour
 
     [SerializeField] private List<GameObject> correspondenceObj = new List<GameObject>();
 
+    private GameObject AllClip;
     private ClipGenerator clipGenerator;
 
     private bool b_getObjMode = false;
@@ -26,11 +27,20 @@ public class ClipPlay : MonoBehaviour
 
     private ObjectMove objectMove;
 
+    [SerializeField] private ClipSpeed clipSpeed;
+    private float speed = 0f;
+    private List<MoveGround> moveGround = new List<MoveGround>();
+    private CheckClipConnect checkClip;
+
+    private AddTextManager addTextManager;
+
     void Start()
     {
         //タイムバーのRectTransformを取得
         rect_timeBar = GameObject.Find("Timebar").GetComponent<RectTransform>();
-        clipGenerator = GameObject.Find("AllClip").GetComponent<ClipGenerator>();
+        AllClip = GameObject.Find("AllClip");
+        clipGenerator = AllClip.GetComponent<ClipGenerator>();
+        addTextManager = AllClip.GetComponent<AddTextManager>();
         objectMove = GameObject.Find("GameManager").GetComponent<ObjectMove>();
 
         //生成したクリップの場合
@@ -38,10 +48,23 @@ public class ClipPlay : MonoBehaviour
         {
             clipName.text = "生成したクリップ" + clipGenerator.ReturnCount();
         }
+        else
+        {
+            for(int i = 0; i < correspondenceObj.Count; i++)
+            {
+                if(correspondenceObj[i].GetComponent<MoveGround>() == true)
+                {
+                    moveGround.Add(correspondenceObj[i].GetComponent<MoveGround>());   
+                }
+            }
+        }
     }
 
     private void Update()
     {
+        speed = clipSpeed.ReturnPlaySpeed();
+
+        //オブジェクト取得
         if (b_getObjMode)
         {
             if (!EventSystem.current.IsPointerOverGameObject())
@@ -58,25 +81,52 @@ public class ClipPlay : MonoBehaviour
                     {
                         if(hit.collider.tag != "Marcker")
                         {
-                            GameObject clickedObject = hit.collider.gameObject;
-                            Debug.Log(clickedObject);
-
-                            for (int i = 0; i < correspondenceObj.Count; i++)
+                            if(hit.collider.tag == "CreateBlock")
                             {
-                                if (clickedObject.name != correspondenceObj[i].name)
+                                GameObject clickedObject = hit.collider.gameObject;
+                                Debug.Log(clickedObject);
+
+                                for (int i = 0; i < correspondenceObj.Count; i++)
+                                {
+                                    if (clickedObject.name != correspondenceObj[i].name)
+                                    {
+                                        Debug.Log("新しいオブジェクト追加");
+                                        correspondenceObj.Add(clickedObject);
+                                        checkClip = clickedObject.GetComponent<CheckClipConnect>();
+                                        checkClip.ConnectClip();
+                                        if (clickedObject.GetComponent<MoveGround>() == true)
+                                        {
+                                            moveGround.Add(clickedObject.GetComponent<MoveGround>());
+                                        }
+                                        addTextManager.AddObj();
+                                    }
+                                }
+                                if (correspondenceObj.Count == 0)
                                 {
                                     Debug.Log("新しいオブジェクト追加");
                                     correspondenceObj.Add(clickedObject);
+                                    checkClip = clickedObject.GetComponent<CheckClipConnect>();
+                                    checkClip.ConnectClip();
+                                    if (clickedObject.GetComponent<MoveGround>() == true)
+                                    {
+                                        moveGround.Add(clickedObject.GetComponent<MoveGround>());
+                                    }
+                                    addTextManager.AddObj();
                                 }
-                            }
-                            if (correspondenceObj.Count == 0)
-                            {
-                                Debug.Log("新しいオブジェクト追加");
-                                correspondenceObj.Add(clickedObject);
                             }
                         }
                     }
                 }
+            }
+        }
+
+        //再生速度を反映
+        if (moveGround.Count != 0)
+        {
+            for(int i = 0; i < moveGround.Count; i++)
+            {
+                moveGround[i].ChangePlaySpeed(speed);
+                Debug.Log("速度変更");
             }
         }
 
@@ -131,11 +181,6 @@ public class ClipPlay : MonoBehaviour
     public float ReturnClipTime()
     {
         return f_timer;
-    }
-
-    public bool ReturnTriggerTimeber()
-    {
-        return IsOverlapping(rect_Clip, rect_timeBar);
     }
 
     /// <summary>

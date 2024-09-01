@@ -31,6 +31,7 @@ public class ToolButton : MonoBehaviour
     }
     public void GroupRestart() // シーンリロードボタン（やり直す）
     {
+        Time.timeScale = 1;
         // フェード
         fade.FadeIn(0.5f, () => {
             SceneManager.LoadScene(S_stageName);

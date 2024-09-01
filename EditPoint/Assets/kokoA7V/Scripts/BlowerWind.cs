@@ -8,7 +8,7 @@ public class BlowerWind : MonoBehaviour
 
     private void Start()
     {
-        blower = this.transform.parent.gameObject.GetComponent<Blower>();
+        blower = this.transform.parent.parent.gameObject.GetComponent<Blower>();
     }
 
     private void Update()
