@@ -50,4 +50,12 @@ public class ToolButton : MonoBehaviour
             SceneManager.LoadScene("Title");
         });
     }
+
+    public void BackSelect()
+    {
+        Time.timeScale = 1;
+        // フェード
+        clpObj.SetActive(true);
+        clapper.SceneName = "Select";
+    }
 }
