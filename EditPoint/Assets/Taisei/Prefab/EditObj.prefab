@@ -297,7 +297,6 @@ MonoBehaviour:
   Layer1Rep: {fileID: 0}
   Layer2Rep: {fileID: 0}
   Layer3Rep: {fileID: 0}
-  live2DRender: {fileID: 0}
 --- !u!114 &2640032978919354879
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -311,8 +310,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   copyModeText: {fileID: 5326581471642364974}
-  rangeSelect: {fileID: 2640032978012887097}
-  layerControll: {fileID: 2640032978919354877}
   i_PasteNum: 1000
   i_CopyNum: 1000
   materials: {fileID: 11400000, guid: c2f2e6a9d0de54e4e8f6a8844268b54f, type: 2}
@@ -340,9 +337,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 742db5be8e2541148b006c052cf4ad29, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rangeSelect: {fileID: 2640032978012887097}
-  layerControll: {fileID: 2640032978919354877}
-  CaP: {fileID: 2640032978919354879}
   materials: {fileID: 11400000, guid: c2f2e6a9d0de54e4e8f6a8844268b54f, type: 2}
 --- !u!1 &7366906985672067413
 GameObject:
