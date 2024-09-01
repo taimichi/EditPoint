@@ -125,7 +125,7 @@ public class TalkEvent : MonoBehaviour
                 break;
             case 2: // 会話番号2のセット
                 // 初期化
-                ClearManager(true, true, true);
+                ClearManager(true, true, false);
 
                 // 使うテキストボックスを変更するならこれで今まで
                 // 使ってたものを非表示に
@@ -141,7 +141,7 @@ public class TalkEvent : MonoBehaviour
                 UseTalkBox(sBox);
 
                 // キャラの表示
-                gObj = Instantiate(charaObj[(int)CharaName.AD], charaPos[(int)SelectPos.Cenetr].position, Quaternion.identity);
+                //gObj = Instantiate(charaObj[(int)CharaName.AD], charaPos[(int)SelectPos.Cenetr].position, Quaternion.identity);
 
                 Snum++;
                 break;
@@ -158,7 +158,7 @@ public class TalkEvent : MonoBehaviour
                 break;
             case 4: // Yesルート 会話番号3のセット
                     // 初期化
-                ClearManager(true, true, true);
+                ClearManager(true, true, false);
                 // 使うテキストボックスを変更するならこれで今まで
                 // 使ってたものを非表示に
                 ActiveFalse();
@@ -171,7 +171,7 @@ public class TalkEvent : MonoBehaviour
                 UseTalkBox(sBox);
 
                 // キャラの表示
-                gObj = Instantiate(charaObj[(int)CharaName.AD], charaPos[(int)SelectPos.Cenetr].position, Quaternion.identity);
+                //gObj = Instantiate(charaObj[(int)CharaName.AD], charaPos[(int)SelectPos.Cenetr].position, Quaternion.identity);
 
                 Snum=6;
                 break;
@@ -195,7 +195,7 @@ public class TalkEvent : MonoBehaviour
                 break;
             case 7:// 会話番号4のセット
                 // 初期化
-                ClearManager(true, true, true);
+                ClearManager(true, true, false);
                 // 使うテキストボックスを変更するならこれで今まで
                 // 使ってたものを非表示に
                 ActiveFalse();
@@ -208,7 +208,7 @@ public class TalkEvent : MonoBehaviour
                 UseTalkBox(sBox);
 
                 // キャラの表示
-                gObj = Instantiate(charaObj[(int)CharaName.AD], charaPos[(int)SelectPos.Cenetr].position, Quaternion.identity);
+                //gObj = Instantiate(charaObj[(int)CharaName.AD], charaPos[(int)SelectPos.Cenetr].position, Quaternion.identity);
                 Snum ++;
                 break;
             case 8:
@@ -228,7 +228,7 @@ public class TalkEvent : MonoBehaviour
                 break;
             case 9:// 会話番号5のセット
                 // 初期化
-                ClearManager(true, true, true);
+                ClearManager(true, true, false);
                 // 使うテキストボックスを変更するならこれで今まで
                 // 使ってたものを非表示に
                 ActiveFalse();
@@ -241,7 +241,7 @@ public class TalkEvent : MonoBehaviour
                 UseTalkBox(sBox);
 
                 // キャラの表示
-                gObj = Instantiate(charaObj[(int)CharaName.AD], charaPos[(int)SelectPos.Cenetr].position, Quaternion.identity);
+                //gObj = Instantiate(charaObj[(int)CharaName.AD], charaPos[(int)SelectPos.Cenetr].position, Quaternion.identity);
                 Snum++;
                 break;
             case 10:
@@ -261,7 +261,7 @@ public class TalkEvent : MonoBehaviour
                 break;
             case 11: // 会話番号6のセット
                 // 初期化
-                ClearManager(true, true, true);
+                ClearManager(true, true, false);
                 // 使うテキストボックスを変更するならこれで今まで
                 // 使ってたものを非表示に
                 ActiveFalse();
@@ -274,7 +274,7 @@ public class TalkEvent : MonoBehaviour
                 UseTalkBox(sBox);
 
                 // キャラの表示
-                gObj = Instantiate(charaObj[(int)CharaName.AD], charaPos[(int)SelectPos.Cenetr].position, Quaternion.identity);
+                //gObj = Instantiate(charaObj[(int)CharaName.AD], charaPos[(int)SelectPos.Cenetr].position, Quaternion.identity);
                 Snum=999;
                 break;
             case 999:
@@ -315,7 +315,7 @@ public class TalkEvent : MonoBehaviour
     {
         select = false;
         SelectButtonBox.SetActive(false);
-        num += 2;
+        num = 1;
         Snum+=2;
     }
 

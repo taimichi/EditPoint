@@ -91,6 +91,7 @@ public class ImageResizer : MonoBehaviour, IDragHandler, IBeginDragHandler, IEnd
                 //他のクリップと重なった場合
                 if (IsOverlapping(targetImage, ClipsRect[i]))
                 {
+                    Debug.Log("重なった");
                     //重なったクリップの下に移動
                     f_newHeight = ClipsRect[i].localPosition.y - f_oneHeight;
                     CheckHeight();

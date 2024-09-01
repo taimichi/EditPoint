@@ -76,11 +76,11 @@ public class ObjectMove : MonoBehaviour
                     Obj = hit2d.transform.gameObject;
                     v3_objPos = Obj.transform.position;
 
-                    CopyObj = Instantiate(Obj);
-                    CopyObj.transform.position = v3_objPos;
-                    CopyObj.tag = "Marcker";
-                    startColor = CopyObj.GetComponent<SpriteRenderer>().color;
-                    CopyObj.GetComponent<SpriteRenderer>().color = new Color(startColor.r, startColor.g, startColor.b, 50f / 255f);
+                    //CopyObj = Instantiate(Obj);
+                    //CopyObj.transform.position = v3_objPos;
+                    //CopyObj.tag = "Marcker";
+                    //startColor = CopyObj.GetComponent<SpriteRenderer>().color;
+                    //CopyObj.GetComponent<SpriteRenderer>().color = new Color(startColor.r, startColor.g, startColor.b, 50f / 255f);
 
                     Obj.GetComponent<Collider2D>().isTrigger = true;
                     b_objMove = true;
@@ -104,8 +104,8 @@ public class ObjectMove : MonoBehaviour
                     b_objMove = false;
                     Obj.GetComponent<Collider2D>().isTrigger = false;
 
-                    Destroy(CopyObj);
-                    CopyObj = null;
+                    //Destroy(CopyObj);
+                    //CopyObj = null;
 
                     //
                     //if (plLayer.ReturnPlTrigger())

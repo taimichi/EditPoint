@@ -15,6 +15,8 @@ public class MoveGround : MonoBehaviour
 
     float timer;
 
+    private float playSpeed = 1f;
+
     private void Start()
     {
         this.transform.position = path[0];
@@ -35,14 +37,14 @@ public class MoveGround : MonoBehaviour
             dist = path[0] - path[nowPath];
         }
         Vector3 moveSpeed = dist / pathTime[nowPath];
-        movePos += moveSpeed * Time.deltaTime * speed;
+        movePos += moveSpeed * Time.deltaTime * speed * playSpeed;
 
         this.transform.position = movePos;
 
 
 
         // éûä‘ä«óù
-        timer -= Time.deltaTime * speed;
+        timer -= Time.deltaTime * speed * playSpeed;
 
         if (timer <= 0)
         {
@@ -72,5 +74,10 @@ public class MoveGround : MonoBehaviour
         {
             collision.transform.parent = null;
         }
+    }
+
+    public void ChangePlaySpeed(float _playSpeed)
+    {
+        playSpeed = _playSpeed;
     }
 }
