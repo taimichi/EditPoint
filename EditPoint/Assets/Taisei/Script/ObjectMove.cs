@@ -63,21 +63,54 @@ public class ObjectMove : MonoBehaviour
                 //UIや動かしたくないオブジェクトだったらだったら何もしない
                 if (b_isNoHit || b_isSpecificTag)
                 {
-                    ClickObj.GetComponent<SpriteRenderer>().material = materials.layerMaterials[7];
+                    if (ClickObj != null)
+                    {
+                        if (ClickObj.name.Contains("Blower"))
+                        {
+                            ClickObj.transform.GetChild(0).GetComponent<SpriteRenderer>().material = materials.layerMaterials[7];
+                        }
+                        else
+                        {
+                            ClickObj.GetComponent<SpriteRenderer>().material = materials.layerMaterials[7];
+                        }
+                    }
                     ClickObj = null;
                     return;
                 }
 
                 if (ClickObj != null)
                 {
-                    ClickObj.GetComponent<SpriteRenderer>().material = materials.layerMaterials[7];
+                    if (ClickObj.name.Contains("Blower"))
+                    {
+                        ClickObj.transform.GetChild(0).GetComponent<SpriteRenderer>().material = materials.layerMaterials[7];
+                    }
+                    else
+                    {
+                        ClickObj.GetComponent<SpriteRenderer>().material = materials.layerMaterials[7];
+                    }
                 }
-                ClickObj = hit2d.collider.gameObject;
+
+                if (hit2d.collider.transform.parent.gameObject.name.Contains("Blower"))
+                {
+                    ClickObj = hit2d.collider.transform.parent.gameObject;
+
+                }
+                else
+                {
+                    ClickObj = hit2d.collider.gameObject;
+                }
 
                 if (hit2d)
                 {
-                    ClickObj.GetComponent<SpriteRenderer>().material = materials.layerMaterials[6];
-                    Obj = hit2d.transform.gameObject;
+                    if (ClickObj.name.Contains("Blower"))
+                    {
+                        ClickObj.transform.GetChild(0).GetComponent<SpriteRenderer>().material = materials.layerMaterials[6];
+                    }
+                    else
+                    {
+                        ClickObj.GetComponent<SpriteRenderer>().material = materials.layerMaterials[6];
+                    }
+                    Obj = ClickObj;
                     v3_objPos = Obj.transform.position;
 
                     //CopyObj = Instantiate(Obj);
@@ -86,7 +119,15 @@ public class ObjectMove : MonoBehaviour
                     //startColor = CopyObj.GetComponent<SpriteRenderer>().color;
                     //CopyObj.GetComponent<SpriteRenderer>().color = new Color(startColor.r, startColor.g, startColor.b, 50f / 255f);
 
-                    Obj.GetComponent<Collider2D>().isTrigger = true;
+                    if (Obj.name.Contains("Blower"))
+                    {
+                        Obj.transform.GetChild(0).GetComponent<Collider2D>().isTrigger = true;
+                    }
+                    else
+                    {
+                        Obj.GetComponent<Collider2D>().isTrigger = true;
+                    }
+
                     b_objMove = true;
                 }
 
@@ -106,7 +147,14 @@ public class ObjectMove : MonoBehaviour
                 else if (Input.GetMouseButtonUp(0))
                 {
                     b_objMove = false;
-                    Obj.GetComponent<Collider2D>().isTrigger = false;
+                    if (Obj.name.Contains("Blower"))
+                    {
+                        Obj.transform.GetChild(0).GetComponent<Collider2D>().isTrigger = false;
+                    }
+                    else
+                    {
+                        Obj.GetComponent<Collider2D>().isTrigger = false;
+                    }
 
                     //Destroy(CopyObj);
                     //CopyObj = null;
