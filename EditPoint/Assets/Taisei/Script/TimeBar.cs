@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using System;
 
 public class TimeBar : MonoBehaviour
 {
@@ -12,6 +13,8 @@ public class TimeBar : MonoBehaviour
     [SerializeField] private TimelineData data;
     private Vector2 v2_startPos;
 
+    private float f_nowTime = 0;
+
     void Start()
     {
         barPos = this.gameObject.GetComponent<RectTransform>();
@@ -21,7 +24,9 @@ public class TimeBar : MonoBehaviour
 
     void Update()
     {
-
+        float f_distance = this.transform.localPosition.x - v2_startPos.x;
+        f_nowTime = (float)Math.Truncate(f_distance / f_speed * 10) / 10;
+        Debug.Log(f_nowTime + "秒");
     }
 
     private void FixedUpdate()
@@ -35,5 +40,19 @@ public class TimeBar : MonoBehaviour
         {
             Time.timeScale = 0;
         }
+    }
+
+    /// <summary>
+    /// タイムバーの時間を返す
+    /// </summary>
+    /// <returns>タイムバーのある位置の時間(秒)</returns>
+    public float ReturnTime()
+    {
+        return f_nowTime;
+    }
+
+    public void OnReStart()
+    {
+        barPos.localPosition = v2_startPos;
     }
 }
