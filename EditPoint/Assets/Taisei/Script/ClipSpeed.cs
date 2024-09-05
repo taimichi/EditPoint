@@ -19,7 +19,7 @@ public class ClipSpeed : MonoBehaviour
     void Update()
     {
         //Debug.Log("çƒê∂ë¨ìx" + f_playSpeed);
-        f_changeSpeed = ClipRect.sizeDelta.x / f_StartWidth;
+        f_changeSpeed = (float)Math.Truncate(ClipRect.sizeDelta.x / f_StartWidth * 10) / 10;
         if (f_changeSpeed <= 1) 
         {
             f_changeSpeed = Mathf.Abs(f_changeSpeed - 1) + 1;

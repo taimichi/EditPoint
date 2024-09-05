@@ -188,7 +188,7 @@ public class ImageResizer : MonoBehaviour, IDragHandler, IBeginDragHandler, IEnd
                     return;
                 }
 
-                ////クリップ移動処理
+                //クリップ移動処理
                 RectTransformUtility.ScreenPointToLocalPointInRectangle(
                     (RectTransform)targetImage.parent,
                     eventData.position,

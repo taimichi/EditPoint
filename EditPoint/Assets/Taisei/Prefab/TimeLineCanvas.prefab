@@ -484,7 +484,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9cfd7ff237cbd7443af548561fc90078, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  scrollRect: {fileID: 0}
+  scrollRect: {fileID: 1073689939617898602}
   content: {fileID: 6609544225284490415}
   target: {fileID: 6609544224346704653}
   scrollAmount: 0.022789
