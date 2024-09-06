@@ -164,7 +164,6 @@ public class ClipPlay : MonoBehaviour
             {
                 correspondenceObj[i].SetActive(false);
             }
-            f_timer = 0f;
         }
 
     }

@@ -61,7 +61,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -168,7 +168,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -484,7 +484,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9cfd7ff237cbd7443af548561fc90078, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  scrollRect: {fileID: 6609544225291757469}
+  scrollRect: {fileID: 1073689939617898602}
   content: {fileID: 6609544225284490415}
   target: {fileID: 6609544224346704653}
   scrollAmount: 0.022789
@@ -681,7 +681,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0, y: 0.5}
-  m_AnchoredPosition: {x: 42124.9, y: -6.5099945}
+  m_AnchoredPosition: {x: 42124.9, y: -26.494267}
   m_SizeDelta: {x: 84250, y: 404}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6609544225284490412
@@ -733,7 +733,7 @@ GameObject:
   - component: {fileID: 6609544225291757468}
   - component: {fileID: 6609544225291757459}
   - component: {fileID: 6609544225291757458}
-  - component: {fileID: 6609544225291757469}
+  - component: {fileID: 1073689939617898602}
   m_Layer: 5
   m_Name: TimelineScrollRect
   m_TagString: Untagged
@@ -800,7 +800,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &6609544225291757469
+--- !u!114 &1073689939617898602
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -809,7 +809,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 6609544225291757471}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1aa08ab6e0800fa44ae55d278d1423e3, type: 3}
+  m_Script: {fileID: 11500000, guid: 882d77dbcbc0f2d4d90dcc0dd13e1b05, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_Content: {fileID: 6609544225284490415}
@@ -824,9 +824,9 @@ MonoBehaviour:
   m_HorizontalScrollbar: {fileID: 6609544225849720927}
   m_VerticalScrollbar: {fileID: 0}
   m_HorizontalScrollbarVisibility: 0
-  m_VerticalScrollbarVisibility: 2
-  m_HorizontalScrollbarSpacing: -3
-  m_VerticalScrollbarSpacing: -3
+  m_VerticalScrollbarVisibility: 0
+  m_HorizontalScrollbarSpacing: 0
+  m_VerticalScrollbarSpacing: 0
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -1096,7 +1096,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 0}
   m_AnchoredPosition: {x: 5, y: 423.4}
-  m_SizeDelta: {x: 0, y: 28.410004}
+  m_SizeDelta: {x: 0, y: 50}
   m_Pivot: {x: 0, y: 0}
 --- !u!222 &6609544225849720925
 CanvasRenderer:
@@ -1157,7 +1157,7 @@ MonoBehaviour:
     m_SelectOnRight: {fileID: 0}
   m_Transition: 1
   m_Colors:
-    m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
+    m_NormalColor: {r: 1, g: 1, b: 0, a: 1}
     m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
     m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
     m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
@@ -1179,8 +1179,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 6609544225311300687}
   m_HandleRect: {fileID: 6609544225311300686}
   m_Direction: 0
-  m_Value: 0.0000012336026
-  m_Size: 0.022789318
+  m_Value: 0.0000012336025
+  m_Size: 0.022789316
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
