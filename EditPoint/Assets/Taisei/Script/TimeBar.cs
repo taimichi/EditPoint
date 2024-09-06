@@ -11,12 +11,19 @@ public class TimeBar : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragH
     private RectTransform barPos;
     private Vector2 v2_nowPos;
     [SerializeField, Header("時間(秒)")] private float limit = 60f;
-    [SerializeField] private TimelineData data;
+    [SerializeField] private TimelineData timelineData;
     private Vector2 v2_startPos;
 
-    private float f_nowTime = 0;
+    [SerializeField] private TimeData timeData;
 
+    private float f_nowTime = 0;
     private bool b_dragMode = false;
+
+    private void Awake()
+    {
+        timeData.b_DragMode = b_dragMode;
+        timeData.f_nowTime = f_nowTime;
+    }
 
     void Start()
     {
@@ -29,12 +36,13 @@ public class TimeBar : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragH
     {
         float f_distance = this.transform.localPosition.x - v2_startPos.x;
         f_nowTime = (float)Math.Truncate(f_distance / f_speed * 10) / 10;
+        timeData.f_nowTime = f_nowTime;
         //Debug.Log(f_nowTime + "秒");
     }
 
     private void FixedUpdate()
     {
-        if (barPos.localPosition.x < v2_startPos.x + (limit * data.f_oneTickWidht))
+        if (barPos.localPosition.x < v2_startPos.x + (limit * timelineData.f_oneTickWidht))
         {
             barPos.localPosition = v2_nowPos;
             v2_nowPos.x += f_speed * Time.deltaTime;
@@ -49,6 +57,7 @@ public class TimeBar : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragH
     public void OnBeginDrag(PointerEventData eventData)
     {
         b_dragMode = true;
+        timeData.b_DragMode = b_dragMode;
     }
 
     //ドラッグ中
@@ -68,21 +77,14 @@ public class TimeBar : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragH
             v2_mousePos.x = v2_startPos.x;
         }
         barPos.localPosition = v2_mousePos;
+        v2_nowPos = barPos.localPosition;
     }
 
     //ドラッグ終了時
     public void OnEndDrag(PointerEventData eventData)
     {
         b_dragMode = false;
-    }
-
-    /// <summary>
-    /// タイムバーの時間を返す
-    /// </summary>
-    /// <returns>タイムバーのある位置の時間(秒)</returns>
-    public float ReturnTime()
-    {
-        return f_nowTime;
+        timeData.b_DragMode = b_dragMode;
     }
 
     /// <summary>
@@ -90,7 +92,9 @@ public class TimeBar : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragH
     /// </summary>
     public void OnReStart()
     {
+        Time.timeScale = 0;
         barPos.localPosition = v2_startPos;
+        v2_nowPos = v2_startPos;
     }
 
     /// <summary>

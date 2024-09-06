@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
+using System;
 
 public class ClipPlay : MonoBehaviour
 {
@@ -34,8 +35,16 @@ public class ClipPlay : MonoBehaviour
 
     private AddTextManager addTextManager;
 
+    [SerializeField] private TimelineData timelineData;
+
+    private RectTransform rect_grandParent;
+    private float f_manualTime = 0;
+
     void Start()
     {
+        f_manualTime = 0f;
+        rect_grandParent = rect_Clip.parent.parent.GetComponent<RectTransform>();
+
         //タイムバーのRectTransformを取得
         rect_timeBar = GameObject.Find("Timebar").GetComponent<RectTransform>();
         AllClip = GameObject.Find("AllClip");
@@ -46,7 +55,7 @@ public class ClipPlay : MonoBehaviour
         //生成したクリップの場合
         if (correspondenceObj.Count == 0)
         {
-            clipName.text = "生成したクリップ" + clipGenerator.ReturnCount();
+            clipName.text = "空っぽのクリップ" + clipGenerator.ReturnCount();
         }
         else
         {
@@ -116,6 +125,8 @@ public class ClipPlay : MonoBehaviour
                             }
                         }
                     }
+                    //クリップの名前を変更
+                    clipName.text = "中身のあるクリップ";
                 }
             }
         }
@@ -130,6 +141,15 @@ public class ClipPlay : MonoBehaviour
             }
         }
 
+        //クリップとタイムバーが触れてるときのみ
+        if (IsOverlapping(rect_Clip, rect_timeBar))
+        {
+            //クリップの経過時間
+            Vector3 leftEdge = rect_grandParent.InverseTransformPoint(rect_Clip.position) + new Vector3(-rect_Clip.rect.width * rect_Clip.pivot.x, 0, 0);
+            float dis = rect_timeBar.localPosition.x - leftEdge.x;
+            f_manualTime = (float)Math.Truncate(dis / timelineData.f_oneTickWidht * 10) / 10;
+            Debug.Log("タイムバー手動操作" + f_manualTime + "秒");
+        }
     }
 
     private void FixedUpdate()
@@ -176,10 +196,22 @@ public class ClipPlay : MonoBehaviour
         buttonImage.color = b_getObjMode == false ? Color.white : Color.red;
     }
 
-
+    /// <summary>
+    /// タイムバーを自動で動かしてる時、クリップの現在時間を返す
+    /// </summary>
+    /// <returns>f_timer(自動)</returns>
     public float ReturnClipTime()
     {
         return f_timer;
+    }
+
+    /// <summary>
+    /// タイムバーを手動で動かしてる時、クリップの現在時間を返す
+    /// </summary>
+    /// <returns>f_manualTime(手動)</returns>
+    public float ReturnManualTime()
+    {
+        return f_manualTime;
     }
 
     /// <summary>

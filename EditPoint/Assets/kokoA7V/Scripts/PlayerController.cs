@@ -22,6 +22,7 @@ public class PlayerController : MonoBehaviour
     bool manual = true;
 
     private bool b_firstButton = false;
+    [SerializeField] private TimeData timeData;
 
     void Start()
     {
@@ -40,6 +41,11 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
+        if (timeData.b_DragMode)
+        {
+            //ここでタイムバーを手動で動かしたときのプレイヤーの処理を記入
+
+        }
         //mc.MoveLR(inputLR);
         mc.Run(new Vector2(inputLR * moveSpeed, 0));
         mc.MoveUpdate();
@@ -153,13 +159,19 @@ public class PlayerController : MonoBehaviour
         Debug.Log(value + "だめーじ！");
     }
 
-    public void PlayerStart()
+    public void OnPlayerStart()
     {
         if (!b_firstButton)
         {
             inputLR = 1;
             b_firstButton = true;
         }
+    }
+
+    public void OnPlayerReset()
+    {
+        inputLR = 0;
+        b_firstButton = false;
     }
 
     public void PlayerStop()

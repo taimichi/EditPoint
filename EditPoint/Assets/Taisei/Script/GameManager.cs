@@ -38,4 +38,9 @@ public class GameManager : MonoBehaviour
             b_start = true;
         }
     }
+
+    public void OnReset()
+    {
+        b_start = false;
+    }
 }

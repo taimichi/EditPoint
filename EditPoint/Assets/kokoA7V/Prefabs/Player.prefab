@@ -3052,6 +3052,7 @@ MonoBehaviour:
   moveSpeed: 2.5
   inputLR: 0
   manual: 1
+  timeData: {fileID: 11400000, guid: e17019f28d5feae45902e2a830dada68, type: 2}
 --- !u!114 &243569006782596961
 MonoBehaviour:
   m_ObjectHideFlags: 0

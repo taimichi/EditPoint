@@ -10,7 +10,7 @@ public class BlockCreater : MonoBehaviour
     {
         none,
         Create,
-        MoveCreate
+        //MoveCreate
     }
 
     [SerializeField]
@@ -23,8 +23,8 @@ public class BlockCreater : MonoBehaviour
     [SerializeField]
     GameObject blockPrefab;
 
-    [SerializeField]
-    GameObject moveBlockPrefab;
+    //[SerializeField]
+    //GameObject moveBlockPrefab;
 
     [SerializeField]
     GameObject markerPrefab;
@@ -39,7 +39,7 @@ public class BlockCreater : MonoBehaviour
 
     private string createName = "CreateBlock";
     [SerializeField] private Image blockButton;
-    [SerializeField] private Image moveBlockButton;
+    //[SerializeField] private Image moveBlockButton;
 
     private void Start()
     {
@@ -54,7 +54,7 @@ public class BlockCreater : MonoBehaviour
     {
         mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
-        if (nowState == State.Create || nowState == State.MoveCreate)
+        if (nowState == State.Create /*|| nowState == State.MoveCreate*/)
         {
             if (!EventSystem.current.IsPointerOverGameObject())
             {
@@ -76,10 +76,10 @@ public class BlockCreater : MonoBehaviour
                         {
                             CreateBlock();
                         }
-                        else if (nowState == State.MoveCreate)
-                        {
-                            CreateMoveBlock();
-                        }
+                        //else if (nowState == State.MoveCreate)
+                        //{
+                        //    CreateMoveBlock();
+                        //}
 
                     }
 
@@ -120,52 +120,52 @@ public class BlockCreater : MonoBehaviour
         blockCounter++;
     }
 
-    private void CreateMoveBlock()
-    {
-        GameObject created = Instantiate(moveBlockPrefab);
-        created.transform.localScale = marker.transform.localScale;
-        created.transform.position = marker.transform.position;
+    //private void CreateMoveBlock()
+    //{
+    //    GameObject created = Instantiate(moveBlockPrefab);
+    //    created.transform.localScale = marker.transform.localScale;
+    //    created.transform.position = marker.transform.position;
 
-        MoveGround mg = created.GetComponent<MoveGround>();
-        mg.path.Add(marker.transform.position);
-        mg.path.Add(new Vector3(marker.transform.position.x, marker.transform.position.y + 2, marker.transform.position.z));
-        mg.pathTime.Add(1);
-        mg.pathTime.Add(1);
+    //    MoveGround mg = created.GetComponent<MoveGround>();
+    //    mg.path.Add(marker.transform.position);
+    //    mg.path.Add(new Vector3(marker.transform.position.x, marker.transform.position.y + 2, marker.transform.position.z));
+    //    mg.pathTime.Add(1);
+    //    mg.pathTime.Add(1);
 
-        created.name = createName + blockCounter;
-        blockCounter++;
-    }
+    //    created.name = createName + blockCounter;
+    //    blockCounter++;
+    //}
 
     public void CreateSetActive()
     {
-        if (nowState != State.MoveCreate)
-        {
+        //if (nowState != State.MoveCreate)
+        //{
             nowState = nowState == State.none ? State.Create : State.none;
             blockButton.color = nowState == State.none ? Color.white : Color.yellow;
-        }
-        else
-        {
-            nowState = State.Create;
-            blockButton.color = Color.yellow;
-            moveBlockButton.color = Color.white;
-        }
+        //}
+        //else
+        //{
+        //    nowState = State.Create;
+        //    blockButton.color = Color.yellow;
+        //    moveBlockButton.color = Color.white;
+        //}
     }
 
-    public void CreateMoveSetActive()
-    {
-        if(nowState != State.Create)
-        {
-            nowState = nowState == State.none ? State.MoveCreate : State.none;
-            moveBlockButton.color = nowState == State.none ? Color.white : Color.yellow;
-        }
-        else
-        {
-            nowState = State.MoveCreate;
-            blockButton.color = Color.white;
-            moveBlockButton.color = Color.yellow;
+    //public void CreateMoveSetActive()
+    //{
+    //    if(nowState != State.Create)
+    //    {
+    //        nowState = nowState == State.none ? State.MoveCreate : State.none;
+    //        moveBlockButton.color = nowState == State.none ? Color.white : Color.yellow;
+    //    }
+    //    else
+    //    {
+    //        nowState = State.MoveCreate;
+    //        blockButton.color = Color.white;
+    //        moveBlockButton.color = Color.yellow;
 
-        }
-    }
+    //    }
+    //}
 
     public int ReturnBlockCount()
     {
