@@ -41,8 +41,11 @@ public class BlockCreater : MonoBehaviour
     [SerializeField] private Image blockButton;
     //[SerializeField] private Image moveBlockButton;
 
+    private ClipGenerator clipGenerator;
+
     private void Start()
     {
+        clipGenerator = GameObject.Find("AllClip").GetComponent<ClipGenerator>();
         marker = Instantiate(markerPrefab);
         bm = marker.GetComponent<BlockMarker>();
         bm.isActive = false;
@@ -118,6 +121,8 @@ public class BlockCreater : MonoBehaviour
 
         created.name = createName + blockCounter;
         blockCounter++;
+
+        clipGenerator.ClipGene(created);
     }
 
     //private void CreateMoveBlock()

@@ -24,6 +24,8 @@ public class PlayerController : MonoBehaviour
     private bool b_firstButton = false;
     [SerializeField] private TimeData timeData;
 
+    private Vector2 playerStartPos;
+
     void Start()
     {
         gc = GetComponent<GroundChecker>();
@@ -36,16 +38,26 @@ public class PlayerController : MonoBehaviour
 
         gc.InitCol();
 
-        b_firstButton = false;  
+        b_firstButton = false;
+
+        playerStartPos = this.gameObject.transform.position;
     }
 
     void Update()
     {
         if (timeData.b_DragMode)
         {
+            inputLR = 1;
+            mc.Run(new Vector2(inputLR * moveSpeed, 0));
+            mc.MoveUpdate();
+            mc.Friction(0.98f);
+            AutoInput();
+            gc.CheckGround();
+            AnimPlay();
             //ここでタイムバーを手動で動かしたときのプレイヤーの処理を記入
-
+            this.gameObject.transform.position = mc.FuturePrediction(timeData.f_nowTime, playerStartPos);
         }
+
         //mc.MoveLR(inputLR);
         mc.Run(new Vector2(inputLR * moveSpeed, 0));
         mc.MoveUpdate();
@@ -172,6 +184,7 @@ public class PlayerController : MonoBehaviour
     {
         inputLR = 0;
         b_firstButton = false;
+        transform.position = playerStartPos;
     }
 
     public void PlayerStop()

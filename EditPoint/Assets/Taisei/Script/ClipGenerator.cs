@@ -21,7 +21,11 @@ public class ClipGenerator : MonoBehaviour
     }
 
     //新しいクリップを生成
-    public void ClipGene()
+    /// <summary>
+    /// 新しいクリップを生成　ブロック生成と同時
+    /// </summary>
+    /// <param name="_getObj">クリップと同時に生成したブロック</param>
+    public void ClipGene(GameObject _getObj)
     {
         i_createCount++;
         Vector3 clipPos = new Vector3(timeBar.transform.position.x, 0, 0);
@@ -29,6 +33,20 @@ public class ClipGenerator : MonoBehaviour
         clip.name = "CreateClip" + i_createCount;
         clip.tag = "CreateClip";
 
+        ClipPlay clipPlay = clip.GetComponent<ClipPlay>();
+        clipPlay.OutGetObj(_getObj);
+    }
+
+    /// <summary>
+    /// 新しいクリップを生成　ボタンで呼び出す
+    /// </summary>
+    public void ClipGene()
+    {
+        i_createCount++;
+        Vector3 clipPos = new Vector3(timeBar.transform.position.x, 0, 0);
+        GameObject clip = Instantiate(ClipPrefab, clipPos, timeBar.transform.rotation, this.gameObject.transform);
+        clip.name = "CreateClip" + i_createCount;
+        clip.tag = "CreateClip";
     }
 
 

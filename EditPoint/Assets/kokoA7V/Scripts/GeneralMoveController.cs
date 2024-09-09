@@ -64,4 +64,16 @@ public class GeneralMoveController : MonoBehaviour
             flic *= _frictionPower;
         }
     }
+
+    public Vector2 FuturePrediction(float time, Vector2 startPos)
+    {
+        float gravityScale = rb.gravityScale;
+        Vector2 gravity = Physics2D.gravity;
+        Vector2 velocity = rb.velocity;
+
+        Vector2 halfGravity = gravity * 0.5f * gravityScale;
+        Vector2 pos = velocity * time + halfGravity * Mathf.Pow(time, 2);
+
+        return startPos + pos;
+    }
 }

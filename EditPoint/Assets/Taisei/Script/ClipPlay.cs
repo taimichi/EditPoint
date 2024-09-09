@@ -148,7 +148,6 @@ public class ClipPlay : MonoBehaviour
             Vector3 leftEdge = rect_grandParent.InverseTransformPoint(rect_Clip.position) + new Vector3(-rect_Clip.rect.width * rect_Clip.pivot.x, 0, 0);
             float dis = rect_timeBar.localPosition.x - leftEdge.x;
             f_manualTime = (float)Math.Truncate(dis / timelineData.f_oneTickWidht * 10) / 10;
-            Debug.Log("タイムバー手動操作" + f_manualTime + "秒");
         }
     }
 
@@ -194,6 +193,13 @@ public class ClipPlay : MonoBehaviour
         b_getObjMode = b_getObjMode == false ? true : false;
         objectMove.ObjSetMode(b_getObjMode);
         buttonImage.color = b_getObjMode == false ? Color.white : Color.red;
+    }
+
+    //外部からのゲームオブジェクトを取得
+    public void OutGetObj(GameObject _outGetObj)
+    {
+        correspondenceObj.Add(_outGetObj);
+        clipName.text = "中身のあるクリップ";
     }
 
     /// <summary>

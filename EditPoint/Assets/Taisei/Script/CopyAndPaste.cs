@@ -119,13 +119,13 @@ public class CopyAndPaste : MonoBehaviour
                     //}
                     if (CopyObj.name.Contains("Blower"))
                     {
-                        PasteObj.transform.GetChild(0).GetComponent<SpriteRenderer>().material = materials.layerMaterials[7];
+                        PasteObj.transform.GetChild(0).GetComponent<SpriteRenderer>().material = materials.layerMaterials[0];
                         PasteObj.transform.GetChild(0).GetComponent<Collider2D>().isTrigger = false;
 
                     }
                     else
                     {
-                        PasteObj.GetComponent<SpriteRenderer>().material = materials.layerMaterials[7];
+                        PasteObj.GetComponent<SpriteRenderer>().material = materials.layerMaterials[0];
                         PasteObj.GetComponent<Collider2D>().isTrigger = false;
                     }
                     //layerControll.ChangeObjectList();
@@ -229,11 +229,11 @@ public class CopyAndPaste : MonoBehaviour
             if (hit2d.collider.transform.parent.gameObject.name.Contains("Blower"))
             {
                 ClickObj = hit2d.collider.transform.parent.gameObject;
-                ClickObj.transform.GetChild(0).GetComponent<SpriteRenderer>().material = materials.layerMaterials[6];
+                ClickObj.transform.GetChild(0).GetComponent<SpriteRenderer>().material = materials.layerMaterials[1];
             }
             else
             {
-                ClickObj.GetComponent<SpriteRenderer>().material = materials.layerMaterials[6];
+                ClickObj.GetComponent<SpriteRenderer>().material = materials.layerMaterials[1];
             }
 
             //if (ClickObj.layer == LayerMask.NameToLayer("Layer1"))
@@ -434,11 +434,11 @@ public class CopyAndPaste : MonoBehaviour
         {
             if(ClickObj.name.Contains("Blower"))
             {
-                ClickObj.transform.GetChild(0).GetComponent<SpriteRenderer>().material = materials.layerMaterials[7];
+                ClickObj.transform.GetChild(0).GetComponent<SpriteRenderer>().material = materials.layerMaterials[0];
             }
             else
             {
-                ClickObj.GetComponent<SpriteRenderer>().material = materials.layerMaterials[7];
+                ClickObj.GetComponent<SpriteRenderer>().material = materials.layerMaterials[0];
             }
         }
 

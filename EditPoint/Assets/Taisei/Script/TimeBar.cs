@@ -92,9 +92,9 @@ public class TimeBar : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragH
     /// </summary>
     public void OnReStart()
     {
-        Time.timeScale = 0;
         barPos.localPosition = v2_startPos;
         v2_nowPos = v2_startPos;
+
     }
 
     /// <summary>

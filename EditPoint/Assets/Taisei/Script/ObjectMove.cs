@@ -67,11 +67,11 @@ public class ObjectMove : MonoBehaviour
                     {
                         if (ClickObj.name.Contains("Blower"))
                         {
-                            ClickObj.transform.GetChild(0).GetComponent<SpriteRenderer>().material = materials.layerMaterials[7];
+                            ClickObj.transform.GetChild(0).GetComponent<SpriteRenderer>().material = materials.layerMaterials[0];
                         }
                         else
                         {
-                            ClickObj.GetComponent<SpriteRenderer>().material = materials.layerMaterials[7];
+                            ClickObj.GetComponent<SpriteRenderer>().material = materials.layerMaterials[0];
                         }
                     }
                     ClickObj = null;
@@ -82,11 +82,11 @@ public class ObjectMove : MonoBehaviour
                 {
                     if (ClickObj.name.Contains("Blower"))
                     {
-                        ClickObj.transform.GetChild(0).GetComponent<SpriteRenderer>().material = materials.layerMaterials[7];
+                        ClickObj.transform.GetChild(0).GetComponent<SpriteRenderer>().material = materials.layerMaterials[0];
                     }
                     else
                     {
-                        ClickObj.GetComponent<SpriteRenderer>().material = materials.layerMaterials[7];
+                        ClickObj.GetComponent<SpriteRenderer>().material = materials.layerMaterials[0];
                     }
                 }
 
@@ -104,11 +104,11 @@ public class ObjectMove : MonoBehaviour
                 {
                     if (ClickObj.name.Contains("Blower"))
                     {
-                        ClickObj.transform.GetChild(0).GetComponent<SpriteRenderer>().material = materials.layerMaterials[6];
+                        ClickObj.transform.GetChild(0).GetComponent<SpriteRenderer>().material = materials.layerMaterials[1];
                     }
                     else
                     {
-                        ClickObj.GetComponent<SpriteRenderer>().material = materials.layerMaterials[6];
+                        ClickObj.GetComponent<SpriteRenderer>().material = materials.layerMaterials[1];
                     }
                     Obj = ClickObj;
                     v3_objPos = Obj.transform.position;

@@ -42,5 +42,6 @@ public class GameManager : MonoBehaviour
     public void OnReset()
     {
         b_start = false;
+        Time.timeScale = 0;
     }
 }
