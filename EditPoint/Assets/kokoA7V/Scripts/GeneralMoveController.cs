@@ -11,6 +11,8 @@ public class GeneralMoveController : MonoBehaviour
     bool inputFlic = false;
     Vector2 flic = Vector2.zero;
 
+    private List<Vector2> FuturePos = new List<Vector2>();
+
     private void Start()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -65,15 +67,35 @@ public class GeneralMoveController : MonoBehaviour
         }
     }
 
-    public Vector2 FuturePrediction(float time, Vector2 startPos)
+    [System.Obsolete]
+    public void Test(float maxTime)
     {
-        float gravityScale = rb.gravityScale;
-        Vector2 gravity = Physics2D.gravity;
-        Vector2 velocity = rb.velocity;
+        FuturePos = new List<Vector2>();
 
-        Vector2 halfGravity = gravity * 0.5f * gravityScale;
-        Vector2 pos = velocity * time + halfGravity * Mathf.Pow(time, 2);
+        Physics2D.autoSimulation = false;
+        float time = 0;
+        float deltaTime = Time.fixedDeltaTime;
+        while (time < maxTime)
+        {
+            Physics2D.Simulate(deltaTime);
+            FuturePos.Add(this.gameObject.transform.position);
+            time += deltaTime;
+        }
 
-        return startPos + pos;
+        Physics2D.autoSimulation = true;
+    }
+
+    public void Test2(float maxTime)
+    {
+        int count = 0;
+        float time = 0;
+        float deltaTime = Time.fixedDeltaTime;
+        while (time < maxTime)
+        {
+            count++;
+            time += deltaTime;
+        }
+        this.gameObject.transform.position = FuturePos[count];
+        Debug.Log(FuturePos[count]);
     }
 }

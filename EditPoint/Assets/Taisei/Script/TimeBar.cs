@@ -38,6 +38,7 @@ public class TimeBar : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragH
         f_nowTime = (float)Math.Truncate(f_distance / f_speed * 10) / 10;
         timeData.f_nowTime = f_nowTime;
         //Debug.Log(f_nowTime + "•b");
+        
     }
 
     private void FixedUpdate()
