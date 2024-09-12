@@ -107,7 +107,9 @@ MonoBehaviour:
   - 1
   - 1
   - 1
+  speed: 1
   nowPath: 0
+  timeData: {fileID: 11400000, guid: e17019f28d5feae45902e2a830dada68, type: 2}
 --- !u!61 &6219358312794054324
 BoxCollider2D:
   m_ObjectHideFlags: 0

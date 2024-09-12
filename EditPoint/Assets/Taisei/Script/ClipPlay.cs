@@ -36,9 +36,12 @@ public class ClipPlay : MonoBehaviour
     private AddTextManager addTextManager;
 
     [SerializeField] private TimelineData timelineData;
+    [SerializeField] private TimeData timeData;
 
     private RectTransform rect_grandParent;
     private float f_manualTime = 0;
+
+    private MoveGround move;
 
     void Start()
     {
@@ -80,7 +83,6 @@ public class ClipPlay : MonoBehaviour
             {
                 if (Input.GetMouseButtonDown(0)) // 左クリック
                 {
-                    Physics2D.Simulate(Time.fixedDeltaTime);
                     Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
                     RaycastHit2D hit = Physics2D.Raycast(mousePosition, Vector2.zero);
 
@@ -148,42 +150,27 @@ public class ClipPlay : MonoBehaviour
             Vector3 leftEdge = rect_grandParent.InverseTransformPoint(rect_Clip.position) + new Vector3(-rect_Clip.rect.width * rect_Clip.pivot.x, 0, 0);
             float dis = rect_timeBar.localPosition.x - leftEdge.x;
             f_manualTime = (float)Math.Truncate(dis / timelineData.f_oneTickWidht * 10) / 10;
+
+            //タイムバーを手動で動かしてる時
+            if (timeData.b_DragMode)
+            {
+                for (int i = 0; i < correspondenceObj.Count; i++)
+                {
+                    if (correspondenceObj[i].GetComponent<MoveGround>())
+                    {
+                        move = correspondenceObj[i].GetComponent<MoveGround>();
+                        move.GetClipTime(f_manualTime);
+                    }
+                }
+            }
         }
+
+        ClipPlayNow();
     }
 
     private void FixedUpdate()
     {
-
-        if (IsOverlapping(rect_Clip, rect_timeBar))
-        {
-            Debug.Log("UIオブジェクトが接触しています");
-            b_clipPlay = true;
-        }
-        else
-        {
-            Debug.Log("UIオブジェクトが接触していません");
-            b_clipPlay = false;
-        }
-
-
-        //クリップ再生中の処理
-        if (b_clipPlay)
-        {
-            for(int i = 0; i < correspondenceObj.Count; i++)
-            {
-                correspondenceObj[i].SetActive(true);
-            }
-            f_timer += Time.deltaTime;
-
-        }
-        //クリップ再生してないときの処理
-        else
-        {
-            for (int i = 0; i < correspondenceObj.Count; i++)
-            {
-                correspondenceObj[i].SetActive(false);
-            }
-        }
+        ClipPlayNow();
 
     }
 
@@ -200,24 +187,33 @@ public class ClipPlay : MonoBehaviour
     {
         correspondenceObj.Add(_outGetObj);
         clipName.text = "中身のあるクリップ";
+        checkClip = _outGetObj.GetComponent<CheckClipConnect>();
+        checkClip.ConnectClip();
     }
 
     /// <summary>
-    /// タイムバーを自動で動かしてる時、クリップの現在時間を返す
+    /// クリップを再生しているかどうか
     /// </summary>
-    /// <returns>f_timer(自動)</returns>
-    public float ReturnClipTime()
+    private void ClipPlayNow()
     {
-        return f_timer;
-    }
+        if (IsOverlapping(rect_Clip, rect_timeBar))
+        {
+            Debug.Log("タイムバーと接触しています");
+            for (int i = 0; i < correspondenceObj.Count; i++)
+            {
+                correspondenceObj[i].SetActive(true);
+            }
+            f_timer += Time.deltaTime;
+        }
+        else
+        {
+            Debug.Log("タイムバーと接触していません");
+            for (int i = 0; i < correspondenceObj.Count; i++)
+            {
+                correspondenceObj[i].SetActive(false);
 
-    /// <summary>
-    /// タイムバーを手動で動かしてる時、クリップの現在時間を返す
-    /// </summary>
-    /// <returns>f_manualTime(手動)</returns>
-    public float ReturnManualTime()
-    {
-        return f_manualTime;
+            }
+        }
     }
 
     /// <summary>

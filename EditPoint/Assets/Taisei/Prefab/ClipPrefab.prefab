@@ -341,3 +341,4 @@ MonoBehaviour:
   buttonImage: {fileID: 9186537414612077296}
   clipSpeed: {fileID: 4323194755857948604}
   timelineData: {fileID: 11400000, guid: 212fd9ad069de2a4bb63e85b77a3a9a7, type: 2}
+  timeData: {fileID: 11400000, guid: e17019f28d5feae45902e2a830dada68, type: 2}

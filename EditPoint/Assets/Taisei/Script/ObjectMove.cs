@@ -90,14 +90,11 @@ public class ObjectMove : MonoBehaviour
                     }
                 }
 
-                if (hit2d.collider.transform.parent.gameObject.name.Contains("Blower"))
+                ClickObj = hit2d.collider.gameObject;
+                if (ClickObj.transform.parent != null && ClickObj.transform.parent.gameObject.name.Contains("Blower"))
                 {
                     ClickObj = hit2d.collider.transform.parent.gameObject;
 
-                }
-                else
-                {
-                    ClickObj = hit2d.collider.gameObject;
                 }
 
                 if (hit2d)

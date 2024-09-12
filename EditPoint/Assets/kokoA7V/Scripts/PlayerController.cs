@@ -25,8 +25,6 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private TimeData timeData;
 
     private Vector2 playerStartPos;
-    private float saveTime = 0f;
-    bool test = false;
 
     void Start()
     {
@@ -47,32 +45,6 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
-        if (timeData.b_DragMode)
-        {
-            //ここでタイムバーを手動で動かしたときのプレイヤーの処理を記入
-            if (!test)
-            {
-                inputLR = 1;
-                test = true;
-            }
-            mc.Run(new Vector2(inputLR * moveSpeed, 0));
-            mc.MoveUpdate();
-            mc.Friction(0.98f);
-            AutoInput();
-            gc.CheckGround();
-            AnimPlay();
-
-            if (saveTime > timeData.f_nowTime)
-            {
-                Debug.Log("巻き戻し―");
-                mc.Test2(timeData.f_nowTime);
-            }
-            else if (saveTime != timeData.f_nowTime)
-            {
-                mc.Test(timeData.f_nowTime);
-            }
-            saveTime = timeData.f_nowTime;
-        }
 
         //mc.MoveLR(inputLR);
         mc.Run(new Vector2(inputLR * moveSpeed, 0));
@@ -201,6 +173,7 @@ public class PlayerController : MonoBehaviour
         inputLR = 0;
         b_firstButton = false;
         transform.position = playerStartPos;
+        mc.ResetMove();
     }
 
     public void PlayerStop()

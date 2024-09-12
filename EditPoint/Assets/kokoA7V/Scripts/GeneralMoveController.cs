@@ -67,35 +67,10 @@ public class GeneralMoveController : MonoBehaviour
         }
     }
 
-    [System.Obsolete]
-    public void Test(float maxTime)
+    public void ResetMove()
     {
-        FuturePos = new List<Vector2>();
-
-        Physics2D.autoSimulation = false;
-        float time = 0;
-        float deltaTime = Time.fixedDeltaTime;
-        while (time < maxTime)
-        {
-            Physics2D.Simulate(deltaTime);
-            FuturePos.Add(this.gameObject.transform.position);
-            time += deltaTime;
-        }
-
-        Physics2D.autoSimulation = true;
+        Vector2 resetVerocity = new Vector2(0, 0);
+        rb.velocity = resetVerocity;
     }
 
-    public void Test2(float maxTime)
-    {
-        int count = 0;
-        float time = 0;
-        float deltaTime = Time.fixedDeltaTime;
-        while (time < maxTime)
-        {
-            count++;
-            time += deltaTime;
-        }
-        this.gameObject.transform.position = FuturePos[count];
-        Debug.Log(FuturePos[count]);
-    }
 }

@@ -108,6 +108,7 @@ public class BlockCreater : MonoBehaviour
         {
             nowState = State.none;
             marker.SetActive(false);
+            blockButton.color = Color.white;
         }
     }
 

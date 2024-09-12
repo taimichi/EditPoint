@@ -9,11 +9,12 @@ public class GameManager : MonoBehaviour
     private void Awake()
     {
         b_start = false;
+        Time.timeScale = 0;
     }
 
     void Start()
     {
-        Time.timeScale = 0;
+
     }
 
     void Update()
