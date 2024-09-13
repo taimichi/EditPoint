@@ -19,8 +19,8 @@ public class MoveGround : MonoBehaviour
     private float manualClipTime = 0f;
     [SerializeField] private TimeData timeData;
     private float f_test = 0f;
-
     Vector3 startPos;
+    float saveTime = 0;
 
     private void Start()
     {
@@ -70,17 +70,33 @@ public class MoveGround : MonoBehaviour
         //手動
         else
         {
+            //↓ゴリ押し(ブロックの動く座標が3か所になったら上手くいくかわからない)
             f_test = manualClipTime;
-            while (f_test >= 1)
+            int i = 0;
+            while (f_test > 1)
             {
-                int i = 0;
-                f_test -= pathTime[i];
-                i++;
-                if (i == path.Count - 1)
+                if (i > path.Count - 1)
+                {
+                    i = 0;
+                    f_test -= pathTime[i];
+                }
+                else
+                {
+                    f_test -= pathTime[i];
+                    i++;
+                }
+
+                if (i >= path.Count - 1)
                 {
                     i = 0;
                 }
             }
+
+            if (i == 1)
+            {
+                f_test = 1 - f_test;
+            }
+            //↑ゴリ押しここまで
 
             // 移動用
             Vector3 dist = path[nowPath + 1] - path[nowPath];
@@ -88,11 +104,11 @@ public class MoveGround : MonoBehaviour
             {
                 dist = path[0] - path[nowPath];
             }
-            Debug.Log(dist);
             Vector3 moveSpeed = dist / pathTime[nowPath];
             Vector3 movePos = moveSpeed * f_test * speed * playSpeed;
 
             this.transform.position = startPos + movePos;
+
 
         }
     }
