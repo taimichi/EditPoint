@@ -18,6 +18,7 @@ public class TitleButton : MonoBehaviour
 
     private void Update()
     {
+        if (Time.timeScale == 0) { return; }
         if (Input.GetMouseButtonDown(0) || Input.GetMouseButtonDown(1))
         {
             // フェード
