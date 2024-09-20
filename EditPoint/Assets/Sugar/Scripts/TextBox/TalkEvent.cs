@@ -303,6 +303,8 @@ public class TalkEvent : MonoBehaviour
                     CanvasFolder.SetActive(false);
                     clpObj.SetActive(true);
                     clapper.SceneName = "Select";
+
+                    Time.timeScale = 1;
                 }
                 break;
         }

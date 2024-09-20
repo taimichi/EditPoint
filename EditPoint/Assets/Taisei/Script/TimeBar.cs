@@ -43,7 +43,7 @@ public class TimeBar : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragH
 
     private void FixedUpdate()
     {
-        if (barPos.localPosition.x < v2_startPos.x + (limit * timelineData.f_oneTickWidht))
+        if (barPos.localPosition.x < v2_startPos.x + (limit * 2 * timelineData.f_oneTickWidht))
         {
             barPos.localPosition = v2_nowPos;
             v2_nowPos.x += f_speed * Time.deltaTime;
