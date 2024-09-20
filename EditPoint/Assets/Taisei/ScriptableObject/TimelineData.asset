@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: TimelineData
   m_EditorClassIdentifier: 
   f_oneResize: 140
-  f_oneTickWidht: 140
+  f_oneTickWidht: 70
   f_oneTickHeight: 75
   f_timelineEndLeft: -30
   f_timelineEndRight: 83300

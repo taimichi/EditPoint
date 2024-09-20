@@ -12,6 +12,7 @@ TagManager:
   - Marcker
   - SetClip
   - CreateBlock
+  - Timebar
   layers:
   - Default
   - TransparentFX

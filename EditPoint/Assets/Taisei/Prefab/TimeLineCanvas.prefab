@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 8389967650322075817}
   m_Layer: 5
   m_Name: Image
-  m_TagString: Untagged
+  m_TagString: Timebar
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -292,7 +292,7 @@ GameObject:
   - component: {fileID: 6609544224346704640}
   m_Layer: 5
   m_Name: Timebar
-  m_TagString: Untagged
+  m_TagString: Timebar
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1084,6 +1084,8 @@ GameObject:
   - component: {fileID: 6609544225671346236}
   - component: {fileID: 6609544225671346237}
   - component: {fileID: 7112020631656629058}
+  - component: {fileID: 4253985493149237776}
+  - component: {fileID: 6793117256044357085}
   m_Layer: 5
   m_Name: AllClip
   m_TagString: Untagged
@@ -1137,6 +1139,35 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   AddText: {fileID: 3548618687292585303}
+--- !u!114 &4253985493149237776
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6609544225671346239}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3ecb8ef81eab3344ca82a81fc30ed58e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Timebar: {fileID: 6609544224346704653}
+  timelineData: {fileID: 11400000, guid: 212fd9ad069de2a4bb63e85b77a3a9a7, type: 2}
+  GetClip: {fileID: 6793117256044357085}
+  parentRect: {fileID: 6609544225671346236}
+--- !u!114 &6793117256044357085
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6609544225671346239}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 984ba1c6d916f1e4588a617007922885, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  eventSystem: {fileID: 0}
 --- !u!1 &6609544225849720921
 GameObject:
   m_ObjectHideFlags: 0
