@@ -18,8 +18,10 @@ public class Select : MonoBehaviour
     [SerializeField] Text text;
     // ステージ名のテキスト
     [SerializeField] Text stageName;
+    // 選択中に暗くする
+    [SerializeField] GameObject[] blackPanel;
     // 再生マークの表示切り替え用
-    [SerializeField] GameObject[] Obj;
+    [SerializeField] GameObject[] playMark;
     // UIを動かすクラス
     ClassUIAnim UAnim;
 
@@ -85,6 +87,7 @@ public class Select : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (Time.timeScale == 0) { return; }
         Debug.Log(maxSDB);
         // マウスホイール
         // 左右クリックに変更
@@ -165,14 +168,24 @@ public class Select : MonoBehaviour
     /// </summary>
     void NowSelect()
     {
-        for (int i = 0; i < Obj.Length; i++)
+        for (int i = 0; i < blackPanel.Length; i++)
         {
             // 一度全て非表示に
-            Obj[i].SetActive(false);
+            blackPanel[i].SetActive(false);
 
-            if(rPos[i].anchoredPosition==vec2[2])
+            if (rPos[i].anchoredPosition == vec2[2])
             {
-                Obj[i].SetActive(true);
+                blackPanel[i].SetActive(true);
+            }
+        }
+        for (int i = 0; i < playMark.Length; i++)
+        {
+            // 一度全て非表示に
+            playMark[i].SetActive(false);
+
+            if (rPos[i].anchoredPosition == vec2[2])
+            {
+                playMark[i].SetActive(true);
             }
         }
         text.text = SDB.STAGE_DATA[numSDB].infomation_Stage;
