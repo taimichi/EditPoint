@@ -3,13 +3,16 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class PoisonEnemy : MonoBehaviour
+public class VirusEnemy : MonoBehaviour
 {
+    [SerializeField]
+    GameObject NoSignalCanvas;
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.tag == "Player")
         {
-            SceneManager.LoadScene("NoSignalScene");
+            Instantiate(NoSignalCanvas, Vector2.zero, Quaternion.identity);
         }
     }
 }
