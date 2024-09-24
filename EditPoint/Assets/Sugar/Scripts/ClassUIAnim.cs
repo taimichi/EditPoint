@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using DG.Tweening;  //DOTweenを使うときはこのusingを入れる
+//using DG.Tweening;  //DOTweenを使うときはこのusingを入れる
 
 public class ClassUIAnim
 {
@@ -13,7 +13,7 @@ public class ClassUIAnim
     /// <param name="rct">動かすUI</param>
     /// <param name="strPos">初期座標</param>
     /// <returns>セットしたrctを返す</returns>
-    public RectTransform anim_Start(RectTransform rct,Vector2 strPos)
+    public RectTransform anim_Start(RectTransform rct, Vector2 strPos)
     {
         rct.anchoredPosition = strPos;
         return rct;
@@ -26,10 +26,10 @@ public class ClassUIAnim
     /// <param name="spdX">X方向速度</param>
     /// <param name="spdY">Y方向速度</param>
     /// <returns>移動したrctを返す</returns>
-    public RectTransform anim_PosChange(RectTransform rct,float spdX,float spdY)
+    public RectTransform anim_PosChange(RectTransform rct, float spdX, float spdY)
     {
-       // Debug.Log("PosChange");
-        rct.anchoredPosition +=new Vector2( spdX,spdY);
+        // Debug.Log("PosChange");
+        rct.anchoredPosition += new Vector2(spdX, spdY);
         return rct;
     }
 
@@ -40,7 +40,7 @@ public class ClassUIAnim
     /// <param name="sclX">拡大サイズ速度X</param>
     /// <param name="sclY">拡大サイズ速度Y</param>
     /// <returns>サイズ変更したrctを返却</returns>
-    public RectTransform anim_SclChange(RectTransform rct,float sclX,float sclY)
+    public RectTransform anim_SclChange(RectTransform rct, float sclX, float sclY)
     {
         rct.sizeDelta += new Vector2(sclX, sclY);
         return rct;
@@ -52,9 +52,9 @@ public class ClassUIAnim
     /// <param name="Col">対象のUI</param>
     /// <param name="fadeSpd">フェード速度</param>
     /// <returns>フェードした後のColを返すよ</returns>
-    public Image anim_Fade_I(Image Col,float fadeSpd)
+    public Image anim_Fade_I(Image Col, float fadeSpd)
     {
-        Col.color +=new Color(0,0,0,fadeSpd);
+        Col.color += new Color(0, 0, 0, fadeSpd);
         return Col;
     }
     /// <summary>
@@ -76,7 +76,7 @@ public class ClassUIAnim
     /// <param name="y">速度Y</param>
     /// <param name="z">速度Z</param>
     /// <returns>回転したtfを返す</returns>
-    public Transform T_anim_rotation(Transform tf,float x,float y,float z)
+    public Transform T_anim_rotation(Transform tf, float x, float y, float z)
     {
         //tf.localEulerAngles += new Vector3(x, y, z);
         tf.rotation = Quaternion.Euler(x, y, z);
@@ -99,6 +99,7 @@ public class ClassUIAnim
     #endregion
 
     // 使うかわからないので必要になり次第作成しておきます
+    /*
     #region DOTweenMethod
     public enum RotateMode
     {
@@ -134,4 +135,6 @@ public class ClassUIAnim
         rct.DORotate(Vector3.forward * rotSpd,timer);
     }
     #endregion
+
+    */
 }

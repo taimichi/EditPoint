@@ -56,6 +56,8 @@ public class ImageResizer : MonoBehaviour, IDragHandler, IBeginDragHandler, IEnd
     }
     private CLIP_MODE mode = CLIP_MODE.normal;
 
+    private PlaySound playSound;
+
     private void Awake()
     {
         //リサイズ用
@@ -68,6 +70,8 @@ public class ImageResizer : MonoBehaviour, IDragHandler, IBeginDragHandler, IEnd
         //タイムラインの端のRectTransform取得
         rect_outLeft = GameObject.Find("LeftOutLine").GetComponent<RectTransform>();
         rect_outRight = GameObject.Find("RightOutLine").GetComponent<RectTransform>();
+
+        playSound = GameObject.Find("AudioCanvas").GetComponent<PlaySound>();
 
         CalculationWidth(targetImage.localPosition.x);
         CalculationHeight(targetImage.localPosition.y);
@@ -283,6 +287,7 @@ public class ImageResizer : MonoBehaviour, IDragHandler, IBeginDragHandler, IEnd
 
             if (mode != CLIP_MODE.normal)
             {
+                playSound.PlaySE(PlaySound.SE_TYPE.objMove);
                 //左端とクリップが重なってる場合
                 if (IsOverlapping(targetImage, rect_outLeft))
                 {

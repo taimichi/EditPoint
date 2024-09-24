@@ -69,6 +69,10 @@ public class Select : MonoBehaviour
 
     #endregion
 
+    #region taiseiAdd
+    [SerializeField] private PlaySound playSound;
+    #endregion
+
     void Start()
     {
         // インスタンス生成
@@ -122,6 +126,8 @@ public class Select : MonoBehaviour
                 numSDB = min;
             }
             // UIを動かすタイミング
+            playSound.PlaySE(PlaySound.SE_TYPE.move);
+
             startMove = true;
             copyNum = num;
             copyNumSDB = numSDB;
@@ -147,6 +153,8 @@ public class Select : MonoBehaviour
                 numSDB = maxSDB;
             }
             // UIを動かすタイミング
+            playSound.PlaySE(PlaySound.SE_TYPE.move);
+
             startMove = true;
             copyNum = num;
             copyNumSDB = numSDB;
@@ -154,10 +162,11 @@ public class Select : MonoBehaviour
 
         }
 
-        if(Input.GetMouseButtonDown(0))
+        if(Input.GetMouseButtonDown(1))
         {
             // 何も入ってないときは実行しない
             if (SDB.STAGE_DATA[numSDB].StageSceneName == "") { return; }
+            playSound.PlaySE(PlaySound.SE_TYPE.enter);
             clapper.SceneName = SDB.STAGE_DATA[numSDB].StageSceneName;
             startMove = true;
         }
@@ -305,8 +314,56 @@ public class Select : MonoBehaviour
                 }
                 break;
         }
-        
         //Debug.Log(numSDB);
+    }
+    public void UpButton()
+    {
+        if (num != max)
+        {
+            num++;
+        }
+        else
+        {
+            num = min;
+        }
+        if (numSDB != maxSDB)
+        {
+            numSDB++;
+        }
+        else
+        {
+            numSDB = min;
+        }
+        // UIを動かすタイミング
+        startMove = true;
+        copyNum = num;
+        copyNumSDB = numSDB;
+        moveNum = (int)MoveNum.UPWheel;
+    }
+
+    public void DownButton()
+    {
+        if (num != min)
+        {
+            num--;
+        }
+        else
+        {
+            num = max;
+        }
+        if (numSDB != min)
+        {
+            numSDB--;
+        }
+        else
+        {
+            numSDB = maxSDB;
+        }
+        // UIを動かすタイミング
+        startMove = true;
+        copyNum = num;
+        copyNumSDB = numSDB;
+        moveNum = (int)MoveNum.DOWNWheel;
     }
     #endregion
 }

@@ -49,8 +49,8 @@ Shader "Custom/2DLayerOutline"
                     v2f o;
 
                     // スプライトのローカル空間でのオフセットを計算
-                    float3 offset = float3(v.vertex.x * _OutlineThickness, v.vertex.y * _OutlineThickness, 0);
-                    v.vertex += float4(offset, 0);
+                    float2 offset = float2(v.vertex.x * _OutlineThickness, v.vertex.y * _OutlineThickness);
+                    v.vertex.xy += offset;
 
                     o.vertex = UnityObjectToClipPos(v.vertex);
                     o.uv = TRANSFORM_TEX(v.uv, _MainTex);

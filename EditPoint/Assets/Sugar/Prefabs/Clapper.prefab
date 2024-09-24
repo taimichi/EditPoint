@@ -801,6 +801,7 @@ GameObject:
   - component: {fileID: 2476495729485829611}
   - component: {fileID: 2195807595462386002}
   - component: {fileID: 4151636813343441729}
+  - component: {fileID: 3115098481397182036}
   m_Layer: 13
   m_Name: Clapper
   m_TagString: Untagged
@@ -991,6 +992,19 @@ MonoBehaviour:
   fade: {fileID: 0}
   animator: {fileID: 2476495729485829611}
   isSelectMode: 0
+--- !u!114 &3115098481397182036
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4151636813343441728}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 584edd3af8122df4eaee8d9fa7b498bd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playSound: {fileID: 0}
 --- !u!1 &4314053935108724396
 GameObject:
   m_ObjectHideFlags: 0

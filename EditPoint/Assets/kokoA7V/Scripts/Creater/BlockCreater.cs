@@ -43,8 +43,11 @@ public class BlockCreater : MonoBehaviour
 
     private ClipGenerator clipGenerator;
 
+    private PlaySound playSound;
+
     private void Start()
     {
+        playSound = GameObject.Find("AudioCanvas").GetComponent<PlaySound>();
         clipGenerator = GameObject.Find("AllClip").GetComponent<ClipGenerator>();
         marker = Instantiate(markerPrefab);
         bm = marker.GetComponent<BlockMarker>();
@@ -106,6 +109,7 @@ public class BlockCreater : MonoBehaviour
 
         if (Input.GetMouseButtonDown(1) && !isDrag)
         {
+            playSound.PlaySE(PlaySound.SE_TYPE.cancell);
             nowState = State.none;
             marker.SetActive(false);
             blockButton.color = Color.white;
@@ -114,6 +118,7 @@ public class BlockCreater : MonoBehaviour
 
     private void CreateBlock()
     {
+        playSound.PlaySE(PlaySound.SE_TYPE.blockGene);
         GameObject created = Instantiate(blockPrefab);
         created.transform.localScale = marker.transform.localScale;
         created.transform.position = marker.transform.position;

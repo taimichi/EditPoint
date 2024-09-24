@@ -35,8 +35,11 @@ public class ObjectMove : MonoBehaviour
 
     private bool b_objSetMode = false;
 
+    private PlaySound playSound;
+
     void Start()
     {
+        playSound = GameObject.Find("AudioCanvas").GetComponent<PlaySound>();
     }
 
 
@@ -90,12 +93,14 @@ public class ObjectMove : MonoBehaviour
                     }
                 }
 
+
                 ClickObj = hit2d.collider.gameObject;
                 if (ClickObj.transform.parent != null && ClickObj.transform.parent.gameObject.name.Contains("Blower"))
                 {
                     ClickObj = hit2d.collider.transform.parent.gameObject;
 
                 }
+                playSound.PlaySE(PlaySound.SE_TYPE.select);
 
                 if (hit2d)
                 {
@@ -143,6 +148,7 @@ public class ObjectMove : MonoBehaviour
                 }
                 else if (Input.GetMouseButtonUp(0))
                 {
+                    playSound.PlaySE(PlaySound.SE_TYPE.objMove);
                     b_objMove = false;
                     if (Obj.name.Contains("Blower"))
                     {

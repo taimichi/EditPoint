@@ -8,9 +8,12 @@ public class GoalController : MonoBehaviour
     [SerializeField] private GameObject ClearCanvas;
     private PlayerController plController;
 
+    private PlaySound playSound;
+
     private void Start()
     {
-        plController = GameObject.Find("Player").GetComponent<PlayerController>();   
+        plController = GameObject.Find("Player").GetComponent<PlayerController>();
+        playSound = GameObject.Find("AudioCanvas").GetComponent<PlaySound>();
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -19,6 +22,7 @@ public class GoalController : MonoBehaviour
         {
             if (playerItemData.isKey)
             {
+                playSound.PlaySE(PlaySound.SE_TYPE.gool);
                 plController.PlayerStop();
                 ClearCanvas.SetActive(true);
             }

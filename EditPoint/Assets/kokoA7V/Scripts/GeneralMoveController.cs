@@ -78,19 +78,20 @@ public class GeneralMoveController : MonoBehaviour
     /// </summary>
     public void FutureCalculation(float maxTime)
     {
-        Physics2D.autoSimulation = false;
-        float time = 0f;
-        float deltaTime = Time.fixedDeltaTime;
+        //注意　旧型式のスクリプトを使用するとビルド時にエラーが起こる
+        //Physics2D.autoSimulation = false;
+        //float time = 0f;
+        //float deltaTime = Time.fixedDeltaTime;
 
-        while (time < maxTime)
-        {
-            Physics2D.Simulate(deltaTime);
-            time += deltaTime;
-        }
+        //while (time < maxTime)
+        //{
+        //    Physics2D.Simulate(deltaTime);
+        //    time += deltaTime;
+        //}
 
 
 
-        Physics2D.autoSimulation = true;
+        //Physics2D.autoSimulation = true;
 
     }
 

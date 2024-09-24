@@ -91,9 +91,9 @@ namespace Live2D.Cubism.Rendering.Masking
 
             if (RenderTextureCount < 1)
             {
-#if UNITY_EDITOR
-                Debug.Log("This MaskTexture use system: Subdivisions (Legacy)");
-#endif
+//#if UNITY_EDITOR
+//                Debug.Log("This MaskTexture use system: Subdivisions (Legacy)");
+//#endif
 
                 Subdivisions = subdivisions;
 

@@ -43,6 +43,7 @@ public class ClipPlay : MonoBehaviour
 
     private MoveGround move;
 
+
     void Start()
     {
         f_manualTime = 0f;

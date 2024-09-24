@@ -10,9 +10,12 @@ public class ClipGenerator : MonoBehaviour
 
     private int i_createCount = 0;
 
+    private PlaySound playSound;
+
 
     void Start()
     {
+        playSound = GameObject.Find("AudioCanvas").GetComponent<PlaySound>();
     }
 
     void Update()
@@ -27,6 +30,7 @@ public class ClipGenerator : MonoBehaviour
     /// <param name="_getObj">クリップと同時に生成したブロック</param>
     public void ClipGene(GameObject _getObj)
     {
+        playSound.PlaySE(PlaySound.SE_TYPE.clipGene);
         i_createCount++;
         Vector3 clipPos = new Vector3(timeBar.transform.position.x, 0, 0);
         GameObject clip = Instantiate(ClipPrefab, clipPos, timeBar.transform.rotation, this.gameObject.transform);
@@ -42,6 +46,7 @@ public class ClipGenerator : MonoBehaviour
     /// </summary>
     public void ClipGene()
     {
+        playSound.PlaySE(PlaySound.SE_TYPE.clipGene);
         i_createCount++;
         Vector3 clipPos = new Vector3(timeBar.transform.position.x, 0, 0);
         GameObject clip = Instantiate(ClipPrefab, clipPos, timeBar.transform.rotation, this.gameObject.transform);
