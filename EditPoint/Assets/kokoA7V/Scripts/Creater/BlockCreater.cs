@@ -45,6 +45,9 @@ public class BlockCreater : MonoBehaviour
 
     private PlaySound playSound;
 
+    [SerializeField] private GameObject createText;
+    private bool b_check = false;
+
     private void Start()
     {
         playSound = GameObject.Find("AudioCanvas").GetComponent<PlaySound>();
@@ -54,6 +57,8 @@ public class BlockCreater : MonoBehaviour
         bm.isActive = false;
 
         marker.SetActive(false);
+
+        createText.SetActive(false);
     }
 
     private void Update()
@@ -112,7 +117,10 @@ public class BlockCreater : MonoBehaviour
             playSound.PlaySE(PlaySound.SE_TYPE.cancell);
             nowState = State.none;
             marker.SetActive(false);
+
+            createText.SetActive(false);
             blockButton.color = Color.white;
+            b_check = false;
         }
     }
 
@@ -128,7 +136,8 @@ public class BlockCreater : MonoBehaviour
         created.name = createName + blockCounter;
         blockCounter++;
 
-        clipGenerator.ClipGene(created);
+        clipGenerator.ClipGene(created, b_check);
+        b_check = true;
     }
 
     //private void CreateMoveBlock()
@@ -151,8 +160,18 @@ public class BlockCreater : MonoBehaviour
     {
         //if (nowState != State.MoveCreate)
         //{
-            nowState = nowState == State.none ? State.Create : State.none;
-            blockButton.color = nowState == State.none ? Color.white : Color.yellow;
+        nowState = nowState == State.none ? State.Create : State.none;
+        blockButton.color = nowState == State.none ? Color.white : Color.yellow;
+
+        if (nowState == State.Create)
+        {
+            createText.SetActive(true);
+        }
+        else
+        {
+            createText.SetActive(false);
+            b_check = false;
+        }
         //}
         //else
         //{

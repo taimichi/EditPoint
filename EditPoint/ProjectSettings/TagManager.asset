@@ -13,6 +13,7 @@ TagManager:
   - SetClip
   - CreateBlock
   - Timebar
+  - SelectedStage
   layers:
   - Default
   - TransparentFX

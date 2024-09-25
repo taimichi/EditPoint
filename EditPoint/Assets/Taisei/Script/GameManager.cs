@@ -30,19 +30,19 @@ public class GameManager : MonoBehaviour
                 playSound.PlayBGM(PlaySound.BGM_TYPE.title_stageSelect);
                 break;
 
-            case "Stage1":
+            case "Stage1-1":
                 playSound.PlayBGM(PlaySound.BGM_TYPE.stage1);
                 playSound.PlaySE(PlaySound.SE_TYPE.start);
                 Time.timeScale = 0;
                 break;
 
-            case "Stage2":
+            case "Stage1-2":
                 playSound.PlayBGM(PlaySound.BGM_TYPE.stage1);
                 playSound.PlaySE(PlaySound.SE_TYPE.start);
                 Time.timeScale = 0;
                 break;
 
-            case "Stage3":
+            case "Stage1-3":
                 playSound.PlayBGM(PlaySound.BGM_TYPE.stage1);
                 playSound.PlaySE(PlaySound.SE_TYPE.start);
                 Time.timeScale = 0;

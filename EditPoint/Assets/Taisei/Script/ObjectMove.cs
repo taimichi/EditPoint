@@ -172,6 +172,15 @@ public class ObjectMove : MonoBehaviour
                 }
             }
         }
+
+        //deleteキーで選択してるオブジェクトを消す
+        if (Input.GetKeyDown(KeyCode.Delete))
+        {
+            if (ClickObj != null)
+            {
+                Destroy(ClickObj);
+            }
+        }
     }
 
 

@@ -179,7 +179,23 @@ public class TalkEvent : MonoBehaviour
                 Snum=6;
                 break;
             case 5:// Noルート
-                Snum=2;
+                   // 初期化
+                ClearManager(true, true, false);
+                // 使うテキストボックスを変更するならこれで今まで
+                // 使ってたものを非表示に
+                ActiveFalse();
+                sBox = SelectBox.Down;
+
+                // 会話と名前のセット
+                DataSet(6, CharaName.AD);
+
+                // どの段のテキストボックスを使うか
+                UseTalkBox(sBox);
+
+                // キャラの表示
+                //gObj = Instantiate(charaObj[(int)CharaName.AD], charaPos[(int)SelectPos.Cenetr].position, Quaternion.identity);
+
+                Snum = 13;
                 break;
             case 6:
                 if (Input.GetMouseButtonDown(0))
@@ -280,6 +296,24 @@ public class TalkEvent : MonoBehaviour
                 //gObj = Instantiate(charaObj[(int)CharaName.AD], charaPos[(int)SelectPos.Cenetr].position, Quaternion.identity);
                 Snum=999;
                 break;
+
+                //いいえルート
+            case 13:
+                if (Input.GetMouseButtonDown(0))
+                {
+                    if (talkText[(int)sBox].text == resTalk)
+                    {
+                        Snum = 7;
+                        resTalk = "";
+                        num = 2;
+                    }
+                    // 一文字ずつ送るコルーチンの停止
+                    StopAllCoroutines();
+                    // 全文表示
+                    talkText[(int)sBox].text = resTalk;
+                }
+                break;
+
             case 999:
                 if (Input.GetMouseButtonDown(0))
                 {

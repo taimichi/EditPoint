@@ -12,6 +12,8 @@ public class ClipGenerator : MonoBehaviour
 
     private PlaySound playSound;
 
+    private GameObject clip;
+
 
     void Start()
     {
@@ -28,14 +30,17 @@ public class ClipGenerator : MonoBehaviour
     /// 新しいクリップを生成　ブロック生成と同時
     /// </summary>
     /// <param name="_getObj">クリップと同時に生成したブロック</param>
-    public void ClipGene(GameObject _getObj)
+    public void ClipGene(GameObject _getObj, bool _check)
     {
-        playSound.PlaySE(PlaySound.SE_TYPE.clipGene);
-        i_createCount++;
-        Vector3 clipPos = new Vector3(timeBar.transform.position.x, 0, 0);
-        GameObject clip = Instantiate(ClipPrefab, clipPos, timeBar.transform.rotation, this.gameObject.transform);
-        clip.name = "CreateClip" + i_createCount;
-        clip.tag = "CreateClip";
+        if (!_check)
+        {
+            playSound.PlaySE(PlaySound.SE_TYPE.clipGene);
+            i_createCount++;
+            Vector3 clipPos = new Vector3(timeBar.transform.position.x, 0, 0);
+            clip = Instantiate(ClipPrefab, clipPos, timeBar.transform.rotation, this.gameObject.transform);
+            clip.name = "CreateClip" + i_createCount;
+            clip.tag = "CreateClip";
+        }
 
         ClipPlay clipPlay = clip.GetComponent<ClipPlay>();
         clipPlay.OutGetObj(_getObj);

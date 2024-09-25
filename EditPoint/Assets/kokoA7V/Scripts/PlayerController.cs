@@ -26,8 +26,13 @@ public class PlayerController : MonoBehaviour
 
     private Vector2 playerStartPos;
 
+    private PlaySound playSound;
+    [SerializeField] private GameObject NoSignalCanvas;
+    private bool b_deathed = false;
+
     void Start()
     {
+        playSound = GameObject.Find("AudioCanvas").GetComponent<PlaySound>();
         gc = GetComponent<GroundChecker>();
         rb = GetComponent<Rigidbody2D>();
 
@@ -75,7 +80,15 @@ public class PlayerController : MonoBehaviour
         //落下によるゲームオーバー
         if (this.transform.position.y <= -50)
         {
-            Debug.Log("ｱﾜﾜﾜﾜ!!!");
+            if (!b_deathed)
+            {
+                b_deathed = true;
+                Time.timeScale = 0;
+                playSound.StopBGM();
+                playSound.PlaySE(PlaySound.SE_TYPE.death);
+                Instantiate(NoSignalCanvas, Vector2.zero, Quaternion.identity);
+                Debug.Log("ｱﾜﾜﾜﾜ!!!");
+            }
         }
     }
 

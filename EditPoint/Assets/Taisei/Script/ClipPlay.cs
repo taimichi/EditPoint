@@ -24,8 +24,6 @@ public class ClipPlay : MonoBehaviour
 
     private bool b_getObjMode = false;
 
-    [SerializeField] private Image buttonImage;
-
     private ObjectMove objectMove;
 
     [SerializeField] private ClipSpeed clipSpeed;
@@ -175,13 +173,6 @@ public class ClipPlay : MonoBehaviour
 
     }
 
-    //オブジェクト取得モードフラグを変更
-    public void OnGetObj()
-    {
-        b_getObjMode = b_getObjMode == false ? true : false;
-        objectMove.ObjSetMode(b_getObjMode);
-        buttonImage.color = b_getObjMode == false ? Color.white : Color.red;
-    }
 
     //外部からのゲームオブジェクトを取得
     public void OutGetObj(GameObject _outGetObj)
@@ -214,6 +205,18 @@ public class ClipPlay : MonoBehaviour
                 correspondenceObj[i].SetActive(false);
 
             }
+        }
+    }
+
+
+    /// <summary>
+    /// クリップに関連付けてあるオブジェクトを消す
+    /// </summary>
+    public void ClipObjDestroy()
+    {
+        for(int i = 0; i < correspondenceObj.Count; i++)
+        {
+            Destroy(correspondenceObj[i]);
         }
     }
 

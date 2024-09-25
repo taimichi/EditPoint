@@ -67,6 +67,16 @@ public class GetClip : MonoBehaviour
             }            
         }
 
+        if (Input.GetKeyDown(KeyCode.Delete))
+        {
+            if (Clip != null)
+            {
+                ClipPlay clipPlay = Clip.GetComponent<ClipPlay>();
+                clipPlay.ClipObjDestroy();
+                Destroy(Clip);
+                Clip = null;
+            }
+        }
     }
 
     /// <summary>
