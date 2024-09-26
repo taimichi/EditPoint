@@ -20,6 +20,7 @@ public class GameManager : MonoBehaviour
         {
             case "Title":
                 playSound.PlayBGM(PlaySound.BGM_TYPE.title_stageSelect);
+                Time.timeScale = 1;
                 break;
 
             case "Talk":
