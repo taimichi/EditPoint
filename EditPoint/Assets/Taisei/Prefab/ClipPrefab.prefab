@@ -174,7 +174,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   targetImage: {fileID: 4323194755857948600}
   f_minSize: 350
-  f_maxSize: 1400
+  f_maxSize: 4200
   f_edgeRange: 100
   timelineData: {fileID: 11400000, guid: 212fd9ad069de2a4bb63e85b77a3a9a7, type: 2}
   b_Lock: 0

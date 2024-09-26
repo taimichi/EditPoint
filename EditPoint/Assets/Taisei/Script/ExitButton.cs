@@ -9,14 +9,14 @@ public class ExitButton : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        if (GameObject.Find("FadeCanvas"))
-        {
-            fade = GameObject.Find("FadeCanvas").GetComponent<Fade>();
-        }
-        else
-        {
-            fade = GameObject.Find("GameFade").GetComponent<Fade>();
-        }
+        //if (GameObject.Find("FadeCanvas"))
+        //{
+        //    fade = GameObject.Find("FadeCanvas").GetComponent<Fade>();
+        //}
+        //else
+        //{
+        //    fade = GameObject.Find("GameFade").GetComponent<Fade>();
+        //}
 
     }
 
@@ -31,8 +31,10 @@ public class ExitButton : MonoBehaviour
     /// </summary>
     public void OnExitButton()
     {
-        fade.FadeIn(0.5f, () => {
-            SceneManager.LoadScene("Title");
-        });
+        //fade.FadeIn(0.5f, () => {
+        //    SceneManager.LoadScene("Title");
+        //});
+
+        SceneManager.LoadScene("Title");
     }
 }
