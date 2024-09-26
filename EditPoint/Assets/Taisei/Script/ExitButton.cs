@@ -5,6 +5,8 @@ using UnityEngine.SceneManagement;
 
 public class ExitButton : MonoBehaviour
 {
+    // GameObject.FindÇæÇ∆ÇÌÇ©ÇÁÇÒÅGÅGbykoko20240926
+    [SerializeField]
     private Fade fade;
     // Start is called before the first frame update
     void Start()
@@ -13,9 +15,14 @@ public class ExitButton : MonoBehaviour
         {
             fade = GameObject.Find("FadeCanvas").GetComponent<Fade>();
         }
-        else
+        else if(GameObject.Find("GameFade"))
         {
             fade = GameObject.Find("GameFade").GetComponent<Fade>();
+        }
+        else
+        {
+            // elseì¸ÇÍÇ‹Ç∑bykoko20240926
+            Debug.Log("canvasÇ»Ç¢Ç®Å`");
         }
 
     }
@@ -31,8 +38,21 @@ public class ExitButton : MonoBehaviour
     /// </summary>
     public void OnExitButton()
     {
-        fade.FadeIn(0.5f, () => {
+        // Ç«Ç§Ç‚ÇÁìÆÇ¢ÇƒÇ»Ç¢Ç¡Ç€Ç¢Ç¡Ç∑ÅIóùóRïsñæÅIbykoko20240926
+        Debug.Log("osareta");
+        if (fade != null)
+        {
+
+            Debug.Log("fade");
+            fade.FadeIn(0.5f, () =>
+            {
+                SceneManager.LoadScene("Title");
+            });
+        }
+        else
+        {
+            Debug.Log("no fade");
             SceneManager.LoadScene("Title");
-        });
+        }
     }
 }
