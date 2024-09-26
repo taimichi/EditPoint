@@ -169,7 +169,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dir: 0
   power: 5
-  length: 5
+  length: 10
 --- !u!1 &1859863528208807726
 GameObject:
   m_ObjectHideFlags: 0

@@ -50,7 +50,11 @@ public class BlockCreater : MonoBehaviour
 
     private void Start()
     {
-        playSound = GameObject.Find("AudioCanvas").GetComponent<PlaySound>();
+        // nullチェックしてくれ、テスト環境で動かん…
+        if (GameObject.Find("AudioCanvas") != null)
+        {
+            playSound = GameObject.Find("AudioCanvas").GetComponent<PlaySound>();
+        }
         clipGenerator = GameObject.Find("AllClip").GetComponent<ClipGenerator>();
         marker = Instantiate(markerPrefab);
         bm = marker.GetComponent<BlockMarker>();

@@ -11,6 +11,7 @@ public class PlayerController : MonoBehaviour
     Animator anim;
 
     // MoveController mc;
+    [SerializeField]
     GeneralMoveController mc;
 
     public float moveSpeed = 2.5f;
@@ -32,7 +33,11 @@ public class PlayerController : MonoBehaviour
 
     void Start()
     {
-        playSound = GameObject.Find("AudioCanvas").GetComponent<PlaySound>();
+        // Nullチェックしてくれbykoko20240926
+        if (GameObject.Find("AudioCanvas") != null)
+        {
+            playSound = GameObject.Find("AudioCanvas").GetComponent<PlaySound>();
+        }
         gc = GetComponent<GroundChecker>();
         rb = GetComponent<Rigidbody2D>();
 
