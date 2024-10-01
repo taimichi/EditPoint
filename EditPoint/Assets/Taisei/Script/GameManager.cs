@@ -1,19 +1,62 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
     private bool b_start = false;
+    private string s_nowSceneName = "";
+
+    private PlaySound playSound;
 
     private void Awake()
     {
+        playSound = GameObject.Find("AudioCanvas").GetComponent<PlaySound>();
         b_start = false;
+
+        s_nowSceneName = SceneManager.GetActiveScene().name;
+        switch (s_nowSceneName)
+        {
+            case "Title":
+                playSound.PlayBGM(PlaySound.BGM_TYPE.title_stageSelect);
+                Time.timeScale = 1;
+                break;
+
+            case "Talk":
+                playSound.PlayBGM(PlaySound.BGM_TYPE.talk);
+                break;
+
+            case "Select":
+                playSound.PlayBGM(PlaySound.BGM_TYPE.title_stageSelect);
+                break;
+
+            case "Stage1-1":
+                playSound.PlayBGM(PlaySound.BGM_TYPE.stage1);
+                playSound.PlaySE(PlaySound.SE_TYPE.start);
+                Time.timeScale = 0;
+                break;
+
+            case "Stage1-2":
+                playSound.PlayBGM(PlaySound.BGM_TYPE.stage1);
+                playSound.PlaySE(PlaySound.SE_TYPE.start);
+                Time.timeScale = 0;
+                break;
+
+            case "Stage1-3":
+                playSound.PlayBGM(PlaySound.BGM_TYPE.stage1);
+                playSound.PlaySE(PlaySound.SE_TYPE.start);
+                Time.timeScale = 0;
+                break;
+
+
+        }
+
     }
 
     void Start()
     {
-        Time.timeScale = 0;
+
     }
 
     void Update()
@@ -37,5 +80,11 @@ public class GameManager : MonoBehaviour
             Time.timeScale = 1;
             b_start = true;
         }
+    }
+
+    public void OnReset()
+    {
+        b_start = false;
+        Time.timeScale = 0;
     }
 }

@@ -12,16 +12,37 @@ public class PlaySound : MonoBehaviour
     [SerializeField] AudioSource BGM;
     [SerializeField] AudioSource SE;
 
-    public enum TYPE
+    public enum SE_TYPE
     { 
-        a,
-        b,
-        c
+        enter,      //決定
+        move,       //移動
+        select,     //オブジェクト選択
+        objMove,    //クリップ、オブジェクト移動
+        clipResize, //クリップサイズ変更
+        clipGene,   //クリップ生成
+        toolButton, //ツールボタンクリック
+        katinko,    //カチンコ
+        blockGene,  //ブロック生成
+        start,      //スタート
+        gool,       //ゴール
+        copy,       //コピー
+        paste,      //ペースト
+        cancell,    //モード解除
+        itemGet,    //アイテム入手
+        death,      //死亡
+        develop,    //開発中
     }
 
-    public void PlayBGM(int i)
+    public enum BGM_TYPE
     {
-        BGM.clip = clipMusic[i];
+        title_stageSelect,
+        stage1,
+        talk,
+    }
+
+    public void PlayBGM(BGM_TYPE _bgm)
+    {
+        BGM.clip = clipMusic[(int)_bgm];
         BGM.Play();
     }
 
@@ -34,7 +55,7 @@ public class PlaySound : MonoBehaviour
     /// SEを再生するよ
     /// </summary>
     /// <param name="i">再生するSE番号</param>
-    public void PlaySE(TYPE tYPE)
+    public void PlaySE(SE_TYPE tYPE)
     {
         SE.PlayOneShot(clip[(int)tYPE]);
     }

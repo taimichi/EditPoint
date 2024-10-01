@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using Live2D.Cubism.Rendering;
+//using Live2D.Cubism.Rendering;
 
 public class LayerController : MonoBehaviour
 {
@@ -47,7 +47,7 @@ public class LayerController : MonoBehaviour
     private PlayerLayer plLayer;
     private int i_plLayerNum;
 
-    private CubismRenderController live2DRender;
+    //private CubismRenderController live2DRender;
 
     private Color layerColor;
     private float f_layerColorAlfa;
@@ -60,7 +60,7 @@ public class LayerController : MonoBehaviour
         plLayer = Pl.GetComponent<PlayerLayer>();
         i_plLayerNum = plLayer.ReturnPLLayer() - 1;
 
-        live2DRender = GameObject.Find("ADChan").GetComponent<CubismRenderController>();
+        //live2DRender = GameObject.Find("ADChan").GetComponent<CubismRenderController>();
 
         layerImg = LayerPanel.GetComponent<Image>();
         f_layerColorAlfa = 90f / 255f;
@@ -181,53 +181,53 @@ public class LayerController : MonoBehaviour
     //プレイヤーのレイヤー
     private void PlayerLayerChange()
     {
-        switch (i_plLayerNum)
-        {
-            case 0:
-                if (i_layerNum == 0)
-                {
-                    live2DRender.SortingOrder = i_orderInLayer1Num;
-                }
-                else if (i_layerNum == 1)
-                {
-                    live2DRender.SortingOrder = 5;
-                }
-                else
-                {
-                    live2DRender.SortingOrder = 3;
-                }
-                break;
+        //switch (i_plLayerNum)
+        //{
+        //    case 0:
+        //        if (i_layerNum == 0)
+        //        {
+        //            live2DRender.SortingOrder = i_orderInLayer1Num;
+        //        }
+        //        else if (i_layerNum == 1)
+        //        {
+        //            live2DRender.SortingOrder = 5;
+        //        }
+        //        else
+        //        {
+        //            live2DRender.SortingOrder = 3;
+        //        }
+        //        break;
 
-            case 1:
-                if (i_layerNum == 0)
-                {
-                    live2DRender.SortingOrder = i_orderInLayer2Num;
-                }
-                else if (i_layerNum == 2)
-                {
-                    live2DRender.SortingOrder = 5;
-                }
-                else
-                {
-                    live2DRender.SortingOrder = 3;
-                }
-                break;
+        //    case 1:
+        //        if (i_layerNum == 0)
+        //        {
+        //            live2DRender.SortingOrder = i_orderInLayer2Num;
+        //        }
+        //        else if (i_layerNum == 2)
+        //        {
+        //            live2DRender.SortingOrder = 5;
+        //        }
+        //        else
+        //        {
+        //            live2DRender.SortingOrder = 3;
+        //        }
+        //        break;
 
-            case 2:
-                if (i_layerNum == 0)
-                {
-                    live2DRender.SortingOrder = i_orderInLayer3Num;
-                }
-                else if (i_layerNum == 3)
-                {
-                    live2DRender.SortingOrder = 5;
-                }
-                else
-                {
-                    live2DRender.SortingOrder = 3;
-                }
-                break;
-        }
+        //    case 2:
+        //        if (i_layerNum == 0)
+        //        {
+        //            live2DRender.SortingOrder = i_orderInLayer3Num;
+        //        }
+        //        else if (i_layerNum == 3)
+        //        {
+        //            live2DRender.SortingOrder = 5;
+        //        }
+        //        else
+        //        {
+        //            live2DRender.SortingOrder = 3;
+        //        }
+        //        break;
+        //}
 
     }
 

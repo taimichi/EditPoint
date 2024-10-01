@@ -11,6 +11,7 @@ public class PlayerController : MonoBehaviour
     Animator anim;
 
     // MoveController mc;
+    [SerializeField]
     GeneralMoveController mc;
 
     public float moveSpeed = 2.5f;
@@ -22,9 +23,21 @@ public class PlayerController : MonoBehaviour
     bool manual = true;
 
     private bool b_firstButton = false;
+    [SerializeField] private TimeData timeData;
+
+    private Vector2 playerStartPos;
+
+    private PlaySound playSound;
+    [SerializeField] private GameObject NoSignalCanvas;
+    private bool b_deathed = false;
 
     void Start()
     {
+        // Nullチェックしてくれbykoko20240926
+        if (GameObject.Find("AudioCanvas") != null)
+        {
+            playSound = GameObject.Find("AudioCanvas").GetComponent<PlaySound>();
+        }
         gc = GetComponent<GroundChecker>();
         rb = GetComponent<Rigidbody2D>();
 
@@ -35,11 +48,20 @@ public class PlayerController : MonoBehaviour
 
         gc.InitCol();
 
-        b_firstButton = false;  
+        b_firstButton = false;
+
+        playerStartPos = this.gameObject.transform.position;
     }
 
     void Update()
     {
+        //ここでタイムラインを手動で動かしたときのプレイヤーの処理を追加
+        //if (timeData.b_DragMode)
+        //{
+        //    inputLR = 1;
+        //    mc.FutureCalculation(timeData.f_nowTime);
+        //}
+
         //mc.MoveLR(inputLR);
         mc.Run(new Vector2(inputLR * moveSpeed, 0));
         mc.MoveUpdate();
@@ -63,7 +85,15 @@ public class PlayerController : MonoBehaviour
         //落下によるゲームオーバー
         if (this.transform.position.y <= -50)
         {
-            Debug.Log("ｱﾜﾜﾜﾜ!!!");
+            if (!b_deathed)
+            {
+                b_deathed = true;
+                Time.timeScale = 0;
+                playSound.StopBGM();
+                playSound.PlaySE(PlaySound.SE_TYPE.death);
+                Instantiate(NoSignalCanvas, Vector2.zero, Quaternion.identity);
+                Debug.Log("ｱﾜﾜﾜﾜ!!!");
+            }
         }
     }
 
@@ -153,13 +183,21 @@ public class PlayerController : MonoBehaviour
         Debug.Log(value + "だめーじ！");
     }
 
-    public void PlayerStart()
+    public void OnPlayerStart()
     {
         if (!b_firstButton)
         {
             inputLR = 1;
             b_firstButton = true;
         }
+    }
+
+    public void OnPlayerReset()
+    {
+        inputLR = 0;
+        b_firstButton = false;
+        transform.position = playerStartPos;
+        mc.ResetMove();
     }
 
     public void PlayerStop()

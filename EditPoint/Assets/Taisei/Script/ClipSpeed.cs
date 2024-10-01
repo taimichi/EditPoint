@@ -39,4 +39,13 @@ public class ClipSpeed : MonoBehaviour
     {
         return f_playSpeed;
     }
+
+    /// <summary>
+    /// ŠO•”‚©‚çf_StartWidth‚ğ•ÏX‚·‚é
+    /// </summary>
+    /// <param name="getWidth">ó‚¯æ‚éWidth</param>
+    public void GetStartWidth(float getWidth)
+    {
+        f_StartWidth = getWidth;
+    }
 }

@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 
 public class Select : MonoBehaviour
@@ -69,6 +70,10 @@ public class Select : MonoBehaviour
 
     #endregion
 
+    #region taiseiAdd
+    [SerializeField] private PlaySound playSound;
+    #endregion
+
     void Start()
     {
         // インスタンス生成
@@ -122,6 +127,8 @@ public class Select : MonoBehaviour
                 numSDB = min;
             }
             // UIを動かすタイミング
+            playSound.PlaySE(PlaySound.SE_TYPE.move);
+
             startMove = true;
             copyNum = num;
             copyNumSDB = numSDB;
@@ -147,6 +154,8 @@ public class Select : MonoBehaviour
                 numSDB = maxSDB;
             }
             // UIを動かすタイミング
+            playSound.PlaySE(PlaySound.SE_TYPE.move);
+
             startMove = true;
             copyNum = num;
             copyNumSDB = numSDB;
@@ -156,10 +165,18 @@ public class Select : MonoBehaviour
 
         if(Input.GetMouseButtonDown(0))
         {
-            // 何も入ってないときは実行しない
-            if (SDB.STAGE_DATA[numSDB].StageSceneName == "") { return; }
-            clapper.SceneName = SDB.STAGE_DATA[numSDB].StageSceneName;
-            startMove = true;
+            if (CheckPointerUIObj("SelectedStage"))
+            {
+                // 何も入ってないときは実行しない
+                if (SDB.STAGE_DATA[numSDB].StageSceneName == "")
+                {
+                    playSound.PlaySE(PlaySound.SE_TYPE.develop);
+                    return;
+                }
+                playSound.PlaySE(PlaySound.SE_TYPE.enter);
+                clapper.SceneName = SDB.STAGE_DATA[numSDB].StageSceneName;
+                startMove = true;
+            }
         }
     }
 
@@ -305,8 +322,76 @@ public class Select : MonoBehaviour
                 }
                 break;
         }
-        
         //Debug.Log(numSDB);
     }
+    public void UpButton()
+    {
+        if (num != max)
+        {
+            num++;
+        }
+        else
+        {
+            num = min;
+        }
+        if (numSDB != maxSDB)
+        {
+            numSDB++;
+        }
+        else
+        {
+            numSDB = min;
+        }
+        // UIを動かすタイミング
+        startMove = true;
+        copyNum = num;
+        copyNumSDB = numSDB;
+        moveNum = (int)MoveNum.UPWheel;
+    }
+
+    public void DownButton()
+    {
+        if (num != min)
+        {
+            num--;
+        }
+        else
+        {
+            num = max;
+        }
+        if (numSDB != min)
+        {
+            numSDB--;
+        }
+        else
+        {
+            numSDB = maxSDB;
+        }
+        // UIを動かすタイミング
+        startMove = true;
+        copyNum = num;
+        copyNumSDB = numSDB;
+        moveNum = (int)MoveNum.DOWNWheel;
+    }
     #endregion
+
+    // タグ付きのUIオブジェクトの上にカーソルがあるかを確認
+    private bool CheckPointerUIObj(string tag)
+    {
+        PointerEventData eventDataCurrentPosition = new PointerEventData(EventSystem.current);
+        eventDataCurrentPosition.position = Input.mousePosition;
+
+        List<RaycastResult> results = new List<RaycastResult>();
+        EventSystem.current.RaycastAll(eventDataCurrentPosition, results);
+
+        foreach (RaycastResult result in results)
+        {
+            // 指定されたタグを持つオブジェクトかどうかを確認
+            if (result.gameObject.CompareTag(tag))
+            {
+                return true;
+            }
+        }
+        return false;
+    }
 }

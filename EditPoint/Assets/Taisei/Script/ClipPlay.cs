@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
+using System;
 
 public class ClipPlay : MonoBehaviour
 {
@@ -23,8 +24,6 @@ public class ClipPlay : MonoBehaviour
 
     private bool b_getObjMode = false;
 
-    [SerializeField] private Image buttonImage;
-
     private ObjectMove objectMove;
 
     [SerializeField] private ClipSpeed clipSpeed;
@@ -34,8 +33,20 @@ public class ClipPlay : MonoBehaviour
 
     private AddTextManager addTextManager;
 
+    [SerializeField] private TimelineData timelineData;
+    [SerializeField] private TimeData timeData;
+
+    private RectTransform rect_grandParent;
+    private float f_manualTime = 0;
+
+    private MoveGround move;
+
+
     void Start()
     {
+        f_manualTime = 0f;
+        rect_grandParent = rect_Clip.parent.parent.GetComponent<RectTransform>();
+
         //タイムバーのRectTransformを取得
         rect_timeBar = GameObject.Find("Timebar").GetComponent<RectTransform>();
         AllClip = GameObject.Find("AllClip");
@@ -46,7 +57,7 @@ public class ClipPlay : MonoBehaviour
         //生成したクリップの場合
         if (correspondenceObj.Count == 0)
         {
-            clipName.text = "生成したクリップ" + clipGenerator.ReturnCount();
+            clipName.text = "空っぽのクリップ" + clipGenerator.ReturnCount();
         }
         else
         {
@@ -71,7 +82,6 @@ public class ClipPlay : MonoBehaviour
             {
                 if (Input.GetMouseButtonDown(0)) // 左クリック
                 {
-                    Physics2D.Simulate(Time.fixedDeltaTime);
                     Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
                     RaycastHit2D hit = Physics2D.Raycast(mousePosition, Vector2.zero);
 
@@ -116,6 +126,8 @@ public class ClipPlay : MonoBehaviour
                             }
                         }
                     }
+                    //クリップの名前を変更
+                    clipName.text = "中身のあるクリップ";
                 }
             }
         }
@@ -130,56 +142,82 @@ public class ClipPlay : MonoBehaviour
             }
         }
 
+        //クリップとタイムバーが触れてるときのみ
+        if (IsOverlapping(rect_Clip, rect_timeBar))
+        {
+            //クリップの経過時間
+            Vector3 leftEdge = rect_grandParent.InverseTransformPoint(rect_Clip.position) + new Vector3(-rect_Clip.rect.width * rect_Clip.pivot.x, 0, 0);
+            float dis = rect_timeBar.localPosition.x - leftEdge.x;
+            f_manualTime = (float)Math.Truncate(dis / timelineData.f_oneTickWidht * 10) / 10;
+
+            //タイムバーを手動で動かしてる時
+            if (timeData.b_DragMode)
+            {
+                for (int i = 0; i < correspondenceObj.Count; i++)
+                {
+                    if (correspondenceObj[i].GetComponent<MoveGround>())
+                    {
+                        move = correspondenceObj[i].GetComponent<MoveGround>();
+                        move.GetClipTime(f_manualTime);
+                    }
+                }
+            }
+        }
+
+        ClipPlayNow();
     }
 
     private void FixedUpdate()
     {
+        ClipPlayNow();
 
+    }
+
+
+    //外部からのゲームオブジェクトを取得
+    public void OutGetObj(GameObject _outGetObj)
+    {
+        correspondenceObj.Add(_outGetObj);
+        clipName.text = "中身のあるクリップ";
+        checkClip = _outGetObj.GetComponent<CheckClipConnect>();
+        checkClip.ConnectClip();
+    }
+
+    /// <summary>
+    /// クリップを再生しているかどうか
+    /// </summary>
+    private void ClipPlayNow()
+    {
         if (IsOverlapping(rect_Clip, rect_timeBar))
         {
-            Debug.Log("UIオブジェクトが接触しています");
-            b_clipPlay = true;
-        }
-        else
-        {
-            Debug.Log("UIオブジェクトが接触していません");
-            b_clipPlay = false;
-        }
-
-
-        //クリップ再生中の処理
-        if (b_clipPlay)
-        {
-            for(int i = 0; i < correspondenceObj.Count; i++)
+            Debug.Log("タイムバーと接触しています");
+            for (int i = 0; i < correspondenceObj.Count; i++)
             {
                 correspondenceObj[i].SetActive(true);
             }
             f_timer += Time.deltaTime;
-
         }
-        //クリップ再生してないときの処理
         else
         {
+            Debug.Log("タイムバーと接触していません");
             for (int i = 0; i < correspondenceObj.Count; i++)
             {
                 correspondenceObj[i].SetActive(false);
+
             }
         }
-
-    }
-
-    //オブジェクト取得モードフラグを変更
-    public void OnGetObj()
-    {
-        b_getObjMode = b_getObjMode == false ? true : false;
-        objectMove.ObjSetMode(b_getObjMode);
-        buttonImage.color = b_getObjMode == false ? Color.white : Color.red;
     }
 
 
-    public float ReturnClipTime()
+    /// <summary>
+    /// クリップに関連付けてあるオブジェクトを消す
+    /// </summary>
+    public void ClipObjDestroy()
     {
-        return f_timer;
+        for(int i = 0; i < correspondenceObj.Count; i++)
+        {
+            Destroy(correspondenceObj[i]);
+        }
     }
 
     /// <summary>

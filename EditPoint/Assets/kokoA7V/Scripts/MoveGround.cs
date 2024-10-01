@@ -16,6 +16,11 @@ public class MoveGround : MonoBehaviour
     float timer;
 
     private float playSpeed = 1f;
+    private float manualClipTime = 0f;
+    [SerializeField] private TimeData timeData;
+    private float f_test = 0f;
+    Vector3 startPos;
+    float saveTime = 0;
 
     private void Start()
     {
@@ -24,37 +29,87 @@ public class MoveGround : MonoBehaviour
 
         path.Add(Vector3.zero);
         pathTime.Add(0);
+
+        startPos = this.transform.position;
     }
 
     private void Update()
     {
-        // 移動用
-        Vector3 movePos = this.transform.position;
-
-        Vector3 dist = path[nowPath + 1] - path[nowPath];
-        if (nowPath + 1 == path.Count - 1)
+        //自動
+        if (!timeData.b_DragMode)
         {
-            dist = path[0] - path[nowPath];
-        }
-        Vector3 moveSpeed = dist / pathTime[nowPath];
-        movePos += moveSpeed * Time.deltaTime * speed * playSpeed;
+            // 移動用
+            Vector3 movePos = this.transform.position;
 
-        this.transform.position = movePos;
-
-
-
-        // 時間管理
-        timer -= Time.deltaTime * speed * playSpeed;
-
-        if (timer <= 0)
-        {
-            nowPath++;
-            if (nowPath == path.Count - 1)
+            Vector3 dist = path[nowPath + 1] - path[nowPath];
+            if (nowPath + 1 == path.Count - 1)
             {
-                nowPath = 0;
+                dist = path[0] - path[nowPath];
             }
-            //Debug.Log(nowPath + " 到着");
-            timer = pathTime[nowPath];
+            Vector3 moveSpeed = dist / pathTime[nowPath];
+            movePos += moveSpeed * Time.deltaTime * speed * playSpeed;
+
+            this.transform.position = movePos;
+
+
+
+            // 時間管理
+            timer -= Time.deltaTime * speed * playSpeed;
+
+            if (timer <= 0)
+            {
+                nowPath++;
+                if (nowPath == path.Count - 1)
+                {
+                    nowPath = 0;
+                }
+                //Debug.Log(nowPath + " 到着");
+                timer = pathTime[nowPath];
+            }
+        }
+        //手動
+        else
+        {
+            //↓ゴリ押し(ブロックの動く座標が3か所になったら上手くいくかわからない)
+            f_test = manualClipTime;
+            int i = 0;
+            while (f_test > 1)
+            {
+                if (i > path.Count - 1)
+                {
+                    i = 0;
+                    f_test -= pathTime[i];
+                }
+                else
+                {
+                    f_test -= pathTime[i];
+                    i++;
+                }
+
+                if (i >= path.Count - 1)
+                {
+                    i = 0;
+                }
+            }
+
+            if (i == 1)
+            {
+                f_test = 1 - f_test;
+            }
+            //↑ゴリ押しここまで
+
+            // 移動用
+            Vector3 dist = path[nowPath + 1] - path[nowPath];
+            if (nowPath + 1 == path.Count - 1)
+            {
+                dist = path[0] - path[nowPath];
+            }
+            Vector3 moveSpeed = dist / pathTime[nowPath];
+            Vector3 movePos = moveSpeed * f_test * speed * playSpeed;
+
+            this.transform.position = startPos + movePos;
+
+
         }
     }
 
@@ -79,5 +134,14 @@ public class MoveGround : MonoBehaviour
     public void ChangePlaySpeed(float _playSpeed)
     {
         playSpeed = _playSpeed;
+    }
+
+    /// <summary>
+    /// クリップから手動時の現在のクリップの秒数を取得
+    /// </summary>
+    /// <param name="_ClipTime">クリップの現在の秒数(手動時)</param>
+    public void GetClipTime(float _ClipTime)
+    {
+        manualClipTime = _ClipTime;
     }
 }

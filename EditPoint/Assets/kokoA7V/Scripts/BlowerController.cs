@@ -42,6 +42,9 @@ public class BlowerController : MonoBehaviour
             nowDir = 3;
         }
 
-        nowBlower.dir = nowDir;
+        if (nowBlower != null)
+        {
+            nowBlower.dir = nowDir;
+        }
     }
 }

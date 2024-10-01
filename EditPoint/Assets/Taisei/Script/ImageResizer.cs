@@ -56,6 +56,8 @@ public class ImageResizer : MonoBehaviour, IDragHandler, IBeginDragHandler, IEnd
     }
     private CLIP_MODE mode = CLIP_MODE.normal;
 
+    private PlaySound playSound;
+
     private void Awake()
     {
         //リサイズ用
@@ -69,6 +71,8 @@ public class ImageResizer : MonoBehaviour, IDragHandler, IBeginDragHandler, IEnd
         rect_outLeft = GameObject.Find("LeftOutLine").GetComponent<RectTransform>();
         rect_outRight = GameObject.Find("RightOutLine").GetComponent<RectTransform>();
 
+        playSound = GameObject.Find("AudioCanvas").GetComponent<PlaySound>();
+
         CalculationWidth(targetImage.localPosition.x);
         CalculationHeight(targetImage.localPosition.y);
         CheckWidth();
@@ -80,10 +84,10 @@ public class ImageResizer : MonoBehaviour, IDragHandler, IBeginDragHandler, IEnd
     {
         if (this.gameObject.tag == "CreateClip")
         {
-            f_newWidth += f_oneWidth;
-            CheckWidth();
-            v2_newPos = new Vector2(f_newWidth, f_newHeight);
-            targetImage.localPosition = new Vector3(v2_newPos.x, v2_newPos.y, 0);
+            //f_newWidth += f_oneWidth;
+            //CheckWidth();
+            //v2_newPos = new Vector2(f_newWidth, f_newHeight);
+            //targetImage.localPosition = new Vector3(v2_newPos.x, v2_newPos.y, 0);
 
             GetClipRect();
             for (int i = 0; i < ClipsRect.Length; i++)
@@ -102,16 +106,26 @@ public class ImageResizer : MonoBehaviour, IDragHandler, IBeginDragHandler, IEnd
                         f_newHeight = 0 * f_oneHeight - 15f;
 
                         //重なったクリップの右端の座標を取得
-                        Vector2 overRapSize = ClipsRect[i].rect.size;
-                        float pivotX = ClipsRect[i].pivot.x;
-                        float rightEdgeX = (0.5f - pivotX) * overRapSize.x;
-                        Vector3 rightLocalPos = new Vector3(rightEdgeX, 0, 0);
+                        float rightEdge = ClipsRect[i].anchoredPosition.x + (ClipsRect[i].rect.width * (1 - ClipsRect[i].pivot.x));
 
+                        Debug.Log("右端" + rightEdge);
 
-                        f_newWidth = rightLocalPos.x + f_oneWidth * (i - 1);
+                        f_newWidth = rightEdge + f_oneWidth;
+
                         CalculationWidth(f_newWidth);
                         CalculationHeight(f_newHeight);
 
+                        v2_newPos = new Vector2(f_newWidth, f_newHeight);
+                        targetImage.localPosition = new Vector3(v2_newPos.x, v2_newPos.y, 0);
+                        for(int j = 0; j < 5; j++)
+                        {
+                            if (IsOverlapping(targetImage, ClipsRect[j]))
+                            {
+                                f_newHeight -= f_oneHeight;
+                                v2_newPos = new Vector2(f_newWidth, f_newHeight);
+                                targetImage.localPosition = new Vector3(v2_newPos.x, v2_newPos.y, 0);
+                            }
+                        }
                     }
                     v2_newPos = new Vector2(f_newWidth, f_newHeight);
                     targetImage.localPosition = new Vector3(v2_newPos.x, v2_newPos.y, 0);
@@ -283,6 +297,7 @@ public class ImageResizer : MonoBehaviour, IDragHandler, IBeginDragHandler, IEnd
 
             if (mode != CLIP_MODE.normal)
             {
+                playSound.PlaySE(PlaySound.SE_TYPE.objMove);
                 //左端とクリップが重なってる場合
                 if (IsOverlapping(targetImage, rect_outLeft))
                 {
@@ -431,6 +446,7 @@ public class ImageResizer : MonoBehaviour, IDragHandler, IBeginDragHandler, IEnd
 
         return new Rect(corners[0], corners[2] - corners[0]);
     }
+
 
     private void GetClipRect()
     {

@@ -35,8 +35,11 @@ public class ObjectMove : MonoBehaviour
 
     private bool b_objSetMode = false;
 
+    private PlaySound playSound;
+
     void Start()
     {
+        playSound = GameObject.Find("AudioCanvas").GetComponent<PlaySound>();
     }
 
 
@@ -67,11 +70,11 @@ public class ObjectMove : MonoBehaviour
                     {
                         if (ClickObj.name.Contains("Blower"))
                         {
-                            ClickObj.transform.GetChild(0).GetComponent<SpriteRenderer>().material = materials.layerMaterials[7];
+                            ClickObj.transform.GetChild(0).GetComponent<SpriteRenderer>().material = materials.layerMaterials[0];
                         }
                         else
                         {
-                            ClickObj.GetComponent<SpriteRenderer>().material = materials.layerMaterials[7];
+                            ClickObj.GetComponent<SpriteRenderer>().material = materials.layerMaterials[0];
                         }
                     }
                     ClickObj = null;
@@ -82,33 +85,32 @@ public class ObjectMove : MonoBehaviour
                 {
                     if (ClickObj.name.Contains("Blower"))
                     {
-                        ClickObj.transform.GetChild(0).GetComponent<SpriteRenderer>().material = materials.layerMaterials[7];
+                        ClickObj.transform.GetChild(0).GetComponent<SpriteRenderer>().material = materials.layerMaterials[0];
                     }
                     else
                     {
-                        ClickObj.GetComponent<SpriteRenderer>().material = materials.layerMaterials[7];
+                        ClickObj.GetComponent<SpriteRenderer>().material = materials.layerMaterials[0];
                     }
                 }
 
-                if (hit2d.collider.transform.parent.gameObject.name.Contains("Blower"))
+
+                ClickObj = hit2d.collider.gameObject;
+                if (ClickObj.transform.parent != null && ClickObj.transform.parent.gameObject.name.Contains("Blower"))
                 {
                     ClickObj = hit2d.collider.transform.parent.gameObject;
 
                 }
-                else
-                {
-                    ClickObj = hit2d.collider.gameObject;
-                }
+                playSound.PlaySE(PlaySound.SE_TYPE.select);
 
                 if (hit2d)
                 {
                     if (ClickObj.name.Contains("Blower"))
                     {
-                        ClickObj.transform.GetChild(0).GetComponent<SpriteRenderer>().material = materials.layerMaterials[6];
+                        ClickObj.transform.GetChild(0).GetComponent<SpriteRenderer>().material = materials.layerMaterials[1];
                     }
                     else
                     {
-                        ClickObj.GetComponent<SpriteRenderer>().material = materials.layerMaterials[6];
+                        ClickObj.GetComponent<SpriteRenderer>().material = materials.layerMaterials[1];
                     }
                     Obj = ClickObj;
                     v3_objPos = Obj.transform.position;
@@ -146,6 +148,7 @@ public class ObjectMove : MonoBehaviour
                 }
                 else if (Input.GetMouseButtonUp(0))
                 {
+                    playSound.PlaySE(PlaySound.SE_TYPE.objMove);
                     b_objMove = false;
                     if (Obj.name.Contains("Blower"))
                     {
@@ -167,6 +170,15 @@ public class ObjectMove : MonoBehaviour
                     //}
                     Obj = null;
                 }
+            }
+        }
+
+        //deleteキーで選択してるオブジェクトを消す
+        if (Input.GetKeyDown(KeyCode.Delete))
+        {
+            if (ClickObj != null)
+            {
+                Destroy(ClickObj);
             }
         }
     }

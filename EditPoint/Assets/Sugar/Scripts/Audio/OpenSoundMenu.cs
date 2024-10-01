@@ -17,12 +17,12 @@ public class OpenSoundMenu : MonoBehaviour
             if (obj.activeSelf) 
             {
                 obj.SetActive(false);
-                Time.timeScale = 1;
+                //Time.timeScale = 1;
             }
             else if (!obj.activeSelf) 
             {
                 obj.SetActive(true);
-                Time.timeScale = 0;
+                //Time.timeScale = 0;
             }
         }
     }

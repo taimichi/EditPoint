@@ -1101,6 +1101,8 @@ MonoBehaviour:
   - {fileID: 7724036849118383659}
   - {fileID: 7724036849671736185}
   CanvasFolder: {fileID: 7724036849556137097}
+  clapper: {fileID: 0}
+  clpObj: {fileID: 0}
   SelectButtonBox: {fileID: 7724036849141015903}
   delay: 0.1
 --- !u!1 &7724036849375962337

@@ -54,9 +54,12 @@ public class CopyAndPaste : MonoBehaviour
     private bool b_isNoHit;
     private bool b_isSpecificTag;
 
+    private PlaySound playSound;
+
 
     void Start()
     {
+        playSound = GameObject.Find("AudioCanvas").GetComponent<PlaySound>();
         //plLayer = GameObject.Find("Player").GetComponent<PlayerLayer>();
         CopyObj = null;
         PasteObj = null;
@@ -102,6 +105,7 @@ public class CopyAndPaste : MonoBehaviour
                 //クリックしたらカーソルの位置にオブジェクトを置く
                 if (Input.GetMouseButtonDown(0) /* && !plLayer.ReturnPlTrigger()*/)
                 {
+                    playSound.PlaySE(PlaySound.SE_TYPE.paste);
                     ////単体
                     //if (!rangeSelect.ReturnSelectNow())
                     //{
@@ -119,13 +123,13 @@ public class CopyAndPaste : MonoBehaviour
                     //}
                     if (CopyObj.name.Contains("Blower"))
                     {
-                        PasteObj.transform.GetChild(0).GetComponent<SpriteRenderer>().material = materials.layerMaterials[7];
+                        PasteObj.transform.GetChild(0).GetComponent<SpriteRenderer>().material = materials.layerMaterials[0];
                         PasteObj.transform.GetChild(0).GetComponent<Collider2D>().isTrigger = false;
 
                     }
                     else
                     {
-                        PasteObj.GetComponent<SpriteRenderer>().material = materials.layerMaterials[7];
+                        PasteObj.GetComponent<SpriteRenderer>().material = materials.layerMaterials[0];
                         PasteObj.GetComponent<Collider2D>().isTrigger = false;
                     }
                     //layerControll.ChangeObjectList();
@@ -160,6 +164,7 @@ public class CopyAndPaste : MonoBehaviour
             if (Input.GetMouseButtonDown(1))
             {
                 Debug.Log("ペーストモード解除");
+                playSound.PlaySE(PlaySound.SE_TYPE.cancell);
                 //if (!rangeSelect.ReturnSelectNow())
                 //{
                     MaterialReset();
@@ -229,13 +234,12 @@ public class CopyAndPaste : MonoBehaviour
             if (hit2d.collider.transform.parent.gameObject.name.Contains("Blower"))
             {
                 ClickObj = hit2d.collider.transform.parent.gameObject;
-                ClickObj.transform.GetChild(0).GetComponent<SpriteRenderer>().material = materials.layerMaterials[6];
+                ClickObj.transform.GetChild(0).GetComponent<SpriteRenderer>().material = materials.layerMaterials[1];
             }
             else
             {
-                ClickObj.GetComponent<SpriteRenderer>().material = materials.layerMaterials[6];
+                ClickObj.GetComponent<SpriteRenderer>().material = materials.layerMaterials[1];
             }
-
             //if (ClickObj.layer == LayerMask.NameToLayer("Layer1"))
             //{
             //    ClickObj.GetComponent<SpriteRenderer>().material = materials.layerMaterials[6];
@@ -258,6 +262,7 @@ public class CopyAndPaste : MonoBehaviour
                 //クリックしたオブジェクトが選択可能オブジェクトだったら
                 if (ClickObj != null)
                 {
+                    playSound.PlaySE(PlaySound.SE_TYPE.copy);
                     //ClickObj.GetComponent<SpriteRenderer>().material = materials.layerMaterials[6];
 
                     ////単体
@@ -307,6 +312,7 @@ public class CopyAndPaste : MonoBehaviour
         if (Input.GetMouseButtonDown(1))
         {
             Debug.Log("コピーモード解除");
+            playSound.PlaySE(PlaySound.SE_TYPE.cancell);
             MaterialReset();
             mode = MODE_TYPE.normal;
             ClickObj = null;
@@ -373,40 +379,40 @@ public class CopyAndPaste : MonoBehaviour
             mode = MODE_TYPE.copy;
             copyModeText.enabled = true;
             copyModeText.text = "現在コピーモードです";
-            if (ClickObj != null)
-            {
-                ClickObj.GetComponent<SpriteRenderer>().material = materials.layerMaterials[6];
+            //if (ClickObj != null)
+            //{
+            //    ClickObj.GetComponent<SpriteRenderer>().material = materials.layerMaterials[6];
 
-                ////単体
-                //if (!rangeSelect.ReturnSelectNow())
-                //{
-                if (i_CopyNum > 0)
-                {
-                    CopyObj = ClickObj;
-                    PasteObj = null;
-                }
-                //}
-                ////複数
-                //else
-                //{
-                //    if (i_CopyNum > 0)
-                //    {
-                //        CopyObjs = rangeSelect.ReturnRangeSelectObj();
-                //        v3_offset = new Vector3[CopyObjs.Length];
-                //        PasteObjs = new GameObject[CopyObjs.Length];
-                //        for (int i = 0; i < CopyObjs.Length; i++)
-                //        {
-                //            v3_offset[i] = CopyObjs[i].transform.position - CopyObjs[0].transform.position;
-                //            PasteObjs[i] = null;
+            //    ////単体
+            //    //if (!rangeSelect.ReturnSelectNow())
+            //    //{
+            //    if (i_CopyNum > 0)
+            //    {
+            //        CopyObj = ClickObj;
+            //        PasteObj = null;
+            //    }
+            //    //}
+            //    ////複数
+            //    //else
+            //    //{
+            //    //    if (i_CopyNum > 0)
+            //    //    {
+            //    //        CopyObjs = rangeSelect.ReturnRangeSelectObj();
+            //    //        v3_offset = new Vector3[CopyObjs.Length];
+            //    //        PasteObjs = new GameObject[CopyObjs.Length];
+            //    //        for (int i = 0; i < CopyObjs.Length; i++)
+            //    //        {
+            //    //            v3_offset[i] = CopyObjs[i].transform.position - CopyObjs[0].transform.position;
+            //    //            PasteObjs[i] = null;
 
-                //        }
-                //    }
-                //}
-                //ペーストモードに移行
-                Paste();
-                mode = MODE_TYPE.paste;
+            //    //        }
+            //    //    }
+            //    //}
+            //    //ペーストモードに移行
+            //    Paste();
+            //    mode = MODE_TYPE.paste;
 
-            }
+            //}
         }
         else
         {
@@ -434,11 +440,11 @@ public class CopyAndPaste : MonoBehaviour
         {
             if(ClickObj.name.Contains("Blower"))
             {
-                ClickObj.transform.GetChild(0).GetComponent<SpriteRenderer>().material = materials.layerMaterials[7];
+                ClickObj.transform.GetChild(0).GetComponent<SpriteRenderer>().material = materials.layerMaterials[0];
             }
             else
             {
-                ClickObj.GetComponent<SpriteRenderer>().material = materials.layerMaterials[7];
+                ClickObj.GetComponent<SpriteRenderer>().material = materials.layerMaterials[0];
             }
         }
 
