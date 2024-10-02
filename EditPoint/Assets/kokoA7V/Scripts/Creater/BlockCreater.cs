@@ -6,15 +6,15 @@ using UnityEngine.UI;
 
 public class BlockCreater : MonoBehaviour
 {
-    public enum State
-    {
-        none,
-        Create,
-        //MoveCreate
-    }
+    //public enum State
+    //{
+    //    none,
+    //    Create,
+    //    //MoveCreate
+    //}
 
-    [SerializeField]
-    State nowState = State.none;
+    //[SerializeField]
+    //State nowState = State.none;
 
     bool isDrag;
 
@@ -38,7 +38,6 @@ public class BlockCreater : MonoBehaviour
     private int blockCounter = 1;
 
     private string createName = "CreateBlock";
-    [SerializeField] private Image blockButton;
     //[SerializeField] private Image moveBlockButton;
 
     private ClipGenerator clipGenerator;
@@ -69,7 +68,7 @@ public class BlockCreater : MonoBehaviour
     {
         mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
-        if (nowState == State.Create /*|| nowState == State.MoveCreate*/)
+        if (ModeData.ModeEntity.mode == ModeData.Mode.create /*|| nowState == State.MoveCreate*/)
         {
             if (!EventSystem.current.IsPointerOverGameObject())
             {
@@ -87,7 +86,7 @@ public class BlockCreater : MonoBehaviour
 
                     if (!bm.isHitGround)
                     {
-                        if (nowState == State.Create)
+                        if (ModeData.ModeEntity.mode == ModeData.Mode.create)
                         {
                             CreateBlock();
                         }
@@ -119,12 +118,16 @@ public class BlockCreater : MonoBehaviour
         if (Input.GetMouseButtonDown(1) && !isDrag)
         {
             playSound.PlaySE(PlaySound.SE_TYPE.cancell);
-            nowState = State.none;
+            ModeData.ModeEntity.mode = ModeData.Mode.normal;
             marker.SetActive(false);
 
             createText.SetActive(false);
-            blockButton.color = Color.white;
             b_check = false;
+        }
+
+        if (ModeData.ModeEntity.mode != ModeData.Mode.create)
+        {
+            createText.SetActive(false);
         }
     }
 
@@ -164,10 +167,16 @@ public class BlockCreater : MonoBehaviour
     {
         //if (nowState != State.MoveCreate)
         //{
-        nowState = nowState == State.none ? State.Create : State.none;
-        blockButton.color = nowState == State.none ? Color.white : Color.yellow;
+        if(ModeData.ModeEntity.mode != ModeData.Mode.create)
+        {
+            ModeData.ModeEntity.mode = ModeData.Mode.create;
+        }
+        else
+        {
+            ModeData.ModeEntity.mode = ModeData.Mode.normal;
+        }
 
-        if (nowState == State.Create)
+        if (ModeData.ModeEntity.mode == ModeData.Mode.create)
         {
             createText.SetActive(true);
         }

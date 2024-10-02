@@ -108,8 +108,6 @@ public class ImageResizer : MonoBehaviour, IDragHandler, IBeginDragHandler, IEnd
                         //重なったクリップの右端の座標を取得
                         float rightEdge = ClipsRect[i].anchoredPosition.x + (ClipsRect[i].rect.width * (1 - ClipsRect[i].pivot.x));
 
-                        Debug.Log("右端" + rightEdge);
-
                         f_newWidth = rightEdge + f_oneWidth;
 
                         CalculationWidth(f_newWidth);
