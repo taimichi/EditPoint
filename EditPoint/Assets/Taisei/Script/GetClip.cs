@@ -38,7 +38,6 @@ public class GetClip : MonoBehaviour
                 Clip = null;
             }
 
-            // マウス位置に基づくレイキャスト
             PointerEventData pointerData = new PointerEventData(eventSystem);
             pointerData.position = Input.mousePosition;
 

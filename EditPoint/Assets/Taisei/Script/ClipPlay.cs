@@ -143,7 +143,7 @@ public class ClipPlay : MonoBehaviour
         }
 
         //クリップとタイムバーが触れてるときのみ
-        if (IsOverlapping(rect_Clip, rect_timeBar))
+        if (CheckOverrap(rect_Clip, rect_timeBar))
         {
             //クリップの経過時間
             Vector3 leftEdge = rect_grandParent.InverseTransformPoint(rect_Clip.position) + new Vector3(-rect_Clip.rect.width * rect_Clip.pivot.x, 0, 0);
@@ -188,7 +188,7 @@ public class ClipPlay : MonoBehaviour
     /// </summary>
     private void ClipPlayNow()
     {
-        if (IsOverlapping(rect_Clip, rect_timeBar))
+        if (CheckOverrap(rect_Clip, rect_timeBar))
         {
             //タイムバーと接触しているとき
             for (int i = 0; i < correspondenceObj.Count; i++)
@@ -223,14 +223,14 @@ public class ClipPlay : MonoBehaviour
     /// <summary>
     /// クリップとタイムバーが重なっているかをチェック
     /// </summary>
-    /// <param name="rect1">クリップのRectTransform</param>
-    /// <param name="rect2">タイムバーのRectTransform</param>
+    /// <param name="clipRect">クリップのRectTransform</param>
+    /// <param name="timeberRect">タイムバーのRectTransform</param>
     /// <returns>重なっている=true 重なっていない=false</returns>
-    private bool IsOverlapping(RectTransform rect1, RectTransform rect2)
+    private bool CheckOverrap(RectTransform clipRect, RectTransform timeberRect)
     {
         // RectTransformの境界をワールド座標で取得
-        Rect rect1World = GetWorldRect(rect1);
-        Rect rect2World = GetWorldRect(rect2);
+        Rect rect1World = GetWorldRect(clipRect);
+        Rect rect2World = GetWorldRect(timeberRect);
 
         // 境界が重なっているかどうかをチェック
         return rect1World.Overlaps(rect2World);

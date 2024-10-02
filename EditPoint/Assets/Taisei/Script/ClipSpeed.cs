@@ -15,10 +15,8 @@ public class ClipSpeed : MonoBehaviour
         f_StartWidth = ClipRect.sizeDelta.x;
     }
 
-    // Update is called once per frame
     void Update()
     {
-        //Debug.Log("çƒê∂ë¨ìx" + f_playSpeed);
         f_changeSpeed = (float)Math.Truncate(ClipRect.sizeDelta.x / f_StartWidth * 10) / 10;
         if (f_changeSpeed <= 1) 
         {
