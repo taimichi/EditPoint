@@ -190,7 +190,7 @@ public class ClipPlay : MonoBehaviour
     {
         if (IsOverlapping(rect_Clip, rect_timeBar))
         {
-            Debug.Log("タイムバーと接触しています");
+            //タイムバーと接触しているとき
             for (int i = 0; i < correspondenceObj.Count; i++)
             {
                 correspondenceObj[i].SetActive(true);
@@ -199,7 +199,7 @@ public class ClipPlay : MonoBehaviour
         }
         else
         {
-            Debug.Log("タイムバーと接触していません");
+            //タイムバーと接触していないとき
             for (int i = 0; i < correspondenceObj.Count; i++)
             {
                 correspondenceObj[i].SetActive(false);

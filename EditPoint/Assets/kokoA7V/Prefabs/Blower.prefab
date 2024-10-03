@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 1859863527920727914}
   - component: {fileID: 1859863527920727913}
   - component: {fileID: 1859863527920727915}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Wind
   m_TagString: UnTouch
   m_Icon: {fileID: 0}
