@@ -680,6 +680,7 @@ MonoBehaviour:
   content: {fileID: 6609544225284490415}
   target: {fileID: 6609544224346704653}
   scrollAmount_auto: 0.022789
+  viewport: {fileID: 6609544225358189720}
 --- !u!1 &6609544224740813911
 GameObject:
   m_ObjectHideFlags: 0
