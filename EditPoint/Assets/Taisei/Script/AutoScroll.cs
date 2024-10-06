@@ -53,8 +53,6 @@ public class AutoScroll : MonoBehaviour
 
         }
 
-        Debug.Log(scrollAmount_auto);
-
     }
 
     // 右にスクロール

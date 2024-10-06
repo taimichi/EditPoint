@@ -136,7 +136,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: -30, y: -15}
-  m_SizeDelta: {x: 420, y: 65}
+  m_SizeDelta: {x: 700, y: 65}
   m_Pivot: {x: 0, y: 0.5}
 --- !u!222 &4323194755857948606
 CanvasRenderer:
@@ -222,7 +222,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rect_Clip: {fileID: 4323194755857948600}
   clipName: {fileID: 4323194755795921081}
-  correspondenceObj: []
+  ConnectObj: []
   clipSpeed: {fileID: 4323194755857948604}
   timelineData: {fileID: 11400000, guid: 212fd9ad069de2a4bb63e85b77a3a9a7, type: 2}
   timeData: {fileID: 11400000, guid: e17019f28d5feae45902e2a830dada68, type: 2}

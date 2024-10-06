@@ -6,7 +6,6 @@ TagManager:
   tags:
   - RangeSelect
   - UnTouch
-  - LayerPanel
   - CutObj
   - CreateClip
   - Marcker
@@ -14,6 +13,7 @@ TagManager:
   - CreateBlock
   - Timebar
   - SelectedStage
+  - MoveGround
   layers:
   - Default
   - TransparentFX

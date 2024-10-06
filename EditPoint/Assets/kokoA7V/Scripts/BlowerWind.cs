@@ -24,23 +24,26 @@ public class BlowerWind : MonoBehaviour
 
     private void OnTriggerStay2D(Collider2D collision)
     {
-        if (collision.gameObject.TryGetComponent<GeneralMoveController>(out var mc))
+        if (ModeData.ModeEntity.mode != ModeData.Mode.moveANDdirect)
         {
-            if (blower.dir == 0)
+            if (collision.gameObject.TryGetComponent<GeneralMoveController>(out var mc))
             {
-                mc.Flic(new Vector2(0, blower.power));
-            }
-            else if (blower.dir == 2)
-            {
-                mc.Flic(new Vector2(0, -blower.power));
-            }
-            else if (blower.dir == 1)
-            {
-                mc.Flic(new Vector2(-blower.power, 0));
-            }
-            else if (blower.dir == 3)
-            {
-                mc.Flic(new Vector2(blower.power, 0));
+                if (blower.dir == 0)
+                {
+                    mc.Flic(new Vector2(0, blower.power));
+                }
+                else if (blower.dir == 2)
+                {
+                    mc.Flic(new Vector2(0, -blower.power));
+                }
+                else if (blower.dir == 1)
+                {
+                    mc.Flic(new Vector2(-blower.power, 0));
+                }
+                else if (blower.dir == 3)
+                {
+                    mc.Flic(new Vector2(blower.power, 0));
+                }
             }
         }
     }

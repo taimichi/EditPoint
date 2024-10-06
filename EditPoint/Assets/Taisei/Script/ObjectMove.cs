@@ -18,9 +18,6 @@ public class ObjectMove : MonoBehaviour
 
     private bool b_objMove = false;
 
-
-    private Color startColor;
-
     //選択時にアウトラインをつける
     private GameObject ClickObj;
     /// <summary>
@@ -47,7 +44,8 @@ public class ObjectMove : MonoBehaviour
     {
         if (!b_objSetMode)
         {
-            if (Input.GetMouseButtonDown(0))
+            if (Input.GetMouseButtonDown(0) && 
+                (ModeData.ModeEntity.mode == ModeData.Mode.normal || ModeData.ModeEntity.mode == ModeData.Mode.blowerControll))
             {
                 Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
                 RaycastHit2D hit2d = Physics2D.Raycast((Vector2)ray.origin, (Vector2)ray.direction);
@@ -60,7 +58,7 @@ public class ObjectMove : MonoBehaviour
                 b_isNoHit = (hit2d == false);
                 if (!b_isNoHit)
                 {
-                    b_isSpecificTag = new List<string> { "Player", "UnTouch", "Marcker" }.Contains(hit2d.collider.tag);
+                    b_isSpecificTag = new List<string> { "Player", "UnTouch", "Marcker", "MoveGround" }.Contains(hit2d.collider.tag);
                 }
 
                 //UIや動かしたくないオブジェクトだったらだったら何もしない
@@ -115,11 +113,6 @@ public class ObjectMove : MonoBehaviour
                     Obj = ClickObj;
                     v3_objPos = Obj.transform.position;
 
-                    //CopyObj = Instantiate(Obj);
-                    //CopyObj.transform.position = v3_objPos;
-                    //CopyObj.tag = "Marcker";
-                    //startColor = CopyObj.GetComponent<SpriteRenderer>().color;
-                    //CopyObj.GetComponent<SpriteRenderer>().color = new Color(startColor.r, startColor.g, startColor.b, 50f / 255f);
 
                     if (Obj.name.Contains("Blower"))
                     {
@@ -131,11 +124,12 @@ public class ObjectMove : MonoBehaviour
                     }
 
                     b_objMove = true;
+                    ModeData.ModeEntity.mode = ModeData.Mode.moveANDdirect;
                 }
 
             }
 
-            if (b_objMove)
+            if (b_objMove && ModeData.ModeEntity.mode==ModeData.Mode.moveANDdirect)
             {
                 if (Input.GetMouseButton(0))
                 {
@@ -158,17 +152,8 @@ public class ObjectMove : MonoBehaviour
                     {
                         Obj.GetComponent<Collider2D>().isTrigger = false;
                     }
-
-                    //Destroy(CopyObj);
-                    //CopyObj = null;
-
-                    //
-                    //if (plLayer.ReturnPlTrigger())
-                    //{
-                    //    Obj.transform.position = v3_objPos;
-                    //    return;
-                    //}
                     Obj = null;
+                    ModeData.ModeEntity.mode = ModeData.Mode.normal;
                 }
             }
         }

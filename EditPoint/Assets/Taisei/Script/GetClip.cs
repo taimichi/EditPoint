@@ -38,14 +38,13 @@ public class GetClip : MonoBehaviour
                 Clip = null;
             }
 
-            PointerEventData pointerData = new PointerEventData(eventSystem);
-            pointerData.position = Input.mousePosition;
+            PointerEventData pointData = new PointerEventData(eventSystem);
+            pointData.position = Input.mousePosition;
 
             List<RaycastResult> results = new List<RaycastResult>();
            
-            raycaster.Raycast(pointerData, results);
+            raycaster.Raycast(pointData, results);
 
-            // ヒットしたUIオブジェクトを表示
             foreach (RaycastResult result in results)
             {
                 isTagHit = new List<string> { "CreateClip", "SetClip", "Timebar"}.Contains(result.gameObject.tag);

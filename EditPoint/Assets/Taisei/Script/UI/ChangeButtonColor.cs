@@ -11,6 +11,14 @@ public class ChangeButtonColor : MonoBehaviour
     private EventSystem eventSystem;
     private bool isFirst = false;
 
+    private void Update()
+    {
+        if (Input.GetMouseButtonDown(1))
+        {
+            imageColor.color = Color.white;
+        }
+    }
+
     public void OnChangeColor()
     {
         eventSystem = EventSystem.current;
