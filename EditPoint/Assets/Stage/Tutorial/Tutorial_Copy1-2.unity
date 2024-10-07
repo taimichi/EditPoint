@@ -5958,7 +5958,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4323194755795921081, guid: 3de79496991474f48a34ccbe59c522fc, type: 3}
       propertyPath: m_Text
-      value: "\u4E0A\u4E0B\u306B\u52D5\u304F\u30D6\u30ED\u30C3\u30AF"
+      value: "\u9001\u98A8\u6A5F"
       objectReference: {fileID: 0}
     - target: {fileID: 4323194755857948595, guid: 3de79496991474f48a34ccbe59c522fc, type: 3}
       propertyPath: f_minSize
@@ -7504,7 +7504,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 6609544224346704640, guid: 8ca4d4dae18af074ba6831a924991f75, type: 3}
       propertyPath: limit
-      value: 10
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 6609544224346704653, guid: 8ca4d4dae18af074ba6831a924991f75, type: 3}
       propertyPath: m_AnchoredPosition.x

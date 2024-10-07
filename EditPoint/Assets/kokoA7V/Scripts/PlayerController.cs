@@ -83,7 +83,7 @@ public class PlayerController : MonoBehaviour
         AnimPlay();
 
         //落下によるゲームオーバー
-        if (this.transform.position.y <= -50)
+        if (this.transform.position.y <= -25)
         {
             if (!b_deathed)
             {
