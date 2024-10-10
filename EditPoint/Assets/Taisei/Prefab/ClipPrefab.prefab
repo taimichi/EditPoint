@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 4323194755795921082}
   - component: {fileID: 4323194755795921080}
   - component: {fileID: 4323194755795921081}
+  - component: {fileID: 6759548558374498261}
   m_Layer: 5
   m_Name: ClipName
   m_TagString: Untagged
@@ -79,6 +80,21 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: "\u65B0\u3057\u304F\u751F\u6210\u3055\u308C\u305F\u30AF\u30EA\u30C3\u30D7"
+--- !u!114 &6759548558374498261
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4323194755795921083}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e19747de3f5aca642ab2be37e372fb86, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_EffectColor: {r: 0, g: 0, b: 0, a: 1}
+  m_EffectDistance: {x: 2, y: -2}
+  m_UseGraphicAlpha: 1
 --- !u!1 &4323194755857948601
 GameObject:
   m_ObjectHideFlags: 0
@@ -120,7 +136,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: -30, y: -15}
-  m_SizeDelta: {x: 420, y: 65}
+  m_SizeDelta: {x: 700, y: 65}
   m_Pivot: {x: 0, y: 0.5}
 --- !u!222 &4323194755857948606
 CanvasRenderer:
@@ -206,7 +222,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rect_Clip: {fileID: 4323194755857948600}
   clipName: {fileID: 4323194755795921081}
-  correspondenceObj: []
+  ConnectObj: []
   clipSpeed: {fileID: 4323194755857948604}
   timelineData: {fileID: 11400000, guid: 212fd9ad069de2a4bb63e85b77a3a9a7, type: 2}
   timeData: {fileID: 11400000, guid: e17019f28d5feae45902e2a830dada68, type: 2}

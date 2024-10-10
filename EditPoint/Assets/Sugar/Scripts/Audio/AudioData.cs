@@ -12,7 +12,7 @@ public class AudioData : MonoBehaviour
     // ‰Šú‰¹—Ê‚Í‚P Ë@BGM‚¿‚å‚Á‚ÆƒfƒJ‚©‚Á‚½‚Ì‚Å0.15‚É’²®‚µ‚Ü‚µ‚½by‚½‚¢‚¹‚¢
     private float volumeMASTER=1.0f;
     private float volumeBGM=0.15f;
-    private float volumeSE=1.0f;
+    private float volumeSE=0.2f;
 
     private void Awake()
     {

@@ -30,6 +30,7 @@ public class ModeData : ScriptableObject
         copy,
         paste,
         create,
+        blowerControll,
 
     }
 

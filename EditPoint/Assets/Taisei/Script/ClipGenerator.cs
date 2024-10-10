@@ -14,6 +14,7 @@ public class ClipGenerator : MonoBehaviour
 
     private GameObject clip;
 
+    [SerializeField] private bool b_Lock = false;
 
     void Start()
     {
@@ -51,12 +52,19 @@ public class ClipGenerator : MonoBehaviour
     /// </summary>
     public void ClipGene()
     {
-        playSound.PlaySE(PlaySound.SE_TYPE.clipGene);
-        i_createCount++;
-        Vector3 clipPos = new Vector3(timeBar.transform.position.x, 0, 0);
-        GameObject clip = Instantiate(ClipPrefab, clipPos, timeBar.transform.rotation, this.gameObject.transform);
-        clip.name = "CreateClip" + i_createCount;
-        clip.tag = "CreateClip";
+        if (!b_Lock)
+        {
+            playSound.PlaySE(PlaySound.SE_TYPE.clipGene);
+            i_createCount++;
+            Vector3 clipPos = new Vector3(timeBar.transform.position.x, 0, 0);
+            GameObject clip = Instantiate(ClipPrefab, clipPos, timeBar.transform.rotation, this.gameObject.transform);
+            clip.name = "CreateClip" + i_createCount;
+            clip.tag = "CreateClip";
+        }
+        else
+        {
+            playSound.PlaySE(PlaySound.SE_TYPE.cancell);
+        }
     }
 
 

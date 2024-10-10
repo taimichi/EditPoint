@@ -3,19 +3,19 @@ using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using System;
 
-public class ImageResizer : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHandler
+public class ClipOperation : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHandler
 {
     [SerializeField] private RectTransform targetImage;  //クリップ画像のRectTransform
-    private Vector2 initialSizeDelta;
-    private Vector2 initialMousePosition;
+    private Vector2 v2_initSizeDelta;
+    private Vector2 v2_initMousePos;
 
-    private Vector2 offset;
+    private Vector2 v2_offset;
 
-    private bool isResizingRight;  // 右側をリサイズ中かどうかのフラグ
+    private bool b_ResizeRight;  // 右側をリサイズ中かどうかのフラグ
 
-    private Vector2 size;
-    private Vector2 deltaPivot;
-    private Vector3 deltaPosition;
+    private Vector2 v2_size;
+    private Vector2 v2_deltaPivot;
+    private Vector3 v2_deltaPos;
 
     [SerializeField, Header("クリップの最小サイズ")] private float f_minSize = 350;
     [SerializeField, Header("クリップの最大サイズ")] private float f_maxSize = 1400;
@@ -84,16 +84,11 @@ public class ImageResizer : MonoBehaviour, IDragHandler, IBeginDragHandler, IEnd
     {
         if (this.gameObject.tag == "CreateClip")
         {
-            //f_newWidth += f_oneWidth;
-            //CheckWidth();
-            //v2_newPos = new Vector2(f_newWidth, f_newHeight);
-            //targetImage.localPosition = new Vector3(v2_newPos.x, v2_newPos.y, 0);
-
             GetClipRect();
             for (int i = 0; i < ClipsRect.Length; i++)
             {
                 //他のクリップと重なった場合
-                if (IsOverlapping(targetImage, ClipsRect[i]))
+                if (CheckOverrap(targetImage, ClipsRect[i]))
                 {
                     Debug.Log("重なった");
                     //重なったクリップの下に移動
@@ -117,7 +112,7 @@ public class ImageResizer : MonoBehaviour, IDragHandler, IBeginDragHandler, IEnd
                         targetImage.localPosition = new Vector3(v2_newPos.x, v2_newPos.y, 0);
                         for(int j = 0; j < 5; j++)
                         {
-                            if (IsOverlapping(targetImage, ClipsRect[j]))
+                            if (CheckOverrap(targetImage, ClipsRect[j]))
                             {
                                 f_newHeight -= f_oneHeight;
                                 v2_newPos = new Vector2(f_newWidth, f_newHeight);
@@ -146,7 +141,7 @@ public class ImageResizer : MonoBehaviour, IDragHandler, IBeginDragHandler, IEnd
     {
         if (!b_Lock)
         {
-            initialSizeDelta = targetImage.sizeDelta;
+            v2_initSizeDelta = targetImage.sizeDelta;
             RectTransformUtility.ScreenPointToLocalPointInRectangle(
                 targetImage,
                 eventData.position,
@@ -159,14 +154,14 @@ public class ImageResizer : MonoBehaviour, IDragHandler, IBeginDragHandler, IEnd
             {
                 // 左端
                 SetPivot(targetImage, new Vector2(1, 0.5f));
-                isResizingRight = false;
+                b_ResizeRight = false;
                 mode = CLIP_MODE.resize;
             }
             else if (Mathf.Abs(localMousePosition.x - (targetImage.rect.width * (1 - targetImage.pivot.x))) <= f_edgeRange)
             {
                 // 右端
                 SetPivot(targetImage, new Vector2(0, 0.5f));
-                isResizingRight = true;
+                b_ResizeRight = true;
                 mode = CLIP_MODE.resize;
             }
             else
@@ -182,7 +177,7 @@ public class ImageResizer : MonoBehaviour, IDragHandler, IBeginDragHandler, IEnd
                     (RectTransform)targetImage.parent,
                     eventData.position,
                     eventData.pressEventCamera,
-                    out initialMousePosition
+                    out v2_initMousePos
                 );
             }
         }
@@ -230,22 +225,22 @@ public class ImageResizer : MonoBehaviour, IDragHandler, IBeginDragHandler, IEnd
                 out Vector2 currentMousePosition
             );
 
-            offset = currentMousePosition - initialMousePosition;
+            v2_offset = currentMousePosition - v2_initMousePos;
 
-            if (isResizingRight)
+            if (b_ResizeRight)
             {
-                f_newSize = initialSizeDelta.x + offset.x;
+                f_newSize = v2_initSizeDelta.x + v2_offset.x;
             }
             else
             {
-                f_newSize = initialSizeDelta.x - offset.x;
+                f_newSize = v2_initSizeDelta.x - v2_offset.x;
             }
 
             CalculationSize();
 
             f_newSize = Mathf.Clamp(f_newSize, f_minSize, f_maxSize);
 
-            if (IsOverlapping(targetImage, rect_outLeft) || IsOverlapping(targetImage, rect_outRight))
+            if (CheckOverrap(targetImage, rect_outLeft) || CheckOverrap(targetImage, rect_outRight))
             {
                 if (i_resizeCount == 0)
                 {
@@ -280,7 +275,7 @@ public class ImageResizer : MonoBehaviour, IDragHandler, IBeginDragHandler, IEnd
             GetClipRect();
             for (int i = 0; i < ClipsRect.Length; i++)
             {
-                if (IsOverlapping(targetImage, ClipsRect[i]))
+                if (CheckOverrap(targetImage, ClipsRect[i]))
                 {
                     //同じオブジェクトじゃないとき
                     if (targetImage.name != Clips[i].name)
@@ -297,7 +292,7 @@ public class ImageResizer : MonoBehaviour, IDragHandler, IBeginDragHandler, IEnd
             {
                 playSound.PlaySE(PlaySound.SE_TYPE.objMove);
                 //左端とクリップが重なってる場合
-                if (IsOverlapping(targetImage, rect_outLeft))
+                if (CheckOverrap(targetImage, rect_outLeft))
                 {
                     //サイズ変更による場合
                     if (mode == CLIP_MODE.resize)
@@ -306,7 +301,7 @@ public class ImageResizer : MonoBehaviour, IDragHandler, IBeginDragHandler, IEnd
                     }
                 }
                 //右端とクリップが重なってる場合
-                else if (IsOverlapping(targetImage, rect_outRight))
+                else if (CheckOverrap(targetImage, rect_outRight))
                 {
                     //サイズ変更による場合
                     if (mode == CLIP_MODE.resize)
@@ -323,12 +318,12 @@ public class ImageResizer : MonoBehaviour, IDragHandler, IBeginDragHandler, IEnd
 
     private void SetPivot(RectTransform rectTransform, Vector2 pivot)
     {
-        size = rectTransform.rect.size;
-        deltaPivot = rectTransform.pivot - pivot;
-        deltaPosition = new Vector3(deltaPivot.x * size.x, deltaPivot.y * size.y);
+        v2_size = rectTransform.rect.size;
+        v2_deltaPivot = rectTransform.pivot - pivot;
+        v2_deltaPos = new Vector3(v2_deltaPivot.x * v2_size.x, v2_deltaPivot.y * v2_size.y);
 
         rectTransform.pivot = pivot;
-        rectTransform.localPosition -= deltaPosition * rectTransform.localScale.x;
+        rectTransform.localPosition -= v2_deltaPos * rectTransform.localScale.x;
     }
 
     /// <summary>
@@ -417,14 +412,14 @@ public class ImageResizer : MonoBehaviour, IDragHandler, IBeginDragHandler, IEnd
     /// <summary>
     /// クリップと端が重なっているかをチェック
     /// </summary>
-    /// <param name="rect1">クリップのRectTransform</param>
-    /// <param name="rect2">端のRectTransform</param>
+    /// <param name="clipRect">クリップのRectTransform</param>
+    /// <param name="edgeRect">端のRectTransform</param>
     /// <returns>重なっている=true 重なっていない=false</returns>
-    private bool IsOverlapping(RectTransform rect1, RectTransform rect2)
+    private bool CheckOverrap(RectTransform clipRect, RectTransform edgeRect)
     {
         // RectTransformの境界をワールド座標で取得
-        Rect rect1World = GetWorldRect(rect1);
-        Rect rect2World = GetWorldRect(rect2);
+        Rect rect1World = GetWorldRect(clipRect);
+        Rect rect2World = GetWorldRect(edgeRect);
 
         // 境界が重なっているかどうかをチェック
         return rect1World.Overlaps(rect2World);

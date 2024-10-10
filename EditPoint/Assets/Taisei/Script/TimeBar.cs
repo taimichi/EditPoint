@@ -50,7 +50,7 @@ public class TimeBar : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragH
         }
         else
         {
-            Time.timeScale = 0;
+            //ŠÔ‚ÌŒÀŠE‚Ìˆ—
         }
     }
 

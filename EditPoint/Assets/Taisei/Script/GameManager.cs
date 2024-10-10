@@ -30,33 +30,26 @@ public class GameManager : MonoBehaviour
             case "Select":
                 playSound.PlayBGM(PlaySound.BGM_TYPE.title_stageSelect);
                 break;
+        }
 
-            case "Stage1-1":
-                playSound.PlayBGM(PlaySound.BGM_TYPE.stage1);
-                playSound.PlaySE(PlaySound.SE_TYPE.start);
-                Time.timeScale = 0;
-                break;
-
-            case "Stage1-2":
-                playSound.PlayBGM(PlaySound.BGM_TYPE.stage1);
-                playSound.PlaySE(PlaySound.SE_TYPE.start);
-                Time.timeScale = 0;
-                break;
-
-            case "Stage1-3":
-                playSound.PlayBGM(PlaySound.BGM_TYPE.stage1);
-                playSound.PlaySE(PlaySound.SE_TYPE.start);
-                Time.timeScale = 0;
-                break;
-
-
+        if (s_nowSceneName.Contains("Stage"))
+        {
+            playSound.PlayBGM(PlaySound.BGM_TYPE.stage1);
+            playSound.PlaySE(PlaySound.SE_TYPE.start);
+            Time.timeScale = 0;
+        }
+        else if(s_nowSceneName.Contains("Tutorial"))
+        {
+            playSound.PlayBGM(PlaySound.BGM_TYPE.stage1);
+            playSound.PlaySE(PlaySound.SE_TYPE.start);
+            Time.timeScale = 0;
         }
 
     }
 
     void Start()
     {
-
+        ModeData.ModeEntity.mode = ModeData.Mode.normal;
     }
 
     void Update()
@@ -70,6 +63,7 @@ public class GameManager : MonoBehaviour
                 Time.timeScale = Time.timeScale == 0 ? 1 : 0;
             }
         }
+        Debug.Log(ModeData.ModeEntity.mode);
     }
 
 

@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5ca39f1482494764394e1e01bd4cd9be, type: 3}
   m_Name: StageInfo 6
   m_EditorClassIdentifier: 
-  StageName: "\u30B9\u30C6\u30FC\u30B85"
+  StageName: "\u30B9\u30C6\u30FC\u30B86"
   StageImage: {fileID: 21300000, guid: 01c6751a61071c04cb5c4c511c7e0f08, type: 3}
   infomation_Stage: "\u958B\u767A\u4E2D"
   StageSceneName: 

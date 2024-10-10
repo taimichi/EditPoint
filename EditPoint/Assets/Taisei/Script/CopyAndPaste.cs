@@ -33,13 +33,18 @@ public class CopyAndPaste : MonoBehaviour
     /// </summary>
     [SerializeField] private Materials materials;
 
-    //private PlayerLayer plLayer;
 
     //条件を説明する変数
     private bool b_isNoHit;
     private bool b_isSpecificTag;
 
     private PlaySound playSound;
+
+    [SerializeField] private bool b_Lock = false;
+
+    private ClipPlay clipPlay;
+    private GetCopyObj gpo;
+
 
     void Start()
     {
@@ -85,6 +90,14 @@ public class CopyAndPaste : MonoBehaviour
                         PasteObj.GetComponent<SpriteRenderer>().material = materials.layerMaterials[0];
                         PasteObj.GetComponent<Collider2D>().isTrigger = false;
                     }
+
+                    if(CopyObj.GetComponent<GetCopyObj>() == true)
+                    {
+                        gpo = CopyObj.GetComponent<GetCopyObj>();
+                        clipPlay = gpo.ReturnAttachClip().GetComponent<ClipPlay>();
+                        clipPlay.OutGetObj(PasteObj);
+                    }
+
                     Paste();
                 }
             }
@@ -103,15 +116,15 @@ public class CopyAndPaste : MonoBehaviour
             }
         }
 
-        if (ModeData.ModeEntity.mode != ModeData.Mode.copy)
+        //条件分が出てこなかったのでとりあえずこれで
+        if(ModeData.ModeEntity.mode == ModeData.Mode.copy || ModeData.ModeEntity.mode == ModeData.Mode.paste)
         {
-            copyModeText.enabled = false;
-        }
-        else if(ModeData.ModeEntity.mode != ModeData.Mode.paste)
-        {
-            copyModeText.enabled = false;
-        }
 
+        }
+        else
+        {
+            copyModeText.enabled = false;
+        }
     }
 
     public bool ReturnSetOnOff()
@@ -155,7 +168,7 @@ public class CopyAndPaste : MonoBehaviour
             }
 
             ClickObj = hit2d.collider.gameObject;
-            if (hit2d.collider.transform.parent.gameObject.name.Contains("Blower"))
+            if (ClickObj.transform.parent != null && ClickObj.transform.parent.gameObject.name.Contains("Blower"))
             {
                 ClickObj = hit2d.collider.transform.parent.gameObject;
                 ClickObj.transform.GetChild(0).GetComponent<SpriteRenderer>().material = materials.layerMaterials[1];
@@ -164,6 +177,7 @@ public class CopyAndPaste : MonoBehaviour
             {
                 ClickObj.GetComponent<SpriteRenderer>().material = materials.layerMaterials[1];
             }
+
             //コピーモードの時のみ
             if (ModeData.ModeEntity.mode == ModeData.Mode.copy)
             {
@@ -180,12 +194,6 @@ public class CopyAndPaste : MonoBehaviour
                     ModeData.ModeEntity.mode = ModeData.Mode.paste;
                 }
             }
-        }
-
-        if (Input.GetMouseButtonDown(1))
-        {
-            MaterialReset();
-            ClickObj = null;
         }
     }
 
@@ -229,26 +237,33 @@ public class CopyAndPaste : MonoBehaviour
     //コピーボタンを押した時
     public void OnCopy()
     {
-        if(ModeData.ModeEntity.mode != ModeData.Mode.copy)
+        if (!b_Lock)
         {
-            i_CopyNum--;
-            ModeData.ModeEntity.mode = ModeData.Mode.copy;
-            copyModeText.enabled = true;
-            copyModeText.text = "現在コピーモードです";
+            if (ModeData.ModeEntity.mode != ModeData.Mode.copy)
+            {
+                i_CopyNum--;
+                ModeData.ModeEntity.mode = ModeData.Mode.copy;
+                copyModeText.enabled = true;
+                copyModeText.text = "現在コピーモードです";
+            }
+            else
+            {
+                ModeData.ModeEntity.mode = ModeData.Mode.normal;
+                MaterialReset();
+                if (PasteObj != null)
+                {
+                    Destroy(PasteObj);
+                }
+                ClickObj = null;
+                CopyObj = null;
+                PasteObj = null;
+                b_setOnOff = false;
+                copyModeText.enabled = false;
+            }
         }
         else
         {
-            ModeData.ModeEntity.mode = ModeData.Mode.normal;
-            MaterialReset();
-            if(PasteObj != null)
-            {
-                Destroy(PasteObj);
-            }
-            ClickObj = null;
-            CopyObj = null;
-            PasteObj = null;
-            b_setOnOff = false;
-            copyModeText.enabled = false;
+            playSound.PlaySE(PlaySound.SE_TYPE.cancell);
         }
     }
 

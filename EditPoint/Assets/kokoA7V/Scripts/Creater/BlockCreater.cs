@@ -47,6 +47,8 @@ public class BlockCreater : MonoBehaviour
     [SerializeField] private GameObject createText;
     private bool b_check = false;
 
+    [SerializeField] private bool b_Lock = false;
+
     private void Start()
     {
         // nullチェックしてくれ、テスト環境で動かん…
@@ -115,7 +117,7 @@ public class BlockCreater : MonoBehaviour
             }
         }
 
-        if (Input.GetMouseButtonDown(1) && !isDrag)
+        if (Input.GetMouseButtonDown(1) && !isDrag && ModeData.ModeEntity.mode == ModeData.Mode.create)
         {
             playSound.PlaySE(PlaySound.SE_TYPE.cancell);
             ModeData.ModeEntity.mode = ModeData.Mode.normal;
@@ -167,24 +169,32 @@ public class BlockCreater : MonoBehaviour
     {
         //if (nowState != State.MoveCreate)
         //{
-        if(ModeData.ModeEntity.mode != ModeData.Mode.create)
+        if (!b_Lock)
         {
-            ModeData.ModeEntity.mode = ModeData.Mode.create;
+            if (ModeData.ModeEntity.mode != ModeData.Mode.create)
+            {
+                ModeData.ModeEntity.mode = ModeData.Mode.create;
+            }
+            else
+            {
+                ModeData.ModeEntity.mode = ModeData.Mode.normal;
+            }
+
+            if (ModeData.ModeEntity.mode == ModeData.Mode.create)
+            {
+                createText.SetActive(true);
+            }
+            else
+            {
+                createText.SetActive(false);
+                b_check = false;
+            }
         }
         else
         {
-            ModeData.ModeEntity.mode = ModeData.Mode.normal;
+            playSound.PlaySE(PlaySound.SE_TYPE.cancell);
         }
 
-        if (ModeData.ModeEntity.mode == ModeData.Mode.create)
-        {
-            createText.SetActive(true);
-        }
-        else
-        {
-            createText.SetActive(false);
-            b_check = false;
-        }
         //}
         //else
         //{

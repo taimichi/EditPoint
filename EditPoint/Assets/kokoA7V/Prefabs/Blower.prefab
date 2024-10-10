@@ -133,6 +133,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1859863527953534001}
   - component: {fileID: 1859863527953534002}
+  - component: {fileID: 1866687069746017638}
+  - component: {fileID: -125356129963709654}
   m_Layer: 0
   m_Name: Blower
   m_TagString: Untagged
@@ -170,6 +172,30 @@ MonoBehaviour:
   dir: 0
   power: 5
   length: 10
+--- !u!114 &1866687069746017638
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1859863527953534000}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dce0c3545a1b59941bd6fc99c30fb5fe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &-125356129963709654
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1859863527953534000}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1aca192e1d1fba44aa43fe041108ddd5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1859863528208807726
 GameObject:
   m_ObjectHideFlags: 0

@@ -17,7 +17,7 @@ public class ClipPlay : MonoBehaviour
     /// </summary>
     private bool b_clipPlay = false;
 
-    [SerializeField] private List<GameObject> correspondenceObj = new List<GameObject>();
+    [SerializeField] private List<GameObject> ConnectObj = new List<GameObject>();
 
     private GameObject AllClip;
     private ClipGenerator clipGenerator;
@@ -41,6 +41,8 @@ public class ClipPlay : MonoBehaviour
 
     private MoveGround move;
 
+    private GetCopyObj gpo;
+
 
     void Start()
     {
@@ -55,17 +57,29 @@ public class ClipPlay : MonoBehaviour
         objectMove = GameObject.Find("GameManager").GetComponent<ObjectMove>();
 
         //生成したクリップの場合
-        if (correspondenceObj.Count == 0)
+        if (ConnectObj.Count == 0)
         {
             clipName.text = "空っぽのクリップ" + clipGenerator.ReturnCount();
         }
         else
         {
-            for(int i = 0; i < correspondenceObj.Count; i++)
+            for(int i = 0; i < ConnectObj.Count; i++)
             {
-                if(correspondenceObj[i].GetComponent<MoveGround>() == true)
+                if(ConnectObj[i].GetComponent<MoveGround>() == true)
                 {
-                    moveGround.Add(correspondenceObj[i].GetComponent<MoveGround>());   
+                    moveGround.Add(ConnectObj[i].GetComponent<MoveGround>());   
+                }
+
+                if(ConnectObj[i].GetComponent<CheckClipConnect>() == true)
+                {
+                    checkClip = ConnectObj[i].GetComponent<CheckClipConnect>();
+                    checkClip.ConnectClip();
+                }
+
+                if (ConnectObj[i].GetComponent<GetCopyObj>() == true)
+                {
+                    gpo = ConnectObj[i].GetComponent<GetCopyObj>();
+                    gpo.GetAttachClip(this.gameObject);
                 }
             }
         }
@@ -74,6 +88,12 @@ public class ClipPlay : MonoBehaviour
     private void Update()
     {
         speed = clipSpeed.ReturnPlaySpeed();
+
+        //クリップに紐づくオブジェクトがないときがないとき
+        if (ConnectObj.Count == 0)
+        {
+            clipName.text = "空っぽのクリップ";
+        }
 
         //オブジェクト取得
         if (b_getObjMode)
@@ -96,12 +116,12 @@ public class ClipPlay : MonoBehaviour
                                 GameObject clickedObject = hit.collider.gameObject;
                                 Debug.Log(clickedObject);
 
-                                for (int i = 0; i < correspondenceObj.Count; i++)
+                                for (int i = 0; i < ConnectObj.Count; i++)
                                 {
-                                    if (clickedObject.name != correspondenceObj[i].name)
+                                    if (clickedObject.name != ConnectObj[i].name)
                                     {
                                         Debug.Log("新しいオブジェクト追加");
-                                        correspondenceObj.Add(clickedObject);
+                                        ConnectObj.Add(clickedObject);
                                         checkClip = clickedObject.GetComponent<CheckClipConnect>();
                                         checkClip.ConnectClip();
                                         if (clickedObject.GetComponent<MoveGround>() == true)
@@ -111,10 +131,10 @@ public class ClipPlay : MonoBehaviour
                                         addTextManager.AddObj();
                                     }
                                 }
-                                if (correspondenceObj.Count == 0)
+                                if (ConnectObj.Count == 0)
                                 {
                                     Debug.Log("新しいオブジェクト追加");
-                                    correspondenceObj.Add(clickedObject);
+                                    ConnectObj.Add(clickedObject);
                                     checkClip = clickedObject.GetComponent<CheckClipConnect>();
                                     checkClip.ConnectClip();
                                     if (clickedObject.GetComponent<MoveGround>() == true)
@@ -143,7 +163,7 @@ public class ClipPlay : MonoBehaviour
         }
 
         //クリップとタイムバーが触れてるときのみ
-        if (IsOverlapping(rect_Clip, rect_timeBar))
+        if (CheckOverrap(rect_Clip, rect_timeBar))
         {
             //クリップの経過時間
             Vector3 leftEdge = rect_grandParent.InverseTransformPoint(rect_Clip.position) + new Vector3(-rect_Clip.rect.width * rect_Clip.pivot.x, 0, 0);
@@ -153,11 +173,11 @@ public class ClipPlay : MonoBehaviour
             //タイムバーを手動で動かしてる時
             if (timeData.b_DragMode)
             {
-                for (int i = 0; i < correspondenceObj.Count; i++)
+                for (int i = 0; i < ConnectObj.Count; i++)
                 {
-                    if (correspondenceObj[i].GetComponent<MoveGround>())
+                    if (ConnectObj[i].GetComponent<MoveGround>())
                     {
-                        move = correspondenceObj[i].GetComponent<MoveGround>();
+                        move = ConnectObj[i].GetComponent<MoveGround>();
                         move.GetClipTime(f_manualTime);
                     }
                 }
@@ -177,7 +197,7 @@ public class ClipPlay : MonoBehaviour
     //外部からのゲームオブジェクトを取得
     public void OutGetObj(GameObject _outGetObj)
     {
-        correspondenceObj.Add(_outGetObj);
+        ConnectObj.Add(_outGetObj);
         clipName.text = "中身のあるクリップ";
         checkClip = _outGetObj.GetComponent<CheckClipConnect>();
         checkClip.ConnectClip();
@@ -188,21 +208,21 @@ public class ClipPlay : MonoBehaviour
     /// </summary>
     private void ClipPlayNow()
     {
-        if (IsOverlapping(rect_Clip, rect_timeBar))
+        if (CheckOverrap(rect_Clip, rect_timeBar))
         {
             //タイムバーと接触しているとき
-            for (int i = 0; i < correspondenceObj.Count; i++)
+            for (int i = 0; i < ConnectObj.Count; i++)
             {
-                correspondenceObj[i].SetActive(true);
+                ConnectObj[i].SetActive(true);
             }
             f_timer += Time.deltaTime;
         }
         else
         {
             //タイムバーと接触していないとき
-            for (int i = 0; i < correspondenceObj.Count; i++)
+            for (int i = 0; i < ConnectObj.Count; i++)
             {
-                correspondenceObj[i].SetActive(false);
+                ConnectObj[i].SetActive(false);
 
             }
         }
@@ -214,23 +234,23 @@ public class ClipPlay : MonoBehaviour
     /// </summary>
     public void ClipObjDestroy()
     {
-        for(int i = 0; i < correspondenceObj.Count; i++)
+        for(int i = 0; i < ConnectObj.Count; i++)
         {
-            Destroy(correspondenceObj[i]);
+            Destroy(ConnectObj[i]);
         }
     }
 
     /// <summary>
     /// クリップとタイムバーが重なっているかをチェック
     /// </summary>
-    /// <param name="rect1">クリップのRectTransform</param>
-    /// <param name="rect2">タイムバーのRectTransform</param>
+    /// <param name="clipRect">クリップのRectTransform</param>
+    /// <param name="timeberRect">タイムバーのRectTransform</param>
     /// <returns>重なっている=true 重なっていない=false</returns>
-    private bool IsOverlapping(RectTransform rect1, RectTransform rect2)
+    private bool CheckOverrap(RectTransform clipRect, RectTransform timeberRect)
     {
         // RectTransformの境界をワールド座標で取得
-        Rect rect1World = GetWorldRect(rect1);
-        Rect rect2World = GetWorldRect(rect2);
+        Rect rect1World = GetWorldRect(clipRect);
+        Rect rect2World = GetWorldRect(timeberRect);
 
         // 境界が重なっているかどうかをチェック
         return rect1World.Overlaps(rect2World);

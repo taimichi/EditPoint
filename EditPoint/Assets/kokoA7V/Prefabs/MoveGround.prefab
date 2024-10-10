@@ -14,9 +14,11 @@ GameObject:
   - component: {fileID: 6219358312794054324}
   - component: {fileID: 6219358312794054325}
   - component: {fileID: 6219358313066085811}
+  - component: {fileID: 6596394278908949598}
+  - component: {fileID: -2327870980790122933}
   m_Layer: 8
   m_Name: MoveGround
-  m_TagString: Untagged
+  m_TagString: MoveGround
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -170,3 +172,27 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isGround: 1
+--- !u!114 &6596394278908949598
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6219358312794054320}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dce0c3545a1b59941bd6fc99c30fb5fe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &-2327870980790122933
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6219358312794054320}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1aca192e1d1fba44aa43fe041108ddd5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

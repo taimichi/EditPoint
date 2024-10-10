@@ -15,18 +15,27 @@ public class BlowerController : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetMouseButtonDown(0))
+        if (ModeData.ModeEntity.mode == ModeData.Mode.normal || ModeData.ModeEntity.mode == ModeData.Mode.blowerControll)
         {
-            nowBlower = null;
-            Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-
-            RaycastHit2D rh = Physics2D.Linecast(mousePos, mousePos, lm);
-            if (rh.collider != null)
+            if (Input.GetMouseButtonDown(0))
             {
-                if (rh.collider.transform.parent.gameObject.TryGetComponent<Blower>(out var _blower))
+                nowBlower = null;
+                Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+
+                RaycastHit2D rh = Physics2D.Linecast(mousePos, mousePos, lm);
+                if (rh.collider != null)
                 {
-                    nowBlower = _blower;
-                    nowDir = (int)nowBlower.dir;
+                    if (rh.collider.transform.parent.gameObject.TryGetComponent<Blower>(out var _blower))
+                    {
+                        nowBlower = _blower;
+                        nowDir = (int)nowBlower.dir;
+                        ModeData.ModeEntity.mode = ModeData.Mode.blowerControll;
+                    }
+                    else
+                    {
+                        nowBlower = null;
+                        ModeData.ModeEntity.mode = ModeData.Mode.normal;
+                    }
                 }
             }
         }

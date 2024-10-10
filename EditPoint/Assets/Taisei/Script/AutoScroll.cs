@@ -11,10 +11,18 @@ public class AutoScroll : MonoBehaviour
     [SerializeField] private RectTransform content; 
     [SerializeField] private RectTransform target;
     [SerializeField] private float scrollAmount_auto = 0.022789f;    //移動量(0～1)
-    private float scrollAmount_manual = 0.0005f;
+    private float scrollAmount_manual = 0.005f;
+
+    [SerializeField] private RectTransform viewport;
+
+    private void Start()
+    {
+        scrollAmount_auto = Screen.width / content.rect.width;
+    }
 
     void Update()
     {
+
         // ターゲットのUIオブジェクトの座標を取得
         Vector3[] targetCorners = new Vector3[4];
         target.GetWorldCorners(targetCorners);
