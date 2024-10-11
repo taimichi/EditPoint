@@ -3047,6 +3047,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fade: {fileID: 5346028477558205406}
+  clpObj: {fileID: 0}
+  clapper: {fileID: 0}
 --- !u!114 &207654975
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5422,7 +5424,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &509852346
 RectTransform:
   m_ObjectHideFlags: 0
@@ -9821,7 +9823,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &900632471
 RectTransform:
   m_ObjectHideFlags: 0
@@ -12297,7 +12299,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1271499330
 RectTransform:
   m_ObjectHideFlags: 0
@@ -14032,7 +14034,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1548713238
 RectTransform:
   m_ObjectHideFlags: 0
@@ -15018,6 +15020,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fade: {fileID: 5346028477558205406}
+  clpObj: {fileID: 0}
+  clapper: {fileID: 0}
 --- !u!114 &1603591428
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16084,6 +16088,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fade: {fileID: 1878219873}
+  clpObj: {fileID: 0}
+  clapper: {fileID: 0}
 --- !u!114 &1774751223
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -19333,6 +19339,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fade: {fileID: 5346028477558205406}
+  clpObj: {fileID: 0}
+  clapper: {fileID: 0}
 --- !u!43 &2125999236
 Mesh:
   m_ObjectHideFlags: 0
@@ -23027,6 +23035,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fade: {fileID: 5346028477558205406}
+  clpObj: {fileID: 0}
+  clapper: {fileID: 0}
 --- !u!114 &5346028477588011594
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -26673,6 +26683,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fade: {fileID: 5346028477558205406}
+  clpObj: {fileID: 0}
+  clapper: {fileID: 0}
 --- !u!224 &7676347263588222156
 RectTransform:
   m_ObjectHideFlags: 0

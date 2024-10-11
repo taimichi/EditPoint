@@ -10,12 +10,16 @@ public class GameManager : MonoBehaviour
 
     private PlaySound playSound;
 
+    private QuickGuideMenu quick;
+
     private void Awake()
     {
+        quick = GameObject.Find("GuideCanvas").GetComponent<QuickGuideMenu>();
+
         playSound = GameObject.Find("AudioCanvas").GetComponent<PlaySound>();
         b_start = false;
 
-        s_nowSceneName = SceneManager.GetActiveScene().name;
+        s_nowSceneName = SceneManager.GetActiveScene().name;    //ÉVÅ[ÉìñºÇéÊìæ
         switch (s_nowSceneName)
         {
             case "Title":
@@ -43,6 +47,44 @@ public class GameManager : MonoBehaviour
             playSound.PlayBGM(PlaySound.BGM_TYPE.stage1);
             playSound.PlaySE(PlaySound.SE_TYPE.start);
             Time.timeScale = 0;
+
+            switch (s_nowSceneName)
+            {
+                case string name when name.Contains("Clip1"):
+                    if((TutorialData.TutorialEntity.frags & TutorialData.Tutorial_Frags.clip) == 0)
+                    {
+                        quick.StartGuide("Clip");
+                    }
+                    break;
+
+                case string name when name.Contains("Block1"):
+                    if ((TutorialData.TutorialEntity.frags & TutorialData.Tutorial_Frags.block) == 0)
+                    {
+                        quick.StartGuide("Block");
+                    }
+                    break;
+
+                case string name when name.Contains("Copy1"):
+                    if((TutorialData.TutorialEntity.frags & TutorialData.Tutorial_Frags.copy) == 0)
+                    {
+                        quick.StartGuide("Copy");
+                    }
+                    break;
+
+                case string name when name.Contains("Blower1"):
+                    if((TutorialData.TutorialEntity.frags & TutorialData.Tutorial_Frags.blower) == 0)
+                    {
+                        quick.StartGuide("Blower");
+                    }
+                    break;
+
+                case string name when name.Contains("Move1"):
+                    if((TutorialData.TutorialEntity.frags & TutorialData.Tutorial_Frags.move) == 0)
+                    {
+                        quick.StartGuide("Move");
+                    }
+                    break;
+            }
         }
 
     }
