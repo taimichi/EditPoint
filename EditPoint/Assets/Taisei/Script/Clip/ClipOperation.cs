@@ -9,7 +9,8 @@ public class ClipOperation : MonoBehaviour, IDragHandler, IBeginDragHandler, IEn
     private Vector2 v2_initSizeDelta;
     private Vector2 v2_initMousePos;
 
-    private Vector2 v2_offset;
+    private Vector2 v2_resizeOffset;
+    private Vector2 v2_moveOffset;
 
     private bool b_ResizeRight;  // 右側をリサイズ中かどうかのフラグ
 
@@ -212,6 +213,7 @@ public class ClipOperation : MonoBehaviour, IDragHandler, IBeginDragHandler, IEn
                 CheckWidth();
                 CheckHeight();
                 v2_newPos = new Vector2(f_newWidth, f_newHeight);
+
                 targetImage.localPosition = new Vector3(v2_newPos.x, v2_newPos.y, 0);
 
 
@@ -222,18 +224,18 @@ public class ClipOperation : MonoBehaviour, IDragHandler, IBeginDragHandler, IEn
                 (RectTransform)targetImage.parent,
                 eventData.position,
                 eventData.pressEventCamera,
-                out Vector2 currentMousePosition
+                out Vector2 currentMousePos
             );
 
-            v2_offset = currentMousePosition - v2_initMousePos;
+            v2_resizeOffset = currentMousePos - v2_initMousePos;
 
             if (b_ResizeRight)
             {
-                f_newSize = v2_initSizeDelta.x + v2_offset.x;
+                f_newSize = v2_initSizeDelta.x + v2_resizeOffset.x;
             }
             else
             {
-                f_newSize = v2_initSizeDelta.x - v2_offset.x;
+                f_newSize = v2_initSizeDelta.x - v2_resizeOffset.x;
             }
 
             CalculationSize();

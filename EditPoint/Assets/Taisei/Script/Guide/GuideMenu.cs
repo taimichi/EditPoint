@@ -21,7 +21,7 @@ public class GuideMenu : MonoBehaviour
 
     void Start()
     {
-        //GuideMenuObj.SetActive(false);
+        GuideMenuObj.SetActive(false);
     }
 
 
