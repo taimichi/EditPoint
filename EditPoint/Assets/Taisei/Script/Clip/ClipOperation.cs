@@ -135,7 +135,7 @@ public class ClipOperation : MonoBehaviour, IDragHandler, IBeginDragHandler, IEn
 
     private void Update()
     {
-
+        Debug.Log(v2_moveOffset);
     }
 
     public void OnBeginDrag(PointerEventData eventData)
@@ -170,6 +170,7 @@ public class ClipOperation : MonoBehaviour, IDragHandler, IBeginDragHandler, IEn
                 // 端以外の場合はリサイズを無効化、クリップ移動モードにする
                 mode = CLIP_MODE.move;
                 SetPivot(targetImage, new Vector2(0, 0.5f));
+                v2_moveOffset.x = localMousePosition.x - targetImage.localPosition.x;
             }
 
             if (mode == CLIP_MODE.resize)
@@ -206,7 +207,7 @@ public class ClipOperation : MonoBehaviour, IDragHandler, IBeginDragHandler, IEn
 
 
                 //ドット移動用
-                CalculationWidth(v2_mousePos.x);
+                CalculationWidth(v2_mousePos.x + v2_moveOffset.x);
                 CalculationHeight(v2_mousePos.y);
 
                 //タイムラインの範囲外に出た時

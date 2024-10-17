@@ -14,8 +14,6 @@ public class GameManager : MonoBehaviour
 
     private void Awake()
     {
-        quick = GameObject.Find("GuideCanvas").GetComponent<QuickGuideMenu>();
-
         playSound = GameObject.Find("AudioCanvas").GetComponent<PlaySound>();
         b_start = false;
 
@@ -44,6 +42,8 @@ public class GameManager : MonoBehaviour
         }
         else if(s_nowSceneName.Contains("Tutorial"))
         {
+            quick = GameObject.Find("GuideCanvas").GetComponent<QuickGuideMenu>();
+
             playSound.PlayBGM(PlaySound.BGM_TYPE.stage1);
             playSound.PlaySE(PlaySound.SE_TYPE.start);
             Time.timeScale = 0;
@@ -84,6 +84,7 @@ public class GameManager : MonoBehaviour
                         quick.StartGuide("Move");
                     }
                     break;
+
             }
         }
 

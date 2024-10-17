@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: StageInfo Tutorial_Move1-1
   m_EditorClassIdentifier: 
   StageName: "\u30C1\u30E5\u30FC\u30C8\u30EA\u30A2\u30EB \u7269\u79FB\u52D5"
-  StageImage: {fileID: 21300000, guid: c973b197ea615b7418c6f07320d67304, type: 3}
+  StageImage: {fileID: 21300000, guid: c8c3cfb2c3505c94e8aed3422f82c39b, type: 3}
   infomation_Stage: "\u7269\u79FB\u52D5\u306E\u30C1\u30E5\u30FC\u30C8\u30EA\u30A2\u30EB\u30B9\u30C6\u30FC\u30B8"
   StageSceneName: Tutorial_Move1-1

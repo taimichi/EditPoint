@@ -12,11 +12,31 @@ public class GuideMenu : MonoBehaviour
     [SerializeField] private GameObject copyGuide;
     [SerializeField] private GameObject moveGuide;
     [SerializeField] private GameObject blowerGuide;
+    [SerializeField] private GameObject buttonGuide;
+    [SerializeField] private GameObject otherGuide;
 
     [SerializeField] private GameObject LButton;
     [SerializeField] private GameObject RButton;
     [SerializeField] private GameObject clipGuide1;
     [SerializeField] private GameObject clipGuide2;
+
+    private string key = "";
+
+    private Dictionary<string, GameObject> guides;
+
+    private void Awake()
+    {
+        guides = new Dictionary<string, GameObject>
+        {
+            {"Clip", clipGuide},
+            {"Block",blockGuide },
+            {"Copy",copyGuide },
+            {"Move",moveGuide },
+            {"Blower",blowerGuide },
+            {"Button",buttonGuide },
+            {"Other" ,otherGuide}
+        };
+    }
 
 
     void Start()
@@ -29,11 +49,8 @@ public class GuideMenu : MonoBehaviour
     {
         Time.timeScale = nowTimeScale;
 
-        blockGuide.SetActive(false);
-        clipGuide.SetActive(false);
-        blowerGuide.SetActive(false);
-        copyGuide.SetActive(false);
-        moveGuide.SetActive(false);
+        key = "";
+        DeactiveAll();
 
         GuideMenuObj.SetActive(false);
     }
@@ -69,19 +86,14 @@ public class GuideMenu : MonoBehaviour
     /// </summary>
     public void OnClipGuide()
     {
-        clipGuide.SetActive(true);
+        key = "Clip";
+        ActiveOnOff();
 
         clipGuide1.SetActive(true);
         clipGuide2.SetActive(false);
 
         LButton.SetActive(false);
         RButton.SetActive(true);
-
-
-        blockGuide.SetActive(false);
-        blowerGuide.SetActive(false);
-        copyGuide.SetActive(false);
-        moveGuide.SetActive(false);
     }
 
     /// <summary>
@@ -89,12 +101,8 @@ public class GuideMenu : MonoBehaviour
     /// </summary>
     public void OnBlockGuide()
     {
-        blockGuide.SetActive(true);
-
-        clipGuide.SetActive(false);
-        blowerGuide.SetActive(false);
-        copyGuide.SetActive(false);
-        moveGuide.SetActive(false);
+        key = "Block";
+        ActiveOnOff();
     }
 
     /// <summary>
@@ -102,12 +110,8 @@ public class GuideMenu : MonoBehaviour
     /// </summary>
     public void OnBlowerGuide()
     {
-        blowerGuide.SetActive(true);
-
-        clipGuide.SetActive(false);
-        blockGuide.SetActive(false);
-        copyGuide.SetActive(false);
-        moveGuide.SetActive(false);
+        key = "Blower";
+        ActiveOnOff();
     }
 
     /// <summary>
@@ -115,12 +119,8 @@ public class GuideMenu : MonoBehaviour
     /// </summary>
     public void OnCopyGuide()
     {
-        copyGuide.SetActive(true);
-
-        clipGuide.SetActive(false);
-        blockGuide.SetActive(false);
-        blowerGuide.SetActive(false);
-        moveGuide.SetActive(false);
+        key = "Copy";
+        ActiveOnOff();
     }
 
     /// <summary>
@@ -128,11 +128,47 @@ public class GuideMenu : MonoBehaviour
     /// </summary>
     public void OnMoveGuide()
     {
-        moveGuide.SetActive(true);
-
-        clipGuide.SetActive(false);
-        blockGuide.SetActive(false);
-        blowerGuide.SetActive(false);
-        copyGuide.SetActive(false);
+        key = "Move";
+        ActiveOnOff();
     }
+
+    /// <summary>
+    /// ボタン操作説明
+    /// </summary>
+    public void OnButtonGuide()
+    {
+        key = "Button";
+        ActiveOnOff();
+    }
+
+    public void OnOtherGuide()
+    {
+        key = "Other";
+        ActiveOnOff();
+    }
+
+    /// <summary>
+    /// keyで設定してあるオブジェクトを表示、それ以外は非表示にする
+    /// </summary>
+    private void ActiveOnOff()
+    {
+        DeactiveAll();
+        foreach (var Obj in guides)
+        {
+            Obj.Value.SetActive(Obj.Key == key);
+        }
+
+    }
+
+    /// <summary>
+    /// 全操作方法を非表示にする
+    /// </summary>
+    private void DeactiveAll()
+    {
+        foreach (var Obj in guides)
+        {
+            Obj.Value.SetActive(false);
+        }
+    }
+
 }

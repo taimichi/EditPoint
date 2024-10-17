@@ -33,7 +33,9 @@ public class TutorialData : ScriptableObject
         block = 1 << 1,
         copy = 1 << 2,
         blower = 1 << 3,
-        move = 1 << 4
+        move = 1 << 4,
+        button = 1 << 5,
+        other = 1 << 6
     }
 
     public Tutorial_Frags frags;
