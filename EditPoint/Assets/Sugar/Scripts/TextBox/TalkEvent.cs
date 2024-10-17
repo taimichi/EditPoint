@@ -13,8 +13,20 @@ public class TalkEvent : MonoBehaviour
 
     // どのボックスを使うか
     [SerializeField] GameObject[] useTextBox;
+
+    //[SerializeField] Text[] UptextBox;
+    //[SerializeField] Text[] CentertextBox;
+    //[SerializeField] Text[] DowntextBox;
+  
+    // 何文字目かカウント
+     int texMaxNum = 0;
+
+    // テキストを表示する場所
     [SerializeField] Text[] nameText;
     [SerializeField] Text[] talkText;
+
+    // ルビ振り(読み仮名)に使う
+    [SerializeField] Text SubText;
 
     [SerializeField] GameObject CanvasFolder;
 
@@ -23,12 +35,33 @@ public class TalkEvent : MonoBehaviour
     [SerializeField] GameObject clpObj;
 
     [SerializeField] GameObject SelectButtonBox;
+
     // 生成するキャラを保存する
     GameObject gObj;
+
+    // 生成するサブテキストボックス
+    Text textObj;
+
+    List<Text> textList = new List<Text>();
 
     // 会話番号
     int num=0;
 
+    // 読み仮名をつけるタイミング
+    bool Isreading = false;
+
+    string markerstart = "{";
+    string markerend = "}";
+    string marker = "#";
+
+    enum Height
+    {
+        Up=30,
+        Down=-60,
+    };
+    Height height=Height.Up;
+
+    // 選択肢
     bool select = false;
 
     // Switchで使う
@@ -110,19 +143,21 @@ public class TalkEvent : MonoBehaviour
                 Snum++;
                 break;
             case 1: // 会話送り
-                if(Input.GetMouseButtonDown(0))
+                resTalk = RemoveTextBetweenMarkers(resTalk, markerstart, markerend);
+                if (Input.GetMouseButtonDown(0))
                 {
                     if (talkText[(int)sBox].text == resTalk)
                     {
                         Snum++;
                         resTalk = "";
                         num++;
+                        // 一文字ずつ送るコルーチンの停止
+                        StopAllCoroutines();
                     }
 
-                    // 一文字ずつ送るコルーチンの停止
-                    StopAllCoroutines();
+                    
                     // 全文表示
-                    talkText[(int)sBox].text = resTalk;
+                    //talkText[(int)sBox].text = resTalk;
                                        
                 }
                 break;
@@ -142,21 +177,30 @@ public class TalkEvent : MonoBehaviour
 
                 // どの段のテキストボックスを使うか
                 UseTalkBox(sBox);
-
                 // キャラの表示
                 //gObj = Instantiate(charaObj[(int)CharaName.AD], charaPos[(int)SelectPos.Cenetr].position, Quaternion.identity);
 
                 Snum++;
                 break;
             case 3:// 選択肢
+                resTalk = RemoveTextBetweenMarkers(resTalk, markerstart, markerend);
+                if (talkText[(int)sBox].text == resTalk)
+                {
+                    Debug.Log("入った");
+                    SelectButtonBox.SetActive(true);
+                    // 一文字ずつ送るコルーチンの停止
+                    StopAllCoroutines();
+
+                }
                 if (Input.GetMouseButtonDown(0))
                 {
-                    StopAllCoroutines();
+                    Debug.Log(resTalk);
+                   
                     // 全文表示
-                    talkText[(int)sBox].text = resTalk;
+                    //talkText[(int)sBox].text = resTalk;
 
                     //resTalk = "";
-                    SelectButtonBox.SetActive(true);
+                   
                 }
                 break;
             case 4: // Yesルート 会話番号3のセット
@@ -198,6 +242,8 @@ public class TalkEvent : MonoBehaviour
                 Snum = 13;
                 break;
             case 6:
+                resTalk = RemoveTextBetweenMarkers(resTalk, markerstart, markerend);
+
                 if (Input.GetMouseButtonDown(0))
                 {
                     if (talkText[(int)sBox].text == resTalk)
@@ -205,11 +251,12 @@ public class TalkEvent : MonoBehaviour
                         Snum++;
                         resTalk = "";
                         num++;
+                        // 一文字ずつ送るコルーチンの停止
+                        StopAllCoroutines();
                     }
-                    // 一文字ずつ送るコルーチンの停止
-                    StopAllCoroutines();
+                   
                     // 全文表示
-                    talkText[(int)sBox].text = resTalk;
+                   // talkText[(int)sBox].text = resTalk;
                 }
                 break;
             case 7:// 会話番号4のセット
@@ -231,6 +278,8 @@ public class TalkEvent : MonoBehaviour
                 Snum ++;
                 break;
             case 8:
+                resTalk = RemoveTextBetweenMarkers(resTalk, markerstart, markerend);
+
                 if (Input.GetMouseButtonDown(0))
                 {
                     if (talkText[(int)sBox].text == resTalk)
@@ -238,11 +287,12 @@ public class TalkEvent : MonoBehaviour
                         Snum++;
                         resTalk = "";
                         num++;
+                        // 一文字ずつ送るコルーチンの停止
+                        StopAllCoroutines();
                     }
-                    // 一文字ずつ送るコルーチンの停止
-                    StopAllCoroutines();
+                   
                     // 全文表示
-                    talkText[(int)sBox].text = resTalk;
+                    //talkText[(int)sBox].text = resTalk;
                 }
                 break;
             case 9:// 会話番号5のセット
@@ -264,6 +314,8 @@ public class TalkEvent : MonoBehaviour
                 Snum++;
                 break;
             case 10:
+                resTalk = RemoveTextBetweenMarkers(resTalk, markerstart, markerend);
+
                 if (Input.GetMouseButtonDown(0))
                 {
                     if (talkText[(int)sBox].text == resTalk)
@@ -271,11 +323,12 @@ public class TalkEvent : MonoBehaviour
                         Snum++;
                         resTalk = "";
                         num++;
+                        // 一文字ずつ送るコルーチンの停止
+                        StopAllCoroutines();
                     }
-                    // 一文字ずつ送るコルーチンの停止
-                    StopAllCoroutines();
+                    
                     // 全文表示
-                    talkText[(int)sBox].text = resTalk;
+                  //  talkText[(int)sBox].text = resTalk;
                 }
                 break;
             case 11: // 会話番号6のセット
@@ -299,35 +352,42 @@ public class TalkEvent : MonoBehaviour
 
                 //いいえルート
             case 13:
+                resTalk = RemoveTextBetweenMarkers(resTalk, markerstart, markerend);
+
                 if (Input.GetMouseButtonDown(0))
                 {
                     if (talkText[(int)sBox].text == resTalk)
                     {
                         Snum = 7;
                         resTalk = "";
-                        num = 2;
+                        num = 3;
+                        // 一文字ずつ送るコルーチンの停止
+                        StopAllCoroutines();
                     }
-                    // 一文字ずつ送るコルーチンの停止
-                    StopAllCoroutines();
+                    
                     // 全文表示
-                    talkText[(int)sBox].text = resTalk;
+                    //talkText[(int)sBox].text = resTalk;
                 }
                 break;
 
             case 999:
+                resTalk = RemoveTextBetweenMarkers(resTalk, markerstart, markerend);
+
                 if (Input.GetMouseButtonDown(0))
                 {
-                    // 一文字ずつ送るコルーチンの停止
-                    StopAllCoroutines();
-                    // 全文表示
-                    talkText[(int)sBox].text = resTalk;
-                    Snum++;
-                    resTalk = "";
+                    if (talkText[(int)sBox].text == resTalk)
+                    {
+                        // 一文字ずつ送るコルーチンの停止
+                        StopAllCoroutines();
+                        // 全文表示
+                        //talkText[(int)sBox].text = resTalk;
+                        Snum++;
+                        resTalk = "";
+                    }
                 }
                 break;
             case 1000: // 終了
-                if (Input.GetMouseButtonDown(0))
-                {
+               
                     StopAllCoroutines();
                     ActiveFalse();
                     Snum=0;
@@ -339,7 +399,7 @@ public class TalkEvent : MonoBehaviour
                     clapper.SceneName = "Select";
 
                     Time.timeScale = 1;
-                }
+                
                 break;
         }
     }
@@ -365,7 +425,66 @@ public class TalkEvent : MonoBehaviour
         // 一文字ずつ表示
         foreach (char c in resTalk)
         {
-            talkText[(int)selectBox].text += c;
+            // テキストボックスを一文字ずつつくるシステム
+            #region IF
+            //switch ((int)selectBox)
+            //{
+            //    case 0:
+            //        UptextBox[texMaxNum].text = c.ToString();
+            //        texMaxNum++;
+            //        break;
+            //    case 1:
+            //        CentertextBox[texMaxNum].text = c.ToString();
+            //        texMaxNum++;
+            //        break;
+            //    case 2:
+            //        DowntextBox[texMaxNum].text = c.ToString();
+            //        texMaxNum++;
+            //        break;
+            //}
+            #endregion
+
+            // ルビ振り{読み仮名）を付ける
+            if (c == '{')
+            {
+                Isreading = true;
+                
+                if(Isreading)
+                {
+                    // 生成する
+                    textObj=Instantiate(SubText);
+                    // 子オブジェクトに入れる
+                    textObj.transform.parent = useTextBox[(int)selectBox].transform;
+                    // 生成オブジェクトの座標等を指定
+                    textObj.rectTransform.anchoredPosition = new Vector3(-835+(texMaxNum*50),(float)height,0);
+                    textObj.rectTransform.localScale = new Vector3(1,1,1);
+
+                    // リストに入れ込む
+                    textList.Add(textObj);
+                }
+                yield return new WaitForSecondsRealtime(delay); // 指定時間待機
+            }
+            else if(c=='}')
+            {
+                Isreading = false;
+            }
+            else if (c == '#')
+            {
+                texMaxNum = 0;
+                height = Height.Down;
+                resTalk=resTalk.Replace(marker, "");
+                yield return new WaitForSecondsRealtime(delay); // 指定時間待機
+            }
+
+            else if (Isreading)
+            {
+                textObj.text += c;
+            }
+            else
+            {
+                talkText[(int)selectBox].text += c;
+                texMaxNum++;
+            }
             yield return new WaitForSecondsRealtime(delay); // 指定時間待機
         }
     }
@@ -435,7 +554,9 @@ public class TalkEvent : MonoBehaviour
     /// </summary>
     private void ActiveFalse()
     {
-        for(int i=0;i<useTextBox.Length;i++)
+        texMaxNum = 0;
+        height = Height.Up;
+        for (int i=0;i<useTextBox.Length;i++)
         {
             // もし表示状態なら非表示に
             if (useTextBox[i].activeSelf)
@@ -443,5 +564,32 @@ public class TalkEvent : MonoBehaviour
                 useTextBox[i].SetActive(false);
             }
         }
+
+        DestroyAllGameObjects();
+    }
+
+    void DestroyAllGameObjects()
+    {
+        // 逆順でリストをループする（インデックスのズレを防ぐため）
+        for (int i = textList.Count - 1; i >= 0; i--)
+        {
+            Destroy(textList[i].gameObject); // GameObjectをDestroy
+            textList.RemoveAt(i); // リストからも削除
+        }
+    }
+
+    string RemoveTextBetweenMarkers(string text, string start, string end)
+    {
+        int startIndex = text.IndexOf(start);
+        int endIndex = text.IndexOf(end);
+
+        // 開始・終了のインデックスが見つからない場合
+        if (startIndex == -1 || endIndex == -1 || startIndex >= endIndex)
+        {
+            return text; // 元の文字列をそのまま返す
+        }
+        
+        // 開始文字と終了文字を含めて削除
+        return text.Remove(startIndex, (endIndex - startIndex) + end.Length);
     }
 }
