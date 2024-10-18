@@ -135,7 +135,7 @@ public class ClipOperation : MonoBehaviour, IDragHandler, IBeginDragHandler, IEn
 
     private void Update()
     {
-        Debug.Log(v2_moveOffset);
+
     }
 
     public void OnBeginDrag(PointerEventData eventData)
@@ -147,18 +147,18 @@ public class ClipOperation : MonoBehaviour, IDragHandler, IBeginDragHandler, IEn
                 targetImage,
                 eventData.position,
                 eventData.pressEventCamera,
-                out Vector2 localMousePosition
+                out Vector2 localMousePos
             );
 
             // マウス位置が画像の右端か左端かをチェック
-            if (Mathf.Abs(localMousePosition.x - (-targetImage.rect.width * targetImage.pivot.x)) <= f_edgeRange)
+            if (Mathf.Abs(localMousePos.x - (-targetImage.rect.width * targetImage.pivot.x)) <= f_edgeRange)
             {
                 // 左端
                 SetPivot(targetImage, new Vector2(1, 0.5f));
                 b_ResizeRight = false;
                 mode = CLIP_MODE.resize;
             }
-            else if (Mathf.Abs(localMousePosition.x - (targetImage.rect.width * (1 - targetImage.pivot.x))) <= f_edgeRange)
+            else if (Mathf.Abs(localMousePos.x - (targetImage.rect.width * (1 - targetImage.pivot.x))) <= f_edgeRange)
             {
                 // 右端
                 SetPivot(targetImage, new Vector2(0, 0.5f));
@@ -170,7 +170,7 @@ public class ClipOperation : MonoBehaviour, IDragHandler, IBeginDragHandler, IEn
                 // 端以外の場合はリサイズを無効化、クリップ移動モードにする
                 mode = CLIP_MODE.move;
                 SetPivot(targetImage, new Vector2(0, 0.5f));
-                v2_moveOffset.x = localMousePosition.x - targetImage.localPosition.x;
+                v2_moveOffset.x = targetImage.position.x - localMousePos.x;
             }
 
             if (mode == CLIP_MODE.resize)

@@ -190,7 +190,6 @@ public class ClipPlay : MonoBehaviour
     private void FixedUpdate()
     {
         ClipPlayNow();
-
     }
 
 
