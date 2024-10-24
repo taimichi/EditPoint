@@ -57,6 +57,12 @@ public class TimeBar : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragH
     //ドラッグ開始するとき
     public void OnBeginDrag(PointerEventData eventData)
     {
+        //再生中は編集機能をロック
+        if (GameData.GameEntity.b_playNow)
+        {
+            return;
+        }
+
         b_dragMode = true;
         timeData.b_DragMode = b_dragMode;
     }
@@ -64,6 +70,12 @@ public class TimeBar : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragH
     //ドラッグ中
     public void OnDrag(PointerEventData eventData)
     {
+        //再生中は編集機能をロック
+        if (GameData.GameEntity.b_playNow)
+        {
+            return;
+        }
+
         //マウス座標取得
         RectTransformUtility.ScreenPointToLocalPointInRectangle(
             (RectTransform)barPos.parent,
@@ -84,6 +96,12 @@ public class TimeBar : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragH
     //ドラッグ終了時
     public void OnEndDrag(PointerEventData eventData)
     {
+        //再生中は編集機能をロック
+        if (GameData.GameEntity.b_playNow)
+        {
+            return;
+        }
+
         b_dragMode = false;
         timeData.b_DragMode = b_dragMode;
     }

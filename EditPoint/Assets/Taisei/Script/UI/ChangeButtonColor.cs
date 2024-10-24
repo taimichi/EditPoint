@@ -13,14 +13,27 @@ public class ChangeButtonColor : MonoBehaviour
 
     private void Update()
     {
+        //再生中は編集機能をロック
+        if (GameData.GameEntity.b_playNow)
+        {
+            return;
+        }
+
         if (Input.GetMouseButtonDown(1))
         {
             imageColor.color = Color.white;
+            isFirst = false;
         }
     }
 
     public void OnChangeColor()
     {
+        //再生中は編集機能をロック
+        if (GameData.GameEntity.b_playNow)
+        {
+            return;
+        }
+
         eventSystem = EventSystem.current;
         if (image != null)
         {

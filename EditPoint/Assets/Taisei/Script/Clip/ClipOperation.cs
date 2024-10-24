@@ -140,6 +140,12 @@ public class ClipOperation : MonoBehaviour, IDragHandler, IBeginDragHandler, IEn
 
     public void OnBeginDrag(PointerEventData eventData)
     {
+        //再生中は編集機能をロック
+        if (GameData.GameEntity.b_playNow)
+        {
+            return;
+        }
+
         if (!b_Lock)
         {
             v2_initSizeDelta = targetImage.sizeDelta;
@@ -187,6 +193,12 @@ public class ClipOperation : MonoBehaviour, IDragHandler, IBeginDragHandler, IEn
 
     public void OnDrag(PointerEventData eventData)
     {
+        //再生中は編集機能をロック
+        if (GameData.GameEntity.b_playNow)
+        {
+            return;
+        }
+
         if (!b_Lock)
         {
             if (mode != CLIP_MODE.resize)
@@ -272,6 +284,12 @@ public class ClipOperation : MonoBehaviour, IDragHandler, IBeginDragHandler, IEn
 
     public void OnEndDrag(PointerEventData eventData)
     {
+        //再生中は編集機能をロック
+        if (GameData.GameEntity.b_playNow)
+        {
+            return;
+        }
+
         if (!b_Lock)
         {
             //重なった場合

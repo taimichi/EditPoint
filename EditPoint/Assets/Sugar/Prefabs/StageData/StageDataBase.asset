@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: StageDataBase
   m_EditorClassIdentifier: 
   STAGE_DATA:
+  - {fileID: 11400000, guid: a6de22f6ab9e19443a97a75a76d61cd6, type: 2}
   - {fileID: 11400000, guid: 22c4492327900844bae58acb56729932, type: 2}
-  - {fileID: 11400000, guid: 1448f98f048b4ad48985c5318d5178b9, type: 2}
   - {fileID: 11400000, guid: 0ddbb24b469299044a03dcfd6c033d94, type: 2}
   - {fileID: 11400000, guid: 876fe8a735d319144a476ef3677d33bf, type: 2}
   - {fileID: 11400000, guid: c8a30947d5aec854c9f41cb5df6a092b, type: 2}

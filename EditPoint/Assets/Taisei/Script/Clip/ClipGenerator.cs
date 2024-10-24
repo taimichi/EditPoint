@@ -52,6 +52,12 @@ public class ClipGenerator : MonoBehaviour
     /// </summary>
     public void ClipGene()
     {
+        //再生中は編集機能をロック
+        if (GameData.GameEntity.b_playNow)
+        {
+            return;
+        }
+
         if (!b_Lock)
         {
             playSound.PlaySE(PlaySound.SE_TYPE.clipGene);

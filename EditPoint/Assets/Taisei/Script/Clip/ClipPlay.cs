@@ -197,7 +197,12 @@ public class ClipPlay : MonoBehaviour
     public void OutGetObj(GameObject _outGetObj)
     {
         ConnectObj.Add(_outGetObj);
-        clipName.text = "中身のあるクリップ";
+        if (this.gameObject.tag == "CreateClip")
+        {
+            clipName.text = "中身のあるクリップ";
+        }
+        gpo = _outGetObj.GetComponent<GetCopyObj>();
+        gpo.GetAttachClip(this.gameObject);
         checkClip = _outGetObj.GetComponent<CheckClipConnect>();
         checkClip.ConnectClip();
     }

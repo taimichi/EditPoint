@@ -5,6 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
+    private bool b_debug = false;
     private bool b_start = false;
     private string s_nowSceneName = "";
 
@@ -14,13 +15,16 @@ public class GameManager : MonoBehaviour
 
     private void Awake()
     {
+        GameData.GameEntity.b_playNow = false;
         playSound = GameObject.Find("AudioCanvas").GetComponent<PlaySound>();
         b_start = false;
 
         s_nowSceneName = SceneManager.GetActiveScene().name;    //シーン名を取得
+        b_debug = false;
         switch (s_nowSceneName)
         {
             case "Title":
+                b_debug = true;
                 playSound.PlayBGM(PlaySound.BGM_TYPE.title_stageSelect);
                 Time.timeScale = 1;
                 break;
@@ -93,6 +97,7 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         ModeData.ModeEntity.mode = ModeData.Mode.normal;
+
     }
 
     void Update()
@@ -100,20 +105,40 @@ public class GameManager : MonoBehaviour
         //デバッグ用機能
         if (Input.GetKey(KeyCode.LeftShift))
         {
+            //timescaleを強制的に変更
             if (Input.GetKeyDown(KeyCode.T))
             {
-                Debug.Log("時間変更");
+                Debug.Log("timescale強制変更");
                 Time.timeScale = Time.timeScale == 0 ? 1 : 0;
             }
+
+            //チュートリアルステージを強制的にプレイした状態にする
+            if (Input.GetKeyDown(KeyCode.D))
+            {
+                DebugOption();
+                Debug.Log("チュートリアル情報を初期化");
+            }
         }
+
         Debug.Log(ModeData.ModeEntity.mode);
     }
 
+    private void DebugOption()
+    {
+        TutorialData.TutorialEntity.frags &= TutorialData.Tutorial_Frags.clip;
+        TutorialData.TutorialEntity.frags &= TutorialData.Tutorial_Frags.block;
+        TutorialData.TutorialEntity.frags &= TutorialData.Tutorial_Frags.copy;
+        TutorialData.TutorialEntity.frags &= TutorialData.Tutorial_Frags.blower;
+        TutorialData.TutorialEntity.frags &= TutorialData.Tutorial_Frags.move;
+        TutorialData.TutorialEntity.frags &= TutorialData.Tutorial_Frags.button;
+        TutorialData.TutorialEntity.frags &= TutorialData.Tutorial_Frags.other;
+    }
 
     public void OnStart()
     {
         if (!b_start)
         {
+            GameData.GameEntity.b_playNow = true;
             Time.timeScale = 1;
             b_start = true;
         }
@@ -121,6 +146,7 @@ public class GameManager : MonoBehaviour
 
     public void OnReset()
     {
+        GameData.GameEntity.b_playNow = false;
         b_start = false;
         Time.timeScale = 0;
     }
