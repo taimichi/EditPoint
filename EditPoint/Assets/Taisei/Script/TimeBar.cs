@@ -34,24 +34,32 @@ public class TimeBar : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragH
 
     void Update()
     {
-        float f_distance = this.transform.localPosition.x - v2_startPos.x;
-        f_nowTime = (float)Math.Truncate(f_distance / f_speed * 10) / 10;
-        timeData.f_nowTime = f_nowTime;
-        //Debug.Log(f_nowTime + "•b");
         
     }
 
     private void FixedUpdate()
     {
-        if (barPos.localPosition.x < v2_startPos.x + (limit * 2 * timelineData.f_oneTickWidht))
+        //Ä¶’†‚©‚Ç‚¤‚©
+        if (GameData.GameEntity.b_playNow)
         {
-            barPos.localPosition = v2_nowPos;
-            v2_nowPos.x += f_speed * Time.deltaTime;
+            if (barPos.localPosition.x < v2_startPos.x + (limit * 2 * timelineData.f_oneTickWidht))
+            {
+                barPos.localPosition = v2_nowPos;
+                v2_nowPos.x += f_speed * Time.deltaTime;
+            }
+            else
+            {
+                //ŽžŠÔ‚ÌŒÀŠEŽž‚Ìˆ—
+            }
         }
         else
         {
-            //ŽžŠÔ‚ÌŒÀŠEŽž‚Ìˆ—
+            float f_distance = this.transform.localPosition.x - v2_startPos.x;
+            f_nowTime = (float)Math.Truncate(f_distance / f_speed * 10) / 10;
+            timeData.f_nowTime = f_nowTime;
+
         }
+
     }
 
     //ƒhƒ‰ƒbƒOŠJŽn‚·‚é‚Æ‚«

@@ -5,9 +5,9 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
-    private bool b_debug = false;
-    private bool b_start = false;
     private string s_nowSceneName = "";
+
+    private TimeBar timeBar;
 
     private PlaySound playSound;
 
@@ -17,16 +17,12 @@ public class GameManager : MonoBehaviour
     {
         GameData.GameEntity.b_playNow = false;
         playSound = GameObject.Find("AudioCanvas").GetComponent<PlaySound>();
-        b_start = false;
 
         s_nowSceneName = SceneManager.GetActiveScene().name;    //ÉVÅ[ÉìñºÇéÊìæ
-        b_debug = false;
         switch (s_nowSceneName)
         {
             case "Title":
-                b_debug = true;
                 playSound.PlayBGM(PlaySound.BGM_TYPE.title_stageSelect);
-                Time.timeScale = 1;
                 break;
 
             case "Talk":
@@ -40,12 +36,13 @@ public class GameManager : MonoBehaviour
 
         if (s_nowSceneName.Contains("Stage"))
         {
+            timeBar = GameObject.Find("Timebar").GetComponent<TimeBar>();
             playSound.PlayBGM(PlaySound.BGM_TYPE.stage1);
             playSound.PlaySE(PlaySound.SE_TYPE.start);
-            Time.timeScale = 0;
         }
         else if(s_nowSceneName.Contains("Tutorial"))
         {
+            timeBar = GameObject.Find("Timebar").GetComponent<TimeBar>();
             quick = GameObject.Find("GuideCanvas").GetComponent<QuickGuideMenu>();
 
             playSound.PlayBGM(PlaySound.BGM_TYPE.stage1);
@@ -136,18 +133,15 @@ public class GameManager : MonoBehaviour
 
     public void OnStart()
     {
-        if (!b_start)
+        if (!GameData.GameEntity.b_playNow)
         {
+            timeBar.OnReStart();
             GameData.GameEntity.b_playNow = true;
-            Time.timeScale = 1;
-            b_start = true;
         }
     }
 
     public void OnReset()
     {
         GameData.GameEntity.b_playNow = false;
-        b_start = false;
-        Time.timeScale = 0;
     }
 }

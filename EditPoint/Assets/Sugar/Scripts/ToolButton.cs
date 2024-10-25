@@ -34,7 +34,6 @@ public class ToolButton : MonoBehaviour
     }
     public void GroupRestart() // シーンリロードボタン（やり直す）
     {
-        Time.timeScale = 1;
         // フェード
         //clpObj.SetActive(true);
         //clapper.SceneName = S_stageName;
@@ -53,7 +52,6 @@ public class ToolButton : MonoBehaviour
 
     public void BackSelect()
     {
-        Time.timeScale = 1;
         // フェード
         clpObj.SetActive(true);
         clapper.SceneName = "Select";
