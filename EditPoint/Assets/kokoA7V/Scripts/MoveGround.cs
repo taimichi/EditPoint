@@ -17,7 +17,6 @@ public class MoveGround : MonoBehaviour
 
     private float playSpeed = 1f;
     private float manualClipTime = 0f;
-    [SerializeField] private TimeData timeData;
     private float f_test = 0f;
     Vector3 startPos;
 
@@ -38,7 +37,7 @@ public class MoveGround : MonoBehaviour
     private void Update()
     {
         //é©ìÆ
-        if (!timeData.b_DragMode)
+        if (!TimeData.TimeEntity.b_DragMode)
         {
             //çƒê∂íÜÇÃÇ›
             if (GameData.GameEntity.b_playNow)

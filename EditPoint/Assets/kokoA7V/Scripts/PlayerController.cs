@@ -23,7 +23,6 @@ public class PlayerController : MonoBehaviour
     bool manual = true;
 
     private bool b_firstButton = false;
-    [SerializeField] private TimeData timeData;
 
     private Vector2 playerStartPos;
 

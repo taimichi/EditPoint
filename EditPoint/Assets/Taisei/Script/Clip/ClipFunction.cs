@@ -2,24 +2,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using System;
 
 public class ClipFunction : MonoBehaviour
 {
-    private enum MODE_TYPE
-    {
-        normal,
-        cut,
-    }
-    private MODE_TYPE mode = MODE_TYPE.normal;
-
     [SerializeField] private RectTransform Timebar;
     private int cutCount = 0;
 
-    [SerializeField] private TimelineData timelineData;
     [SerializeField] private GetClip GetClip;
 
     private GameObject Clip;
-    private GameObject CutedClip;
 
     private RectTransform grandParentRect;
 
@@ -82,19 +74,38 @@ public class ClipFunction : MonoBehaviour
         //カット機能を使うのはクリップとタイムバーが重なってる時のみ
         if(IsOverlapping(clipRect, Timebar))
         {
-            mode = MODE_TYPE.cut;
             cutCount++;
 
             grandParentRect = clipRect.parent.parent.GetComponent<RectTransform>();
 
+            //選択したクリップの左端の座標
             Vector3 leftEdge = grandParentRect.InverseTransformPoint(clipRect.position) 
                 + new Vector3(clipRect.rect.width * clipRect.pivot.x, 0, 0);
+            //左端からの長さ
             float dis = Timebar.localPosition.x - leftEdge.x;
-            Debug.Log("左から" + dis);
+
+            //サイズを調整
+            dis = ((float)Math.Round(dis / TimelineData.TimelineEntity.f_oneResize)) * TimelineData.TimelineEntity.f_oneResize;
+            
+            //タイムバーから右端までの長さ
+            float newDis = clipRect.rect.width - dis;
+
+
+            //カットした後の左側のクリップ
+            clipRect.sizeDelta = new Vector2(dis, clipRect.rect.height);
+
+            //右端取得
+            float rightEdge = clipRect.anchoredPosition.x + (clipRect.rect.width * (1 - clipRect.pivot.x));
+
+            //カットした時の右側用
+            GameObject newClip = Instantiate(Clip, clipRect.localPosition, Quaternion.identity, this.gameObject.transform);
+            newClip.name = Clip.name + "(CutClip)";
+            RectTransform newClipRect = newClip.GetComponent<RectTransform>();
+            newClipRect.sizeDelta = new Vector2(newDis, newClipRect.rect.height);
+
+            newClipRect.localPosition = new Vector2(rightEdge, clipRect.localPosition.y);
+
         }
-
-
-
     }
 
 }

@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement; // ÉVÅ[ÉìëJà⁄
+using UnityEngine.EventSystems;
 
 public class TitleButton : MonoBehaviour
 {
@@ -27,7 +28,7 @@ public class TitleButton : MonoBehaviour
 
     private void Update()
     {
-        if (audioPanel.activeSelf) { return; }
+        if (audioPanel.activeSelf || EventSystem.current.IsPointerOverGameObject()) { return; }
         if (Input.GetMouseButtonDown(0) || Input.GetMouseButtonDown(1))
         {
             playSound.PlaySE(PlaySound.SE_TYPE.enter);

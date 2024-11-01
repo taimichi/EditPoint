@@ -11,7 +11,7 @@ public class CheckClipConnect : MonoBehaviour
         this.gameObject.SetActive(true);
     }
 
-    private void FixedUpdate()
+    private void Update()
     {
         if (!b_connect)
         {

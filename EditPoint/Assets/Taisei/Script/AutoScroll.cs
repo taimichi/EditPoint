@@ -5,7 +5,6 @@ using UnityEngine.UI;
 
 public class AutoScroll : MonoBehaviour
 {
-    [SerializeField] private TimeData timeData;
 
     [SerializeField] private ScrollRect scrollRect; 
     [SerializeField] private RectTransform content; 
@@ -31,7 +30,7 @@ public class AutoScroll : MonoBehaviour
         Vector3[] viewportCorners = new Vector3[4];
         scrollRect.viewport.GetWorldCorners(viewportCorners);
 
-        if (!timeData.b_DragMode)
+        if (!TimeData.TimeEntity.b_DragMode)
         {
             // ‰E’[‚Ì”»’è
             if (targetCorners[2].x > viewportCorners[2].x)

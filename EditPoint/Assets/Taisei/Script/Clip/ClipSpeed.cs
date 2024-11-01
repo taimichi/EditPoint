@@ -18,10 +18,12 @@ public class ClipSpeed : MonoBehaviour
     void Update()
     {
         f_changeSpeed = (float)Math.Truncate(ClipRect.sizeDelta.x / f_StartWidth * 10) / 10;
+        //再生速度が1以下の時
         if (f_changeSpeed <= 1) 
         {
             f_changeSpeed = Mathf.Abs(f_changeSpeed - 1) + 1;
         }
+        //再生速度が1より上の時
         else
         {
             f_changeSpeed = Mathf.Abs(f_changeSpeed - 2);
@@ -32,7 +34,7 @@ public class ClipSpeed : MonoBehaviour
     /// <summary>
     /// 外部にクリップに設定してあるオブジェクトの再生速度の値を返す
     /// </summary>
-    /// <returns>クリップに設定してるオブジェクトの再生速度　戻り値:0.5～2</returns>
+    /// <returns>クリップに設定してるオブジェクトの再生速度</returns>
     public float ReturnPlaySpeed()
     {
         return f_playSpeed;
@@ -45,5 +47,13 @@ public class ClipSpeed : MonoBehaviour
     public void GetStartWidth(float getWidth)
     {
         f_StartWidth = getWidth;
+    }
+
+    /// <summary>
+    /// クリップの再生速度の更新
+    /// </summary>
+    public void UpdateSpeed(float _newSpeed)
+    {
+        f_playSpeed = _newSpeed;
     }
 }

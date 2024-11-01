@@ -25,7 +25,6 @@ public class ClipOperation : MonoBehaviour, IDragHandler, IBeginDragHandler, IEn
     [SerializeField, Header("左右端の範囲")] private float f_edgeRange = 10f;
 
     private float f_dotMove = 0;
-    [SerializeField] private TimelineData timelineData;
     private float f_onetick;            //サイズ変更時、1回にサイズ変更する量
 
     private Vector2 v2_mousePos;        //マウスの座標
@@ -62,11 +61,11 @@ public class ClipOperation : MonoBehaviour, IDragHandler, IBeginDragHandler, IEn
     private void Awake()
     {
         //リサイズ用
-        f_onetick = timelineData.f_oneResize;
+        f_onetick = TimelineData.TimelineEntity.f_oneResize;
 
         //クリップ移動用
-        f_oneWidth = timelineData.f_oneTickWidht;
-        f_oneHeight = timelineData.f_oneTickHeight;
+        f_oneWidth = TimelineData.TimelineEntity.f_oneTickWidht;
+        f_oneHeight = TimelineData.TimelineEntity.f_oneTickHeight;
 
         //タイムラインの端のRectTransform取得
         rect_outLeft = GameObject.Find("LeftOutLine").GetComponent<RectTransform>();
@@ -97,7 +96,7 @@ public class ClipOperation : MonoBehaviour, IDragHandler, IBeginDragHandler, IEn
                     CheckHeight();
 
                     //クリップが一番下で重なった場合
-                    if (ClipsRect[i].localPosition.y <= timelineData.f_timelineEndDown)
+                    if (ClipsRect[i].localPosition.y <= TimelineData.TimelineEntity.f_timelineEndDown)
                     {
                         f_newHeight = 0 * f_oneHeight - 15f;
 
@@ -127,15 +126,15 @@ public class ClipOperation : MonoBehaviour, IDragHandler, IBeginDragHandler, IEn
             }
 
             this.gameObject.tag = "SetClip";
-            v3_beforePos = this.transform.localPosition;
 
         }
+        v3_beforePos = this.transform.localPosition;
 
     }
 
     private void Update()
     {
-
+        GetClipRect();
     }
 
     public void OnBeginDrag(PointerEventData eventData)
@@ -404,13 +403,13 @@ public class ClipOperation : MonoBehaviour, IDragHandler, IBeginDragHandler, IEn
     /// </summary>
     private void CheckWidth()
     {
-        if (f_newWidth < timelineData.f_timelineEndLeft)
+        if (f_newWidth < TimelineData.TimelineEntity.f_timelineEndLeft)
         {
-            f_newWidth = timelineData.f_timelineEndLeft;
+            f_newWidth = TimelineData.TimelineEntity.f_timelineEndLeft;
         }
-        else if (f_newWidth > timelineData.f_timelineEndRight)
+        else if (f_newWidth > TimelineData.TimelineEntity.f_timelineEndRight)
         {
-            f_newWidth = timelineData.f_timelineEndRight;
+            f_newWidth = TimelineData.TimelineEntity.f_timelineEndRight;
         }
     }
 
@@ -419,13 +418,13 @@ public class ClipOperation : MonoBehaviour, IDragHandler, IBeginDragHandler, IEn
     /// </summary>
     private void CheckHeight()
     {
-        if (f_newHeight > timelineData.f_timelineEndUp)
+        if (f_newHeight > TimelineData.TimelineEntity.f_timelineEndUp)
         {
-            f_newHeight = timelineData.f_timelineEndUp;
+            f_newHeight = TimelineData.TimelineEntity.f_timelineEndUp;
         }
-        else if (f_newHeight < timelineData.f_timelineEndDown)
+        else if (f_newHeight < TimelineData.TimelineEntity.f_timelineEndDown)
         {
-            f_newHeight = timelineData.f_timelineEndDown;
+            f_newHeight = TimelineData.TimelineEntity.f_timelineEndDown;
         }
     }
 

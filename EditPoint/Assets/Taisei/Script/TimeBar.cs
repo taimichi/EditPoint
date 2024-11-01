@@ -11,18 +11,16 @@ public class TimeBar : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragH
     private RectTransform barPos;
     private Vector2 v2_nowPos;
     [SerializeField, Header("éûä‘(ïb)")] private float limit = 60f;
-    [SerializeField] private TimelineData timelineData;
     private Vector2 v2_startPos;
 
-    [SerializeField] private TimeData timeData;
-
+    private float f_limitPos = 0f;
     private float f_nowTime = 0;
     private bool b_dragMode = false;
 
     private void Awake()
     {
-        timeData.b_DragMode = b_dragMode;
-        timeData.f_nowTime = f_nowTime;
+        TimeData.TimeEntity.b_DragMode = b_dragMode;
+        TimeData.TimeEntity.f_nowTime = f_nowTime;
     }
 
     void Start()
@@ -30,6 +28,7 @@ public class TimeBar : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragH
         barPos = this.gameObject.GetComponent<RectTransform>();
         v2_nowPos = barPos.localPosition;
         v2_startPos = barPos.localPosition;
+        f_limitPos = v2_startPos.x + (limit * 2 * TimelineData.TimelineEntity.f_oneTickWidht);
     }
 
     void Update()
@@ -42,7 +41,7 @@ public class TimeBar : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragH
         //çƒê∂íÜÇ©Ç«Ç§Ç©
         if (GameData.GameEntity.b_playNow)
         {
-            if (barPos.localPosition.x < v2_startPos.x + (limit * 2 * timelineData.f_oneTickWidht))
+            if (barPos.localPosition.x < f_limitPos)
             {
                 barPos.localPosition = v2_nowPos;
                 v2_nowPos.x += f_speed * Time.deltaTime;
@@ -56,7 +55,7 @@ public class TimeBar : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragH
         {
             float f_distance = this.transform.localPosition.x - v2_startPos.x;
             f_nowTime = (float)Math.Truncate(f_distance / f_speed * 10) / 10;
-            timeData.f_nowTime = f_nowTime;
+            TimeData.TimeEntity.f_nowTime = f_nowTime;
 
         }
 
@@ -72,7 +71,7 @@ public class TimeBar : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragH
         }
 
         b_dragMode = true;
-        timeData.b_DragMode = b_dragMode;
+        TimeData.TimeEntity.b_DragMode = b_dragMode;
     }
 
     //ÉhÉâÉbÉOíÜ
@@ -97,6 +96,10 @@ public class TimeBar : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragH
         {
             v2_mousePos.x = v2_startPos.x;
         }
+        else if(v2_mousePos.x>= f_limitPos)
+        {
+            v2_mousePos.x = f_limitPos;
+        }
         barPos.localPosition = v2_mousePos;
         v2_nowPos = barPos.localPosition;
     }
@@ -111,7 +114,7 @@ public class TimeBar : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragH
         }
 
         b_dragMode = false;
-        timeData.b_DragMode = b_dragMode;
+        TimeData.TimeEntity.b_DragMode = b_dragMode;
     }
 
     /// <summary>
