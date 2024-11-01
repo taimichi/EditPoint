@@ -28,7 +28,7 @@ public class TitleButton : MonoBehaviour
 
     private void Update()
     {
-        if (audioPanel.activeSelf || EventSystem.current.IsPointerOverGameObject()) { return; }
+        if (audioPanel.activeSelf) { return; }
         if (Input.GetMouseButtonDown(0) || Input.GetMouseButtonDown(1))
         {
             playSound.PlaySE(PlaySound.SE_TYPE.enter);
