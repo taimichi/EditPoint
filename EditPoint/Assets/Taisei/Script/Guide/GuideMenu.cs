@@ -47,7 +47,7 @@ public class GuideMenu : MonoBehaviour
 
     public void OnCloseGuide()
     {
-        Time.timeScale = nowTimeScale;
+        Time.timeScale = 1;
 
         key = "";
         DeactiveAll();
@@ -57,7 +57,6 @@ public class GuideMenu : MonoBehaviour
 
     public void OnOpenGuide()
     {
-        nowTimeScale = Time.timeScale;
         Time.timeScale = 0;
         GuideMenuObj.SetActive(true);
     }

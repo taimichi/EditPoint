@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement; // ƒV[ƒ“‘JˆÚ
+using UnityEngine.EventSystems;
 
 public class TitleButton : MonoBehaviour
 {

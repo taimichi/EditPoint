@@ -24,7 +24,7 @@ public class BlowerWind : MonoBehaviour
 
     private void OnTriggerStay2D(Collider2D collision)
     {
-        if (ModeData.ModeEntity.mode != ModeData.Mode.moveANDdirect)
+        if (GameData.GameEntity.b_playNow && ModeData.ModeEntity.mode != ModeData.Mode.moveANDdirect)
         {
             if (collision.gameObject.TryGetComponent<GeneralMoveController>(out var mc))
             {

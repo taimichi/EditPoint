@@ -252,14 +252,7 @@ public class CopyAndPaste : MonoBehaviour
 
         if (!b_Lock)
         {
-            if (ModeData.ModeEntity.mode != ModeData.Mode.copy)
-            {
-                i_CopyNum--;
-                ModeData.ModeEntity.mode = ModeData.Mode.copy;
-                copyModeText.enabled = true;
-                copyModeText.text = "現在コピーモードです";
-            }
-            else
+            if (ModeData.ModeEntity.mode == ModeData.Mode.copy || ModeData.ModeEntity.mode == ModeData.Mode.paste)
             {
                 ModeData.ModeEntity.mode = ModeData.Mode.normal;
                 MaterialReset();
@@ -272,6 +265,14 @@ public class CopyAndPaste : MonoBehaviour
                 PasteObj = null;
                 b_setOnOff = false;
                 copyModeText.enabled = false;
+            }
+            else
+            {
+                i_CopyNum--;
+                ModeData.ModeEntity.mode = ModeData.Mode.copy;
+                copyModeText.enabled = true;
+                copyModeText.text = "現在コピーモードです";
+
             }
         }
         else

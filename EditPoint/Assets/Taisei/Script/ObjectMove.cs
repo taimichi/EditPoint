@@ -8,17 +8,15 @@ public class ObjectMove : MonoBehaviour
     [SerializeField] private LayerMask lm;
 
 
-    //マウス座標
+    //オブジェクトを移動させる際のマウス座標
     private Vector3 v3_scrWldPos;
-    //取得したオブジェクトの元の座標
-    private Vector3 v3_objPos;
 
+    //クリックした位置とオブジェクトの座標との差
     private Vector3 v3_mousePos;
     private Vector3 v3_offset;
 
     //単体移動
     private GameObject Obj;
-    private GameObject CopyObj;
 
     private bool b_objMove = false;
 
@@ -124,7 +122,6 @@ public class ObjectMove : MonoBehaviour
                         ClickObj.GetComponent<SpriteRenderer>().material = materials.layerMaterials[1];
                     }
                     Obj = ClickObj;
-                    v3_objPos = Obj.transform.position;
 
 
                     if (Obj.name.Contains("Blower"))

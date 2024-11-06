@@ -7,8 +7,6 @@ public class ClipCut : MonoBehaviour
 {
     private RectTransform timebar;
 
-    [SerializeField] private TimelineData timelineData;
-
 
     private void Awake()
     {
