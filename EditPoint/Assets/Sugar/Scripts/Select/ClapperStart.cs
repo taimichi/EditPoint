@@ -16,7 +16,7 @@ public class ClapperStart : MonoBehaviour
     [SerializeField] Fade fade;          // FadeCanvas
 
     [SerializeField] Animator animator;
-
+    [SerializeField] GameObject clearCanvas;
     float ofsY;
     private int num = 999;
     [SerializeField]bool isSelectMode = false;
@@ -68,6 +68,10 @@ public class ClapperStart : MonoBehaviour
 
                 //});
                 break;
+            case 999:
+                // クリアキャンバスの表示
+                clearCanvas.SetActive(true);
+                break;
         }
     }
 
@@ -84,7 +88,8 @@ public class ClapperStart : MonoBehaviour
 
     public void EndAnim()
     {
-        num++;
+        // クリア判定
+        num=999;
     }
         
 }
