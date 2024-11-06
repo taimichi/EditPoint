@@ -27,7 +27,6 @@ public class PlayerController : MonoBehaviour
     private Vector2 playerStartPos;
 
     private PlaySound playSound;
-    [SerializeField] private GameObject NoSignalCanvas;
     private bool b_deathed = false;
 
     void Start()
@@ -87,11 +86,23 @@ public class PlayerController : MonoBehaviour
             if (!b_deathed)
             {
                 b_deathed = true;
-                playSound.StopBGM();
-                playSound.PlaySE(PlaySound.SE_TYPE.death);
-                Instantiate(NoSignalCanvas, Vector2.zero, Quaternion.identity);
                 Debug.Log("ｱﾜﾜﾜﾜ!!!");
             }
+        }
+
+        //落下した時の処理
+        if (b_deathed)
+        {
+            //演出がまだ
+            //newスーパーマリオ2の土管入って移動するときのようなイメージ
+
+            OnPlayerReset();
+            TimeBar timeBar = GameObject.Find("Timebar").GetComponent<TimeBar>();
+            timeBar.OnReStart();
+            GameManager gm = GameObject.Find("GameManager").GetComponent<GameManager>();
+            gm.OnReset();
+
+            b_deathed = false;
         }
     }
 

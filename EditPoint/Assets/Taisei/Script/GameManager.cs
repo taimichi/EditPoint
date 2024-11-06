@@ -141,5 +141,6 @@ public class GameManager : MonoBehaviour
     public void OnReset()
     {
         GameData.GameEntity.b_playNow = false;
+        GameData.GameEntity.b_timebarReset = true;
     }
 }
