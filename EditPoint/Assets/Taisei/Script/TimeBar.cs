@@ -34,29 +34,43 @@ public class TimeBar : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragH
 
     void Update()
     {
-        float f_distance = this.transform.localPosition.x - v2_startPos.x;
-        f_nowTime = (float)Math.Truncate(f_distance / f_speed * 10) / 10;
-        timeData.f_nowTime = f_nowTime;
-        //Debug.Log(f_nowTime + "秒");
         
     }
 
     private void FixedUpdate()
     {
-        if (barPos.localPosition.x < v2_startPos.x + (limit * 2 * timelineData.f_oneTickWidht))
+        //再生中かどうか
+        if (GameData.GameEntity.b_playNow)
         {
-            barPos.localPosition = v2_nowPos;
-            v2_nowPos.x += f_speed * Time.deltaTime;
+            if (barPos.localPosition.x < v2_startPos.x + (limit * 2 * timelineData.f_oneTickWidht))
+            {
+                barPos.localPosition = v2_nowPos;
+                v2_nowPos.x += f_speed * Time.deltaTime;
+            }
+            else
+            {
+                //時間の限界時の処理
+            }
         }
         else
         {
-            //時間の限界時の処理
+            float f_distance = this.transform.localPosition.x - v2_startPos.x;
+            f_nowTime = (float)Math.Truncate(f_distance / f_speed * 10) / 10;
+            timeData.f_nowTime = f_nowTime;
+
         }
+
     }
 
     //ドラッグ開始するとき
     public void OnBeginDrag(PointerEventData eventData)
     {
+        //再生中は編集機能をロック
+        if (GameData.GameEntity.b_playNow)
+        {
+            return;
+        }
+
         b_dragMode = true;
         timeData.b_DragMode = b_dragMode;
     }
@@ -64,6 +78,12 @@ public class TimeBar : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragH
     //ドラッグ中
     public void OnDrag(PointerEventData eventData)
     {
+        //再生中は編集機能をロック
+        if (GameData.GameEntity.b_playNow)
+        {
+            return;
+        }
+
         //マウス座標取得
         RectTransformUtility.ScreenPointToLocalPointInRectangle(
             (RectTransform)barPos.parent,
@@ -84,6 +104,12 @@ public class TimeBar : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragH
     //ドラッグ終了時
     public void OnEndDrag(PointerEventData eventData)
     {
+        //再生中は編集機能をロック
+        if (GameData.GameEntity.b_playNow)
+        {
+            return;
+        }
+
         b_dragMode = false;
         timeData.b_DragMode = b_dragMode;
     }

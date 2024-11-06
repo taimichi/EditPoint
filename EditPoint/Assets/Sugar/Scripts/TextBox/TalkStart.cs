@@ -29,7 +29,6 @@ public class TalkStart : MonoBehaviour
         //    fadeObj.SetActive(false);
         //});
 
-        Time.timeScale = 0;    // 時間停止
         TalkCanvas.SetActive(true); // 会話イベントの始まり
         fadeObj.SetActive(false);
 

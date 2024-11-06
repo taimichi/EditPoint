@@ -180,8 +180,14 @@ public class BlockCreater : MonoBehaviour
 
     public void CreateSetActive()
     {
-        //if (nowState != State.MoveCreate)
-        //{
+        //再生中は編集機能をロック
+        if (GameData.GameEntity.b_playNow)
+        {
+            ModeData.ModeEntity.mode = ModeData.Mode.normal;
+            return;
+        }
+
+
         if (!b_Lock)
         {
             if (ModeData.ModeEntity.mode != ModeData.Mode.create)
@@ -208,13 +214,6 @@ public class BlockCreater : MonoBehaviour
             playSound.PlaySE(PlaySound.SE_TYPE.cancell);
         }
 
-        //}
-        //else
-        //{
-        //    nowState = State.Create;
-        //    blockButton.color = Color.yellow;
-        //    moveBlockButton.color = Color.white;
-        //}
     }
 
     //public void CreateMoveSetActive()

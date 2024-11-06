@@ -53,6 +53,13 @@ public class ObjectMove : MonoBehaviour
 
     void Update()
     {
+        //再生中は編集機能をロック
+        if (GameData.GameEntity.b_playNow)
+        {
+            ModeData.ModeEntity.mode = ModeData.Mode.normal;
+            return;
+        }
+
         if (!b_objSetMode)
         {
             if (Input.GetMouseButtonDown(0) && 

@@ -88,7 +88,6 @@ public class PlayerController : MonoBehaviour
             if (!b_deathed)
             {
                 b_deathed = true;
-                Time.timeScale = 0;
                 playSound.StopBGM();
                 playSound.PlaySE(PlaySound.SE_TYPE.death);
                 Instantiate(NoSignalCanvas, Vector2.zero, Quaternion.identity);

@@ -18,12 +18,15 @@ public class HoverAnim : MonoBehaviour
 
     private void Update()
     {
-        timer += Time.deltaTime * speed;
+        if (GameData.GameEntity.b_playNow)
+        {
+            timer += Time.deltaTime * speed;
 
-        setPosY = Mathf.Cos(timer) * hoverPow;
+            setPosY = Mathf.Cos(timer) * hoverPow;
 
-        Vector2 pos = transform.localPosition;
-        pos.y = setPosY + hoverPow * 2;
-        transform.localPosition = pos;
+            Vector2 pos = transform.localPosition;
+            pos.y = setPosY + hoverPow * 2;
+            transform.localPosition = pos;
+        }
     }
 }

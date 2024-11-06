@@ -5,8 +5,9 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
-    private bool b_start = false;
     private string s_nowSceneName = "";
+
+    private TimeBar timeBar;
 
     private PlaySound playSound;
 
@@ -14,23 +15,14 @@ public class GameManager : MonoBehaviour
 
     private void Awake()
     {
-        if (GameObject.Find("AudioCanvas") != null)
-        {
-            playSound = GameObject.Find("AudioCanvas").GetComponent<PlaySound>();
-        }
-        else
-        {
-            Debug.Log("audioなし");
-        }
-
-        b_start = false;
+        GameData.GameEntity.b_playNow = false;
+        playSound = GameObject.Find("AudioCanvas").GetComponent<PlaySound>();
 
         s_nowSceneName = SceneManager.GetActiveScene().name;    //シーン名を取得
         switch (s_nowSceneName)
         {
             case "Title":
                 playSound.PlayBGM(PlaySound.BGM_TYPE.title_stageSelect);
-                Time.timeScale = 1;
                 break;
 
             case "Talk":
@@ -44,12 +36,13 @@ public class GameManager : MonoBehaviour
 
         if (s_nowSceneName.Contains("Stage"))
         {
+            timeBar = GameObject.Find("Timebar").GetComponent<TimeBar>();
             playSound.PlayBGM(PlaySound.BGM_TYPE.stage1);
             playSound.PlaySE(PlaySound.SE_TYPE.start);
-            Time.timeScale = 0;
         }
         else if(s_nowSceneName.Contains("Tutorial"))
         {
+            timeBar = GameObject.Find("Timebar").GetComponent<TimeBar>();
             quick = GameObject.Find("GuideCanvas").GetComponent<QuickGuideMenu>();
 
             playSound.PlayBGM(PlaySound.BGM_TYPE.stage1);
@@ -101,6 +94,7 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         ModeData.ModeEntity.mode = ModeData.Mode.normal;
+
     }
 
     void Update()
@@ -108,28 +102,46 @@ public class GameManager : MonoBehaviour
         //デバッグ用機能
         if (Input.GetKey(KeyCode.LeftShift))
         {
+            //timescaleを強制的に変更
             if (Input.GetKeyDown(KeyCode.T))
             {
-                Debug.Log("時間変更");
+                Debug.Log("timescale強制変更");
                 Time.timeScale = Time.timeScale == 0 ? 1 : 0;
             }
+
+            //チュートリアルステージを強制的にプレイした状態にする
+            if (Input.GetKeyDown(KeyCode.D))
+            {
+                DebugOption();
+                Debug.Log("チュートリアル情報を初期化");
+            }
         }
+
         Debug.Log(ModeData.ModeEntity.mode);
     }
 
+    private void DebugOption()
+    {
+        TutorialData.TutorialEntity.frags &= TutorialData.Tutorial_Frags.clip;
+        TutorialData.TutorialEntity.frags &= TutorialData.Tutorial_Frags.block;
+        TutorialData.TutorialEntity.frags &= TutorialData.Tutorial_Frags.copy;
+        TutorialData.TutorialEntity.frags &= TutorialData.Tutorial_Frags.blower;
+        TutorialData.TutorialEntity.frags &= TutorialData.Tutorial_Frags.move;
+        TutorialData.TutorialEntity.frags &= TutorialData.Tutorial_Frags.button;
+        TutorialData.TutorialEntity.frags &= TutorialData.Tutorial_Frags.other;
+    }
 
     public void OnStart()
     {
-        if (!b_start)
+        if (!GameData.GameEntity.b_playNow)
         {
-            Time.timeScale = 1;
-            b_start = true;
+            timeBar.OnReStart();
+            GameData.GameEntity.b_playNow = true;
         }
     }
 
     public void OnReset()
     {
-        b_start = false;
-        Time.timeScale = 0;
+        GameData.GameEntity.b_playNow = false;
     }
 }

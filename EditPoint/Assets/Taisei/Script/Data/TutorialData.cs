@@ -35,8 +35,9 @@ public class TutorialData : ScriptableObject
         blower = 1 << 3,
         move = 1 << 4,
         button = 1 << 5,
-        other = 1 << 6
+        other = 1 << 6,
     }
+    //末尾にマックスのやつ作って要素数を取得できるように
 
     public Tutorial_Frags frags;
 }

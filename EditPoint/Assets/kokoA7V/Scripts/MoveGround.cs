@@ -20,7 +20,9 @@ public class MoveGround : MonoBehaviour
     [SerializeField] private TimeData timeData;
     private float f_test = 0f;
     Vector3 startPos;
-    float saveTime = 0;
+
+    //スタートを押して一回目かどうか
+    private bool b_start = false;
 
     private void Start()
     {
@@ -38,38 +40,47 @@ public class MoveGround : MonoBehaviour
         //自動
         if (!timeData.b_DragMode)
         {
-            // 移動用
-            Vector3 movePos = this.transform.position;
-
-            Vector3 dist = path[nowPath + 1] - path[nowPath];
-            if (nowPath + 1 == path.Count - 1)
+            //再生中のみ
+            if (GameData.GameEntity.b_playNow)
             {
-                dist = path[0] - path[nowPath];
-            }
-            Vector3 moveSpeed = dist / pathTime[nowPath];
-            movePos += moveSpeed * Time.deltaTime * speed * playSpeed;
-
-            this.transform.position = movePos;
-
-
-
-            // 時間管理
-            timer -= Time.deltaTime * speed * playSpeed;
-
-            if (timer <= 0)
-            {
-                nowPath++;
-                if (nowPath == path.Count - 1)
+                if (!b_start)
                 {
-                    nowPath = 0;
+                    this.transform.position = startPos;
+                    b_start = true;
                 }
-                //Debug.Log(nowPath + " 到着");
-                timer = pathTime[nowPath];
+
+                // 移動用
+                Vector3 movePos = this.transform.position;
+
+                Vector3 dist = path[nowPath + 1] - path[nowPath];
+                if (nowPath + 1 == path.Count - 1)
+                {
+                    dist = path[0] - path[nowPath];
+                }
+                Vector3 moveSpeed = dist / pathTime[nowPath];
+                movePos += moveSpeed * Time.deltaTime * speed * playSpeed;
+
+                this.transform.position = movePos;
+
+                // 時間管理
+                timer -= Time.deltaTime * speed * playSpeed;
+
+                if (timer <= 0)
+                {
+                    nowPath++;
+                    if (nowPath == path.Count - 1)
+                    {
+                        nowPath = 0;
+                    }
+                    //Debug.Log(nowPath + " 到着");
+                    timer = pathTime[nowPath];
+                }
             }
         }
         //手動
         else
         {
+            b_start = false;
             //↓ゴリ押し(ブロックの動く座標が3か所になったら上手くいくかわからない)
             f_test = manualClipTime;
             int i = 0;
@@ -108,7 +119,6 @@ public class MoveGround : MonoBehaviour
             Vector3 movePos = moveSpeed * f_test * speed * playSpeed;
 
             this.transform.position = startPos + movePos;
-
 
         }
     }
