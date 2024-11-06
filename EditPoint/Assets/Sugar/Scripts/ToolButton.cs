@@ -53,7 +53,10 @@ public class ToolButton : MonoBehaviour
     public void BackSelect()
     {
         // フェード
-        clpObj.SetActive(true);
-        clapper.SceneName = "Select";
+        //clpObj.SetActive(true);
+        //clapper.SceneName = "Select";
+        fade.FadeIn(0.5f, () => {
+            SceneManager.LoadScene("Select");
+        });
     }
 }

@@ -25,12 +25,17 @@ public class ClearNextButton : MonoBehaviour
             // 現在シーンの次のシーン名を取得
             if(nowStageName==std.STAGE_DATA[i].StageSceneName)
             {
+                Debug.Log("DATA" + i);
+                Debug.Log(std.STAGE_DATA.Count);
                 // 最大値を越したら0に戻す
-                if(i == std.STAGE_DATA.Count - 1)
+                if (i+1 == std.STAGE_DATA.Count)
                 {
-                    i = 0;
+                    NextStageName = std.STAGE_DATA[0].StageSceneName;
                 }
-                NextStageName = std.STAGE_DATA[i + 1].StageSceneName;
+                else
+                {
+                    NextStageName = std.STAGE_DATA[i + 1].StageSceneName;
+                }
             }
         }
     }

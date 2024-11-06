@@ -18,7 +18,7 @@ public class ClapperStart : MonoBehaviour
     [SerializeField] Animator animator;
     [SerializeField] GameObject clearCanvas;
     float ofsY;
-    private int num = 999;
+    private int num = 1000;
     [SerializeField]bool isSelectMode = false;
     string name;
 
@@ -26,8 +26,8 @@ public class ClapperStart : MonoBehaviour
 
     private void Start()
     {
-        // 選択シーンじゃないなら最初からスタート
-        if (!isSelectMode) { num = 0; }
+        // ゴールタイミングを待つ
+        if (!isSelectMode) { num = -1; }
     }
     // Update is called once per frame
     void Update()
@@ -86,10 +86,23 @@ public class ClapperStart : MonoBehaviour
         }
     }
 
+    public int GoalFlg
+    {
+        set
+        {
+            num = value;
+        }
+    }
+
     public void EndAnim()
     {
         // クリア判定
         num=999;
+
+        if(isSelectMode)
+        {
+            num = 3;
+        }
     }
         
 }
