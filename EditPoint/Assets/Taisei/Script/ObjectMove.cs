@@ -40,7 +40,14 @@ public class ObjectMove : MonoBehaviour
 
     void Start()
     {
-        playSound = GameObject.Find("AudioCanvas").GetComponent<PlaySound>();
+        if (GameObject.Find("AudioCanvas") != null)
+        {
+            playSound = GameObject.Find("AudioCanvas").GetComponent<PlaySound>();
+        }
+        else
+        {
+            Debug.Log("audio‚È‚µ");
+        }
     }
 
 
@@ -181,5 +188,10 @@ public class ObjectMove : MonoBehaviour
     public bool ReturnObjMove()
     {
         return b_objMove;
+    }
+
+    public GameObject ReturnClickObj()
+    {
+        return ClickObj;
     }
 }

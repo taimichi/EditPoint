@@ -14,7 +14,15 @@ public class GameManager : MonoBehaviour
 
     private void Awake()
     {
-        playSound = GameObject.Find("AudioCanvas").GetComponent<PlaySound>();
+        if (GameObject.Find("AudioCanvas") != null)
+        {
+            playSound = GameObject.Find("AudioCanvas").GetComponent<PlaySound>();
+        }
+        else
+        {
+            Debug.Log("audio‚È‚µ");
+        }
+
         b_start = false;
 
         s_nowSceneName = SceneManager.GetActiveScene().name;    //ƒV[ƒ“–¼‚ğæ“¾
