@@ -192,10 +192,10 @@ public class PlayerController : MonoBehaviour
 
     public void OnPlayerReset()
     {
+        mc.ResetMove();
         inputLR = 0;
         b_firstButton = false;
         transform.position = playerStartPos;
-        mc.ResetMove();
     }
 
     public void PlayerStop()

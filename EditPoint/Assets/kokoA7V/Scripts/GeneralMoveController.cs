@@ -73,34 +73,5 @@ public class GeneralMoveController : MonoBehaviour
         rb.velocity = resetVerocity;
     }
 
-    /// <summary>
-    /// タイムバーを手動で動かしたとき、プレイヤーの座標をタイムバーの時間の時の位置に動かすための計算
-    /// </summary>
-    public void FutureCalculation(float maxTime)
-    {
-        //注意　旧型式のスクリプトを使用するとビルド時にエラーが起こる
-        //Physics2D.autoSimulation = false;
-        //float time = 0f;
-        //float deltaTime = Time.fixedDeltaTime;
-
-        //while (time < maxTime)
-        //{
-        //    Physics2D.Simulate(deltaTime);
-        //    time += deltaTime;
-        //}
-
-
-
-        //Physics2D.autoSimulation = true;
-
-    }
-
-    /// <summary>
-    /// タイムバーを手動で巻き戻したときの計算
-    /// </summary>
-    public void BackToTheFutureCalculation(float _time)
-    {
-
-    }
 
 }

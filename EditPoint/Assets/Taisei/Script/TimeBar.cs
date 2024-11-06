@@ -17,6 +17,8 @@ public class TimeBar : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragH
     private float f_nowTime = 0;
     private bool b_dragMode = false;
 
+    private PlayerController plController;
+
     private void Awake()
     {
         TimeData.TimeEntity.b_DragMode = b_dragMode;
@@ -29,6 +31,7 @@ public class TimeBar : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragH
         v2_nowPos = barPos.localPosition;
         v2_startPos = barPos.localPosition;
         f_limitPos = v2_startPos.x + (limit * 2 * TimelineData.TimelineEntity.f_oneTickWidht);
+        plController = GameObject.Find("Player").GetComponent<PlayerController>();
     }
 
     void Update()
@@ -49,6 +52,7 @@ public class TimeBar : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragH
             else
             {
                 //éûä‘ÇÃå¿äEéûÇÃèàóù
+                plController.PlayerStop();
             }
         }
         else
