@@ -15,7 +15,15 @@ public class BlowerController : MonoBehaviour
 
     private void Update()
     {
-        if (ModeData.ModeEntity.mode == ModeData.Mode.normal || ModeData.ModeEntity.mode == ModeData.Mode.blowerControll)
+        //再生中は編集機能をロック
+        if (GameData.GameEntity.b_playNow)
+        {
+            ModeData.ModeEntity.mode = ModeData.Mode.normal;
+            return;
+        }
+
+
+        if (ModeData.ModeEntity.mode == ModeData.Mode.normal || ModeData.ModeEntity.mode == ModeData.Mode.moveANDdirect)
         {
             if (Input.GetMouseButtonDown(0))
             {
@@ -29,7 +37,7 @@ public class BlowerController : MonoBehaviour
                     {
                         nowBlower = _blower;
                         nowDir = (int)nowBlower.dir;
-                        ModeData.ModeEntity.mode = ModeData.Mode.blowerControll;
+                        ModeData.ModeEntity.mode = ModeData.Mode.moveANDdirect;
                     }
                     else
                     {

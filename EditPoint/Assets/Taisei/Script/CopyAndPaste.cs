@@ -43,7 +43,7 @@ public class CopyAndPaste : MonoBehaviour
     [SerializeField] private bool b_Lock = false;
 
     private ClipPlay clipPlay;
-    private GetCopyObj gpo;
+    private GetCopyObj gco;
 
 
     void Start()
@@ -56,6 +56,13 @@ public class CopyAndPaste : MonoBehaviour
 
     void Update()
     {
+        //再生中は編集機能をロック
+        if (GameData.GameEntity.b_playNow)
+        {
+            ModeData.ModeEntity.mode = ModeData.Mode.normal;
+            return;
+        }
+
         //コピーモードの時
         if (ModeData.ModeEntity.mode == ModeData.Mode.copy)
         {
@@ -93,8 +100,8 @@ public class CopyAndPaste : MonoBehaviour
 
                     if(CopyObj.GetComponent<GetCopyObj>() == true)
                     {
-                        gpo = CopyObj.GetComponent<GetCopyObj>();
-                        clipPlay = gpo.ReturnAttachClip().GetComponent<ClipPlay>();
+                        gco = CopyObj.GetComponent<GetCopyObj>();
+                        clipPlay = gco.ReturnAttachClip().GetComponent<ClipPlay>();
                         clipPlay.OutGetObj(PasteObj);
                     }
 
@@ -237,6 +244,12 @@ public class CopyAndPaste : MonoBehaviour
     //コピーボタンを押した時
     public void OnCopy()
     {
+        //再生中の時は編集機能をロック
+        if (GameData.GameEntity.b_playNow)
+        {
+            return;
+        }
+
         if (!b_Lock)
         {
             if (ModeData.ModeEntity.mode != ModeData.Mode.copy)

@@ -67,8 +67,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_FontData:
-    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-    m_FontSize: 50
+    m_Font: {fileID: 12800000, guid: d341e9ddb861c37469e9315f6ae2b7f3, type: 3}
+    m_FontSize: 45
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 3
@@ -191,7 +191,7 @@ MonoBehaviour:
   targetImage: {fileID: 4323194755857948600}
   f_minSize: 350
   f_maxSize: 4200
-  f_edgeRange: 100
+  f_edgeRange: 40
   timelineData: {fileID: 11400000, guid: 212fd9ad069de2a4bb63e85b77a3a9a7, type: 2}
   b_Lock: 0
 --- !u!114 &4323194755857948604

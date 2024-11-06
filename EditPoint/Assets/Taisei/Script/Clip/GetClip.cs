@@ -32,12 +32,6 @@ public class GetClip : MonoBehaviour
     {
         if (Input.GetMouseButtonDown(0))
         {
-            if (Clip != null)
-            {
-                BlinkImageObj.SetActive(false);
-                Clip = null;
-            }
-
             PointerEventData pointData = new PointerEventData(eventSystem);
             pointData.position = Input.mousePosition;
 
@@ -49,9 +43,15 @@ public class GetClip : MonoBehaviour
             {
                 isTagHit = new List<string> { "CreateClip", "SetClip", "Timebar"}.Contains(result.gameObject.tag);
 
-                if (isTagHit)
+                if(isTagHit)
                 {
-                    if (result.gameObject.tag != "Timebar")
+                    //タイムバーに触れた時はforeachから即抜け出す
+                    if (result.gameObject.tag == "Timebar")
+                    {
+                        break;
+                    }
+                    //クリップだったときの処理
+                    else
                     {
                         if (Clip != null && Clip != result.gameObject)
                         {
@@ -65,6 +65,7 @@ public class GetClip : MonoBehaviour
             }            
         }
 
+        //クリップ削除
         if (Input.GetKeyDown(KeyCode.Delete))
         {
             if (Clip != null)

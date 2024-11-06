@@ -45,6 +45,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   lm:
     serializedVersion: 2
-    m_Bits: 128
+    m_Bits: 256
   nowBlower: {fileID: 0}
   nowDir: 0

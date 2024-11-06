@@ -9,7 +9,6 @@ public class ClipFunction : MonoBehaviour
     {
         normal,
         cut,
-        delete
     }
     private MODE_TYPE mode = MODE_TYPE.normal;
 
@@ -71,6 +70,12 @@ public class ClipFunction : MonoBehaviour
     /// </summary>
     public void OnCut()
     {
+        //再生中は編集機能をロック
+        if (GameData.GameEntity.b_playNow)
+        {
+            return;
+        }
+
         Clip = GetClip.ReturnGetClip();
         RectTransform clipRect = Clip.GetComponent<RectTransform>();
 
@@ -85,17 +90,11 @@ public class ClipFunction : MonoBehaviour
             Vector3 leftEdge = grandParentRect.InverseTransformPoint(clipRect.position) 
                 + new Vector3(clipRect.rect.width * clipRect.pivot.x, 0, 0);
             float dis = Timebar.localPosition.x - leftEdge.x;
+            Debug.Log("左から" + dis);
         }
 
 
 
     }
 
-    /// <summary>
-    /// クリップ削除機能　ボタンで呼び出す
-    /// </summary>
-    public void OnDelete()
-    {
-        mode = MODE_TYPE.delete;
-    }
 }

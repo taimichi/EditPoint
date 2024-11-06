@@ -3035,7 +3035,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   L_LayerMask:
     serializedVersion: 2
-    m_Bits: 128
+    m_Bits: 384
 --- !u!114 &5500888277332905351
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3049,10 +3049,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   anim: {fileID: 1716000904443615251}
+  mc: {fileID: 0}
   moveSpeed: 2.5
   inputLR: 0
   manual: 1
   timeData: {fileID: 11400000, guid: e17019f28d5feae45902e2a830dada68, type: 2}
+  NoSignalCanvas: {fileID: 0}
 --- !u!114 &243569006782596961
 MonoBehaviour:
   m_ObjectHideFlags: 0

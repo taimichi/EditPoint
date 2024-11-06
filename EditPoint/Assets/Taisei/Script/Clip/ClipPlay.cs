@@ -189,7 +189,6 @@ public class ClipPlay : MonoBehaviour
 
     private void FixedUpdate()
     {
-        ClipPlayNow();
 
     }
 
@@ -198,7 +197,12 @@ public class ClipPlay : MonoBehaviour
     public void OutGetObj(GameObject _outGetObj)
     {
         ConnectObj.Add(_outGetObj);
-        clipName.text = "中身のあるクリップ";
+        if (this.gameObject.tag == "CreateClip")
+        {
+            clipName.text = "中身のあるクリップ";
+        }
+        gpo = _outGetObj.GetComponent<GetCopyObj>();
+        gpo.GetAttachClip(this.gameObject);
         checkClip = _outGetObj.GetComponent<CheckClipConnect>();
         checkClip.ConnectClip();
     }
@@ -208,22 +212,35 @@ public class ClipPlay : MonoBehaviour
     /// </summary>
     private void ClipPlayNow()
     {
-        if (CheckOverrap(rect_Clip, rect_timeBar))
+        if (GameData.GameEntity.b_playNow)
         {
-            //タイムバーと接触しているとき
-            for (int i = 0; i < ConnectObj.Count; i++)
+            if (CheckOverrap(rect_Clip, rect_timeBar))
             {
-                ConnectObj[i].SetActive(true);
+                //タイムバーと接触しているとき
+                for (int i = 0; i < ConnectObj.Count; i++)
+                {
+                    ConnectObj[i].SetActive(true);
+                }
+                f_timer += Time.deltaTime;
             }
-            f_timer += Time.deltaTime;
-        }
-        else
-        {
-            //タイムバーと接触していないとき
-            for (int i = 0; i < ConnectObj.Count; i++)
+            else
             {
-                ConnectObj[i].SetActive(false);
+                //タイムバーと接触していないとき
+                for (int i = 0; i < ConnectObj.Count; i++)
+                {
+                    if (ConnectObj[i].name.Contains("MoveGround"))
+                    {
+                        //プレイヤーがMoveGroundの子オブジェクトになってる時
+                        if (ConnectObj[i].transform.Find("Player") != null)
+                        {
+                            //子オブジェクトを解除する
+                            ConnectObj[i].transform.Find("Player").gameObject.transform.parent = null;
+                        }
+                    }
 
+                    ConnectObj[i].SetActive(false);
+
+                }
             }
         }
     }
@@ -236,7 +253,16 @@ public class ClipPlay : MonoBehaviour
     {
         for(int i = 0; i < ConnectObj.Count; i++)
         {
-            Destroy(ConnectObj[i]);
+            if (ConnectObj[i].name.Contains("MoveGround"))
+            {
+                //プレイヤーがMoveGroundの子オブジェクトになってる時
+                if (ConnectObj[i].transform.Find("Player") != null)
+                {
+                    //子オブジェクトを解除する
+                    ConnectObj[i].transform.Find("Player").gameObject.transform.parent = null;
+                }
+            }
+        Destroy(ConnectObj[i]);
         }
     }
 

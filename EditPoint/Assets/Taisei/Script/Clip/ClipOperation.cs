@@ -140,6 +140,12 @@ public class ClipOperation : MonoBehaviour, IDragHandler, IBeginDragHandler, IEn
 
     public void OnBeginDrag(PointerEventData eventData)
     {
+        //再生中は編集機能をロック
+        if (GameData.GameEntity.b_playNow)
+        {
+            return;
+        }
+
         if (!b_Lock)
         {
             v2_initSizeDelta = targetImage.sizeDelta;
@@ -147,18 +153,18 @@ public class ClipOperation : MonoBehaviour, IDragHandler, IBeginDragHandler, IEn
                 targetImage,
                 eventData.position,
                 eventData.pressEventCamera,
-                out Vector2 localMousePosition
+                out Vector2 localMousePos
             );
 
             // マウス位置が画像の右端か左端かをチェック
-            if (Mathf.Abs(localMousePosition.x - (-targetImage.rect.width * targetImage.pivot.x)) <= f_edgeRange)
+            if (Mathf.Abs(localMousePos.x - (-targetImage.rect.width * targetImage.pivot.x)) <= f_edgeRange)
             {
                 // 左端
                 SetPivot(targetImage, new Vector2(1, 0.5f));
                 b_ResizeRight = false;
                 mode = CLIP_MODE.resize;
             }
-            else if (Mathf.Abs(localMousePosition.x - (targetImage.rect.width * (1 - targetImage.pivot.x))) <= f_edgeRange)
+            else if (Mathf.Abs(localMousePos.x - (targetImage.rect.width * (1 - targetImage.pivot.x))) <= f_edgeRange)
             {
                 // 右端
                 SetPivot(targetImage, new Vector2(0, 0.5f));
@@ -170,6 +176,7 @@ public class ClipOperation : MonoBehaviour, IDragHandler, IBeginDragHandler, IEn
                 // 端以外の場合はリサイズを無効化、クリップ移動モードにする
                 mode = CLIP_MODE.move;
                 SetPivot(targetImage, new Vector2(0, 0.5f));
+                v2_moveOffset.x = targetImage.position.x - localMousePos.x;
             }
 
             if (mode == CLIP_MODE.resize)
@@ -186,6 +193,12 @@ public class ClipOperation : MonoBehaviour, IDragHandler, IBeginDragHandler, IEn
 
     public void OnDrag(PointerEventData eventData)
     {
+        //再生中は編集機能をロック
+        if (GameData.GameEntity.b_playNow)
+        {
+            return;
+        }
+
         if (!b_Lock)
         {
             if (mode != CLIP_MODE.resize)
@@ -206,7 +219,7 @@ public class ClipOperation : MonoBehaviour, IDragHandler, IBeginDragHandler, IEn
 
 
                 //ドット移動用
-                CalculationWidth(v2_mousePos.x);
+                CalculationWidth(v2_mousePos.x + v2_moveOffset.x);
                 CalculationHeight(v2_mousePos.y);
 
                 //タイムラインの範囲外に出た時
@@ -271,6 +284,12 @@ public class ClipOperation : MonoBehaviour, IDragHandler, IBeginDragHandler, IEn
 
     public void OnEndDrag(PointerEventData eventData)
     {
+        //再生中は編集機能をロック
+        if (GameData.GameEntity.b_playNow)
+        {
+            return;
+        }
+
         if (!b_Lock)
         {
             //重なった場合

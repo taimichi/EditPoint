@@ -15,10 +15,7 @@ public class CheckClipConnect : MonoBehaviour
     {
         if (!b_connect)
         {
-            if (Time.timeScale == 1)
-            {
-                this.gameObject.SetActive(false);
-            }
+            this.gameObject.SetActive(false);
         }
     }
 

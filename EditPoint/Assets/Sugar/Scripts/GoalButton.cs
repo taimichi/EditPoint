@@ -10,17 +10,11 @@ public class GoalButton : MonoBehaviour
     public void StartGoalButton()
     {
         goalObj.SetActive(true);
-
-        // ŠÔ’â~
-        Time.timeScale = 0;
     }
 
     // –Ú•WŠm”F‚ğ•Â‚¶‚é
     public void EndGoalButton()
     {
         goalObj.SetActive(false);
-
-        // ŠÔÄ¶
-        Time.timeScale = 1;
     }
 }

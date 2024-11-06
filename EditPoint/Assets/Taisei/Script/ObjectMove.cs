@@ -5,12 +5,16 @@ using UnityEngine.EventSystems;
 
 public class ObjectMove : MonoBehaviour
 {
+    [SerializeField] private LayerMask lm;
+
 
     //マウス座標
-    private Vector3 v3_pos;
     private Vector3 v3_scrWldPos;
     //取得したオブジェクトの元の座標
     private Vector3 v3_objPos;
+
+    private Vector3 v3_mousePos;
+    private Vector3 v3_offset;
 
     //単体移動
     private GameObject Obj;
@@ -42,13 +46,20 @@ public class ObjectMove : MonoBehaviour
 
     void Update()
     {
+        //再生中は編集機能をロック
+        if (GameData.GameEntity.b_playNow)
+        {
+            ModeData.ModeEntity.mode = ModeData.Mode.normal;
+            return;
+        }
+
         if (!b_objSetMode)
         {
             if (Input.GetMouseButtonDown(0) && 
-                (ModeData.ModeEntity.mode == ModeData.Mode.normal || ModeData.ModeEntity.mode == ModeData.Mode.blowerControll))
+                (ModeData.ModeEntity.mode == ModeData.Mode.normal || ModeData.ModeEntity.mode == ModeData.Mode.moveANDdirect))
             {
                 Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-                RaycastHit2D hit2d = Physics2D.Raycast((Vector2)ray.origin, (Vector2)ray.direction);
+                RaycastHit2D hit2d = Physics2D.Raycast((Vector2)ray.origin, (Vector2)ray.direction, Mathf.Infinity, lm);
 
                 if (EventSystem.current.IsPointerOverGameObject())
                 {
@@ -98,6 +109,8 @@ public class ObjectMove : MonoBehaviour
                     ClickObj = hit2d.collider.transform.parent.gameObject;
 
                 }
+                v3_mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                v3_offset = ClickObj.transform.position - v3_mousePos;
                 playSound.PlaySE(PlaySound.SE_TYPE.select);
 
                 if (hit2d)
@@ -133,11 +146,9 @@ public class ObjectMove : MonoBehaviour
             {
                 if (Input.GetMouseButton(0))
                 {
-                    v3_pos = Input.mousePosition;
-                    v3_pos.z = 10;
-
-                    v3_scrWldPos = Camera.main.ScreenToWorldPoint(v3_pos);
-                    Obj.transform.position = v3_scrWldPos;
+                    v3_scrWldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                    v3_scrWldPos.z = 10;
+                    Obj.transform.position = v3_scrWldPos + v3_offset;
 
                 }
                 else if (Input.GetMouseButtonUp(0))
