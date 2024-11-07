@@ -3986,6 +3986,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6874354766139732196, guid: a21fe513849ddc64e93385872eb3335d, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a21fe513849ddc64e93385872eb3335d, type: 3}
 --- !u!1001 &524110990
@@ -17154,6 +17158,7 @@ MonoBehaviour:
   spdY: -1
   fade: {fileID: 0}
   animator: {fileID: 278548849285281506}
+  clearCanvas: {fileID: 0}
   isSelectMode: 1
 --- !u!1 &1737912964343472201
 GameObject:

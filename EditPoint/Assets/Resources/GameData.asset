@@ -13,3 +13,4 @@ MonoBehaviour:
   m_Name: GameData
   m_EditorClassIdentifier: 
   b_playNow: 0
+  b_timebarReset: 0
