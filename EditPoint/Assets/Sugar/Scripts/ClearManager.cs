@@ -65,7 +65,7 @@ public class ClearManager : MonoBehaviour
                 if (ClearPanel.color.a < 0.9f)
                 {
                     ClearPanel = UAnim.anim_Fade_I(ClearPanel, Fadespd);
-                    sizeA += 150;
+                    sizeA += 200;
                     ClearPanel.rectTransform.sizeDelta = new Vector2(sizeA,sizeA);
                 }
                 else
