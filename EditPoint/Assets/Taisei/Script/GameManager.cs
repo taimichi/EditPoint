@@ -110,6 +110,7 @@ public class GameManager : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.D) && b_debug)
             {
                 DebugOption();
+                GameData.GameEntity.b_timebarReset = false;
                 Debug.Log("チュートリアル情報を初期化");
             }
         }

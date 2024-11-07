@@ -58,11 +58,6 @@ public class FallUI : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.T))
-        {
-            FadeStart();
-        }
-
         if (startFade)
         {
             if (!fade)

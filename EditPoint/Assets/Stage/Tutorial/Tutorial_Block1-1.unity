@@ -6388,10 +6388,22 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1040107505, guid: 407ea158a887c10498356f692359ce3f, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1040107507, guid: 407ea158a887c10498356f692359ce3f, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 46972530}
+    - target: {fileID: 3422465424388791781, guid: 407ea158a887c10498356f692359ce3f, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3422465425267610121, guid: 407ea158a887c10498356f692359ce3f, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4236125589936076818, guid: 407ea158a887c10498356f692359ce3f, type: 3}
       propertyPath: m_IsActive
       value: 0
@@ -6411,6 +6423,22 @@ PrefabInstance:
     - target: {fileID: 5727699877043936191, guid: 407ea158a887c10498356f692359ce3f, type: 3}
       propertyPath: m_Color.a
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8014358231511110945, guid: 407ea158a887c10498356f692359ce3f, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8014358231511110947, guid: 407ea158a887c10498356f692359ce3f, type: 3}
+      propertyPath: m_Text
+      value: "\u30FB\u518D\u751F\u30DC\u30BF\u30F3\u3092\u62BC\u3059\u3068 \u3000\u30D7\u30EC\u30A4\u30E4\u30FC\u304C\u52D5\u304D\u51FA\u3059\u305E"
+      objectReference: {fileID: 0}
+    - target: {fileID: 8014358231705053396, guid: 407ea158a887c10498356f692359ce3f, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8014358231705053398, guid: 407ea158a887c10498356f692359ce3f, type: 3}
+      propertyPath: m_Text
+      value: "\u30FB\u30AF\u30EA\u30C3\u30D7\u306F\u52D5\u304B\u305B\u308B\uFF01\n\u3000\u9577\u3055\u3082\u5909\u3048\u3089\u308C\u308B\u305E\uFF01"
       objectReference: {fileID: 0}
     - target: {fileID: 8014358231774950546, guid: 407ea158a887c10498356f692359ce3f, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
@@ -6436,6 +6464,10 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 1790695397}
+    - target: {fileID: 8014358232698059624, guid: 407ea158a887c10498356f692359ce3f, type: 3}
+      propertyPath: m_Text
+      value: "\u30FB\u64CD\u4F5C\u65B9\u6CD5\u306A\u3069\u306F\u3053\u3061\u3089\u304B\u3089"
+      objectReference: {fileID: 0}
     - target: {fileID: 8014358232837590700, guid: 407ea158a887c10498356f692359ce3f, type: 3}
       propertyPath: m_RootOrder
       value: 12
