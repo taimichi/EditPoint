@@ -120,6 +120,8 @@ public class MoveGround : MonoBehaviour
             this.transform.position = startPos + movePos;
 
         }
+
+        CheckReset();
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -137,6 +139,20 @@ public class MoveGround : MonoBehaviour
         if (collision.gameObject.tag == "Player")
         {
             collision.transform.parent = null;
+        }
+    }
+
+    /// <summary>
+    /// タイムバーリセットがされたかどうか
+    /// </summary>
+    private void CheckReset()
+    {
+        if (GameData.GameEntity.b_timebarReset)
+        {
+            this.transform.position = path[0];
+            timer = pathTime[0];
+            nowPath = 0;
+            GameData.GameEntity.b_timebarReset = false;
         }
     }
 
