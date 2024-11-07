@@ -17,8 +17,8 @@ public class NoSignal : MonoBehaviour
 
         if (timer >= maxTime)
         {
-            //SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-            Reset();
+            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+            //Reset();
         }
 
         timer += Time.fixedDeltaTime;
