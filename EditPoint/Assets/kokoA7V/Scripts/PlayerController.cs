@@ -81,7 +81,7 @@ public class PlayerController : MonoBehaviour
         AnimPlay();
 
         //落下によるゲームオーバー
-        if (this.transform.position.y <= -25)
+        if (this.transform.position.y <= -15)
         {
             if (!b_deathed)
             {
@@ -93,17 +93,28 @@ public class PlayerController : MonoBehaviour
         //落下した時の処理
         if (b_deathed)
         {
-            //演出がまだ
-            //newスーパーマリオ2の土管入って移動するときのようなイメージ
+            StartCoroutine(WaitFade());
 
-            OnPlayerReset();
-            TimeBar timeBar = GameObject.Find("Timebar").GetComponent<TimeBar>();
-            timeBar.OnReStart();
-            GameManager gm = GameObject.Find("GameManager").GetComponent<GameManager>();
-            gm.OnReset();
-
-            b_deathed = false;
         }
+    }
+
+    IEnumerator WaitFade()
+    {
+        //演出がまだ
+        //newスーパーマリオ2の土管入って移動するときのようなイメージ
+        FallUI fallUI = GameObject.Find("GameManager").GetComponent<FallUI>();
+        fallUI.FadeStart();
+
+        yield return new WaitForSeconds(0.3f);
+        //遅らせたい処理
+        OnPlayerReset();
+        TimeBar timeBar = GameObject.Find("Timebar").GetComponent<TimeBar>();
+        timeBar.OnReStart();
+        GameManager gm = GameObject.Find("GameManager").GetComponent<GameManager>();
+        gm.OnReset();
+
+        b_deathed = false;
+
     }
 
     void AnimPlay()
