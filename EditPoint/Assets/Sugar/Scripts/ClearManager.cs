@@ -66,7 +66,7 @@ public class ClearManager : MonoBehaviour
                     num++;
                 break;
             case 2:
-                if (BtnGroup.anchoredPosition.x >= TargetPos.x)
+                if (BtnGroup.anchoredPosition.y <= TargetPos.y)
                     BtnGroup = UAnim.anim_PosChange(BtnGroup, spdX, spdY);
                 else
                 {
