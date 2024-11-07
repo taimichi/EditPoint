@@ -5,7 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class GoalController : MonoBehaviour
 {
-    [SerializeField] private GameObject ClearCanvas;
+    [SerializeField] ClapperStart clStart;
     private PlayerController plController;
 
     private PlaySound playSound;
@@ -24,7 +24,8 @@ public class GoalController : MonoBehaviour
             {
                 playSound.PlaySE(PlaySound.SE_TYPE.gool);
                 plController.PlayerStop();
-                ClearCanvas.SetActive(true);
+                // ゴールタイミングを知らせる
+                clStart.GoalFlg = 2;
             }
         }
     }
