@@ -28,4 +28,9 @@ public class GameData : ScriptableObject
     /// </summary>
     public bool b_playNow = false;
 
+    /// <summary>
+    /// タイムバーリセットをしたかどうか
+    /// </summary>
+    public bool b_timebarReset = false;
+
 }
