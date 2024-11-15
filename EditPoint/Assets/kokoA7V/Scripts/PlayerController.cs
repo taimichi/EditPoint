@@ -214,6 +214,10 @@ public class PlayerController : MonoBehaviour
 
     public void OnPlayerReset()
     {
+        Vector3 scale = this.transform.localScale;
+        scale.x = Mathf.Abs(scale.x) * 1;
+        this.transform.localScale = scale;
+
         mc.ResetMove();
         inputLR = 0;
         b_firstButton = false;

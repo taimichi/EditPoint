@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 6483252867048278469}
   - component: {fileID: 4466611139062840557}
   - component: {fileID: 6874354766139732196}
+  - component: {fileID: 4437047612105018477}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -95,6 +96,18 @@ MonoBehaviour:
   FallCanvas: {fileID: 9113466894234348516}
   FadeInImage: {fileID: 9113466893978378898}
   FadeOutImage: {fileID: 9113466893473931645}
+--- !u!114 &4437047612105018477
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6483252867048278464}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 073ffc5f095205e46a8d85f36c0ca89e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &5002694708727626127
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -11,12 +11,6 @@ public class ClipPlay : MonoBehaviour
     [SerializeField] private RectTransform rect_Clip;
     [SerializeField] private Text clipName;
 
-    private float f_timer = 0;
-    /// <summary>
-    /// クリップを再生するかどうか
-    /// </summary>
-    private bool b_clipPlay = false;
-
     [SerializeField] private List<GameObject> ConnectObj = new List<GameObject>();
 
     private GameObject AllClip;
@@ -42,10 +36,14 @@ public class ClipPlay : MonoBehaviour
     private float startTime = 0f;
     private float maxTime = 0f;
 
-    void Start()
+    private void Awake()
     {
         startTime = 0f;
         f_manualTime = 0f;
+    }
+
+    void Start()
+    {
         rect_grandParent = rect_Clip.parent.parent.GetComponent<RectTransform>();
 
         //タイムバーのRectTransformを取得
@@ -82,11 +80,12 @@ public class ClipPlay : MonoBehaviour
             }
         }
 
-        maxTime = rect_Clip.rect.width / (TimelineData.TimelineEntity.f_oneTickWidht * 2);
+        CalculationMaxTime();
     }
 
     private void Update()
     {
+        CalculationMaxTime();
         speed = clipSpeed.ReturnPlaySpeed();
 
         //クリップに紐づくオブジェクトがないときがないとき
@@ -177,7 +176,18 @@ public class ClipPlay : MonoBehaviour
                     if (ConnectObj[i].GetComponent<MoveGround>())
                     {
                         move = ConnectObj[i].GetComponent<MoveGround>();
-                        move.GetClipTime(f_manualTime);
+                        move.GetClipTime_Manual(f_manualTime);
+                    }
+                }
+            }
+            else
+            {
+                for (int i = 0; i < ConnectObj.Count; i++)
+                {
+                    if (ConnectObj[i].GetComponent<MoveGround>())
+                    {
+                        move = ConnectObj[i].GetComponent<MoveGround>();
+                        move.GetClipTime_Auto(startTime);
                     }
                 }
             }
@@ -186,13 +196,29 @@ public class ClipPlay : MonoBehaviour
         ClipPlayNow();
     }
 
-    private void FixedUpdate()
+    /// <summary>
+    /// オブジェクトとの紐づけを解除
+    /// </summary>
+    public void DestroyConnectObj()
     {
-
+        for(int i = 0; i < ConnectObj.Count; i++)
+        {
+            ConnectObj.Remove(ConnectObj[i]);
+        }
     }
 
+    /// <summary>
+    /// 紐づけたオブジェクトを取得
+    /// </summary>
+    public List<GameObject> ReturnConnectObj()
+    {
+        return ConnectObj;
+    }
 
-    //外部からのゲームオブジェクトを取得
+    /// <summary>
+    /// 外部からのゲームオブジェクトを取得
+    /// </summary>
+    /// <param name="_outGetObj">外部からのオブジェクト</param>
     public void OutGetObj(GameObject _outGetObj)
     {
         ConnectObj.Add(_outGetObj);
@@ -216,9 +242,12 @@ public class ClipPlay : MonoBehaviour
             //タイムバーと接触しているとき
             for (int i = 0; i < ConnectObj.Count; i++)
             {
-                ConnectObj[i].SetActive(true);
+                //非表示状態だったら
+                if (!ConnectObj[i].activeSelf)
+                {
+                    ConnectObj[i].SetActive(true);
+                }
             }
-            f_timer += startTime + Time.deltaTime;
         }
         else
         {
@@ -234,9 +263,21 @@ public class ClipPlay : MonoBehaviour
                         ConnectObj[i].transform.Find("Player").gameObject.transform.parent = null;
                     }
                 }
-                ConnectObj[i].SetActive(false);
+                //表示状態だったら
+                if (ConnectObj[i].activeSelf)
+                {
+                    ConnectObj[i].SetActive(false);
+                }
             }
         }
+    }
+
+    /// <summary>
+    /// クリップの最大時間を計算
+    /// </summary>
+    public void CalculationMaxTime()
+    {
+        maxTime = rect_Clip.rect.width / (TimelineData.TimelineEntity.f_oneTickWidht * 2);
     }
 
 
@@ -266,6 +307,15 @@ public class ClipPlay : MonoBehaviour
     public void UpdateStartTime(float _newStartTime)
     {
         startTime = _newStartTime;
+    }
+
+    /// <summary>
+    /// クリップの最大時間を返す
+    /// </summary>
+    /// <returns>クリップの最大時間</returns>
+    public float ReturnMaxTime()
+    {
+        return maxTime;
     }
 
     /// <summary>

@@ -7,13 +7,15 @@ using System;
 public class ClipFunction : MonoBehaviour
 {
     [SerializeField] private RectTransform Timebar;
-    private int cutCount = 0;
 
     [SerializeField] private GetClip GetClip;
 
     private GameObject Clip;
 
     private RectTransform grandParentRect;
+
+    private float old_maxTime = 0f;
+    private float new_maxTime = 0f;
 
     void Start()
     {
@@ -70,11 +72,12 @@ public class ClipFunction : MonoBehaviour
 
         Clip = GetClip.ReturnGetClip();
         RectTransform clipRect = Clip.GetComponent<RectTransform>();
+        ClipPlay clipPlay = Clip.GetComponent<ClipPlay>();
 
         //カット機能を使うのはクリップとタイムバーが重なってる時のみ
         if(IsOverlapping(clipRect, Timebar))
         {
-            cutCount++;
+            old_maxTime = clipPlay.ReturnMaxTime();
 
             grandParentRect = clipRect.parent.parent.GetComponent<RectTransform>();
 
@@ -90,7 +93,6 @@ public class ClipFunction : MonoBehaviour
             //タイムバーから右端までの長さ
             float newDis = clipRect.rect.width - dis;
 
-
             //カットした後の左側のクリップ
             clipRect.sizeDelta = new Vector2(dis, clipRect.rect.height);
 
@@ -101,9 +103,35 @@ public class ClipFunction : MonoBehaviour
             GameObject newClip = Instantiate(Clip, clipRect.localPosition, Quaternion.identity, this.gameObject.transform);
             newClip.name = Clip.name + "(CutClip)";
             RectTransform newClipRect = newClip.GetComponent<RectTransform>();
+            //カットしたクリップの長さを調整
             newClipRect.sizeDelta = new Vector2(newDis, newClipRect.rect.height);
+            //カットしたクリップの位置を調整
+            newClipRect.localPosition = new Vector2(rightEdge + 0.1f, clipRect.localPosition.y);
 
-            newClipRect.localPosition = new Vector2(rightEdge, clipRect.localPosition.y);
+            //一旦片方のクリップのオブジェクトとの紐づけを解除
+            ClipPlay newClipPlay = newClip.GetComponent<ClipPlay>();
+            newClipPlay.DestroyConnectObj();
+
+            List<GameObject> newConnectObj = clipPlay.ReturnConnectObj();
+
+            //クリップに紐づけられたオブジェクトを複製
+            for(int i = 0; i < newConnectObj.Count; i++)
+            {
+                GameObject obj = Instantiate(newConnectObj[i]);
+                newClipPlay.OutGetObj(obj);
+            }
+
+            //クリップの長さと速さの初期値を設定
+            ClipSpeed clipSpeed = Clip.GetComponent<ClipSpeed>();
+            clipSpeed.GetStartWidth(dis);
+            clipSpeed.UpdateSpeed(1f);
+            ClipSpeed newClipSpeed = newClip.GetComponent<ClipSpeed>();
+            newClipSpeed.GetStartWidth(newDis);
+            newClipSpeed.UpdateSpeed(1f);
+
+            clipPlay.CalculationMaxTime();
+            new_maxTime = clipPlay.ReturnMaxTime();
+            newClipPlay.UpdateStartTime(old_maxTime - new_maxTime);
 
         }
     }
