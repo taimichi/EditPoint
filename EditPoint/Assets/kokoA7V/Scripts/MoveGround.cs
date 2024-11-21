@@ -72,12 +72,12 @@ public class MoveGround : MonoBehaviour
                     if (!b_first)
                     {
                         int i = 0;
-                        while (autoClipTime >= pathTime[i])
+                        while (autoClipTime > pathTime[i])
                         {
                             nowPath++;
                             autoClipTime -= pathTime[i];
                             i++;
-                            if (i > pathTime.Count - 2)
+                            if (i > pathTime.Count - 1)
                             {
                                 nowPath = 0;
                                 i = 0;
@@ -110,7 +110,6 @@ public class MoveGround : MonoBehaviour
                     movePos = info.savePos;
                     info.saveTime = pathTime[nowPath] - (pathTime[nowPath] - autoClipTime);
                     timer = info.saveTime;
-                    Debug.Log("movepos " + info.savePos);
 
                     b_first = true;
                     info.isSave = true;
@@ -139,40 +138,31 @@ public class MoveGround : MonoBehaviour
         {
             b_start = false;
 
-            //↓ゴリ押し(ブロックの動く座標が3か所になったら上手くいくかわからない)
-            f_test = manualClipTime;
+            //↓手動で動かすときの処理　２点間なら動く(ブロックの動く座標が3か所になったら上手くいくかわからない)
+            f_test = manualClipTime / 2;
             int i = 0;
             while (f_test > pathTime[i])
             {
-                if (i > path.Count - 1)
-                {
-                    i = 0;
-                    f_test -= pathTime[i];
-                }
-                else
-                {
-                    f_test -= pathTime[i];
-                    i++;
-                }
-
-                if (i >= path.Count - 1)
+                f_test -= pathTime[i];
+                i++;
+                if (i >= pathTime.Count - 1)
                 {
                     i = 0;
                 }
             }
-
             if (i == pathTime.Count - 2)
             {
                 f_test = pathTime[i] - f_test;
             }
-            //↑ゴリ押しここまで
+            //↑仮処理ここまで
 
             // 移動用
             Vector3 dist = path[nowPath + 1] - path[nowPath];
             if (nowPath + 1 == path.Count - 1)
             {
-                dist = path[0] - path[nowPath];
+                dist = path[nowPath - 1] - path[nowPath];
             }
+
             Vector3 moveSpeed = dist / pathTime[nowPath];
             Vector3 movePos = moveSpeed * f_test * speed * playSpeed;
 
@@ -205,12 +195,9 @@ public class MoveGround : MonoBehaviour
     {
         if (GameData.GameEntity.b_timebarReset)
         {
-            //呼ばれない問題(11/15木曜)
-            Debug.Log(this.gameObject.name+ " " + info.isSave);
             //カットされたクリップの時
             if(info.isSave)
             {
-                Debug.Log("呼ばれた");
                 this.transform.position = info.savePos;
                 startPos = info.savePos;
                 nowPath = info.savePathNum;
@@ -222,10 +209,13 @@ public class MoveGround : MonoBehaviour
                 timer = pathTime[0];
                 nowPath = 0;
             }
-            GameData.GameEntity.b_timebarReset = false;
         }
     }
 
+    /// <summary>
+    /// クリップの長さをもとに再生速度を変更
+    /// </summary>
+    /// <param name="_playSpeed">新しい再生速度</param>
     public void ChangePlaySpeed(float _playSpeed)
     {
         playSpeed = _playSpeed;
@@ -240,6 +230,10 @@ public class MoveGround : MonoBehaviour
         manualClipTime = _clipTime;
     }
 
+    /// <summary>
+    /// クリップから自動時の現在にクリップの秒数を取得
+    /// </summary>
+    /// <param name="_clipTime">クリップの現在の秒数(自動時)</param>
     public void GetClipTime_Auto(float _clipTime)
     {
         autoClipTime = _clipTime;   

@@ -6,9 +6,9 @@ using System;
 public class ClipSpeed : MonoBehaviour
 {
     [SerializeField, Header("初期のクリップの長さ(700が再生速度1倍)")] private float f_StartWidth = 700;
-    [SerializeField] private RectTransform ClipRect;
-    private float f_playSpeed;
-    private float f_changeSpeed;
+    [SerializeField] private RectTransform ClipRect;    //クリップのRectTransform
+    private float f_playSpeed;  //現在のクリップの再生速度
+    private float f_changeSpeed;    //変更時のクリップ再生速度
 
     void Start()
     {

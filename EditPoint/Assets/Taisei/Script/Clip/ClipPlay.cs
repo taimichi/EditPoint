@@ -7,27 +7,27 @@ using System;
 
 public class ClipPlay : MonoBehaviour
 {
-    private RectTransform rect_timeBar;
-    [SerializeField] private RectTransform rect_Clip;
-    [SerializeField] private Text clipName;
+    private RectTransform rect_timeBar; //タイムバーのRectTransform
+    [SerializeField] private RectTransform rect_Clip;   //クリップのRectTransform
+    [SerializeField] private Text clipName; //クリップの名前を表示するテキスト
 
-    [SerializeField] private List<GameObject> ConnectObj = new List<GameObject>();
+    [SerializeField] private List<GameObject> ConnectObj = new List<GameObject>();  //クリップに紐づけられているオブジェクト    
 
-    private GameObject AllClip;
-    private ClipGenerator clipGenerator;
+    private GameObject AllClip; //親オブジェクト
+    private ClipGenerator clipGenerator;    //クリップ生成用スクリプト
 
     private bool b_getObjMode = false;
 
 
-    [SerializeField] private ClipSpeed clipSpeed;
-    private float speed = 0f;
-    private List<MoveGround> moveGround = new List<MoveGround>();
-    private CheckClipConnect checkClip;
+    [SerializeField] private ClipSpeed clipSpeed;   //クリップの再生速度に関するスクリプト
+    private float speed = 0f;       //クリップの再生速度
+    private List<MoveGround> moveGround = new List<MoveGround>(); //動く床のスクリプト
+    private CheckClipConnect checkClip; //オブジェクトがクリップに紐づけられているか確認する用のスクリプト
 
     private AddTextManager addTextManager;
 
-    private RectTransform rect_grandParent;
-    private float f_manualTime = 0;
+    private RectTransform rect_grandParent; //親の親オブジェクト
+    private float f_manualTime = 0; //タイムバーを手動で動かしたときの時間
 
     private MoveGround move;
 

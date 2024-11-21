@@ -35,6 +35,7 @@ public class MoveGroundManager : MonoBehaviour
             {
                 moveGroundScripts[i].CheckReset();
             }
+            GameData.GameEntity.b_timebarReset = false;
         }
     }
 }

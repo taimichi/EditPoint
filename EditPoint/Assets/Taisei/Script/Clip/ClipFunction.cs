@@ -6,16 +6,16 @@ using System;
 
 public class ClipFunction : MonoBehaviour
 {
-    [SerializeField] private RectTransform Timebar;
+    [SerializeField] private RectTransform Timebar; //タイムバーのRectTransform
 
-    [SerializeField] private GetClip GetClip;
+    [SerializeField] private GetClip GetClip;   //選択したクリップを取得するスクリプト
 
     private GameObject Clip;
 
     private RectTransform grandParentRect;
 
-    private float old_maxTime = 0f;
-    private float new_maxTime = 0f;
+    private float old_maxTime = 0f; //カット前のクリップの最大時間
+    private float new_maxTime = 0f; //カットした後のクリップの最大時間
 
     void Start()
     {
@@ -122,12 +122,14 @@ public class ClipFunction : MonoBehaviour
             }
 
             //クリップの長さと速さの初期値を設定
+            //クリップ１
             ClipSpeed clipSpeed = Clip.GetComponent<ClipSpeed>();
-            clipSpeed.GetStartWidth(dis);
-            clipSpeed.UpdateSpeed(1f);
+            clipSpeed.GetStartWidth(dis);   // 長さ
+            clipSpeed.UpdateSpeed(1f);      // 速さ
+            //クリップ２
             ClipSpeed newClipSpeed = newClip.GetComponent<ClipSpeed>();
-            newClipSpeed.GetStartWidth(newDis);
-            newClipSpeed.UpdateSpeed(1f);
+            newClipSpeed.GetStartWidth(newDis); //長さ
+            newClipSpeed.UpdateSpeed(1f);       //速さ
 
             clipPlay.CalculationMaxTime();
             new_maxTime = clipPlay.ReturnMaxTime();
