@@ -12,4 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 984bb79636b10d5458ba3ea62e3f31b3, type: 3}
   m_Name: GameData
   m_EditorClassIdentifier: 
-  b_playNow: 0
+  b_playNow: 1
+  b_timebarReset: 0
+  b_limitTime: 0

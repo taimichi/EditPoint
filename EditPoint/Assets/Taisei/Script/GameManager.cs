@@ -5,6 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
+    //現在のシーン名
     private string s_nowSceneName = "";
 
     private TimeBar timeBar;
@@ -13,16 +14,21 @@ public class GameManager : MonoBehaviour
 
     private QuickGuideMenu quick;
 
+    //タイトル画面のみ(デバッグ用)
+    private bool b_debug = false;
+
     private void Awake()
     {
         GameData.GameEntity.b_playNow = false;
         playSound = GameObject.Find("AudioCanvas").GetComponent<PlaySound>();
 
         s_nowSceneName = SceneManager.GetActiveScene().name;    //シーン名を取得
+        b_debug = false;
         switch (s_nowSceneName)
         {
             case "Title":
                 playSound.PlayBGM(PlaySound.BGM_TYPE.title_stageSelect);
+                b_debug = true;
                 break;
 
             case "Talk":
@@ -47,7 +53,6 @@ public class GameManager : MonoBehaviour
 
             playSound.PlayBGM(PlaySound.BGM_TYPE.stage1);
             playSound.PlaySE(PlaySound.SE_TYPE.start);
-            Time.timeScale = 0;
 
             switch (s_nowSceneName)
             {
@@ -94,7 +99,6 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         ModeData.ModeEntity.mode = ModeData.Mode.normal;
-
     }
 
     void Update()
@@ -102,24 +106,19 @@ public class GameManager : MonoBehaviour
         //デバッグ用機能
         if (Input.GetKey(KeyCode.LeftShift))
         {
-            //timescaleを強制的に変更
-            if (Input.GetKeyDown(KeyCode.T))
-            {
-                Debug.Log("timescale強制変更");
-                Time.timeScale = Time.timeScale == 0 ? 1 : 0;
-            }
-
             //チュートリアルステージを強制的にプレイした状態にする
-            if (Input.GetKeyDown(KeyCode.D))
+            if (Input.GetKeyDown(KeyCode.D) && b_debug)
             {
                 DebugOption();
+                GameData.GameEntity.b_timebarReset = false;
                 Debug.Log("チュートリアル情報を初期化");
             }
         }
-
-        Debug.Log(ModeData.ModeEntity.mode);
     }
 
+    /// <summary>
+    /// デバッグ用機能　チュートリアルステージをプレイしたかどうかの情報を初期化する
+    /// </summary>
     private void DebugOption()
     {
         TutorialData.TutorialEntity.frags &= TutorialData.Tutorial_Frags.clip;
@@ -143,5 +142,7 @@ public class GameManager : MonoBehaviour
     public void OnReset()
     {
         GameData.GameEntity.b_playNow = false;
+        GameData.GameEntity.b_timebarReset = true;
+        GameData.GameEntity.b_limitTime = false;
     }
 }

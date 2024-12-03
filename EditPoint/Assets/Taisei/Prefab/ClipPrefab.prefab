@@ -109,7 +109,6 @@ GameObject:
   - component: {fileID: 4323194755857948595}
   - component: {fileID: 4323194755857948604}
   - component: {fileID: 4323194755857948605}
-  - component: {fileID: 7490786878923956710}
   m_Layer: 5
   m_Name: ClipPrefab
   m_TagString: Untagged
@@ -192,7 +191,6 @@ MonoBehaviour:
   f_minSize: 350
   f_maxSize: 4200
   f_edgeRange: 40
-  timelineData: {fileID: 11400000, guid: 212fd9ad069de2a4bb63e85b77a3a9a7, type: 2}
   b_Lock: 0
 --- !u!114 &4323194755857948604
 MonoBehaviour:
@@ -224,21 +222,6 @@ MonoBehaviour:
   clipName: {fileID: 4323194755795921081}
   ConnectObj: []
   clipSpeed: {fileID: 4323194755857948604}
-  timelineData: {fileID: 11400000, guid: 212fd9ad069de2a4bb63e85b77a3a9a7, type: 2}
-  timeData: {fileID: 11400000, guid: e17019f28d5feae45902e2a830dada68, type: 2}
---- !u!114 &7490786878923956710
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4323194755857948601}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 00f75a5f76d02ba479ce5592dc6ca841, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  timelineData: {fileID: 11400000, guid: 212fd9ad069de2a4bb63e85b77a3a9a7, type: 2}
 --- !u!1 &9174298150372608419
 GameObject:
   m_ObjectHideFlags: 0

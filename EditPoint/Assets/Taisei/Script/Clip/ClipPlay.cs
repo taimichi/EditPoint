@@ -7,46 +7,43 @@ using System;
 
 public class ClipPlay : MonoBehaviour
 {
-    private RectTransform rect_timeBar;
-    [SerializeField] private RectTransform rect_Clip;
-    [SerializeField] private Text clipName;
+    private RectTransform rect_timeBar; //タイムバーのRectTransform
+    [SerializeField] private RectTransform rect_Clip;   //クリップのRectTransform
+    [SerializeField] private Text clipName; //クリップの名前を表示するテキスト
 
-    private float f_timer = 0;
-    /// <summary>
-    /// クリップを再生するかどうか
-    /// </summary>
-    private bool b_clipPlay = false;
+    [SerializeField] private List<GameObject> ConnectObj = new List<GameObject>();  //クリップに紐づけられているオブジェクト    
 
-    [SerializeField] private List<GameObject> ConnectObj = new List<GameObject>();
-
-    private GameObject AllClip;
-    private ClipGenerator clipGenerator;
+    private GameObject AllClip; //親オブジェクト
+    private ClipGenerator clipGenerator;    //クリップ生成用スクリプト
 
     private bool b_getObjMode = false;
 
-    private ObjectMove objectMove;
 
-    [SerializeField] private ClipSpeed clipSpeed;
-    private float speed = 0f;
-    private List<MoveGround> moveGround = new List<MoveGround>();
-    private CheckClipConnect checkClip;
+    [SerializeField] private ClipSpeed clipSpeed;   //クリップの再生速度に関するスクリプト
+    private float speed = 0f;       //クリップの再生速度
+    private List<MoveGround> moveGround = new List<MoveGround>(); //動く床のスクリプト
+    private CheckClipConnect checkClip; //オブジェクトがクリップに紐づけられているか確認する用のスクリプト
 
     private AddTextManager addTextManager;
 
-    [SerializeField] private TimelineData timelineData;
-    [SerializeField] private TimeData timeData;
-
-    private RectTransform rect_grandParent;
-    private float f_manualTime = 0;
+    private RectTransform rect_grandParent; //親の親オブジェクト
+    private float f_manualTime = 0; //タイムバーを手動で動かしたときの時間
 
     private MoveGround move;
 
     private GetCopyObj gpo;
 
+    private float startTime = 0f;
+    private float maxTime = 0f;
+
+    private void Awake()
+    {
+        startTime = 0f;
+        f_manualTime = 0f;
+    }
 
     void Start()
     {
-        f_manualTime = 0f;
         rect_grandParent = rect_Clip.parent.parent.GetComponent<RectTransform>();
 
         //タイムバーのRectTransformを取得
@@ -54,7 +51,6 @@ public class ClipPlay : MonoBehaviour
         AllClip = GameObject.Find("AllClip");
         clipGenerator = AllClip.GetComponent<ClipGenerator>();
         addTextManager = AllClip.GetComponent<AddTextManager>();
-        objectMove = GameObject.Find("GameManager").GetComponent<ObjectMove>();
 
         //生成したクリップの場合
         if (ConnectObj.Count == 0)
@@ -83,10 +79,13 @@ public class ClipPlay : MonoBehaviour
                 }
             }
         }
+
+        CalculationMaxTime();
     }
 
     private void Update()
     {
+        CalculationMaxTime();
         speed = clipSpeed.ReturnPlaySpeed();
 
         //クリップに紐づくオブジェクトがないときがないとき
@@ -158,7 +157,6 @@ public class ClipPlay : MonoBehaviour
             for(int i = 0; i < moveGround.Count; i++)
             {
                 moveGround[i].ChangePlaySpeed(speed);
-                Debug.Log("速度変更");
             }
         }
 
@@ -168,17 +166,28 @@ public class ClipPlay : MonoBehaviour
             //クリップの経過時間
             Vector3 leftEdge = rect_grandParent.InverseTransformPoint(rect_Clip.position) + new Vector3(-rect_Clip.rect.width * rect_Clip.pivot.x, 0, 0);
             float dis = rect_timeBar.localPosition.x - leftEdge.x;
-            f_manualTime = (float)Math.Truncate(dis / timelineData.f_oneTickWidht * 10) / 10;
+            f_manualTime = (float)Math.Truncate(dis / TimelineData.TimelineEntity.f_oneTickWidht * 10) / 10;
 
             //タイムバーを手動で動かしてる時
-            if (timeData.b_DragMode)
+            if (TimeData.TimeEntity.b_DragMode)
             {
                 for (int i = 0; i < ConnectObj.Count; i++)
                 {
                     if (ConnectObj[i].GetComponent<MoveGround>())
                     {
                         move = ConnectObj[i].GetComponent<MoveGround>();
-                        move.GetClipTime(f_manualTime);
+                        move.GetClipTime_Manual(f_manualTime);
+                    }
+                }
+            }
+            else
+            {
+                for (int i = 0; i < ConnectObj.Count; i++)
+                {
+                    if (ConnectObj[i].GetComponent<MoveGround>())
+                    {
+                        move = ConnectObj[i].GetComponent<MoveGround>();
+                        move.GetClipTime_Auto(startTime);
                     }
                 }
             }
@@ -187,13 +196,29 @@ public class ClipPlay : MonoBehaviour
         ClipPlayNow();
     }
 
-    private void FixedUpdate()
+    /// <summary>
+    /// オブジェクトとの紐づけを解除
+    /// </summary>
+    public void DestroyConnectObj()
     {
-
+        for(int i = 0; i < ConnectObj.Count; i++)
+        {
+            ConnectObj.Remove(ConnectObj[i]);
+        }
     }
 
+    /// <summary>
+    /// 紐づけたオブジェクトを取得
+    /// </summary>
+    public List<GameObject> ReturnConnectObj()
+    {
+        return ConnectObj;
+    }
 
-    //外部からのゲームオブジェクトを取得
+    /// <summary>
+    /// 外部からのゲームオブジェクトを取得
+    /// </summary>
+    /// <param name="_outGetObj">外部からのオブジェクト</param>
     public void OutGetObj(GameObject _outGetObj)
     {
         ConnectObj.Add(_outGetObj);
@@ -212,37 +237,47 @@ public class ClipPlay : MonoBehaviour
     /// </summary>
     private void ClipPlayNow()
     {
-        if (GameData.GameEntity.b_playNow)
+        if (CheckOverrap(rect_Clip, rect_timeBar))
         {
-            if (CheckOverrap(rect_Clip, rect_timeBar))
+            //タイムバーと接触しているとき
+            for (int i = 0; i < ConnectObj.Count; i++)
             {
-                //タイムバーと接触しているとき
-                for (int i = 0; i < ConnectObj.Count; i++)
+                //非表示状態だったら
+                if (!ConnectObj[i].activeSelf)
                 {
                     ConnectObj[i].SetActive(true);
                 }
-                f_timer += Time.deltaTime;
             }
-            else
+        }
+        else
+        {
+            //タイムバーと接触していないとき
+            for (int i = 0; i < ConnectObj.Count; i++)
             {
-                //タイムバーと接触していないとき
-                for (int i = 0; i < ConnectObj.Count; i++)
+                if (ConnectObj[i].name.Contains("MoveGround"))
                 {
-                    if (ConnectObj[i].name.Contains("MoveGround"))
+                    //プレイヤーがMoveGroundの子オブジェクトになってる時
+                    if (ConnectObj[i].transform.Find("Player") != null)
                     {
-                        //プレイヤーがMoveGroundの子オブジェクトになってる時
-                        if (ConnectObj[i].transform.Find("Player") != null)
-                        {
-                            //子オブジェクトを解除する
-                            ConnectObj[i].transform.Find("Player").gameObject.transform.parent = null;
-                        }
+                        //子オブジェクトを解除する
+                        ConnectObj[i].transform.Find("Player").gameObject.transform.parent = null;
                     }
-
+                }
+                //表示状態だったら
+                if (ConnectObj[i].activeSelf)
+                {
                     ConnectObj[i].SetActive(false);
-
                 }
             }
         }
+    }
+
+    /// <summary>
+    /// クリップの最大時間を計算
+    /// </summary>
+    public void CalculationMaxTime()
+    {
+        maxTime = rect_Clip.rect.width / (TimelineData.TimelineEntity.f_oneTickWidht * 2);
     }
 
 
@@ -264,6 +299,23 @@ public class ClipPlay : MonoBehaviour
             }
         Destroy(ConnectObj[i]);
         }
+    }
+
+    /// <summary>
+    /// 開始時間を更新
+    /// </summary>
+    public void UpdateStartTime(float _newStartTime)
+    {
+        startTime = _newStartTime;
+    }
+
+    /// <summary>
+    /// クリップの最大時間を返す
+    /// </summary>
+    /// <returns>クリップの最大時間</returns>
+    public float ReturnMaxTime()
+    {
+        return maxTime;
     }
 
     /// <summary>

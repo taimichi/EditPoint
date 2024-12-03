@@ -29,6 +29,8 @@ public class ClearManager : MonoBehaviour
     [SerializeField]
     GameObject panel;
 
+    float sizeA=0;
+
     // À•W•ÏX‚Ì‘¬“x
     [SerializeField]
     float spdX = 0, spdY = 0;
@@ -60,13 +62,17 @@ public class ClearManager : MonoBehaviour
                 num++;
                 break;
             case 1:
-                if (ClearPanel.color.a < 0.5f)
+                if (ClearPanel.color.a < 0.9f)
+                {
                     ClearPanel = UAnim.anim_Fade_I(ClearPanel, Fadespd);
+                    sizeA += 200;
+                    ClearPanel.rectTransform.sizeDelta = new Vector2(sizeA,sizeA);
+                }
                 else
                     num++;
                 break;
             case 2:
-                if (BtnGroup.anchoredPosition.x >= TargetPos.x)
+                if (BtnGroup.anchoredPosition.y <= TargetPos.y)
                     BtnGroup = UAnim.anim_PosChange(BtnGroup, spdX, spdY);
                 else
                 {

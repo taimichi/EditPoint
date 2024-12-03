@@ -60,6 +60,14 @@ public class GetClip : MonoBehaviour
                         BlinkImageObj = result.gameObject.transform.GetChild(0).gameObject;
                         Clip = result.gameObject;
                         BlinkImageObj.SetActive(true);
+                        break;
+                    }
+                }
+                else
+                {
+                    if (Clip != null)
+                    {
+                        BlinkImageObj.SetActive(false);
                     }
                 }
             }            
