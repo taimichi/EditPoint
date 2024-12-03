@@ -107,7 +107,7 @@ public class GroundChecker : MonoBehaviour
             }
             foot.x += width;
         }
-        Debug.Log("‹ó’†");
+        //Debug.Log("‹ó’†");
     }
     // ’n–Ê‚ÉÚ‚µ‚Ä‚¢‚é•Ï”‚ğæ“¾
     public bool IsGround() { return isGround; }
