@@ -2,8 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EditableObject : MonoBehaviour
+public class ObjectScaleEditor : MonoBehaviour
 {
+    // レイ飛ばすときのハンドル取得用レイヤーマスク
     [SerializeField]
     LayerMask handle_LayerMask;
 
@@ -33,6 +34,8 @@ public class EditableObject : MonoBehaviour
 
     // クリックの状態
     Vector2 clickStartPos;
+
+    [SerializeField]
     bool isHandleGrab = false;
 
     // 取得したハンドル情報
@@ -42,18 +45,18 @@ public class EditableObject : MonoBehaviour
 
     // 仮想オブジェクトデータ
     [SerializeField] GameObject virtualObject;
-    Vector2 virtualObjPosition;
-    float virtualObjRotation;
-    Vector2 virtualObjScale;
 
     [SerializeField]
-    GameObject markerObject;
+    GameObject handleParentObject;
+
+    // 編集対象
+    GameObject editObject;
 
     private void Start()
     {
-        virtualObjPosition = objPosition;
-        virtualObjRotation = objRotation;
-        virtualObjScale = objScale;
+        virtualObject.transform.position = objPosition;
+        virtualObject.transform.localEulerAngles = new Vector3(0, 0, objRotation);
+        virtualObject.transform.localScale = objScale;
     }
 
     private void Update()
@@ -87,15 +90,12 @@ public class EditableObject : MonoBehaviour
         handle[8].transform.localScale = new Vector2(2 * handleSize, 2 * handleSize);
 
         // 仮想オブジェクト設定
-        virtualObject.transform.position = virtualObjPosition;
-        virtualObject.transform.localEulerAngles = new Vector3(0, 0, virtualObjRotation);
-        virtualObject.transform.localScale = virtualObjScale;
 
 
-        // マーカーポジションとローテーション
+        // ハンドルまとめのポジションとローテーション
         // スケールはいじらない
-        markerObject.transform.position = objPosition;
-        markerObject.transform.localEulerAngles = new Vector3(0, 0, objRotation);
+        handleParentObject.transform.position = objPosition;
+        handleParentObject.transform.localEulerAngles = new Vector3(0, 0, objRotation);
 
 
 
@@ -105,8 +105,10 @@ public class EditableObject : MonoBehaviour
             nowHandlePriority = 0;
             foreach (RaycastHit2D hit2 in Physics2D.RaycastAll(MousePos(), Vector2.zero, handle_LayerMask))
             {
+                // ハンドルかどうかチェック
                 if (hit2.collider.gameObject.TryGetComponent<HandleSign>(out var _handleSign))
                 {
+                    // グラブフラグチェック
                     clickStartPos = MousePos();
                     isHandleGrab = true;
 
@@ -147,14 +149,15 @@ public class EditableObject : MonoBehaviour
         {
             if (isHandleGrab)
             {
+                // 回転ハンドルか否か
                 if (isHandleRot)
                 {
-                    virtualObjRotation = rotRad * Mathf.Rad2Deg - 90;
+                    virtualObject.transform.localEulerAngles = new Vector3(0, 0, rotRad * Mathf.Rad2Deg - 90);
                 }
                 else
                 {
-                    virtualObjPosition = objPosition + mouseVec / 2;
-                    virtualObjScale = objScale + editVec * scaleSign;
+                    virtualObject.transform.position = objPosition + mouseVec / 2;
+                    virtualObject.transform.localScale = objScale + editVec * scaleSign;
                 }
             }
         }
@@ -164,17 +167,25 @@ public class EditableObject : MonoBehaviour
         {
             if (isHandleGrab)
             {
+                // 回転ハンドルか否か
                 if (isHandleRot)
                 {
-                    objRotation = virtualObjRotation;
+                    objRotation = virtualObject.transform.localEulerAngles.z;
                 }
                 else
                 {
-                    objPosition = virtualObjPosition;
-                    objScale = virtualObjScale;
+                    objPosition = virtualObject.transform.position;
+                    objScale = virtualObject.transform.localScale;
                 }
+
+                // 代入
+                editObject.transform.position = objPosition;
+                editObject.transform.localEulerAngles = new Vector3(0, 0, objRotation);
+                editObject.transform.localScale = objScale;
+
             }
 
+            // フラグ解除
             isHandleGrab = false;
             isHandleRot = false;
         }
@@ -185,6 +196,18 @@ public class EditableObject : MonoBehaviour
     private Vector3 MousePos()
     {
         return Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, 10));
+    }
+
+    public void GetObjTransform(GameObject _editObj)
+    {
+        editObject = _editObj;
+        objPosition = _editObj.transform.position;
+        objRotation = _editObj.transform.localEulerAngles.z;
+        objScale = _editObj.transform.localScale;
+
+        virtualObject.transform.position = objPosition;
+        virtualObject.transform.localEulerAngles = new Vector3(0, 0, objRotation);
+        virtualObject.transform.localScale = objScale;
     }
 
 }
