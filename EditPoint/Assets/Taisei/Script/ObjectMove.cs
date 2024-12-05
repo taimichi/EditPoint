@@ -17,8 +17,6 @@ public class ObjectMove : MonoBehaviour
 
     //単体移動
     private GameObject Obj;
-
-    [SerializeField]
     private bool b_objMove = false;
 
     //選択時にアウトラインをつける
@@ -72,10 +70,16 @@ public class ObjectMove : MonoBehaviour
                 Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
                 RaycastHit2D hit2d = Physics2D.Raycast((Vector2)ray.origin, (Vector2)ray.direction, Mathf.Infinity, lm);
 
-                if (EventSystem.current.IsPointerOverGameObject() || hit2d.collider.tag == "Handle")
+                if (EventSystem.current.IsPointerOverGameObject())
                 {
                     return;
                 }
+
+                if (hit2d.collider != null && hit2d.collider.tag == "Handle")
+            {
+                Debug.Log("ハンドルダヨーン");
+                return;
+            }
 
                 b_isNoHit = (hit2d == false);
                 if (!b_isNoHit)
@@ -89,23 +93,21 @@ public class ObjectMove : MonoBehaviour
                 {
                     if (ClickObj != null)
                     {
-                        //if (ClickObj.name.Contains("Blower"))
-                        //{
-                        //    ClickObj.transform.GetChild(0).GetComponent<SpriteRenderer>().material = materials.layerMaterials[0];
-                        //}
-                        //else
-                        //{
-                        //    ClickObj.GetComponent<SpriteRenderer>().material = materials.layerMaterials[0];
-                        //}
+                    //if (ClickObj.name.Contains("Blower"))
+                    //{
+                    //    ClickObj.transform.GetChild(0).GetComponent<SpriteRenderer>().material = materials.layerMaterials[0];
+                    //}
+                    //else
+                    //{
+                    //    ClickObj.GetComponent<SpriteRenderer>().material = materials.layerMaterials[0];
+                    //}
 
-                        ObjectScaleEditor.SetActive(false);
-
-                    }
+                }
                     ClickObj = null;
 
 
 
-                    return;
+                return;
                 }
 
                 if (ClickObj != null)
@@ -202,6 +204,7 @@ public class ObjectMove : MonoBehaviour
             if (ClickObj != null)
             {
                 Destroy(ClickObj);
+                ObjectScaleEditor.SetActive(false);
             }
         }
     }

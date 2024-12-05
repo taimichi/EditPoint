@@ -39,6 +39,7 @@ public class ObjectScaleEditor : MonoBehaviour
     bool isHandleGrab = false;
 
     // 取得したハンドル情報
+    [SerializeField]
     float nowHandlePriority = 0;
     Vector2 scaleSign;
     bool isHandleRot = false;
@@ -89,8 +90,6 @@ public class ObjectScaleEditor : MonoBehaviour
 
         handle[8].transform.localScale = new Vector2(2 * handleSize, 2 * handleSize);
 
-        // 仮想オブジェクト設定
-
 
         // ハンドルまとめのポジションとローテーション
         // スケールはいじらない
@@ -103,10 +102,10 @@ public class ObjectScaleEditor : MonoBehaviour
         if (Input.GetMouseButtonDown(0))
         {
             nowHandlePriority = 0;
-            foreach (RaycastHit2D hit2 in Physics2D.RaycastAll(MousePos(), Vector2.zero, handle_LayerMask))
+            foreach (RaycastHit2D hit in Physics2D.RaycastAll(MousePos(), Vector2.zero, handle_LayerMask))
             {
                 // ハンドルかどうかチェック
-                if (hit2.collider.gameObject.TryGetComponent<HandleSign>(out var _handleSign))
+                if (hit.collider.gameObject.TryGetComponent<HandleSign>(out var _handleSign))
                 {
                     // グラブフラグチェック
                     clickStartPos = MousePos();

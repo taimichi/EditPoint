@@ -146,11 +146,12 @@ public class BlockCreater : MonoBehaviour
         }
     }
 
+    // ÉuÉçÉbÉNê∂ê¨
     private void CreateBlock()
     {
         playSound.PlaySE(PlaySound.SE_TYPE.blockGene);
         GameObject created = Instantiate(blockPrefab);
-        created.transform.localScale = marker.transform.localScale;
+        created.transform.localScale = new Vector3 (Mathf.Abs(marker.transform.localScale.x), Mathf.Abs(marker.transform.localScale.y), marker.transform.localScale.z);
         created.transform.position = marker.transform.position;
         created.GetComponent<Collider2D>().enabled = false;
         created.GetComponent<Collider2D>().enabled = true;
