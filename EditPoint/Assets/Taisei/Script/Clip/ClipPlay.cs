@@ -267,6 +267,13 @@ public class ClipPlay : MonoBehaviour
                 if (ConnectObj[i].activeSelf)
                 {
                     ConnectObj[i].SetActive(false);
+
+                    // クリップ切れたときのエディター非表示
+                    GameObject objectEditor = GameObject.Find("ObjectEditor");
+                    if (objectEditor != null)
+                    {
+                        objectEditor.SetActive(false);
+                    }
                 }
             }
         }
