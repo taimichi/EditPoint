@@ -112,9 +112,10 @@ public class ClipFunction : MonoBehaviour
             ClipPlay newClipPlay = newClip.GetComponent<ClipPlay>();
             newClipPlay.DestroyConnectObj();
 
+            //クリップと紐づけられたオブジェクトを取得
             List<GameObject> newConnectObj = clipPlay.ReturnConnectObj();
 
-            //クリップに紐づけられたオブジェクトを複製
+            //クリップに紐づけられたオブジェクトを複製して、新しいクリップと紐づけ
             for(int i = 0; i < newConnectObj.Count; i++)
             {
                 GameObject obj = Instantiate(newConnectObj[i]);
@@ -131,10 +132,9 @@ public class ClipFunction : MonoBehaviour
             newClipSpeed.GetStartWidth(newDis); //長さ
             newClipSpeed.UpdateSpeed(1f);       //速さ
 
-            clipPlay.CalculationMaxTime();
-            new_maxTime = clipPlay.ReturnMaxTime();
+            newClipPlay.CalculationMaxTime();
+            new_maxTime = newClipPlay.ReturnMaxTime();
             newClipPlay.UpdateStartTime(old_maxTime - new_maxTime);
-
         }
     }
 
