@@ -13,7 +13,7 @@ public class CheckClipConnect : MonoBehaviour
 
     private void Update()
     {
-        if (!b_connect && GameData.GameEntity.b_playNow)
+        if (!b_connect && GameData.GameEntity.isPlayNow)
         {
             this.gameObject.SetActive(false);
         }

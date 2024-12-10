@@ -18,7 +18,7 @@ public class HoverAnim : MonoBehaviour
 
     private void Update()
     {
-        if (GameData.GameEntity.b_playNow)
+        if (GameData.GameEntity.isPlayNow)
         {
             timer += Time.deltaTime * speed;
 

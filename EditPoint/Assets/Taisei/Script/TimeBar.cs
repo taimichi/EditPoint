@@ -23,6 +23,8 @@ public class TimeBar : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragH
     {
         TimeData.TimeEntity.b_DragMode = b_dragMode;
         TimeData.TimeEntity.f_nowTime = f_nowTime;
+
+        f_limitPos = v2_startPos.x + (limit * 2 * TimelineData.TimelineEntity.f_oneTickWidht);
     }
 
     void Start()
@@ -31,6 +33,7 @@ public class TimeBar : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragH
         v2_nowPos = barPos.localPosition;
         v2_startPos = barPos.localPosition;
         f_limitPos = v2_startPos.x + (limit * 2 * TimelineData.TimelineEntity.f_oneTickWidht);
+
         plController = GameObject.Find("Player").GetComponent<PlayerController>();
     }
 
@@ -42,7 +45,7 @@ public class TimeBar : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragH
     private void FixedUpdate()
     {
         //再生中かどうか
-        if (GameData.GameEntity.b_playNow)
+        if (GameData.GameEntity.isPlayNow)
         {
             if (barPos.localPosition.x < f_limitPos - 1)
             {
@@ -53,7 +56,7 @@ public class TimeBar : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragH
             {
                 //時間の限界時の処理
                 plController.PlayerStop();
-                GameData.GameEntity.b_limitTime = true;
+                GameData.GameEntity.isLimitTime = true;
             }
         }
         else
@@ -70,7 +73,7 @@ public class TimeBar : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragH
     public void OnBeginDrag(PointerEventData eventData)
     {
         //再生中は編集機能をロック
-        if (GameData.GameEntity.b_playNow)
+        if (GameData.GameEntity.isPlayNow)
         {
             return;
         }
@@ -83,7 +86,7 @@ public class TimeBar : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragH
     public void OnDrag(PointerEventData eventData)
     {
         //再生中は編集機能をロック
-        if (GameData.GameEntity.b_playNow)
+        if (GameData.GameEntity.isPlayNow)
         {
             return;
         }
@@ -101,7 +104,7 @@ public class TimeBar : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragH
         {
             v2_mousePos.x = v2_startPos.x;
         }
-        else if(v2_mousePos.x>= f_limitPos)
+        else if(v2_mousePos.x >= f_limitPos)
         {
             v2_mousePos.x = f_limitPos;
         }
@@ -113,7 +116,7 @@ public class TimeBar : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragH
     public void OnEndDrag(PointerEventData eventData)
     {
         //再生中は編集機能をロック
-        if (GameData.GameEntity.b_playNow)
+        if (GameData.GameEntity.isPlayNow)
         {
             return;
         }
@@ -129,15 +132,24 @@ public class TimeBar : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragH
     {
         barPos.localPosition = v2_startPos;
         v2_nowPos = v2_startPos;
-        GameData.GameEntity.b_limitTime = false;
+        GameData.GameEntity.isLimitTime = false;
     }
 
     /// <summary>
     /// タイムバーがドラッグ中かどうかの判定を返す
     /// </summary>
     /// <returns>true=ドラッグ中　false=ドラッグしてない</returns>
-    public bool ReturenDragMode()
+    public bool ReturnDragMode()
     {
         return b_dragMode;
+    }
+
+    /// <summary>
+    /// タイムバーの限界値を返す
+    /// </summary>
+    /// <returns>タイムバーの限界X座標(float型)</returns>
+    public float ReturnLimitPos()
+    {
+        return f_limitPos;
     }
 }

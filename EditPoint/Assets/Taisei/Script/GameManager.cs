@@ -19,7 +19,8 @@ public class GameManager : MonoBehaviour
 
     private void Awake()
     {
-        GameData.GameEntity.b_playNow = false;
+        GameData.GameEntity.isPlayNow = false;
+        GameData.GameEntity.isClear = false;
         playSound = GameObject.Find("AudioCanvas").GetComponent<PlaySound>();
 
         s_nowSceneName = SceneManager.GetActiveScene().name;    //シーン名を取得
@@ -110,7 +111,7 @@ public class GameManager : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.D) && b_debug)
             {
                 DebugOption();
-                GameData.GameEntity.b_timebarReset = false;
+                GameData.GameEntity.isTimebarReset = false;
                 Debug.Log("チュートリアル情報を初期化");
             }
         }
@@ -132,17 +133,17 @@ public class GameManager : MonoBehaviour
 
     public void OnStart()
     {
-        if (!GameData.GameEntity.b_playNow)
+        if (!GameData.GameEntity.isPlayNow)
         {
             timeBar.OnReStart();
-            GameData.GameEntity.b_playNow = true;
+            GameData.GameEntity.isPlayNow = true;
         }
     }
 
     public void OnReset()
     {
-        GameData.GameEntity.b_playNow = false;
-        GameData.GameEntity.b_timebarReset = true;
-        GameData.GameEntity.b_limitTime = false;
+        GameData.GameEntity.isPlayNow = false;
+        GameData.GameEntity.isTimebarReset = true;
+        GameData.GameEntity.isLimitTime = false;
     }
 }

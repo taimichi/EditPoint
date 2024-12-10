@@ -69,7 +69,7 @@ public class MoveGround : MonoBehaviour
     private void Update()
     {
         //タイムバーが限界に行ったら、移行の処理はしない
-        if (GameData.GameEntity.b_limitTime)
+        if (GameData.GameEntity.isLimitTime)
         {
             return;
         }
@@ -78,7 +78,7 @@ public class MoveGround : MonoBehaviour
         if (!TimeData.TimeEntity.b_DragMode)
         {
             //再生中のみ
-            if (GameData.GameEntity.b_playNow)
+            if (GameData.GameEntity.isPlayNow)
             {
                 //再生ボタンを1回も押してなかったら
                 if (!isStart)
@@ -105,7 +105,6 @@ public class MoveGround : MonoBehaviour
                         }
 
                         AutoClipTime = pathTime[i] - AutoClipTime;
-                        Debug.Log("test " + AutoClipTime);
                     }
                 }
 
@@ -134,9 +133,6 @@ public class MoveGround : MonoBehaviour
                     info.savePos = path[nowPath] + (moveSpeed * (pathTime[nowPath] - AutoClipTime) * speed * playSpeed);
                     this.transform.position = info.savePos;
                     movePos = info.savePos;
-
-                    Debug.Log(this.gameObject.name +
-                        "\nsavePos " + info.savePos + " saveTime " + info.saveTime + ", nowPath " + info.savePathNum);
 
                     isCut = true;
                     info.isSave = true;
@@ -221,7 +217,7 @@ public class MoveGround : MonoBehaviour
     /// </summary>
     public void CheckReset()
     {
-        if (GameData.GameEntity.b_timebarReset)
+        if (GameData.GameEntity.isTimebarReset)
         {
             //カットされたクリップの時
             if(info.isSave)
@@ -265,5 +261,10 @@ public class MoveGround : MonoBehaviour
     public void GetClipTime_Auto(float _clipTime)
     {
         _autoClipTime = _clipTime;   
+    }
+
+    public void SetStartPos()
+    {
+        this.transform.position = startPos;
     }
 }

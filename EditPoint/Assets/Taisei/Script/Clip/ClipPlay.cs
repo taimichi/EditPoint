@@ -262,6 +262,9 @@ public class ClipPlay : MonoBehaviour
                         //子オブジェクトを解除する
                         ConnectObj[i].transform.Find("Player").gameObject.transform.parent = null;
                     }
+
+                    //動く床だったときは非表示にする前に初期位置に戻す
+                    ConnectObj[i].GetComponent<MoveGround>().SetStartPos();
                 }
                 //表示状態だったら
                 if (ConnectObj[i].activeSelf)

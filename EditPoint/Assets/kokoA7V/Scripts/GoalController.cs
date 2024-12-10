@@ -22,6 +22,7 @@ public class GoalController : MonoBehaviour
         {
             if (playerItemData.isKey)
             {
+                GameData.GameEntity.isClear = true;
                 playSound.PlaySE(PlaySound.SE_TYPE.gool);
                 plController.PlayerStop();
                 // ゴールタイミングを知らせる

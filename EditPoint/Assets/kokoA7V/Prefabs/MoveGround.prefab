@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: 6219358313066085811}
   - component: {fileID: 6596394278908949598}
   - component: {fileID: -2327870980790122933}
+  - component: {fileID: 5051443318960246104}
   m_Layer: 8
   m_Name: MoveGround
   m_TagString: MoveGround
@@ -111,7 +112,6 @@ MonoBehaviour:
   - 1
   speed: 1
   nowPath: 0
-  timeData: {fileID: 11400000, guid: e17019f28d5feae45902e2a830dada68, type: 2}
 --- !u!61 &6219358312794054324
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -194,5 +194,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1aca192e1d1fba44aa43fe041108ddd5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &5051443318960246104
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6219358312794054320}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b5f9d595f1af56648938a27ebd2f1ba6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 

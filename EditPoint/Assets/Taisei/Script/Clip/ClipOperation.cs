@@ -38,6 +38,8 @@ public class ClipOperation : MonoBehaviour, IDragHandler, IBeginDragHandler, IEn
     private float f_oneWidth;           //移動時、一回に移動する量　横
     private float f_oneHeight;          //移動時、一回に移動する量　縦
 
+    private float timeBarLimitPos = 0f; //タイムバーの限界X座標
+
     private int i_resizeCount = 0;
 
     private RectTransform rect_outLeft;    //タイムラインの左端
@@ -47,6 +49,7 @@ public class ClipOperation : MonoBehaviour, IDragHandler, IBeginDragHandler, IEn
     private RectTransform[] ClipsRect;
 
     private Vector3 v3_beforePos;
+    private Vector2 savePos;
 
     [SerializeField] private bool b_Lock = false;
 
@@ -75,6 +78,7 @@ public class ClipOperation : MonoBehaviour, IDragHandler, IBeginDragHandler, IEn
 
         playSound = GameObject.Find("AudioCanvas").GetComponent<PlaySound>();
 
+        //クリップの位置を調整
         CalculationWidth(targetImage.localPosition.x);
         CalculationHeight(targetImage.localPosition.y);
         CheckWidth();
@@ -86,6 +90,10 @@ public class ClipOperation : MonoBehaviour, IDragHandler, IBeginDragHandler, IEn
     }
     private void Start()
     {
+        //タイムバーの限界座標を取得
+        timeBarLimitPos = GameObject.Find("Timebar").GetComponent<TimeBar>().ReturnLimitPos();
+
+
         if (this.gameObject.tag == "CreateClip")
         {
             GetClipRect();
@@ -128,9 +136,8 @@ public class ClipOperation : MonoBehaviour, IDragHandler, IBeginDragHandler, IEn
                     targetImage.localPosition = new Vector3(v2_newPos.x, v2_newPos.y, 0);
                 }
             }
-
+            //タグ変更
             this.gameObject.tag = "SetClip";
-
         }
         v3_beforePos = this.transform.localPosition;
 
@@ -144,7 +151,7 @@ public class ClipOperation : MonoBehaviour, IDragHandler, IBeginDragHandler, IEn
     public void OnBeginDrag(PointerEventData eventData)
     {
         //再生中は編集機能をロック
-        if (GameData.GameEntity.b_playNow)
+        if (GameData.GameEntity.isPlayNow)
         {
             return;
         }
@@ -197,7 +204,7 @@ public class ClipOperation : MonoBehaviour, IDragHandler, IBeginDragHandler, IEn
     public void OnDrag(PointerEventData eventData)
     {
         //再生中は編集機能をロック
-        if (GameData.GameEntity.b_playNow)
+        if (GameData.GameEntity.isPlayNow)
         {
             return;
         }
@@ -228,10 +235,16 @@ public class ClipOperation : MonoBehaviour, IDragHandler, IBeginDragHandler, IEn
                 //タイムラインの範囲外に出た時
                 CheckWidth();
                 CheckHeight();
-                v2_newPos = new Vector2(f_newWidth + 0.1f, f_newHeight);
+                v2_newPos = new Vector2(f_newWidth + 0.01f, f_newHeight);
 
                 targetImage.localPosition = new Vector3(v2_newPos.x, v2_newPos.y, 0);
 
+                //タイムバーの限界座標を超えたら
+                if (CheckLimitPos())
+                {
+                    v2_newPos.x = timeBarLimitPos - targetImage.rect.width - 30;
+                    this.targetImage.localPosition = new Vector3(v2_newPos.x, v2_newPos.y, 0);
+                }
 
                 return;
             }
@@ -254,8 +267,10 @@ public class ClipOperation : MonoBehaviour, IDragHandler, IBeginDragHandler, IEn
                 f_newSize = v2_initSizeDelta.x - v2_resizeOffset.x;
             }
 
+            //サイズ計算
             CalculationSize();
 
+            //クリップの長さ変更の際に最大・最小サイズを超えないようにする
             f_newSize = Mathf.Clamp(f_newSize, f_minSize, f_maxSize);
 
             if (CheckOverrap(targetImage, rect_outLeft) || CheckOverrap(targetImage, rect_outRight))
@@ -278,13 +293,22 @@ public class ClipOperation : MonoBehaviour, IDragHandler, IBeginDragHandler, IEn
             }
 
             targetImage.sizeDelta = new Vector2(f_newSize, targetImage.sizeDelta.y);
+
+            //サイズ変更時にタイムバーの限界座標に行ったとき
+            if (CheckLimitPos())
+            {
+                Debug.Log("test");
+                targetImage.sizeDelta = savePos;
+
+            }
+            savePos = targetImage.sizeDelta;
         }
     }
 
     public void OnEndDrag(PointerEventData eventData)
     {
         //再生中は編集機能をロック
-        if (GameData.GameEntity.b_playNow)
+        if (GameData.GameEntity.isPlayNow)
         {
             return;
         }
@@ -469,5 +493,24 @@ public class ClipOperation : MonoBehaviour, IDragHandler, IBeginDragHandler, IEn
         {
             ClipsRect[i] = Clips[i].GetComponent<RectTransform>();
         }
+    }
+
+    /// <summary>
+    /// タイムバーの限界座標を超えたかの判定
+    /// </summary>
+    /// <returns>false=超えてない　true=超えた</returns>
+    private bool CheckLimitPos()
+    {
+        bool isCheck = false;
+
+        //タイムバーの限界座標を超えたら
+        float rightEdge = targetImage.anchoredPosition.x + (targetImage.rect.width * (1 - targetImage.pivot.x));
+        if (rightEdge > timeBarLimitPos)
+        {
+            isCheck = true;
+        }
+
+
+        return isCheck;
     }
 }

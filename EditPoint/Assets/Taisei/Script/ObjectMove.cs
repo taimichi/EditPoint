@@ -15,6 +15,8 @@ public class ObjectMove : MonoBehaviour
     private Vector3 v3_mousePos;
     private Vector3 v3_offset;
 
+    private Vector3 nowPos;
+
     //単体移動
     private GameObject Obj;
 
@@ -36,6 +38,8 @@ public class ObjectMove : MonoBehaviour
 
     private PlaySound playSound;
 
+    private CheckHitGround checkHG;
+
     void Start()
     {
         playSound = GameObject.Find("AudioCanvas").GetComponent<PlaySound>();
@@ -45,7 +49,7 @@ public class ObjectMove : MonoBehaviour
     void Update()
     {
         //再生中は編集機能をロック
-        if (GameData.GameEntity.b_playNow)
+        if (GameData.GameEntity.isPlayNow)
         {
             ModeData.ModeEntity.mode = ModeData.Mode.normal;
             return;
@@ -134,6 +138,7 @@ public class ObjectMove : MonoBehaviour
                     }
 
                     b_objMove = true;
+                    nowPos = Obj.transform.position;
                     ModeData.ModeEntity.mode = ModeData.Mode.moveANDdirect;
                 }
 
@@ -150,6 +155,13 @@ public class ObjectMove : MonoBehaviour
                 }
                 else if (Input.GetMouseButtonUp(0))
                 {
+                    checkHG = Obj.GetComponent<CheckHitGround>();
+                    //プレイヤーと接触していたら
+                    if (checkHG.ReturnHit())
+                    {
+                        Obj.transform.position = nowPos;
+                    }
+
                     playSound.PlaySE(PlaySound.SE_TYPE.objMove);
                     b_objMove = false;
                     if (Obj.name.Contains("Blower"))

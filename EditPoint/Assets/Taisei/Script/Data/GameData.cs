@@ -26,16 +26,21 @@ public class GameData : ScriptableObject
     /// <summary>
     /// 再生ボタンを押して、再生をしているか
     /// </summary>
-    public bool b_playNow = false;
+    public bool isPlayNow = false;
 
     /// <summary>
     /// タイムバーリセットをしたかどうか
     /// </summary>
-    public bool b_timebarReset = false;
+    public bool isTimebarReset = false;
 
     /// <summary>
     /// 動画時間が終わった時
     /// </summary>
-    public bool b_limitTime = false;
+    public bool isLimitTime = false;
+
+    /// <summary>
+    /// ステージクリアしたかどうか
+    /// </summary>
+    public bool isClear = false;
 
 }

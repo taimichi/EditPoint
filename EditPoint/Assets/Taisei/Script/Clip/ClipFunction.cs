@@ -65,7 +65,7 @@ public class ClipFunction : MonoBehaviour
     public void OnCut()
     {
         //再生中は編集機能をロック
-        if (GameData.GameEntity.b_playNow)
+        if (GameData.GameEntity.isPlayNow)
         {
             return;
         }

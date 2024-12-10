@@ -29,13 +29,13 @@ public class MoveGroundManager : MonoBehaviour
 
     private void MoveGroundController()
     {
-        if (GameData.GameEntity.b_timebarReset && MoveGrounds.Count > 0)
+        if (GameData.GameEntity.isTimebarReset && MoveGrounds.Count > 0)
         {
             for(int i = 0; i < MoveGrounds.Count; i++)
             {
                 moveGroundScripts[i].CheckReset();
             }
-            GameData.GameEntity.b_timebarReset = false;
+            GameData.GameEntity.isTimebarReset = false;
         }
     }
 }

@@ -483,8 +483,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   f_speed: 140
   limit: 60
-  timelineData: {fileID: 11400000, guid: 212fd9ad069de2a4bb63e85b77a3a9a7, type: 2}
-  timeData: {fileID: 11400000, guid: e17019f28d5feae45902e2a830dada68, type: 2}
 --- !u!1 &6609544224639025816
 GameObject:
   m_ObjectHideFlags: 0
@@ -675,7 +673,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9cfd7ff237cbd7443af548561fc90078, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  timeData: {fileID: 11400000, guid: e17019f28d5feae45902e2a830dada68, type: 2}
   scrollRect: {fileID: 1073689939617898602}
   content: {fileID: 6609544225284490415}
   target: {fileID: 6609544224346704653}
@@ -1254,7 +1251,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Timebar: {fileID: 6609544224346704653}
-  timelineData: {fileID: 11400000, guid: 212fd9ad069de2a4bb63e85b77a3a9a7, type: 2}
   GetClip: {fileID: 6793117256044357085}
 --- !u!114 &6793117256044357085
 MonoBehaviour:
@@ -1369,7 +1365,7 @@ MonoBehaviour:
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
     m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
-    m_PressedColor: {r: 0.5754717, g: 0.5754717, b: 0.5754717, a: 1}
+    m_PressedColor: {r: 0.39450574, g: 0.56107086, b: 0.5754717, a: 1}
     m_SelectedColor: {r: 1, g: 1, b: 1, a: 1}
     m_DisabledColor: {r: 0.509434, g: 0.509434, b: 0.509434, a: 0.5019608}
     m_ColorMultiplier: 1
