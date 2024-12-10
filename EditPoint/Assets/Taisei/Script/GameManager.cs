@@ -21,6 +21,7 @@ public class GameManager : MonoBehaviour
     {
         GameData.GameEntity.isPlayNow = false;
         GameData.GameEntity.isClear = false;
+        GameData.GameEntity.isLimitTime = false;
         playSound = GameObject.Find("AudioCanvas").GetComponent<PlaySound>();
 
         s_nowSceneName = SceneManager.GetActiveScene().name;    //ƒV[ƒ“–¼‚ğæ“¾

@@ -5,7 +5,7 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     //GroundChecker gc;
-    //Rigidbody2D rb;
+    [SerializeField] private Rigidbody2D rb;
 
     [SerializeField]
     Animator anim;
@@ -101,6 +101,9 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// 落ちた時のフェードの処理(コルーチン)
+    /// </summary>
     IEnumerator WaitFade()
     {
         //演出がまだ
