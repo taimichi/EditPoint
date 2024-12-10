@@ -143,5 +143,6 @@ public class GameManager : MonoBehaviour
     {
         GameData.GameEntity.b_playNow = false;
         GameData.GameEntity.b_timebarReset = true;
+        GameData.GameEntity.b_limitTime = false;
     }
 }

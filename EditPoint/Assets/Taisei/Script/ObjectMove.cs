@@ -17,7 +17,6 @@ public class ObjectMove : MonoBehaviour
 
     //単体移動
     private GameObject Obj;
-
     private bool b_objMove = false;
 
     //選択時にアウトラインをつける
@@ -26,19 +25,31 @@ public class ObjectMove : MonoBehaviour
     /// スクリプタブルオブジェクトでまとめてあるマテリアル
     /// "layerMaterials"というリストが入っている
     /// </summary>
-    [SerializeField] private Materials materials;
+    //[SerializeField] private Materials materials;
 
     //条件を簡略化する変数
     private bool b_isNoHit;
     private bool b_isSpecificTag = false;
 
-    private bool b_objSetMode = false;
+    //private bool b_objSetMode = false;
 
     private PlaySound playSound;
 
+    // ObjectScaleEditor追加
+    // アタッチすること
+    [SerializeField]
+    GameObject ObjectScaleEditor;
+
     void Start()
     {
-        playSound = GameObject.Find("AudioCanvas").GetComponent<PlaySound>();
+        if (GameObject.Find("AudioCanvas") != null)
+        {
+            playSound = GameObject.Find("AudioCanvas").GetComponent<PlaySound>();
+        }
+        else
+        {
+            Debug.Log("audioなし");
+        }
     }
 
 
@@ -51,8 +62,8 @@ public class ObjectMove : MonoBehaviour
             return;
         }
 
-        if (!b_objSetMode)
-        {
+        //if (!b_objSetMode)
+        //{
             if (Input.GetMouseButtonDown(0) && 
                 (ModeData.ModeEntity.mode == ModeData.Mode.normal || ModeData.ModeEntity.mode == ModeData.Mode.moveANDdirect))
             {
@@ -64,6 +75,12 @@ public class ObjectMove : MonoBehaviour
                     return;
                 }
 
+                if (hit2d.collider != null && hit2d.collider.tag == "Handle")
+            {
+                Debug.Log("ハンドルダヨーン");
+                return;
+            }
+
                 b_isNoHit = (hit2d == false);
                 if (!b_isNoHit)
                 {
@@ -71,33 +88,38 @@ public class ObjectMove : MonoBehaviour
                 }
 
                 //UIや動かしたくないオブジェクトだったらだったら何もしない
+                //解除
                 if (b_isNoHit || b_isSpecificTag)
                 {
                     if (ClickObj != null)
                     {
-                        if (ClickObj.name.Contains("Blower"))
-                        {
-                            ClickObj.transform.GetChild(0).GetComponent<SpriteRenderer>().material = materials.layerMaterials[0];
-                        }
-                        else
-                        {
-                            ClickObj.GetComponent<SpriteRenderer>().material = materials.layerMaterials[0];
-                        }
-                    }
+                    //if (ClickObj.name.Contains("Blower"))
+                    //{
+                    //    ClickObj.transform.GetChild(0).GetComponent<SpriteRenderer>().material = materials.layerMaterials[0];
+                    //}
+                    //else
+                    //{
+                    //    ClickObj.GetComponent<SpriteRenderer>().material = materials.layerMaterials[0];
+                    //}
+
+                }
                     ClickObj = null;
-                    return;
+
+
+
+                return;
                 }
 
                 if (ClickObj != null)
                 {
-                    if (ClickObj.name.Contains("Blower"))
-                    {
-                        ClickObj.transform.GetChild(0).GetComponent<SpriteRenderer>().material = materials.layerMaterials[0];
-                    }
-                    else
-                    {
-                        ClickObj.GetComponent<SpriteRenderer>().material = materials.layerMaterials[0];
-                    }
+                    //if (ClickObj.name.Contains("Blower"))
+                    //{
+                    //    ClickObj.transform.GetChild(0).GetComponent<SpriteRenderer>().material = materials.layerMaterials[0];
+                    //}
+                    //else
+                    //{
+                    //    ClickObj.GetComponent<SpriteRenderer>().material = materials.layerMaterials[0];
+                    //}
                 }
 
 
@@ -113,14 +135,14 @@ public class ObjectMove : MonoBehaviour
 
                 if (hit2d)
                 {
-                    if (ClickObj.name.Contains("Blower"))
-                    {
-                        ClickObj.transform.GetChild(0).GetComponent<SpriteRenderer>().material = materials.layerMaterials[1];
-                    }
-                    else
-                    {
-                        ClickObj.GetComponent<SpriteRenderer>().material = materials.layerMaterials[1];
-                    }
+                    //if (ClickObj.name.Contains("Blower"))
+                    //{
+                    //    ClickObj.transform.GetChild(0).GetComponent<SpriteRenderer>().material = materials.layerMaterials[1];
+                    //}
+                    //else
+                    //{
+                    //    ClickObj.GetComponent<SpriteRenderer>().material = materials.layerMaterials[1];
+                    //}
                     Obj = ClickObj;
 
 
@@ -135,6 +157,10 @@ public class ObjectMove : MonoBehaviour
 
                     b_objMove = true;
                     ModeData.ModeEntity.mode = ModeData.Mode.moveANDdirect;
+
+                    // エディター追加
+                    ObjectScaleEditor.SetActive(true);
+                    ObjectScaleEditor.GetComponent<ObjectScaleEditor>().GetObjTransform(Obj);
                 }
 
             }
@@ -146,6 +172,9 @@ public class ObjectMove : MonoBehaviour
                     v3_scrWldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
                     v3_scrWldPos.z = 10;
                     Obj.transform.position = v3_scrWldPos + v3_offset;
+
+
+                    ObjectScaleEditor.GetComponent<ObjectScaleEditor>().GetObjTransform(Obj);
 
                 }
                 else if (Input.GetMouseButtonUp(0))
@@ -162,8 +191,11 @@ public class ObjectMove : MonoBehaviour
                     }
                     Obj = null;
                     ModeData.ModeEntity.mode = ModeData.Mode.normal;
+
+                    
+
                 }
-            }
+            //}
         }
 
         //deleteキーで選択してるオブジェクトを消す
@@ -172,6 +204,7 @@ public class ObjectMove : MonoBehaviour
             if (ClickObj != null)
             {
                 Destroy(ClickObj);
+                ObjectScaleEditor.SetActive(false);
             }
         }
     }
@@ -179,11 +212,16 @@ public class ObjectMove : MonoBehaviour
 
     public void ObjSetMode(bool _modeTrigger)
     {
-        b_objSetMode = _modeTrigger;
+        //b_objSetMode = _modeTrigger;
     }
 
     public bool ReturnObjMove()
     {
         return b_objMove;
+    }
+
+    public GameObject ReturnClickObj()
+    {
+        return ClickObj;
     }
 }

@@ -18,6 +18,8 @@ public class ClipOperation : MonoBehaviour, IDragHandler, IBeginDragHandler, IEn
     private Vector2 v2_deltaPivot;
     private Vector3 v2_deltaPos;
 
+    private Vector2 v2_startSize;
+
     [SerializeField, Header("クリップの最小サイズ")] private float f_minSize = 350;
     [SerializeField, Header("クリップの最大サイズ")] private float f_maxSize = 1400;
     private float f_newSize;
@@ -79,6 +81,8 @@ public class ClipOperation : MonoBehaviour, IDragHandler, IBeginDragHandler, IEn
         CheckHeight();
         v2_newPos = new Vector2(f_newWidth, f_newHeight);
         targetImage.localPosition = new Vector3(v2_newPos.x, v2_newPos.y, 0);
+        v2_startSize = targetImage.sizeDelta;
+        targetImage.sizeDelta = new Vector2(v2_startSize.x, v2_startSize.y);
     }
     private void Start()
     {
@@ -224,7 +228,7 @@ public class ClipOperation : MonoBehaviour, IDragHandler, IBeginDragHandler, IEn
                 //タイムラインの範囲外に出た時
                 CheckWidth();
                 CheckHeight();
-                v2_newPos = new Vector2(f_newWidth, f_newHeight);
+                v2_newPos = new Vector2(f_newWidth + 0.1f, f_newHeight);
 
                 targetImage.localPosition = new Vector3(v2_newPos.x, v2_newPos.y, 0);
 
@@ -265,14 +269,10 @@ public class ClipOperation : MonoBehaviour, IDragHandler, IBeginDragHandler, IEn
                 if (targetImage.sizeDelta.x > f_newSize)
                 {
                     i_resizeCount--;
-
-                    Debug.Log("い");
                 }
                 //リサイズ前が小さい場合
                 else if (targetImage.sizeDelta.x < f_newSize)
                 {
-                    Debug.Log("あ");
-
                     i_resizeCount++;
                 }
             }
@@ -311,7 +311,7 @@ public class ClipOperation : MonoBehaviour, IDragHandler, IBeginDragHandler, IEn
             if (mode != CLIP_MODE.normal)
             {
                 playSound.PlaySE(PlaySound.SE_TYPE.objMove);
-                //左端とクリップが重なってる場合
+                //タイムラインの左端とクリップが重なってる場合
                 if (CheckOverrap(targetImage, rect_outLeft))
                 {
                     //サイズ変更による場合
@@ -320,7 +320,7 @@ public class ClipOperation : MonoBehaviour, IDragHandler, IBeginDragHandler, IEn
                         ReCalculationSize();
                     }
                 }
-                //右端とクリップが重なってる場合
+                //タイムラインの右端とクリップが重なってる場合
                 else if (CheckOverrap(targetImage, rect_outRight))
                 {
                     //サイズ変更による場合

@@ -20,7 +20,6 @@ public class CopyAndPaste : MonoBehaviour
     //ペースト時のオブジェクト
     private GameObject PasteObj;
 
-
     //マウスの座標関連
     private Vector3 v3_mousePos;
     private Vector3 v3_scrWldPos;

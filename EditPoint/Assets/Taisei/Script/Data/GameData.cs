@@ -33,4 +33,9 @@ public class GameData : ScriptableObject
     /// </summary>
     public bool b_timebarReset = false;
 
+    /// <summary>
+    /// “®‰æŠÔ‚ªI‚í‚Á‚½
+    /// </summary>
+    public bool b_limitTime = false;
+
 }

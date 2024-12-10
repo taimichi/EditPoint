@@ -44,7 +44,7 @@ public class TimeBar : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragH
         //çƒê∂íÜÇ©Ç«Ç§Ç©
         if (GameData.GameEntity.b_playNow)
         {
-            if (barPos.localPosition.x < f_limitPos)
+            if (barPos.localPosition.x < f_limitPos - 1)
             {
                 barPos.localPosition = v2_nowPos;
                 v2_nowPos.x += f_speed * Time.deltaTime;
@@ -53,6 +53,7 @@ public class TimeBar : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragH
             {
                 //éûä‘ÇÃå¿äEéûÇÃèàóù
                 plController.PlayerStop();
+                GameData.GameEntity.b_limitTime = true;
             }
         }
         else
@@ -128,7 +129,7 @@ public class TimeBar : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragH
     {
         barPos.localPosition = v2_startPos;
         v2_nowPos = v2_startPos;
-
+        GameData.GameEntity.b_limitTime = false;
     }
 
     /// <summary>
