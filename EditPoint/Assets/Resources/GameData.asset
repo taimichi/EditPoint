@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 984bb79636b10d5458ba3ea62e3f31b3, type: 3}
   m_Name: GameData
   m_EditorClassIdentifier: 
-  isPlayNow: 1
+  isPlayNow: 0
   isTimebarReset: 0
-  isLimitTime: 1
-  isClear: 1
+  isLimitTime: 0
+  isClear: 0
