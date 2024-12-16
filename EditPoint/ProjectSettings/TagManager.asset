@@ -14,6 +14,7 @@ TagManager:
   - Timebar
   - SelectedStage
   - MoveGround
+  - GetBlock
   layers:
   - Default
   - TransparentFX
