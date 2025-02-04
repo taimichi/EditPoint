@@ -34,7 +34,7 @@ public class GameData : ScriptableObject
     public bool isTimebarReset = false;
 
     /// <summary>
-    /// “®‰æŠÔ‚ªI‚í‚Á‚½
+    /// “®‰æŠÔ‚ªI‚í‚Á‚½‚©‚Ç‚¤‚©
     /// </summary>
     public bool isLimitTime = false;
 

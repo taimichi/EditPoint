@@ -239,12 +239,12 @@ public class ClipOperation : MonoBehaviour, IDragHandler, IBeginDragHandler, IEn
 
                 targetImage.localPosition = new Vector3(v2_newPos.x, v2_newPos.y, 0);
 
-                //タイムバーの限界座標を超えたら
-                if (CheckLimitPos())
-                {
-                    v2_newPos.x = timeBarLimitPos - targetImage.rect.width - 30;
-                    this.targetImage.localPosition = new Vector3(v2_newPos.x, v2_newPos.y, 0);
-                }
+                ////タイムバーの限界座標を超えたら
+                //if (CheckLimitPos())
+                //{
+                //    v2_newPos.x = timeBarLimitPos - targetImage.rect.width - 30;
+                //    this.targetImage.localPosition = new Vector3(v2_newPos.x, v2_newPos.y, 0);
+                //}
 
                 return;
             }
@@ -294,14 +294,13 @@ public class ClipOperation : MonoBehaviour, IDragHandler, IBeginDragHandler, IEn
 
             targetImage.sizeDelta = new Vector2(f_newSize, targetImage.sizeDelta.y);
 
-            //サイズ変更時にタイムバーの限界座標に行ったとき
-            if (CheckLimitPos())
-            {
-                Debug.Log("test");
-                targetImage.sizeDelta = savePos;
+            ////サイズ変更時にタイムバーの限界座標に行ったとき
+            //if (CheckLimitPos())
+            //{
+            //    targetImage.sizeDelta = savePos;
 
-            }
-            savePos = targetImage.sizeDelta;
+            //}
+            //savePos = targetImage.sizeDelta;
         }
     }
 
@@ -315,6 +314,8 @@ public class ClipOperation : MonoBehaviour, IDragHandler, IBeginDragHandler, IEn
 
         if (!b_Lock)
         {
+            //ピボットを初期のものに
+            SetPivot(targetImage, new Vector2(0, 0.5f));
             //重なった場合
             GetClipRect();
             for (int i = 0; i < ClipsRect.Length; i++)

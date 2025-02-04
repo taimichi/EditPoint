@@ -71,6 +71,7 @@ public class ClipFunction : MonoBehaviour
         }
 
         Clip = GetClip.ReturnGetClip();
+        Clip.transform.GetChild(0).gameObject.SetActive(false);
         RectTransform clipRect = Clip.GetComponent<RectTransform>();
         ClipPlay clipPlay = Clip.GetComponent<ClipPlay>();
 
@@ -115,19 +116,12 @@ public class ClipFunction : MonoBehaviour
             //クリップと紐づけられたオブジェクトを取得
             List<GameObject> newConnectObj = clipPlay.ReturnConnectObj();
 
-            //クリップに紐づけられたオブジェクトを複製して、新しいクリップと紐づけ
-            for(int i = 0; i < newConnectObj.Count; i++)
-            {
-                GameObject obj = Instantiate(newConnectObj[i]);
-                newClipPlay.OutGetObj(obj);
-            }
-
             //クリップの長さと速さの初期値を設定
-            //クリップ１
+            //クリップ(左)
             ClipSpeed clipSpeed = Clip.GetComponent<ClipSpeed>();
             clipSpeed.GetStartWidth(dis);   // 長さ
             clipSpeed.UpdateSpeed(1f);      // 速さ
-            //クリップ２
+            //クリップ(右)
             ClipSpeed newClipSpeed = newClip.GetComponent<ClipSpeed>();
             newClipSpeed.GetStartWidth(newDis); //長さ
             newClipSpeed.UpdateSpeed(1f);       //速さ
@@ -135,6 +129,18 @@ public class ClipFunction : MonoBehaviour
             newClipPlay.CalculationMaxTime();
             new_maxTime = newClipPlay.ReturnMaxTime();
             newClipPlay.UpdateStartTime(old_maxTime - new_maxTime);
+
+            //クリップに紐づけられたオブジェクトを複製して、新しいクリップと紐づけ
+            for (int i = 0; i < newConnectObj.Count; i++)
+            {
+                GameObject obj = Instantiate(newConnectObj[i]);
+                //動く床だった時
+                if(TryGetComponent<MoveGround>(out var test))
+                {
+                    test.GetClipTime_Auto(old_maxTime - new_maxTime);
+                }
+                newClipPlay.OutGetObj(obj);
+            }
         }
     }
 

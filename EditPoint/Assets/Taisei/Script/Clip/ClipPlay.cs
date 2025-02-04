@@ -16,7 +16,7 @@ public class ClipPlay : MonoBehaviour
     private GameObject AllClip; //親オブジェクト
     private ClipGenerator clipGenerator;    //クリップ生成用スクリプト
 
-    private bool b_getObjMode = false;
+    private bool isGetObjMode = false;
 
 
     [SerializeField] private ClipSpeed clipSpeed;   //クリップの再生速度に関するスクリプト
@@ -26,8 +26,8 @@ public class ClipPlay : MonoBehaviour
 
     private AddTextManager addTextManager;
 
-    private RectTransform rect_grandParent; //親の親オブジェクト
-    private float f_manualTime = 0; //タイムバーを手動で動かしたときの時間
+    private RectTransform rect_grandParent; //親の親オブジェクトのrectTransform
+    private float manualTime = 0; //タイムバーを手動で動かしたときの時間
 
     private MoveGround move;
 
@@ -36,10 +36,12 @@ public class ClipPlay : MonoBehaviour
     private float startTime = 0f;
     private float maxTime = 0f;
 
+    private MoveGroundManager MGManager;
+
     private void Awake()
     {
         startTime = 0f;
-        f_manualTime = 0f;
+        manualTime = 0f;
     }
 
     void Start()
@@ -51,6 +53,8 @@ public class ClipPlay : MonoBehaviour
         AllClip = GameObject.Find("AllClip");
         clipGenerator = AllClip.GetComponent<ClipGenerator>();
         addTextManager = AllClip.GetComponent<AddTextManager>();
+
+        MGManager = GameObject.Find("GameManager").GetComponent<MoveGroundManager>();
 
         //生成したクリップの場合
         if (ConnectObj.Count == 0)
@@ -95,7 +99,7 @@ public class ClipPlay : MonoBehaviour
         }
 
         //オブジェクト取得
-        if (b_getObjMode)
+        if (isGetObjMode)
         {
             if (!EventSystem.current.IsPointerOverGameObject())
             {
@@ -166,7 +170,7 @@ public class ClipPlay : MonoBehaviour
             //クリップの経過時間
             Vector3 leftEdge = rect_grandParent.InverseTransformPoint(rect_Clip.position) + new Vector3(-rect_Clip.rect.width * rect_Clip.pivot.x, 0, 0);
             float dis = rect_timeBar.localPosition.x - leftEdge.x;
-            f_manualTime = ((float)Math.Truncate(dis / TimelineData.TimelineEntity.f_oneTickWidht * 10) / 10) / 2;
+            manualTime = ((float)Math.Truncate(dis / TimelineData.TimelineEntity.f_oneTickWidht * 10) / 10) / 2;
 
             //タイムバーを手動で動かしてる時
             if (TimeData.TimeEntity.b_DragMode)
@@ -176,7 +180,7 @@ public class ClipPlay : MonoBehaviour
                     if (ConnectObj[i].GetComponent<MoveGround>())
                     {
                         move = ConnectObj[i].GetComponent<MoveGround>();
-                        move.GetClipTime_Manual(startTime + f_manualTime);
+                        move.GetClipTime_Manual(startTime + manualTime);
                     }
                 }
             }
@@ -306,6 +310,7 @@ public class ClipPlay : MonoBehaviour
                     //子オブジェクトを解除する
                     ConnectObj[i].transform.Find("Player").gameObject.transform.parent = null;
                 }
+                MGManager.DeleteMoveGrounds(ConnectObj[i]);
             }
         Destroy(ConnectObj[i]);
         }

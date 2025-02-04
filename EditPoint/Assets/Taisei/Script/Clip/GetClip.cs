@@ -41,8 +41,10 @@ public class GetClip : MonoBehaviour
 
             foreach (RaycastResult result in results)
             {
+                //クリップかタイムバーかどうか
                 isTagHit = new List<string> { "CreateClip", "SetClip", "Timebar"}.Contains(result.gameObject.tag);
 
+                //クリップかタイムバーの時のみ
                 if(isTagHit)
                 {
                     //タイムバーに触れた時はforeachから即抜け出す
