@@ -13,7 +13,10 @@ public class CheckMoveGround : MonoBehaviour
         if(collision.gameObject.layer == LayerMask.NameToLayer("Ground"))
         {
             isTrigger = true;
-            move.SetTrigger(isTrigger);
+            if (move != null)
+            {
+                move.SetTrigger(isTrigger);
+            }
         }
     }
 
@@ -22,7 +25,11 @@ public class CheckMoveGround : MonoBehaviour
         if (collision.gameObject.layer == LayerMask.NameToLayer("Ground"))
         {
             isTrigger = false;
-            //move.SetTrigger(isTrigger);
         }
+    }
+
+    public bool ReturnIsTrigger()
+    {
+        return isTrigger;
     }
 }

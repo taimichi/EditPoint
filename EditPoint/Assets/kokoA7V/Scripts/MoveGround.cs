@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Pixeye.Unity; //インスペクターを整理するためのやつ
 
 public class MoveGround : MonoBehaviour
 {
@@ -56,9 +57,11 @@ public class MoveGround : MonoBehaviour
     private bool isInvert = false;
 
     //動く床の幻影
-    [SerializeField] private GameObject child;
-    [SerializeField] private CheckHitGround childCheck;
-    [SerializeField] private SpriteRenderer childSR;
+    [Foldout("child"), SerializeField] private GameObject child;
+    [Foldout("child"), SerializeField] private CheckMoveGround childCheck;
+    [Foldout("child"), SerializeField] private SpriteRenderer childSR;
+    [Foldout("child"), SerializeField] private Color N_color;   // 通常の時の色
+    [Foldout("child"), SerializeField] private Color C_color;   // 床に触れた時
 
     private float beforeTime = 0f;
 
@@ -75,6 +78,7 @@ public class MoveGround : MonoBehaviour
 
     private void Start()
     {
+        childSR.color = N_color;
         MGManager = GameObject.Find("GameManager").GetComponent<MoveGroundManager>();
         MGManager.GetMoveGrounds(this.gameObject);
         info.isSave = false;
@@ -228,11 +232,17 @@ public class MoveGround : MonoBehaviour
             Vector3 movePos = moveSpeed * ManualClipTime * speed * playSpeed;
             child.transform.position = startPos + movePos;
 
-            if(beforeTime > _manualClipTime)
+            //幻影の色変化処理
+            if (childCheck.ReturnIsTrigger() && beforeTime == 0)
             {
-
+                beforeTime = _manualClipTime;
+                childSR.color = C_color;
             }
-            beforeTime = _manualClipTime;
+            else if (beforeTime > _manualClipTime && !childCheck.ReturnIsTrigger())
+            {
+                childSR.color = N_color;
+                beforeTime = 0;
+            }
         }
     }
 
