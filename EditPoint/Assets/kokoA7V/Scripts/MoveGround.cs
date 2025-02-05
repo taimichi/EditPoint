@@ -57,11 +57,11 @@ public class MoveGround : MonoBehaviour
     private bool isInvert = false;
 
     //動く床の幻影
-    [Foldout("child"), SerializeField] private GameObject child;
-    [Foldout("child"), SerializeField] private CheckMoveGround childCheck;
-    [Foldout("child"), SerializeField] private SpriteRenderer childSR;
-    [Foldout("child"), SerializeField] private Color N_color;   // 通常の時の色
-    [Foldout("child"), SerializeField] private Color C_color;   // 床に触れた時
+    [Foldout("Child"), SerializeField] private GameObject child;
+    [Foldout("Child"), SerializeField] private CheckMoveGround childCheck;
+    [Foldout("Child"), SerializeField] private SpriteRenderer childSR;
+    [Foldout("Child"), SerializeField] private Color N_color;   // 通常の時の色
+    [Foldout("Child"), SerializeField] private Color C_color;   // 床に触れた時
 
     private float beforeTime = 0f;
 
@@ -114,6 +114,10 @@ public class MoveGround : MonoBehaviour
                 {
                     this.transform.position = startPos;
                     isStart = true;
+                    if (info.isSave)
+                    {
+                        this.transform.position = info.savePos;
+                    }
                 }
 
                 // 移動用
@@ -322,8 +326,8 @@ public class MoveGround : MonoBehaviour
             //カットされたクリップの時
             if(info.isSave)
             {
-                this.transform.position = info.savePos;
-                startPos = info.savePos;
+                this.transform.position = startPos;
+                //startPos = info.savePos;
                 nowPath = info.savePathNum;
                 timer = info.saveTime;
             }
@@ -334,6 +338,7 @@ public class MoveGround : MonoBehaviour
                 nowPath = 0;
             }
             isInvert = false;
+            isStart = false;
         }
     }
 
