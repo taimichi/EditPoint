@@ -25,6 +25,8 @@ public class TimeBar : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragH
         TimeData.TimeEntity.f_nowTime = f_nowTime;
 
         f_limitPos = v2_startPos.x + (limit * 2 * TimelineData.TimelineEntity.f_oneTickWidht);
+
+        transform.SetAsLastSibling();
     }
 
     void Start()

@@ -35,9 +35,6 @@ public class MoveGround : MonoBehaviour
     //初期位置
     Vector3 startPos;
 
-    //スタートを押して一回目かどうか
-    private bool isStart = false;
-
     //カットしたかどうか
     private bool isCut = false;
 
@@ -66,7 +63,7 @@ public class MoveGround : MonoBehaviour
     private float beforeTime = 0f;
 
 
-    //カットした時の保存用構造体
+    //カットした時の保存用
     private struct saveInfo
     {
         public bool isSave;         // カットしてあるかどうか
@@ -109,20 +106,16 @@ public class MoveGround : MonoBehaviour
             if (GameData.GameEntity.isPlayNow)
             {
                 child.SetActive(false);
-                //再生ボタンを1回も押してなかったら
-                if (!isStart)
+                this.transform.position = startPos;
+                if (info.isSave)
                 {
-                    this.transform.position = startPos;
-                    isStart = true;
-                    if (info.isSave)
-                    {
-                        this.transform.position = info.savePos;
-                    }
+                    this.transform.position = info.savePos;
                 }
 
                 // 移動用
                 Vector3 movePos = this.transform.position;
 
+                //方向を計算
                 Vector3 dist = path[nowPath + 1] - path[nowPath];
                 if (nowPath + 1 == path.Count - 1)
                 {
@@ -133,8 +126,6 @@ public class MoveGround : MonoBehaviour
                 //地面と触れた時
                 if (isGroundHit)
                 {
-                    Debug.Log("地面と接触中" + nowPath);
-
                     isCheckGroundHit = true;
                     isInvert = true;
                 }
@@ -153,10 +144,11 @@ public class MoveGround : MonoBehaviour
                 nowPos.x = Mathf.Floor(nowPos.x * 10) / 10;
                 nowPos.y = Mathf.Floor(nowPos.y * 10) / 10;
 
+                //反転処理
                 if (isInvert)
                 {
                     int i = nowPath;
-                    if(nowPath == 0)
+                    if (nowPath == 0)
                     {
                         i = path.Count - 1;
                     }
@@ -203,8 +195,6 @@ public class MoveGround : MonoBehaviour
         else
         {
             child.SetActive(true);
-            isStart = false;
-
             //拡張性がないので、そのうち直す必要あり…
             //↓手動で動かすときの処理　２点間なら動く(ブロックの動く座標が3か所になったら上手くいくかわからない)
             ManualClipTime = _manualClipTime;
@@ -338,7 +328,6 @@ public class MoveGround : MonoBehaviour
                 nowPath = 0;
             }
             isInvert = false;
-            isStart = false;
         }
     }
 

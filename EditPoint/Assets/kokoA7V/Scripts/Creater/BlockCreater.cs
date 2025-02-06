@@ -62,9 +62,9 @@ public class BlockCreater : MonoBehaviour
             Debug.Log("audioÇ»Ç¢ÇÊÅ`");
         }
 
-        if (GameObject.Find("AllClip") != null)
+        if (GameObject.Find("ClipManager") != null)
         {
-            clipGenerator = GameObject.Find("AllClip").GetComponent<ClipGenerator>();
+            clipGenerator = GameObject.Find("ClipManager").GetComponent<ClipGenerator>();
         }
         else
         {
