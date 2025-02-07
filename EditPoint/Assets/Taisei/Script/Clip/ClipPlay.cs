@@ -26,7 +26,6 @@ public class ClipPlay : MonoBehaviour
 
     private AddTextManager addTextManager;
 
-    private RectTransform rect_grandParent; //親の親オブジェクトのrectTransform
     private float manualTime = 0; //タイムバーを手動で動かしたときの時間
 
     private MoveGround move;
@@ -38,7 +37,7 @@ public class ClipPlay : MonoBehaviour
 
     private MoveGroundManager MGManager;
 
-    private CheckOverlap checkOverlap;
+    private CheckOverlap checkOverlap = new CheckOverlap();
 
     private void Awake()
     {
@@ -48,8 +47,6 @@ public class ClipPlay : MonoBehaviour
 
     void Start()
     {
-        rect_grandParent = rect_Clip.parent.parent.GetComponent<RectTransform>();
-
         //タイムバーのRectTransformを取得
         rect_timeBar = GameObject.Find("Timebar").GetComponent<RectTransform>();
         ClipManager = GameObject.Find("ClipManager");
@@ -170,12 +167,12 @@ public class ClipPlay : MonoBehaviour
         if (checkOverlap.IsOverlap(rect_Clip, rect_timeBar))
         {
             //クリップの経過時間
-            Vector3 leftEdge = rect_grandParent.InverseTransformPoint(rect_Clip.position) + new Vector3(-rect_Clip.rect.width * rect_Clip.pivot.x, 0, 0);
+            Vector3 leftEdge = rect_Clip.localPosition + new Vector3(-rect_Clip.rect.width * rect_Clip.pivot.x, 0, 0);
             float dis = rect_timeBar.localPosition.x - leftEdge.x;
             manualTime = ((float)Math.Truncate(dis / TimelineData.TimelineEntity.f_oneTickWidht * 10) / 10) / 2;
 
             //タイムバーを手動で動かしてる時
-            if (TimeData.TimeEntity.b_DragMode)
+            if (TimeData.TimeEntity.isDragMode)
             {
                 for (int i = 0; i < ConnectObj.Count; i++)
                 {
@@ -260,6 +257,7 @@ public class ClipPlay : MonoBehaviour
             //タイムバーと接触していないとき
             for (int i = 0; i < ConnectObj.Count; i++)
             {
+                //動く床だったとき
                 if (ConnectObj[i].name.Contains("MoveGround"))
                 {
                     //プレイヤーがMoveGroundの子オブジェクトになってる時
@@ -269,7 +267,7 @@ public class ClipPlay : MonoBehaviour
                         ConnectObj[i].transform.Find("Player").gameObject.transform.parent = null;
                     }
 
-                    //動く床だったときは非表示にする前に初期位置に戻す
+                    //非表示にする前に初期位置に戻す
                     ConnectObj[i].GetComponent<MoveGround>().SetStartPos();
                 }
                 //表示状態だったら

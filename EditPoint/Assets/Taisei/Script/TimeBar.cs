@@ -7,34 +7,33 @@ using UnityEngine.EventSystems;
 
 public class TimeBar : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHandler
 {
-    [SerializeField] private float f_speed = 278f;
+    [SerializeField] private float speed = 140f;
     private RectTransform barPos;
-    private Vector2 v2_nowPos;
+    private Vector2 nowPos;
     [SerializeField, Header("時間(秒)")] private float limit = 60f;
-    private Vector2 v2_startPos;
+    private Vector2 startPos;
 
-    private float f_limitPos = 0f;
-    private float f_nowTime = 0;
-    private bool b_dragMode = false;
+    private float limitPosX = 0f;
+    private float nowTime = 0;
+    private bool isDragMode = false;
 
     private PlayerController plController;
 
     private void Awake()
     {
-        TimeData.TimeEntity.b_DragMode = b_dragMode;
-        TimeData.TimeEntity.f_nowTime = f_nowTime;
+        TimeData.TimeEntity.isDragMode = isDragMode;
+        TimeData.TimeEntity.nowTime = nowTime;
+        barPos = this.gameObject.GetComponent<RectTransform>();
+        startPos = barPos.localPosition;
 
-        f_limitPos = v2_startPos.x + (limit * 2 * TimelineData.TimelineEntity.f_oneTickWidht);
+        limitPosX = startPos.x + (limit * 2 * TimelineData.TimelineEntity.f_oneTickWidht);
 
         transform.SetAsLastSibling();
     }
 
     void Start()
     {
-        barPos = this.gameObject.GetComponent<RectTransform>();
-        v2_nowPos = barPos.localPosition;
-        v2_startPos = barPos.localPosition;
-        f_limitPos = v2_startPos.x + (limit * 2 * TimelineData.TimelineEntity.f_oneTickWidht);
+        nowPos = barPos.localPosition;
 
         plController = GameObject.Find("Player").GetComponent<PlayerController>();
     }
@@ -49,11 +48,13 @@ public class TimeBar : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragH
         //再生中かどうか
         if (GameData.GameEntity.isPlayNow)
         {
-            if (barPos.localPosition.x < f_limitPos - 1)
+            //時間内の時
+            if (barPos.localPosition.x < limitPosX - 1)
             {
-                barPos.localPosition = v2_nowPos;
-                v2_nowPos.x += f_speed * Time.deltaTime;
+                barPos.localPosition = nowPos;
+                nowPos.x += speed * Time.deltaTime;
             }
+            //最後まで再生した時
             else
             {
                 //時間の限界時の処理
@@ -63,9 +64,9 @@ public class TimeBar : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragH
         }
         else
         {
-            float f_distance = this.transform.localPosition.x - v2_startPos.x;
-            f_nowTime = (float)Math.Truncate(f_distance / f_speed * 10) / 10;
-            TimeData.TimeEntity.f_nowTime = f_nowTime;
+            float f_distance = this.transform.localPosition.x - startPos.x;
+            nowTime = (float)Math.Truncate(f_distance / speed * 10) / 10;
+            TimeData.TimeEntity.nowTime = nowTime;
 
         }
 
@@ -80,8 +81,8 @@ public class TimeBar : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragH
             return;
         }
 
-        b_dragMode = true;
-        TimeData.TimeEntity.b_DragMode = b_dragMode;
+        isDragMode = true;
+        TimeData.TimeEntity.isDragMode = isDragMode;
     }
 
     //ドラッグ中
@@ -101,17 +102,17 @@ public class TimeBar : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragH
             out Vector2 v2_mousePos
         );
 
-        v2_mousePos.y = v2_startPos.y;
-        if (v2_mousePos.x <= v2_startPos.x)
+        v2_mousePos.y = startPos.y;
+        if (v2_mousePos.x <= startPos.x)
         {
-            v2_mousePos.x = v2_startPos.x;
+            v2_mousePos.x = startPos.x;
         }
-        else if(v2_mousePos.x >= f_limitPos)
+        else if(v2_mousePos.x >= limitPosX)
         {
-            v2_mousePos.x = f_limitPos;
+            v2_mousePos.x = limitPosX;
         }
         barPos.localPosition = v2_mousePos;
-        v2_nowPos = barPos.localPosition;
+        nowPos = barPos.localPosition;
     }
 
     //ドラッグ終了時
@@ -123,8 +124,8 @@ public class TimeBar : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragH
             return;
         }
 
-        b_dragMode = false;
-        TimeData.TimeEntity.b_DragMode = b_dragMode;
+        isDragMode = false;
+        TimeData.TimeEntity.isDragMode = isDragMode;
     }
 
     /// <summary>
@@ -132,8 +133,8 @@ public class TimeBar : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragH
     /// </summary>
     public void OnReStart()
     {
-        barPos.localPosition = v2_startPos;
-        v2_nowPos = v2_startPos;
+        barPos.localPosition = startPos;
+        nowPos = startPos;
         GameData.GameEntity.isLimitTime = false;
     }
 
@@ -143,7 +144,7 @@ public class TimeBar : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragH
     /// <returns>true=ドラッグ中　false=ドラッグしてない</returns>
     public bool ReturnDragMode()
     {
-        return b_dragMode;
+        return isDragMode;
     }
 
     /// <summary>
@@ -152,6 +153,6 @@ public class TimeBar : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragH
     /// <returns>タイムバーの限界X座標(float型)</returns>
     public float ReturnLimitPos()
     {
-        return f_limitPos;
+        return limitPosX;
     }
 }

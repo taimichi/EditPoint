@@ -53,6 +53,8 @@ public class MoveGround : MonoBehaviour
     /// </summary>
     private bool isInvert = false;
 
+    private bool isStart = false;
+
     //動く床の幻影
     [Foldout("Child"), SerializeField] private GameObject child;
     [Foldout("Child"), SerializeField] private CheckMoveGround childCheck;
@@ -89,6 +91,7 @@ public class MoveGround : MonoBehaviour
         startPos = this.transform.position;
         isCut = false;
         isInvert = false;
+        isStart = false;
     }
 
     private void Update()
@@ -100,16 +103,25 @@ public class MoveGround : MonoBehaviour
         }
 
         //自動
-        if (!TimeData.TimeEntity.b_DragMode)
+        if (!TimeData.TimeEntity.isDragMode)
         {
             //再生中のみ
             if (GameData.GameEntity.isPlayNow)
             {
                 child.SetActive(false);
-                this.transform.position = startPos;
-                if (info.isSave)
+                if (!isStart)
                 {
-                    this.transform.position = info.savePos;
+                    isStart = true;
+                    //カットされたとき
+                    if (info.isSave)
+                    {
+                        this.transform.position = info.savePos;
+                    }
+                    //カットされていないとき
+                    else
+                    {
+                        this.transform.position = startPos;
+                    }
                 }
 
                 // 移動用
@@ -194,6 +206,7 @@ public class MoveGround : MonoBehaviour
         //手動
         else
         {
+            isStart = false;
             child.SetActive(true);
             //拡張性がないので、そのうち直す必要あり…
             //↓手動で動かすときの処理　２点間なら動く(ブロックの動く座標が3か所になったら上手くいくかわからない)
@@ -215,15 +228,17 @@ public class MoveGround : MonoBehaviour
             }
             //↑仮処理ここまで
 
-            Vector3 dist = path[nowPath + 1] - path[nowPath];
-            if (nowPath + 1 == path.Count - 1)
+            Vector3 dist = path[i + 1] - path[i];
+            if (i + 1 == path.Count - 1)
             {
-                dist = path[nowPath - 1] - path[nowPath];
+                dist = path[i - 1] - path[i];
             }
-
-            Vector3 moveSpeed = dist / pathTime[nowPath];
-
+            Vector3 moveSpeed = dist / pathTime[i];
             Vector3 movePos = moveSpeed * ManualClipTime * speed * playSpeed;
+            if (i == pathTime.Count - 2)
+            {
+                movePos *= -1;
+            }
             child.transform.position = startPos + movePos;
 
             //幻影の色変化処理
@@ -267,6 +282,7 @@ public class MoveGround : MonoBehaviour
         //カット機能を使った際の処理
         if (_autoClipTime > 0 && !isCut)
         {
+            Debug.Log("カットした");
             int i = 0;
             AutoClipTime = _autoClipTime;
             //スタート時間を動く床の移動時間から順に引いていく
@@ -317,7 +333,6 @@ public class MoveGround : MonoBehaviour
             if(info.isSave)
             {
                 this.transform.position = startPos;
-                //startPos = info.savePos;
                 nowPath = info.savePathNum;
                 timer = info.saveTime;
             }
@@ -328,6 +343,7 @@ public class MoveGround : MonoBehaviour
                 nowPath = 0;
             }
             isInvert = false;
+            isStart = false;
         }
     }
 

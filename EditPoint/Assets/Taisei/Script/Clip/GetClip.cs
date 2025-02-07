@@ -59,6 +59,7 @@ public class GetClip : MonoBehaviour
                         {
                             BlinkImageObj.SetActive(false);
                         }
+                        //一つ目の子オブジェクト(取得した時に出る枠)を取得
                         BlinkImageObj = result.gameObject.transform.GetChild(0).gameObject;
                         Clip = result.gameObject;
                         BlinkImageObj.SetActive(true);

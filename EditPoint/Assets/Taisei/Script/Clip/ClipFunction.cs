@@ -12,12 +12,10 @@ public class ClipFunction : MonoBehaviour
 
     private GameObject Clip;
 
-    private RectTransform grandParentRect;
-
     private float old_maxTime = 0f; //カット前のクリップの最大時間
     private float new_maxTime = 0f; //カットした後のクリップの最大時間
 
-    private CheckOverlap checkOverlap;
+    private CheckOverlap checkOverlap = new CheckOverlap();
 
     /// <summary>
     /// カット機能　ボタンで呼び出す
@@ -30,7 +28,9 @@ public class ClipFunction : MonoBehaviour
             return;
         }
 
+        //クリックしたクリップを取得
         Clip = GetClip.ReturnGetClip();
+        //クリップの枠を非表示
         Clip.transform.GetChild(0).gameObject.SetActive(false);
         RectTransform clipRect = Clip.GetComponent<RectTransform>();
         ClipPlay clipPlay = Clip.GetComponent<ClipPlay>();
@@ -40,10 +40,8 @@ public class ClipFunction : MonoBehaviour
         {
             old_maxTime = clipPlay.ReturnMaxTime();
 
-            grandParentRect = clipRect.parent.parent.GetComponent<RectTransform>();
-
             //選択したクリップの左端の座標
-            Vector3 leftEdge = grandParentRect.InverseTransformPoint(clipRect.position) 
+            Vector3 leftEdge = clipRect.localPosition 
                 + new Vector3(clipRect.rect.width * clipRect.pivot.x, 0, 0);
             //左端からの長さ
             float dis = Timebar.localPosition.x - leftEdge.x;
@@ -61,7 +59,7 @@ public class ClipFunction : MonoBehaviour
             float rightEdge = clipRect.anchoredPosition.x + (clipRect.rect.width * (1 - clipRect.pivot.x));
 
             //カットした時の右側用
-            GameObject newClip = Instantiate(Clip, clipRect.localPosition, Quaternion.identity, this.gameObject.transform);
+            GameObject newClip = Instantiate(Clip, clipRect.localPosition, Quaternion.identity, this.transform.parent);
             newClip.name = Clip.name + "(CutClip)";
             RectTransform newClipRect = newClip.GetComponent<RectTransform>();
             //カットしたクリップの長さを調整

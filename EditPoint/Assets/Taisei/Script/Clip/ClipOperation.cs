@@ -53,7 +53,7 @@ public class ClipOperation : MonoBehaviour, IDragHandler, IBeginDragHandler, IEn
     //クリップの移動、サイズ変更機能が使用可能かどうか
     [SerializeField] private bool b_Lock = false;
 
-    private CheckOverlap checkOverlap;
+    private CheckOverlap checkOverlap = new CheckOverlap();
 
     private enum CLIP_MODE
     {
@@ -320,6 +320,9 @@ public class ClipOperation : MonoBehaviour, IDragHandler, IBeginDragHandler, IEn
             GetClipRect();
             for (int i = 0; i < ClipsRect.Length; i++)
             {
+                ClipsRect[i].localPosition = new Vector3(
+                    ClipsRect[i].localPosition.x - 0.1f, ClipsRect[i].localPosition.y, ClipsRect[i].localPosition.z);
+
                 if (checkOverlap.IsOverlap(targetImage, ClipsRect[i]))
                 {
                     //同じオブジェクトじゃないとき
@@ -405,6 +408,7 @@ public class ClipOperation : MonoBehaviour, IDragHandler, IBeginDragHandler, IEn
         {
             f_newWidth = ((float)Math.Round(posX / f_oneWidth) + 1) * f_oneWidth + 30f;
         }
+        //計算にある 30 はタイムラインの枠の分
     }
 
     /// <summary>
@@ -421,6 +425,7 @@ public class ClipOperation : MonoBehaviour, IDragHandler, IBeginDragHandler, IEn
         {
             f_newHeight = ((float)Math.Round(posY / f_oneHeight) + 1) * f_oneHeight - 15f;
         }
+        //計算にある 15 はタイムラインの枠の分
     }
 
     /// <summary>
