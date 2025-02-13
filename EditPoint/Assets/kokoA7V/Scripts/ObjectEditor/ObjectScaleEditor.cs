@@ -35,11 +35,9 @@ public class ObjectScaleEditor : MonoBehaviour
     // クリックの状態
     Vector2 clickStartPos;
 
-    [SerializeField]
     bool isHandleGrab = false;
 
     // 取得したハンドル情報
-    [SerializeField]
     float nowHandlePriority = 0;
     Vector2 scaleSign;
     bool isHandleRot = false;
@@ -134,12 +132,6 @@ public class ObjectScaleEditor : MonoBehaviour
         // 変更後
         Vector2 editVec = new Vector2(mouseVec.magnitude * Mathf.Cos(editRad), mouseVec.magnitude * Mathf.Sin(editRad));
 
-        //Vector2 positionSign = new Vector2(Mathf.Abs(scaleSign.x), Mathf.Abs(scaleSign.y));
-        //if (positionSign.x == 0 || positionSign.y == 0)
-        //{
-        //    positionSign = new Vector2(Mathf.Abs(scaleSign.x) * Mathf.Cos(objRotation * Mathf.Deg2Rad), Mathf.Abs(scaleSign.y) * Mathf.Sin(objRotation * Mathf.Deg2Rad));
-        //}
-
         Vector2 rotMouseVec = nowMousePos - objPosition;
         float rotRad = Mathf.Atan2(rotMouseVec.y, rotMouseVec.x);
 
@@ -155,7 +147,8 @@ public class ObjectScaleEditor : MonoBehaviour
                 }
                 else
                 {
-                    virtualObject.transform.position = objPosition + mouseVec / 2;
+                    Vector3 absSign = new Vector3(Mathf.Abs(scaleSign.x), Mathf.Abs(scaleSign.y), 1);
+                    virtualObject.transform.position = objPosition + mouseVec / 2 * absSign;
                     virtualObject.transform.localScale = objScale + editVec * scaleSign;
                 }
             }

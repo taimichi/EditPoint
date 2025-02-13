@@ -179,11 +179,11 @@ public class PlayerController : MonoBehaviour
             {
                 if (hit.collider.gameObject.TryGetComponent<GroundAttr>(out var typeAttr))
                 {
-                    Debug.Log("Ç†ÇΩÇ¡ÇΩÇ‚Ç¬:" + hit.collider);
+                    //Debug.Log("Ç†ÇΩÇ¡ÇΩÇ‚Ç¬:" + hit.collider);
                     if (typeAttr.isGround)
                     {
                         isHit = true;
-                        Debug.Log("ÇÕÇÒÇƒÅ[ÇÒ");
+                        //Debug.Log("ÇÕÇÒÇƒÅ[ÇÒ");
                     }
                 }
             }
