@@ -6,7 +6,9 @@ public class CheckMoveGround : MonoBehaviour
 {
     [SerializeField] private MoveGround move;
     private bool isTrigger = false;
-   
+
+    public bool ReturnIsTrigger() => isTrigger;
+
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -26,10 +28,5 @@ public class CheckMoveGround : MonoBehaviour
         {
             isTrigger = false;
         }
-    }
-
-    public bool ReturnIsTrigger()
-    {
-        return isTrigger;
     }
 }

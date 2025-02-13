@@ -23,8 +23,5 @@ public class CheckHitGround : MonoBehaviour
         }
     }
 
-    public bool ReturnHit()
-    {
-        return isHit;
-    }
+    public bool ReturnHit() => isHit;
 }

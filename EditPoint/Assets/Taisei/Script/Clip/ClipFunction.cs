@@ -47,7 +47,7 @@ public class ClipFunction : MonoBehaviour
             float dis = Timebar.localPosition.x - leftEdge.x;
 
             //サイズを調整
-            dis = ((float)Math.Round(dis / TimelineData.TimelineEntity.f_oneResize)) * TimelineData.TimelineEntity.f_oneResize;
+            dis = ((float)Math.Round(dis / TimelineData.TimelineEntity.oneResize)) * TimelineData.TimelineEntity.oneResize;
             
             //タイムバーから右端までの長さ
             float newDis = clipRect.rect.width - dis;

@@ -235,7 +235,7 @@ public class MoveGround : MonoBehaviour
             }
             Vector3 moveSpeed = dist / pathTime[i];
             Vector3 movePos = moveSpeed * ManualClipTime * speed * playSpeed;
-            if (i == pathTime.Count - 2)
+            if (i == path.Count - 2)
             {
                 movePos *= -1;
             }

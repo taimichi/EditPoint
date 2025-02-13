@@ -93,8 +93,5 @@ public class GetClip : MonoBehaviour
     /// 取得したクリップを返す
     /// </summary>
     /// <returns>マウスで選択したクリップ</returns>
-    public GameObject ReturnGetClip()
-    {
-        return Clip;
-    }
+    public GameObject ReturnGetClip() => Clip;
 }

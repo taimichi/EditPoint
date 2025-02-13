@@ -7,11 +7,6 @@ public class MoveGroundManager : MonoBehaviour
     private List<GameObject> MoveGrounds = new List<GameObject>();
     private List<MoveGround> moveGroundScripts = new List<MoveGround>();
 
-    void Start()
-    {
-
-    }
-
     void Update()
     {
         MoveGroundController();

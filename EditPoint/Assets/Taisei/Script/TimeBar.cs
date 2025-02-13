@@ -10,7 +10,7 @@ public class TimeBar : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragH
     [SerializeField] private float speed = 140f;
     private RectTransform barPos;
     private Vector2 nowPos;
-    [SerializeField, Header("時間(秒)")] private float limit = 60f;
+    private float limit = 60f;
     private Vector2 startPos;
 
     private float limitPosX = 0f;
@@ -18,6 +18,7 @@ public class TimeBar : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragH
     private bool isDragMode = false;
 
     private PlayerController plController;
+    [SerializeField] private TimelineManager TLManager;
 
     private void Awake()
     {
@@ -26,7 +27,9 @@ public class TimeBar : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragH
         barPos = this.gameObject.GetComponent<RectTransform>();
         startPos = barPos.localPosition;
 
-        limitPosX = startPos.x + (limit * 2 * TimelineData.TimelineEntity.f_oneTickWidht);
+        limit = TLManager.ReturnTimebarLimit();
+
+        limitPosX = startPos.x + (limit * 2 * TimelineData.TimelineEntity.oneTickWidht);
 
         transform.SetAsLastSibling();
     }
@@ -142,17 +145,11 @@ public class TimeBar : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragH
     /// タイムバーがドラッグ中かどうかの判定を返す
     /// </summary>
     /// <returns>true=ドラッグ中　false=ドラッグしてない</returns>
-    public bool ReturnDragMode()
-    {
-        return isDragMode;
-    }
+    public bool ReturnDragMode() => isDragMode;
 
     /// <summary>
     /// タイムバーの限界値を返す
     /// </summary>
     /// <returns>タイムバーの限界X座標(float型)</returns>
-    public float ReturnLimitPos()
-    {
-        return limitPosX;
-    }
+    public float ReturnLimitPos() => limitPosX;
 }

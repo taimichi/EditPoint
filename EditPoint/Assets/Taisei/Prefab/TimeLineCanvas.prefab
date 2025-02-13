@@ -558,7 +558,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 140
-  limit: 60
+  TLManager: {fileID: 2452703143650757628}
 --- !u!1 &6609544224649678020
 GameObject:
   m_ObjectHideFlags: 0
@@ -572,6 +572,7 @@ GameObject:
   - component: {fileID: 6609544224649678074}
   - component: {fileID: 6609544224649678021}
   - component: {fileID: 6609544224649678073}
+  - component: {fileID: 2452703143650757628}
   m_Layer: 5
   m_Name: TimeLineCanvas
   m_TagString: Untagged
@@ -679,6 +680,21 @@ MonoBehaviour:
   target: {fileID: 6609544224346704653}
   scrollAmount_auto: 0.022789
   viewport: {fileID: 6609544225358189720}
+--- !u!114 &2452703143650757628
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6609544224649678020}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c6fd8f1fbc428a244beaeea3f9b5247e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  timelineLength: 15
+  timebarLimit: 10
+  Content: {fileID: 6609544225284490415}
 --- !u!1 &6609544224927901824
 GameObject:
   m_ObjectHideFlags: 0

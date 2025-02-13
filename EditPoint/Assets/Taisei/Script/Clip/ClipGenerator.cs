@@ -8,13 +8,13 @@ public class ClipGenerator : MonoBehaviour
     [SerializeField] private GameObject timeBar;
     [SerializeField] private GameObject ClipPrefab;
 
-    private int i_createCount = 0;
+    private int isCreateCount = 0;
 
     private PlaySound playSound;
 
     private GameObject clip;
 
-    [SerializeField] private bool b_Lock = false;
+    [SerializeField] private bool isLock = false;
 
     void Start()
     {
@@ -32,10 +32,10 @@ public class ClipGenerator : MonoBehaviour
         if (!_check)
         {
             playSound.PlaySE(PlaySound.SE_TYPE.clipGene);
-            i_createCount++;
+            isCreateCount++;
             Vector3 clipPos = new Vector3(timeBar.transform.position.x, 0, 0);
             clip = Instantiate(ClipPrefab, clipPos, timeBar.transform.rotation, this.transform.parent);
-            clip.name = "CreateClip" + i_createCount;
+            clip.name = "CreateClip" + isCreateCount;
             clip.tag = "CreateClip";
         }
 
@@ -54,13 +54,13 @@ public class ClipGenerator : MonoBehaviour
             return;
         }
 
-        if (!b_Lock)
+        if (!isLock)
         {
             playSound.PlaySE(PlaySound.SE_TYPE.clipGene);
-            i_createCount++;
+            isCreateCount++;
             Vector3 clipPos = new Vector3(timeBar.transform.position.x, 0, 0);
             GameObject clip = Instantiate(ClipPrefab, clipPos, timeBar.transform.rotation, this.transform.parent);
-            clip.name = "CreateClip" + i_createCount;
+            clip.name = "CreateClip" + isCreateCount;
             clip.tag = "CreateClip";
         }
         else
@@ -69,9 +69,5 @@ public class ClipGenerator : MonoBehaviour
         }
     }
 
-
-    public int ReturnCount()
-    {
-        return i_createCount;
-    }
+    public int ReturnCount() => isCreateCount;
 }

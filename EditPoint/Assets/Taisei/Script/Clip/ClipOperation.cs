@@ -68,11 +68,11 @@ public class ClipOperation : MonoBehaviour, IDragHandler, IBeginDragHandler, IEn
     private void Awake()
     {
         //リサイズ用
-        f_onetick = TimelineData.TimelineEntity.f_oneResize;
+        f_onetick = TimelineData.TimelineEntity.oneResize;
 
         //クリップ移動用
-        f_oneWidth = TimelineData.TimelineEntity.f_oneTickWidht;
-        f_oneHeight = TimelineData.TimelineEntity.f_oneTickHeight;
+        f_oneWidth = TimelineData.TimelineEntity.oneTickWidht;
+        f_oneHeight = TimelineData.TimelineEntity.oneTickHeight;
 
         //タイムラインの端のRectTransform取得
         rect_UpLeft = GameObject.Find("UpLeftOutLine").GetComponent<RectTransform>();
