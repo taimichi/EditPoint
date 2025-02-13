@@ -5,7 +5,7 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     //GroundChecker gc;
-    //Rigidbody2D rb;
+    [SerializeField] private Rigidbody2D rb;
 
     [SerializeField]
     Animator anim;
@@ -56,12 +56,12 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
-        //ここでタイムラインを手動で動かしたときのプレイヤーの処理を追加
-        //if (timeData.b_DragMode)
-        //{
-        //    inputLR = 1;
-        //    mc.FutureCalculation(timeData.f_nowTime);
-        //}
+        if (GameData.GameEntity.isClear)
+        {
+            rb.constraints = RigidbodyConstraints2D.FreezePositionX | RigidbodyConstraints2D.FreezePositionY;
+            rb.constraints = RigidbodyConstraints2D.FreezeRotation;
+            return;
+        }
 
         //mc.MoveLR(inputLR);
         mc.Run(new Vector2(inputLR * moveSpeed, 0));
@@ -101,6 +101,9 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// 落ちた時のフェードの処理(コルーチン)
+    /// </summary>
     IEnumerator WaitFade()
     {
         //演出がまだ
@@ -241,6 +244,9 @@ public class PlayerController : MonoBehaviour
         inputLR = 0;
         b_firstButton = false;
         transform.position = playerStartPos;
+
+        rb.constraints = RigidbodyConstraints2D.FreezePositionX & RigidbodyConstraints2D.FreezePositionY;
+        rb.constraints = RigidbodyConstraints2D.FreezeRotation;
     }
 
     public void PlayerStop()

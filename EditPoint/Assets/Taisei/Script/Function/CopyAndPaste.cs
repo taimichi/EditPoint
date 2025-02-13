@@ -56,7 +56,7 @@ public class CopyAndPaste : MonoBehaviour
     void Update()
     {
         //再生中は編集機能をロック
-        if (GameData.GameEntity.b_playNow)
+        if (GameData.GameEntity.isPlayNow)
         {
             ModeData.ModeEntity.mode = ModeData.Mode.normal;
             return;
@@ -244,7 +244,7 @@ public class CopyAndPaste : MonoBehaviour
     public void OnCopy()
     {
         //再生中の時は編集機能をロック
-        if (GameData.GameEntity.b_playNow)
+        if (GameData.GameEntity.isPlayNow)
         {
             return;
         }

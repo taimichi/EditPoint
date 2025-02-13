@@ -14,7 +14,7 @@ public class ChangeButtonColor : MonoBehaviour
     private void Update()
     {
         //再生中は編集機能をロック
-        if (GameData.GameEntity.b_playNow)
+        if (GameData.GameEntity.isPlayNow)
         {
             return;
         }
@@ -29,7 +29,7 @@ public class ChangeButtonColor : MonoBehaviour
     public void OnChangeColor()
     {
         //再生中は編集機能をロック
-        if (GameData.GameEntity.b_playNow)
+        if (GameData.GameEntity.isPlayNow)
         {
             return;
         }

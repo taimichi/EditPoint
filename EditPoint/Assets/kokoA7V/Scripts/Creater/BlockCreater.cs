@@ -52,6 +52,7 @@ public class BlockCreater : MonoBehaviour
     private void Start()
     {
         // nullチェックしてくれ、テスト環境で動かん…
+        // すまんかった... byたいせい
         if (GameObject.Find("AudioCanvas") != null)
         {
             playSound = GameObject.Find("AudioCanvas").GetComponent<PlaySound>();
@@ -61,9 +62,9 @@ public class BlockCreater : MonoBehaviour
             Debug.Log("audioないよ～");
         }
 
-        if (GameObject.Find("AllClip") != null)
+        if (GameObject.Find("ClipManager") != null)
         {
-            clipGenerator = GameObject.Find("AllClip").GetComponent<ClipGenerator>();
+            clipGenerator = GameObject.Find("ClipManager").GetComponent<ClipGenerator>();
         }
         else
         {
@@ -103,7 +104,16 @@ public class BlockCreater : MonoBehaviour
                     {
                         if (ModeData.ModeEntity.mode == ModeData.Mode.create)
                         {
-                            CreateBlock();
+                            //マーカーがプレイヤーと触れてないとき
+                            if (!bm.ReturnHitPL())
+                            {
+                                CreateBlock();
+                            }
+                            //マーカーがプレイヤーと触れてる時
+                            else 
+                            {
+                                playSound.PlaySE(PlaySound.SE_TYPE.develop);
+                            }
                         }
                         //else if (nowState == State.MoveCreate)
                         //{
@@ -182,7 +192,7 @@ public class BlockCreater : MonoBehaviour
     public void CreateSetActive()
     {
         //再生中は編集機能をロック
-        if (GameData.GameEntity.b_playNow)
+        if (GameData.GameEntity.isPlayNow)
         {
             ModeData.ModeEntity.mode = ModeData.Mode.normal;
             return;

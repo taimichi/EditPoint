@@ -9,36 +9,43 @@ public class ObjectMove : MonoBehaviour
 
 
     //オブジェクトを移動させる際のマウス座標
-    private Vector3 v3_scrWldPos;
+    private Vector3 scrWldPos;
 
     //クリックした位置とオブジェクトの座標との差
-    private Vector3 v3_mousePos;
-    private Vector3 v3_offset;
+    private Vector3 mousePos;
+    private Vector3 offset;
+
+    private Vector3 nowPos;
 
     //単体移動
     private GameObject Obj;
-    private bool b_objMove = false;
+    //オブジェクト移動中か
+    private bool isObjMove = false;
 
     //選択時にアウトラインをつける
     private GameObject ClickObj;
-    /// <summary>
-    /// スクリプタブルオブジェクトでまとめてあるマテリアル
-    /// "layerMaterials"というリストが入っている
-    /// </summary>
-    //[SerializeField] private Materials materials;
 
     //条件を簡略化する変数
-    private bool b_isNoHit;
-    private bool b_isSpecificTag = false;
-
-    //private bool b_objSetMode = false;
+    private bool isNoHit;
+    private bool isSpecificTag = false;
 
     private PlaySound playSound;
+
+    private CheckHitGround checkHG;
 
     // ObjectScaleEditor追加
     // アタッチすること
     [SerializeField]
     GameObject ObjectScaleEditor;
+
+    //内側にずらす量
+    [SerializeField, Range(0.1f,0.3f)] private float inLine = 0.1f;
+    //動かせるかどうか
+    private bool isMove = false;
+
+    //機能を使用可能かどうか
+    [SerializeField] private bool isLook = false;
+
 
     void Start()
     {
@@ -56,15 +63,15 @@ public class ObjectMove : MonoBehaviour
     void Update()
     {
         //再生中は編集機能をロック
-        if (GameData.GameEntity.b_playNow)
+        if (GameData.GameEntity.isPlayNow || isLook)
         {
             ModeData.ModeEntity.mode = ModeData.Mode.normal;
             return;
         }
 
-        //if (!b_objSetMode)
-        //{
-            if (Input.GetMouseButtonDown(0) && 
+        if (!isLook)
+        {
+            if (Input.GetMouseButtonDown(0) &&
                 (ModeData.ModeEntity.mode == ModeData.Mode.normal || ModeData.ModeEntity.mode == ModeData.Mode.moveANDdirect))
             {
                 Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
@@ -75,53 +82,35 @@ public class ObjectMove : MonoBehaviour
                     return;
                 }
 
-                if (hit2d.collider != null && hit2d.collider.tag == "Handle")
-            {
-                Debug.Log("ハンドルダヨーン");
-                return;
-            }
-
-                b_isNoHit = (hit2d == false);
-                if (!b_isNoHit)
+                //ハンドルだった場合
+                if (hit2d.collider.gameObject.layer == LayerMask.NameToLayer("Handle"))
                 {
-                    b_isSpecificTag = new List<string> { "Player", "UnTouch", "Marcker", "MoveGround" }.Contains(hit2d.collider.tag);
+                    Debug.Log("ハンドルダヨーン");
+                    return;
+                }
+
+                //オブジェクトが存在するかどうか
+                isNoHit = (hit2d == false);
+                //オブジェクトがあるとき
+                if (!isNoHit)
+                {
+                    //特定のタグの時にフラグを立てる
+                    isSpecificTag = new List<string> { "Player", "UnTouch", "Marcker", "MoveGround" }.Contains(hit2d.collider.tag);
                 }
 
                 //UIや動かしたくないオブジェクトだったらだったら何もしない
                 //解除
-                if (b_isNoHit || b_isSpecificTag)
+                if (isNoHit || isSpecificTag)
                 {
                     if (ClickObj != null)
                     {
-                    //if (ClickObj.name.Contains("Blower"))
-                    //{
-                    //    ClickObj.transform.GetChild(0).GetComponent<SpriteRenderer>().material = materials.layerMaterials[0];
-                    //}
-                    //else
-                    //{
-                    //    ClickObj.GetComponent<SpriteRenderer>().material = materials.layerMaterials[0];
-                    //}
-
-                }
+                        ObjectScaleEditor.SetActive(false);
+                    }
                     ClickObj = null;
+                    isMove = false;
 
-
-
-                return;
+                    return;
                 }
-
-                if (ClickObj != null)
-                {
-                    //if (ClickObj.name.Contains("Blower"))
-                    //{
-                    //    ClickObj.transform.GetChild(0).GetComponent<SpriteRenderer>().material = materials.layerMaterials[0];
-                    //}
-                    //else
-                    //{
-                    //    ClickObj.GetComponent<SpriteRenderer>().material = materials.layerMaterials[0];
-                    //}
-                }
-
 
                 ClickObj = hit2d.collider.gameObject;
                 if (ClickObj.transform.parent != null && ClickObj.transform.parent.gameObject.name.Contains("Blower"))
@@ -129,22 +118,28 @@ public class ObjectMove : MonoBehaviour
                     ClickObj = hit2d.collider.transform.parent.gameObject;
 
                 }
-                v3_mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-                v3_offset = ClickObj.transform.position - v3_mousePos;
+                mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                offset = ClickObj.transform.position - mousePos;
                 playSound.PlaySE(PlaySound.SE_TYPE.select);
+
+                //オブジェクトムーブとサイズ・角度変更が重複して作動してしまうため、
+                //クリエイトブロックの四隅の座標を取り、マウスの位置がそれらから内側に少しずらした座標なら
+                //取得できるようにする
+                //↓
+                SpriteRenderer sr = ClickObj.GetComponent<SpriteRenderer>();
+                Bounds bound = sr.bounds;
+
+                //マウスの位置がオブジェクトを動かしていい範囲内かどうか
+                if (mousePos.x >= bound.min.x + inLine && mousePos.x <= bound.max.x - inLine
+                    && mousePos.y >= bound.min.y + inLine && mousePos.y <= bound.max.y - inLine)
+                {
+                    isMove = true;
+                    Debug.Log("いけるよー");
+                }
 
                 if (hit2d)
                 {
-                    //if (ClickObj.name.Contains("Blower"))
-                    //{
-                    //    ClickObj.transform.GetChild(0).GetComponent<SpriteRenderer>().material = materials.layerMaterials[1];
-                    //}
-                    //else
-                    //{
-                    //    ClickObj.GetComponent<SpriteRenderer>().material = materials.layerMaterials[1];
-                    //}
                     Obj = ClickObj;
-
 
                     if (Obj.name.Contains("Blower"))
                     {
@@ -155,7 +150,8 @@ public class ObjectMove : MonoBehaviour
                         Obj.GetComponent<Collider2D>().isTrigger = true;
                     }
 
-                    b_objMove = true;
+                    nowPos = Obj.transform.position;
+                    isObjMove = true;
                     ModeData.ModeEntity.mode = ModeData.Mode.moveANDdirect;
 
                     // エディター追加
@@ -163,15 +159,16 @@ public class ObjectMove : MonoBehaviour
                     ObjectScaleEditor.GetComponent<ObjectScaleEditor>().GetObjTransform(Obj);
                 }
 
+
             }
 
-            if (b_objMove && ModeData.ModeEntity.mode==ModeData.Mode.moveANDdirect)
+            if (isObjMove && isMove && ModeData.ModeEntity.mode == ModeData.Mode.moveANDdirect)
             {
                 if (Input.GetMouseButton(0))
                 {
-                    v3_scrWldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-                    v3_scrWldPos.z = 10;
-                    Obj.transform.position = v3_scrWldPos + v3_offset;
+                    scrWldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                    scrWldPos.z = 10;
+                    Obj.transform.position = scrWldPos + offset;
 
 
                     ObjectScaleEditor.GetComponent<ObjectScaleEditor>().GetObjTransform(Obj);
@@ -179,8 +176,14 @@ public class ObjectMove : MonoBehaviour
                 }
                 else if (Input.GetMouseButtonUp(0))
                 {
+                    checkHG = Obj.GetComponent<CheckHitGround>();
+                    if (checkHG.ReturnHit())
+                    {
+                        Obj.transform.position = nowPos;
+                    }
+
                     playSound.PlaySE(PlaySound.SE_TYPE.objMove);
-                    b_objMove = false;
+                    isObjMove = false;
                     if (Obj.name.Contains("Blower"))
                     {
                         Obj.transform.GetChild(0).GetComponent<Collider2D>().isTrigger = false;
@@ -189,13 +192,11 @@ public class ObjectMove : MonoBehaviour
                     {
                         Obj.GetComponent<Collider2D>().isTrigger = false;
                     }
+                    isMove = false;
                     Obj = null;
                     ModeData.ModeEntity.mode = ModeData.Mode.normal;
-
-                    
-
                 }
-            //}
+            }
         }
 
         //deleteキーで選択してるオブジェクトを消す
@@ -204,24 +205,12 @@ public class ObjectMove : MonoBehaviour
             if (ClickObj != null)
             {
                 Destroy(ClickObj);
+                ClickObj = null;
+                isMove = false;
                 ObjectScaleEditor.SetActive(false);
             }
         }
     }
 
-
-    public void ObjSetMode(bool _modeTrigger)
-    {
-        //b_objSetMode = _modeTrigger;
-    }
-
-    public bool ReturnObjMove()
-    {
-        return b_objMove;
-    }
-
-    public GameObject ReturnClickObj()
-    {
-        return ClickObj;
-    }
+    public GameObject ReturnClickObj() => ClickObj;
 }
