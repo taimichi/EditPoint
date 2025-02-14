@@ -45,14 +45,14 @@ public class BlockCreater : MonoBehaviour
     private PlaySound playSound;
 
     [SerializeField] private GameObject createText;
-    private bool b_check = false;
+    private bool isCheck = false;
 
-    [SerializeField] private bool b_Lock = false;
+    private FunctionLookManager functionLook;
 
     private void Start()
     {
         // nullチェックしてくれ、テスト環境で動かん…
-        // すまんかった... byたいせい
+        // すまんかった... by作者
         if (GameObject.Find("AudioCanvas") != null)
         {
             playSound = GameObject.Find("AudioCanvas").GetComponent<PlaySound>();
@@ -71,6 +71,15 @@ public class BlockCreater : MonoBehaviour
             Debug.Log("clipないよ～");
         }
 
+        if(GameObject.Find("GameManager") != null)
+        {
+            functionLook = GameObject.FindWithTag("GameManager").GetComponent<FunctionLookManager>();
+        }
+        else
+        {
+            Debug.Log("ゲームマネージャーなし");
+        }
+
         marker = Instantiate(markerPrefab);
         bm = marker.GetComponent<BlockMarker>();
         bm.isActive = false;
@@ -84,7 +93,7 @@ public class BlockCreater : MonoBehaviour
     {
         mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
-        if (ModeData.ModeEntity.mode == ModeData.Mode.create /*|| nowState == State.MoveCreate*/)
+        if (ModeData.ModeEntity.mode == ModeData.Mode.create)
         {
             if (!EventSystem.current.IsPointerOverGameObject())
             {
@@ -115,11 +124,6 @@ public class BlockCreater : MonoBehaviour
                                 playSound.PlaySE(PlaySound.SE_TYPE.develop);
                             }
                         }
-                        //else if (nowState == State.MoveCreate)
-                        //{
-                        //    CreateMoveBlock();
-                        //}
-
                     }
 
                     bm.isActive = false;
@@ -147,7 +151,7 @@ public class BlockCreater : MonoBehaviour
             marker.SetActive(false);
 
             createText.SetActive(false);
-            b_check = false;
+            isCheck = false;
         }
 
         if (ModeData.ModeEntity.mode != ModeData.Mode.create)
@@ -169,8 +173,8 @@ public class BlockCreater : MonoBehaviour
         created.name = createName + blockCounter;
         blockCounter++;
 
-        clipGenerator.ClipGene(created, b_check);
-        b_check = true;
+        clipGenerator.ClipGene(created, isCheck);
+        isCheck = true;
     }
 
     //private void CreateMoveBlock()
@@ -198,8 +202,8 @@ public class BlockCreater : MonoBehaviour
             return;
         }
 
-
-        if (!b_Lock)
+        //ロックされていないとき
+        if ((functionLook.FunctionLook & LookFlags.BlockGenerate) == 0)
         {
             if (ModeData.ModeEntity.mode != ModeData.Mode.create)
             {
@@ -217,7 +221,7 @@ public class BlockCreater : MonoBehaviour
             else
             {
                 createText.SetActive(false);
-                b_check = false;
+                isCheck = false;
             }
         }
         else

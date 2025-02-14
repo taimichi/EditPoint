@@ -14,9 +14,10 @@ GameObject:
   - component: {fileID: 4466611139062840557}
   - component: {fileID: 6874354766139732196}
   - component: {fileID: 4437047612105018477}
+  - component: {fileID: 217963949539351819}
   m_Layer: 0
   m_Name: GameManager
-  m_TagString: Untagged
+  m_TagString: GameManager
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -65,6 +66,8 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 256
   ObjectScaleEditor: {fileID: 6435234157604659574}
+  inLine: 0.1
+  isLook: 0
 --- !u!114 &4466611139062840557
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -81,7 +84,6 @@ MonoBehaviour:
   i_PasteNum: 1000
   i_CopyNum: 1000
   materials: {fileID: 11400000, guid: c2f2e6a9d0de54e4e8f6a8844268b54f, type: 2}
-  b_Lock: 0
 --- !u!114 &6874354766139732196
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -109,7 +111,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 073ffc5f095205e46a8d85f36c0ca89e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MoveGrounds: []
+--- !u!114 &217963949539351819
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6483252867048278464}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 63069df11f28fba44967389cab0eeaf3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lookFlags: 0
 --- !u!1001 &5002694708727626127
 PrefabInstance:
   m_ObjectHideFlags: 0

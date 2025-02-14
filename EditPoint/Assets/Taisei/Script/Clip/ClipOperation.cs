@@ -50,10 +50,9 @@ public class ClipOperation : MonoBehaviour, IDragHandler, IBeginDragHandler, IEn
     private Vector3 v3_beforePos;
     private Vector2 savePos;
 
-    //クリップの移動、サイズ変更機能が使用可能かどうか
-    [SerializeField] private bool b_Lock = false;
-
     private CheckOverlap checkOverlap = new CheckOverlap();
+
+    private FunctionLookManager functionLook;
 
     private enum CLIP_MODE
     {
@@ -79,6 +78,8 @@ public class ClipOperation : MonoBehaviour, IDragHandler, IBeginDragHandler, IEn
         rect_DownRight = GameObject.Find("DownRightOutLine").GetComponent<RectTransform>();
 
         playSound = GameObject.Find("AudioCanvas").GetComponent<PlaySound>();
+
+        functionLook = GameObject.FindWithTag("GameManager").GetComponent<FunctionLookManager>();
 
         //クリップの位置を調整
         CalculationWidth(targetImage.localPosition.x);
@@ -157,7 +158,7 @@ public class ClipOperation : MonoBehaviour, IDragHandler, IBeginDragHandler, IEn
             return;
         }
 
-        if (!b_Lock)
+        if ((functionLook.FunctionLook & LookFlags.ClipAccess) == 0)
         {
             v2_initSizeDelta = targetImage.sizeDelta;
             RectTransformUtility.ScreenPointToLocalPointInRectangle(
@@ -210,7 +211,7 @@ public class ClipOperation : MonoBehaviour, IDragHandler, IBeginDragHandler, IEn
             return;
         }
 
-        if (!b_Lock)
+        if ((functionLook.FunctionLook & LookFlags.ClipAccess) == 0)
         {
             if (mode != CLIP_MODE.resize)
             {
@@ -312,7 +313,7 @@ public class ClipOperation : MonoBehaviour, IDragHandler, IBeginDragHandler, IEn
             return;
         }
 
-        if (!b_Lock)
+        if ((functionLook.FunctionLook & LookFlags.ClipAccess) == 0)
         {
             //ピボットを初期のものに
             SetPivot(targetImage, new Vector2(0, 0.5f));

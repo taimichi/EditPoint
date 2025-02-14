@@ -1981,6 +1981,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 217963949539351819, guid: a21fe513849ddc64e93385872eb3335d, type: 3}
+      propertyPath: lookFlags
+      value: 60
+      objectReference: {fileID: 0}
     - target: {fileID: 4466611139062840557, guid: a21fe513849ddc64e93385872eb3335d, type: 3}
       propertyPath: copyModeText
       value: 

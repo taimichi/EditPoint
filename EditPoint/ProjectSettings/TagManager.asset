@@ -15,6 +15,7 @@ TagManager:
   - SelectedStage
   - MoveGround
   - GetBlock
+  - GameManager
   layers:
   - Default
   - TransparentFX

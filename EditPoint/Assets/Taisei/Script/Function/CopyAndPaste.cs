@@ -39,14 +39,14 @@ public class CopyAndPaste : MonoBehaviour
 
     private PlaySound playSound;
 
-    [SerializeField] private bool b_Lock = false;
-
     private ClipPlay clipPlay;
     private GetCopyObj gco;
 
+    private FunctionLookManager functionLook;
 
     void Start()
     {
+        functionLook = GameObject.FindWithTag("GameManager").GetComponent<FunctionLookManager>();
         playSound = GameObject.Find("AudioCanvas").GetComponent<PlaySound>();
         CopyObj = null;
         PasteObj = null;
@@ -249,7 +249,7 @@ public class CopyAndPaste : MonoBehaviour
             return;
         }
 
-        if (!b_Lock)
+        if ((functionLook.FunctionLook & LookFlags.CopyPaste) == 0)
         {
             if (ModeData.ModeEntity.mode == ModeData.Mode.copy || ModeData.ModeEntity.mode == ModeData.Mode.paste)
             {

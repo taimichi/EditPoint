@@ -14,11 +14,12 @@ public class ClipGenerator : MonoBehaviour
 
     private GameObject clip;
 
-    [SerializeField] private bool isLock = false;
+    private FunctionLookManager functionLook;
 
     void Start()
     {
         playSound = GameObject.Find("AudioCanvas").GetComponent<PlaySound>();
+        functionLook = GameObject.FindWithTag("GameManager").GetComponent<FunctionLookManager>();
     }
 
 
@@ -54,7 +55,7 @@ public class ClipGenerator : MonoBehaviour
             return;
         }
 
-        if (!isLock)
+        if ((functionLook.FunctionLook & LookFlags.ClipGenerate) == 0)
         {
             playSound.PlaySE(PlaySound.SE_TYPE.clipGene);
             isCreateCount++;
