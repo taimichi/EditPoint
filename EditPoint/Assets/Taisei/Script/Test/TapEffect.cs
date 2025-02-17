@@ -4,8 +4,9 @@ using UnityEngine;
 
 public class TapEffect : MonoBehaviour
 {
-    [SerializeField] Camera _camera;                        // ÉJÉÅÉâÇÃç¿ïW
-    [SerializeField] private GameObject test;
+    [SerializeField] private Camera _camera;
+    [SerializeField] private GameObject Trail;
+    [SerializeField] private GameObject TapEffectPrefab;
     private Vector3 pos;
 
     void Update()
@@ -13,6 +14,6 @@ public class TapEffect : MonoBehaviour
 
         pos = _camera.ScreenToWorldPoint(Input.mousePosition);
         pos.z = 1;
-        test.transform.position = pos;
+        Trail.transform.position = pos;
     }
 }
