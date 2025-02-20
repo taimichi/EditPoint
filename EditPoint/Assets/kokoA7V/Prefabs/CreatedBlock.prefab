@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 2999747409508161661}
   - component: {fileID: -3416395302337579154}
   - component: {fileID: 6876012254722669851}
+  - component: {fileID: -3980815910608781063}
   m_Layer: 8
   m_Name: CreatedBlock
   m_TagString: CreateBlock
@@ -148,5 +149,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: dce0c3545a1b59941bd6fc99c30fb5fe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &-3980815910608781063
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6273398648508357651}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b5f9d595f1af56648938a27ebd2f1ba6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 

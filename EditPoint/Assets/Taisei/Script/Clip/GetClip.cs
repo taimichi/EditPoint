@@ -41,8 +41,10 @@ public class GetClip : MonoBehaviour
 
             foreach (RaycastResult result in results)
             {
+                //クリップかタイムバーかどうか
                 isTagHit = new List<string> { "CreateClip", "SetClip", "Timebar"}.Contains(result.gameObject.tag);
 
+                //クリップかタイムバーの時のみ
                 if(isTagHit)
                 {
                     //タイムバーに触れた時はforeachから即抜け出す
@@ -57,6 +59,7 @@ public class GetClip : MonoBehaviour
                         {
                             BlinkImageObj.SetActive(false);
                         }
+                        //一つ目の子オブジェクト(取得した時に出る枠)を取得
                         BlinkImageObj = result.gameObject.transform.GetChild(0).gameObject;
                         Clip = result.gameObject;
                         BlinkImageObj.SetActive(true);
@@ -90,8 +93,5 @@ public class GetClip : MonoBehaviour
     /// 取得したクリップを返す
     /// </summary>
     /// <returns>マウスで選択したクリップ</returns>
-    public GameObject ReturnGetClip()
-    {
-        return Clip;
-    }
+    public GameObject ReturnGetClip() => Clip;
 }

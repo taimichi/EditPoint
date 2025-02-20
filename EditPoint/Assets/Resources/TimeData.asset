@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: TimeData
   m_EditorClassIdentifier: 
   b_DragMode: 0
-  f_nowTime: 0
+  f_nowTime: 9.4

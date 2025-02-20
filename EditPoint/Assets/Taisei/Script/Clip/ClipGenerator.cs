@@ -8,23 +8,20 @@ public class ClipGenerator : MonoBehaviour
     [SerializeField] private GameObject timeBar;
     [SerializeField] private GameObject ClipPrefab;
 
-    private int i_createCount = 0;
+    private int isCreateCount = 0;
 
     private PlaySound playSound;
 
     private GameObject clip;
 
-    [SerializeField] private bool b_Lock = false;
+    private FunctionLookManager functionLook;
 
     void Start()
     {
         playSound = GameObject.Find("AudioCanvas").GetComponent<PlaySound>();
+        functionLook = GameObject.FindWithTag("GameManager").GetComponent<FunctionLookManager>();
     }
 
-    void Update()
-    {
-
-    }
 
     //新しいクリップを生成
     /// <summary>
@@ -36,10 +33,10 @@ public class ClipGenerator : MonoBehaviour
         if (!_check)
         {
             playSound.PlaySE(PlaySound.SE_TYPE.clipGene);
-            i_createCount++;
+            isCreateCount++;
             Vector3 clipPos = new Vector3(timeBar.transform.position.x, 0, 0);
-            clip = Instantiate(ClipPrefab, clipPos, timeBar.transform.rotation, this.gameObject.transform);
-            clip.name = "CreateClip" + i_createCount;
+            clip = Instantiate(ClipPrefab, clipPos, timeBar.transform.rotation, this.transform.parent);
+            clip.name = "CreateClip" + isCreateCount;
             clip.tag = "CreateClip";
         }
 
@@ -53,18 +50,18 @@ public class ClipGenerator : MonoBehaviour
     public void ClipGene()
     {
         //再生中は編集機能をロック
-        if (GameData.GameEntity.b_playNow)
+        if (GameData.GameEntity.isPlayNow)
         {
             return;
         }
 
-        if (!b_Lock)
+        if ((functionLook.FunctionLook & LookFlags.ClipGenerate) == 0)
         {
             playSound.PlaySE(PlaySound.SE_TYPE.clipGene);
-            i_createCount++;
+            isCreateCount++;
             Vector3 clipPos = new Vector3(timeBar.transform.position.x, 0, 0);
-            GameObject clip = Instantiate(ClipPrefab, clipPos, timeBar.transform.rotation, this.gameObject.transform);
-            clip.name = "CreateClip" + i_createCount;
+            GameObject clip = Instantiate(ClipPrefab, clipPos, timeBar.transform.rotation, this.transform.parent);
+            clip.name = "CreateClip" + isCreateCount;
             clip.tag = "CreateClip";
         }
         else
@@ -73,9 +70,5 @@ public class ClipGenerator : MonoBehaviour
         }
     }
 
-
-    public int ReturnCount()
-    {
-        return i_createCount;
-    }
+    public int ReturnCount() => isCreateCount;
 }
