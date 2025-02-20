@@ -14,9 +14,6 @@ public class VirtualObjectCollisionChecker : MonoBehaviour
     // •ÒW‘ÎÛ
     public GameObject nowEditObject;
 
-    [SerializeField]
-    LayerMask collisionLayer;
-
     private void Update()
     {
         if (collisionList.Count > 0)
