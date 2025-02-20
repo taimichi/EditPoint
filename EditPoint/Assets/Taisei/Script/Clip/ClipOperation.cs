@@ -343,6 +343,7 @@ public class ClipOperation : MonoBehaviour, IDragHandler, IBeginDragHandler, IEn
                 //タイムラインの左端とクリップが重なってる場合
                 if (checkOverlap.IsOverlap(targetImage, rect_UpLeft))
                 {
+                    Debug.Log("test");
                     //サイズ変更による場合
                     if (mode == CLIP_MODE.resize)
                     {
@@ -352,6 +353,7 @@ public class ClipOperation : MonoBehaviour, IDragHandler, IBeginDragHandler, IEn
                 //タイムラインの右端とクリップが重なってる場合
                 else if (checkOverlap.IsOverlap(targetImage, rect_DownRight))
                 {
+                    Debug.Log("test");
                     //サイズ変更による場合
                     if (mode == CLIP_MODE.resize)
                     {

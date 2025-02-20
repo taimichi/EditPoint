@@ -124,7 +124,7 @@ public class PlayerController : MonoBehaviour
     {
         bool isHit = false;
 
-        float rayLength = 0.5f;
+        float rayLength = 0.3f;
         float rayWidth = 0.375f;
         Vector3 center = this.transform.position;    // Žn“_
         Vector3 len = Vector3.right * rayLength * inputLR; // ’·‚³
