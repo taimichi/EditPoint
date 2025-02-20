@@ -83,20 +83,20 @@ TrailRenderer:
       - serializedVersion: 3
         time: 0
         value: 1
-        inSlope: -2.2176208
-        outSlope: -2.2176208
+        inSlope: -2.0817702
+        outSlope: -2.0817702
         tangentMode: 0
         weightedMode: 0
         inWeight: 0.33333334
-        outWeight: 0.41157886
+        outWeight: 0.3922861
       - serializedVersion: 3
         time: 0.50160885
         value: 0
-        inSlope: -1.8170385
-        outSlope: -1.8170385
+        inSlope: -1.8826907
+        outSlope: -1.8826907
         tangentMode: 0
         weightedMode: 0
-        inWeight: 0.356908
+        inWeight: 0.39549354
         outWeight: 0
       m_PreInfinity: 2
       m_PostInfinity: 2
