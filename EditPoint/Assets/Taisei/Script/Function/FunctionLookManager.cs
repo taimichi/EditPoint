@@ -18,7 +18,7 @@ public enum LookFlags
 
 public class FunctionLookManager : MonoBehaviour
 {
-    [Header("機能ロックをかけるかかけないか")]
+    [Header("機能ロックをするかしないか")]
     [EnumFlags] [SerializeField] private LookFlags lookFlags = LookFlags.None;
 
     /// <summary>
