@@ -212,9 +212,19 @@ public class ObjectScaleEditor : MonoBehaviour
             // フラグ解除
             isHandleGrab = false;
             nowHandleType = HandleType.def;
-
         }
-        
+
+        //deleteキーで選択してるオブジェクトを消す
+        if (Input.GetKeyDown(KeyCode.Delete))
+        {
+            if (editObject != null)
+            {
+                Destroy(editObject);
+                editObject = null;
+                this.gameObject.SetActive(false);
+            }
+        }
+
     }
 
     // マウスポジション取得
