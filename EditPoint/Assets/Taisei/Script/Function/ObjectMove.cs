@@ -83,11 +83,11 @@ public class ObjectMove : MonoBehaviour
                 }
 
                 //ハンドルだった場合
-                if (hit2d.collider.gameObject.layer == LayerMask.NameToLayer("Handle"))
-                {
-                    Debug.Log("ハンドルダヨーン");
-                    return;
-                }
+                //if (hit2d.collider.gameObject.layer == LayerMask.NameToLayer("Handle"))
+                //{
+                //    Debug.Log("ハンドルダヨーン");
+                //    return;
+                //}
 
                 //オブジェクトが存在するかどうか
                 isNoHit = (hit2d == false);
@@ -168,7 +168,7 @@ public class ObjectMove : MonoBehaviour
                 {
                     scrWldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
                     scrWldPos.z = 10;
-                    Obj.transform.position = scrWldPos + offset;
+                    //Obj.transform.position = scrWldPos + offset;
 
 
                     ObjectScaleEditor.GetComponent<ObjectScaleEditor>().GetObjTransform(Obj);

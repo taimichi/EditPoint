@@ -12,11 +12,14 @@ public class CursorManager : MonoBehaviour
 
     private void Update()
     {
-        Vector2 cursorHotspot = new Vector2(10, 10);
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        RaycastHit hit;
+        Physics.Raycast(ray, out hit, 1);
+
 
         if (Input.GetMouseButton(0))
         {
-            Cursor.SetCursor(cursor1, cursorHotspot, CursorMode.Auto);
+            Cursor.SetCursor(cursor1, Vector2.zero, CursorMode.Auto);
         }
         else
         {

@@ -4,22 +4,17 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    //GroundChecker gc;
     [SerializeField] private Rigidbody2D rb;
 
     [SerializeField]
     Animator anim;
 
-    // MoveController mc;
     GeneralMoveController mc;
 
     public float moveSpeed = 2.5f;
 
     [Range(-1, 1), SerializeField]
     int inputLR = 0;
-
-    //[SerializeField]
-    //bool manual = true;
 
     private bool b_firstButton = false;
 
@@ -39,15 +34,8 @@ public class PlayerController : MonoBehaviour
         {
             playSound = GameObject.Find("AudioCanvas").GetComponent<PlaySound>();
         }
-        //gc = GetComponent<GroundChecker>();
-        //rb = GetComponent<Rigidbody2D>();
 
-        //anim = GetComponent<Animator>();
-
-        //mc = new MoveController(rb);
         mc = GetComponent<GeneralMoveController>();
-
-        //gc.InitCol();
 
         b_firstButton = false;
 
@@ -63,23 +51,13 @@ public class PlayerController : MonoBehaviour
             return;
         }
 
-        //mc.MoveLR(inputLR);
+        // 移動
         mc.Run(new Vector2(inputLR * moveSpeed, 0));
         mc.MoveUpdate();
         mc.Friction(0.98f);
 
-        //if (manual)
-        //{
-        //    ManualInput();
-        //}
-        //else
-        //{
-        //    AutoInput();
-        //}
-
+        // 反転処理
         AutoInput();
-
-        //gc.CheckGround();
 
         AnimPlay();
 
@@ -142,37 +120,18 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    void ManualInput()
-    {
-        if (Input.GetKey(KeyCode.D))
-        {
-            //mc.inputLR = 1;
-            inputLR = 1;
-        }
-        else if (Input.GetKey(KeyCode.A))
-        {
-            //mc.inputLR = -1;
-            inputLR = -1;
-        }
-        else
-        {
-            //mc.inputLR = 0;
-            inputLR = 0;
-        }
-    }
-
     void AutoInput()
     {
         bool isHit = false;
 
-        float rayLength = 0.3f;
-        float rayWidth = 0.25f;
-        //Vector3 center = gc.GetCenterPos();    // 始点
+        float rayLength = 0.5f;
+        float rayWidth = 0.375f;
         Vector3 center = this.transform.position;    // 始点
         Vector3 len = Vector3.right * rayLength * inputLR; // 長さ
 
-        // 当たり判定の結果用の変数
-        RaycastHit2D result;
+        // カプセルコライダーの都合上、レイの位置が悪かったので調整
+        float centerOffset = 0.125f;
+        center.y += centerOffset;
 
         center.y += rayWidth;
 
@@ -182,32 +141,18 @@ public class PlayerController : MonoBehaviour
             {
                 if (hit.collider.gameObject.TryGetComponent<GroundAttr>(out var typeAttr))
                 {
-                    Debug.Log("あたったやつ:" + hit.collider);
+                    //Debug.Log("あたったやつ:" + hit.collider);
                     if (typeAttr.isGround)
                     {
                         isHit = true;
-                        Debug.Log("はんてーん");
+                        //Debug.Log("はんてーん");
                     }
                 }
             }
 
-                // レイを飛ばして、指定したレイヤーにぶつかるかチェック
-                result = Physics2D.Linecast(center, center + len, returnLayerMask);
             // デバッグ表示用
             Debug.DrawLine(center, center + len);
 
-            //if (result.collider != null)
-            //{
-            //    //Debug.Log("あたったやつ:" + result.collider);
-            //    if (result.collider.gameObject.TryGetComponent<GroundAttr>(out var typeAttr))
-            //    {
-            //        if (typeAttr.isGround)
-            //        {
-            //            isHit = true;
-            //            Debug.Log("はんてーん");
-            //        }
-            //    }
-            //}
             center.y -= rayWidth;
         }
 
@@ -217,12 +162,6 @@ public class PlayerController : MonoBehaviour
             inputLR *= -1;
             isHit = false;
         }
-    }
-
-    // 被ダメージ
-    public void TakeDamage(int value)
-    {
-        Debug.Log(value + "だめーじ！");
     }
 
     public void OnPlayerStart()
