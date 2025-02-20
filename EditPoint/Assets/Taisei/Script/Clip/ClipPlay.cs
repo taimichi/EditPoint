@@ -13,10 +13,10 @@ public class ClipPlay : MonoBehaviour
 
     [SerializeField] private List<GameObject> ConnectObj = new List<GameObject>();  //クリップに紐づけられているオブジェクト    
 
-    private GameObject AllClip; //親オブジェクト
+    private GameObject ClipManager; //親オブジェクト
     private ClipGenerator clipGenerator;    //クリップ生成用スクリプト
 
-    private bool b_getObjMode = false;
+    private bool isGetObjMode = false;
 
 
     [SerializeField] private ClipSpeed clipSpeed;   //クリップの再生速度に関するスクリプト
@@ -26,8 +26,7 @@ public class ClipPlay : MonoBehaviour
 
     private AddTextManager addTextManager;
 
-    private RectTransform rect_grandParent; //親の親オブジェクト
-    private float f_manualTime = 0; //タイムバーを手動で動かしたときの時間
+    private float manualTime = 0; //タイムバーを手動で動かしたときの時間
 
     private MoveGround move;
 
@@ -36,21 +35,25 @@ public class ClipPlay : MonoBehaviour
     private float startTime = 0f;
     private float maxTime = 0f;
 
+    private MoveGroundManager MGManager;
+
+    private CheckOverlap checkOverlap = new CheckOverlap();
+
     private void Awake()
     {
         startTime = 0f;
-        f_manualTime = 0f;
+        manualTime = 0f;
     }
 
     void Start()
     {
-        rect_grandParent = rect_Clip.parent.parent.GetComponent<RectTransform>();
-
         //タイムバーのRectTransformを取得
         rect_timeBar = GameObject.Find("Timebar").GetComponent<RectTransform>();
-        AllClip = GameObject.Find("AllClip");
-        clipGenerator = AllClip.GetComponent<ClipGenerator>();
-        addTextManager = AllClip.GetComponent<AddTextManager>();
+        ClipManager = GameObject.Find("ClipManager");
+        clipGenerator = ClipManager.GetComponent<ClipGenerator>();
+        addTextManager = ClipManager.GetComponent<AddTextManager>();
+
+        MGManager = GameObject.Find("GameManager").GetComponent<MoveGroundManager>();
 
         //生成したクリップの場合
         if (ConnectObj.Count == 0)
@@ -95,7 +98,7 @@ public class ClipPlay : MonoBehaviour
         }
 
         //オブジェクト取得
-        if (b_getObjMode)
+        if (isGetObjMode)
         {
             if (!EventSystem.current.IsPointerOverGameObject())
             {
@@ -161,22 +164,22 @@ public class ClipPlay : MonoBehaviour
         }
 
         //クリップとタイムバーが触れてるときのみ
-        if (CheckOverrap(rect_Clip, rect_timeBar))
+        if (checkOverlap.IsOverlap(rect_Clip, rect_timeBar))
         {
             //クリップの経過時間
-            Vector3 leftEdge = rect_grandParent.InverseTransformPoint(rect_Clip.position) + new Vector3(-rect_Clip.rect.width * rect_Clip.pivot.x, 0, 0);
+            Vector3 leftEdge = rect_Clip.localPosition + new Vector3(-rect_Clip.rect.width * rect_Clip.pivot.x, 0, 0);
             float dis = rect_timeBar.localPosition.x - leftEdge.x;
-            f_manualTime = (float)Math.Truncate(dis / TimelineData.TimelineEntity.f_oneTickWidht * 10) / 10;
+            manualTime = ((float)Math.Truncate(dis / TimelineData.TimelineEntity.oneTickWidht * 10) / 10) / 2;
 
             //タイムバーを手動で動かしてる時
-            if (TimeData.TimeEntity.b_DragMode)
+            if (TimeData.TimeEntity.isDragMode)
             {
                 for (int i = 0; i < ConnectObj.Count; i++)
                 {
                     if (ConnectObj[i].GetComponent<MoveGround>())
                     {
                         move = ConnectObj[i].GetComponent<MoveGround>();
-                        move.GetClipTime_Manual(f_manualTime);
+                        move.GetClipTime_Manual(startTime + manualTime);
                     }
                 }
             }
@@ -210,10 +213,7 @@ public class ClipPlay : MonoBehaviour
     /// <summary>
     /// 紐づけたオブジェクトを取得
     /// </summary>
-    public List<GameObject> ReturnConnectObj()
-    {
-        return ConnectObj;
-    }
+    public List<GameObject> ReturnConnectObj() => ConnectObj;
 
     /// <summary>
     /// 外部からのゲームオブジェクトを取得
@@ -237,7 +237,7 @@ public class ClipPlay : MonoBehaviour
     /// </summary>
     private void ClipPlayNow()
     {
-        if (CheckOverrap(rect_Clip, rect_timeBar))
+        if (checkOverlap.IsOverlap(rect_Clip, rect_timeBar))
         {
             //タイムバーと接触しているとき
             for (int i = 0; i < ConnectObj.Count; i++)
@@ -254,6 +254,7 @@ public class ClipPlay : MonoBehaviour
             //タイムバーと接触していないとき
             for (int i = 0; i < ConnectObj.Count; i++)
             {
+                //動く床だったとき
                 if (ConnectObj[i].name.Contains("MoveGround"))
                 {
                     //プレイヤーがMoveGroundの子オブジェクトになってる時
@@ -262,6 +263,9 @@ public class ClipPlay : MonoBehaviour
                         //子オブジェクトを解除する
                         ConnectObj[i].transform.Find("Player").gameObject.transform.parent = null;
                     }
+
+                    //非表示にする前に初期位置に戻す
+                    ConnectObj[i].GetComponent<MoveGround>().SetStartPos();
                 }
                 //表示状態だったら
                 if (ConnectObj[i].activeSelf)
@@ -284,7 +288,7 @@ public class ClipPlay : MonoBehaviour
     /// </summary>
     public void CalculationMaxTime()
     {
-        maxTime = rect_Clip.rect.width / (TimelineData.TimelineEntity.f_oneTickWidht * 2);
+        maxTime = (rect_Clip.rect.width / (TimelineData.TimelineEntity.oneTickWidht * 2)) + startTime;
     }
 
 
@@ -303,6 +307,7 @@ public class ClipPlay : MonoBehaviour
                     //子オブジェクトを解除する
                     ConnectObj[i].transform.Find("Player").gameObject.transform.parent = null;
                 }
+                MGManager.DeleteMoveGrounds(ConnectObj[i]);
             }
         Destroy(ConnectObj[i]);
         }
@@ -320,39 +325,5 @@ public class ClipPlay : MonoBehaviour
     /// クリップの最大時間を返す
     /// </summary>
     /// <returns>クリップの最大時間</returns>
-    public float ReturnMaxTime()
-    {
-        return maxTime;
-    }
-
-    /// <summary>
-    /// クリップとタイムバーが重なっているかをチェック
-    /// </summary>
-    /// <param name="clipRect">クリップのRectTransform</param>
-    /// <param name="timeberRect">タイムバーのRectTransform</param>
-    /// <returns>重なっている=true 重なっていない=false</returns>
-    private bool CheckOverrap(RectTransform clipRect, RectTransform timeberRect)
-    {
-        // RectTransformの境界をワールド座標で取得
-        Rect rect1World = GetWorldRect(clipRect);
-        Rect rect2World = GetWorldRect(timeberRect);
-
-        // 境界が重なっているかどうかをチェック
-        return rect1World.Overlaps(rect2World);
-    }
-    
-    /// <summary>
-    /// ワールド座標での境界を取得
-    /// </summary>
-    /// <param name="rt">取得するRectTransform</param>
-    /// <returns>ワールド座標でのRectTransform</returns>
-    private Rect GetWorldRect(RectTransform rt)
-    {
-        //四隅のワールド座標を入れる配列
-        Vector3[] corners = new Vector3[4];
-        //RectTransformの四隅のワールド座標を取得
-        rt.GetWorldCorners(corners);
-
-        return new Rect(corners[0], corners[2] - corners[0]);
-    }
+    public float ReturnMaxTime() => maxTime;
 }

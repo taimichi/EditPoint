@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 public class GameManager : MonoBehaviour
 {
     //現在のシーン名
-    private string s_nowSceneName = "";
+    private string nowSceneName = "";
 
     private TimeBar timeBar;
 
@@ -15,20 +15,22 @@ public class GameManager : MonoBehaviour
     private QuickGuideMenu quick;
 
     //タイトル画面のみ(デバッグ用)
-    private bool b_debug = false;
+    private bool isDebug = false;
 
     private void Awake()
     {
-        GameData.GameEntity.b_playNow = false;
+        GameData.GameEntity.isPlayNow = false;
+        GameData.GameEntity.isClear = false;
+        GameData.GameEntity.isLimitTime = false;
         playSound = GameObject.Find("AudioCanvas").GetComponent<PlaySound>();
 
-        s_nowSceneName = SceneManager.GetActiveScene().name;    //シーン名を取得
-        b_debug = false;
-        switch (s_nowSceneName)
+        nowSceneName = SceneManager.GetActiveScene().name;    //シーン名を取得
+        isDebug = false;
+        switch (nowSceneName)
         {
             case "Title":
                 playSound.PlayBGM(PlaySound.BGM_TYPE.title_stageSelect);
-                b_debug = true;
+                isDebug = true;
                 break;
 
             case "Talk":
@@ -40,13 +42,13 @@ public class GameManager : MonoBehaviour
                 break;
         }
 
-        if (s_nowSceneName.Contains("Stage"))
+        if (nowSceneName.Contains("Stage"))
         {
             timeBar = GameObject.Find("Timebar").GetComponent<TimeBar>();
             playSound.PlayBGM(PlaySound.BGM_TYPE.stage1);
             playSound.PlaySE(PlaySound.SE_TYPE.start);
         }
-        else if(s_nowSceneName.Contains("Tutorial"))
+        else if(nowSceneName.Contains("Tutorial"))
         {
             timeBar = GameObject.Find("Timebar").GetComponent<TimeBar>();
             quick = GameObject.Find("GuideCanvas").GetComponent<QuickGuideMenu>();
@@ -54,7 +56,7 @@ public class GameManager : MonoBehaviour
             playSound.PlayBGM(PlaySound.BGM_TYPE.stage1);
             playSound.PlaySE(PlaySound.SE_TYPE.start);
 
-            switch (s_nowSceneName)
+            switch (nowSceneName)
             {
                 case string name when name.Contains("Clip1"):
                     if((TutorialData.TutorialEntity.frags & TutorialData.Tutorial_Frags.clip) == 0)
@@ -107,10 +109,10 @@ public class GameManager : MonoBehaviour
         if (Input.GetKey(KeyCode.LeftShift))
         {
             //チュートリアルステージを強制的にプレイした状態にする
-            if (Input.GetKeyDown(KeyCode.D) && b_debug)
+            if (Input.GetKeyDown(KeyCode.D) && isDebug)
             {
                 DebugOption();
-                GameData.GameEntity.b_timebarReset = false;
+                GameData.GameEntity.isTimebarReset = false;
                 Debug.Log("チュートリアル情報を初期化");
             }
         }
@@ -121,28 +123,25 @@ public class GameManager : MonoBehaviour
     /// </summary>
     private void DebugOption()
     {
-        TutorialData.TutorialEntity.frags &= TutorialData.Tutorial_Frags.clip;
-        TutorialData.TutorialEntity.frags &= TutorialData.Tutorial_Frags.block;
-        TutorialData.TutorialEntity.frags &= TutorialData.Tutorial_Frags.copy;
-        TutorialData.TutorialEntity.frags &= TutorialData.Tutorial_Frags.blower;
-        TutorialData.TutorialEntity.frags &= TutorialData.Tutorial_Frags.move;
-        TutorialData.TutorialEntity.frags &= TutorialData.Tutorial_Frags.button;
-        TutorialData.TutorialEntity.frags &= TutorialData.Tutorial_Frags.other;
+        TutorialData.TutorialEntity.frags &= (TutorialData.Tutorial_Frags.clip | TutorialData.Tutorial_Frags.block |
+                                          TutorialData.Tutorial_Frags.copy | TutorialData.Tutorial_Frags.blower |
+                                          TutorialData.Tutorial_Frags.move | TutorialData.Tutorial_Frags.button |
+                                          TutorialData.Tutorial_Frags.other);
     }
 
     public void OnStart()
     {
-        if (!GameData.GameEntity.b_playNow)
+        if (!GameData.GameEntity.isPlayNow)
         {
             timeBar.OnReStart();
-            GameData.GameEntity.b_playNow = true;
+            GameData.GameEntity.isPlayNow = true;
         }
     }
 
     public void OnReset()
     {
-        GameData.GameEntity.b_playNow = false;
-        GameData.GameEntity.b_timebarReset = true;
-        GameData.GameEntity.b_limitTime = false;
+        GameData.GameEntity.isPlayNow = false;
+        GameData.GameEntity.isTimebarReset = true;
+        GameData.GameEntity.isLimitTime = false;
     }
 }

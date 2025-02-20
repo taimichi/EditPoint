@@ -30,7 +30,8 @@ public class AutoScroll : MonoBehaviour
         Vector3[] viewportCorners = new Vector3[4];
         scrollRect.viewport.GetWorldCorners(viewportCorners);
 
-        if (!TimeData.TimeEntity.b_DragMode)
+        //自動スクロール
+        if (!TimeData.TimeEntity.isDragMode)
         {
             // 右端の判定
             if (targetCorners[2].x > viewportCorners[2].x)
@@ -38,6 +39,7 @@ public class AutoScroll : MonoBehaviour
                 ScrollToPositionRight(scrollAmount_auto); // 右にスクロール
             }
         }
+        //手動スクロール
         else
         {
             // 右端の判定
@@ -45,6 +47,7 @@ public class AutoScroll : MonoBehaviour
             {
                 ScrollToPositionRight(scrollAmount_manual); // 右にスクロール
             }
+            //左端の判定
             else if (targetCorners[1].x < viewportCorners[1].x)
             {
                 ScrollToPositionLeft(scrollAmount_manual); //左にスクロール

@@ -3048,10 +3048,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3c8497b4abe90e646ac0f91f7d884812, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  rb: {fileID: 5500888277332905345}
   anim: {fileID: 1716000904443615251}
   moveSpeed: 2.5
   inputLR: 0
-  manual: 1
   returnLayerMask:
     serializedVersion: 2
     m_Bits: 384

@@ -17,7 +17,7 @@ public class VirusEnemy : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.tag == "Player")
+        if (collision.gameObject.tag == "Player" && !GameData.GameEntity.isClear)
         {
             playSound.StopBGM();
             playSound.PlaySE(PlaySound.SE_TYPE.death);

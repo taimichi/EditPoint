@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class CheckClipConnect : MonoBehaviour
 {
-    private bool b_connect = false;
+    private bool isConnect = false;
 
     private void Start()
     {
@@ -13,7 +13,7 @@ public class CheckClipConnect : MonoBehaviour
 
     private void Update()
     {
-        if (!b_connect && GameData.GameEntity.b_playNow)
+        if (!isConnect && GameData.GameEntity.isPlayNow)
         {
             this.gameObject.SetActive(false);
         }
@@ -21,6 +21,6 @@ public class CheckClipConnect : MonoBehaviour
 
     public void ConnectClip()
     {
-        b_connect = true;
+        isConnect = true;
     }
 }

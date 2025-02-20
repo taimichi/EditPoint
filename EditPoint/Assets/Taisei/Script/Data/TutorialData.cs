@@ -29,6 +29,7 @@ public class TutorialData : ScriptableObject
     [System.Flags]
     public enum Tutorial_Frags
     {
+        None = 0,
         clip = 1 << 0,
         block = 1 << 1,
         copy = 1 << 2,
@@ -39,5 +40,5 @@ public class TutorialData : ScriptableObject
     }
     //末尾にマックスのやつ作って要素数を取得できるように
 
-    public Tutorial_Frags frags;
+    [EnumFlags] public Tutorial_Frags frags;
 }
