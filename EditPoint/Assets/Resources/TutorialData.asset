@@ -12,4 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7d2e0824bfe22474dbff44e13ebaec35, type: 3}
   m_Name: TutorialData
   m_EditorClassIdentifier: 
-  frags: 0
+  frags: 8

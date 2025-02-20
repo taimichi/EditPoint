@@ -124,6 +124,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b68701cba0e0bfc47bad4ad3c81f94a5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  GoalEffect: {fileID: 5700784828077083704, guid: ed962e35f7fa6f34f8d27aa6d19ea293, type: 3}
   clStart: {fileID: 8015679722785357955}
 --- !u!1001 &1510321713
 PrefabInstance:

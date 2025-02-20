@@ -140,7 +140,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _camera: {fileID: 0}
   Trail: {fileID: 511283359281519111}
-  TapEffectPrefab: {fileID: 3613947435294504851, guid: 77a3324b0eab48a4192008b7f942ed90, type: 3}
+  TapEffectPrefab: {fileID: 8680598818964007281, guid: c926332cf6c45f84eb88162c7334ec87, type: 3}
 --- !u!1001 &2003148706411800609
 PrefabInstance:
   m_ObjectHideFlags: 0
