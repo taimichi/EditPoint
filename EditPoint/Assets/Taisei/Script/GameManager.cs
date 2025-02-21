@@ -103,7 +103,7 @@ public class GameManager : MonoBehaviour
                     playSound.PlayBGM(PlaySound.BGM_TYPE.talk);
                     //フェードアウト処理
                     Fade fade = GameObject.Find("GameFade").GetComponent<Fade>();
-                    fade.FadeIn(0.5f, () =>
+                    fade.FadeIn(0.01f, () =>
                      {
                          fade.FadeOut(0.5f);
                      });
