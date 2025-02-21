@@ -151,7 +151,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &233850617
 RectTransform:
   m_ObjectHideFlags: 0
@@ -244,7 +244,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.25}
   m_AnchorMax: {x: 1, y: 0.75}
-  m_AnchoredPosition: {x: 0.5000305, y: 0}
+  m_AnchoredPosition: {x: 0.5, y: 0}
   m_SizeDelta: {x: -9.00005, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1001 &463048387
@@ -258,6 +258,14 @@ PrefabInstance:
       propertyPath: _camera
       value: 
       objectReference: {fileID: 972074987}
+    - target: {fileID: 2312610123839145837, guid: a21fe513849ddc64e93385872eb3335d, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4437047612105018477, guid: a21fe513849ddc64e93385872eb3335d, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4466611139062840557, guid: a21fe513849ddc64e93385872eb3335d, type: 3}
       propertyPath: m_Enabled
       value: 0
@@ -472,7 +480,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: -380, y: 170}
+  m_AnchoredPosition: {x: -380, y: 150}
   m_SizeDelta: {x: 700, y: 150}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &719794767
@@ -497,8 +505,8 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 12800000, guid: d341e9ddb861c37469e9315f6ae2b7f3, type: 3}
-    m_FontSize: 80
-    m_FontStyle: 1
+    m_FontSize: 60
+    m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 0
     m_MaxSize: 100
@@ -508,7 +516,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Now Loding...
+  m_Text: "\u52D5\u753B\u30C7\u30FC\u30BF\u8AAD\u307F\u8FBC\u307F\u4E2D..."
 --- !u!222 &719794768
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -783,7 +791,7 @@ GameObject:
   - component: {fileID: 1031222768}
   - component: {fileID: 1031222767}
   m_Layer: 5
-  m_Name: Canvas
+  m_Name: LordCanvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -848,7 +856,7 @@ Canvas:
   m_SortingBucketNormalizedSize: 0
   m_AdditionalShaderChannelsFlag: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 99
+  m_SortingOrder: 1000
   m_TargetDisplay: 0
 --- !u!224 &1031222770
 RectTransform:
@@ -1310,7 +1318,7 @@ RectTransform:
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 10, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -1703,7 +1711,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.25}
   m_AnchorMax: {x: 1, y: 0.75}
-  m_AnchoredPosition: {x: 0.66360474, y: 0}
+  m_AnchoredPosition: {x: 0.6635742, y: 0}
   m_SizeDelta: {x: 1.327, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1922515315

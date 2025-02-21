@@ -19,35 +19,27 @@ public class GameManager : MonoBehaviour
 
     private void Awake()
     {
+        //各フラグをリセット
         GameData.GameEntity.isPlayNow = false;
         GameData.GameEntity.isClear = false;
         GameData.GameEntity.isLimitTime = false;
+
+        //AudioCanvasを取得
         playSound = GameObject.Find("AudioCanvas").GetComponent<PlaySound>();
 
         nowSceneName = SceneManager.GetActiveScene().name;    //シーン名を取得
+
+        //デバッグ用フラグをリセット
         isDebug = false;
-        switch (nowSceneName)
-        {
-            case "Title":
-                playSound.PlayBGM(PlaySound.BGM_TYPE.title_stageSelect);
-                isDebug = true;
-                break;
 
-            case "Talk":
-                playSound.PlayBGM(PlaySound.BGM_TYPE.talk);
-                break;
-
-            case "Select":
-                playSound.PlayBGM(PlaySound.BGM_TYPE.title_stageSelect);
-                break;
-        }
-
+        //チュートリアル以外のステージのとき
         if (nowSceneName.Contains("Stage"))
         {
             timeBar = GameObject.Find("Timebar").GetComponent<TimeBar>();
             playSound.PlayBGM(PlaySound.BGM_TYPE.stage1);
             playSound.PlaySE(PlaySound.SE_TYPE.start);
         }
+        //チュートリアルステージの時
         else if(nowSceneName.Contains("Tutorial"))
         {
             timeBar = GameObject.Find("Timebar").GetComponent<TimeBar>();
@@ -56,43 +48,70 @@ public class GameManager : MonoBehaviour
             playSound.PlayBGM(PlaySound.BGM_TYPE.stage1);
             playSound.PlaySE(PlaySound.SE_TYPE.start);
 
+            //チュートリアルステージを初めてプレイするとき、
+            //それぞれの操作方法を始めに表示
             switch (nowSceneName)
             {
-                case string name when name.Contains("Clip1"):
+                case string name when name.Contains("Clip"):
                     if((TutorialData.TutorialEntity.frags & TutorialData.Tutorial_Frags.clip) == 0)
                     {
                         quick.StartGuide("Clip");
                     }
                     break;
 
-                case string name when name.Contains("Block1"):
+                case string name when name.Contains("Block"):
                     if ((TutorialData.TutorialEntity.frags & TutorialData.Tutorial_Frags.block) == 0)
                     {
                         quick.StartGuide("Block");
                     }
                     break;
 
-                case string name when name.Contains("Copy1"):
+                case string name when name.Contains("Copy"):
                     if((TutorialData.TutorialEntity.frags & TutorialData.Tutorial_Frags.copy) == 0)
                     {
                         quick.StartGuide("Copy");
                     }
                     break;
 
-                case string name when name.Contains("Blower1"):
+                case string name when name.Contains("Blower"):
                     if((TutorialData.TutorialEntity.frags & TutorialData.Tutorial_Frags.blower) == 0)
                     {
                         quick.StartGuide("Blower");
                     }
                     break;
 
-                case string name when name.Contains("Move1"):
+                case string name when name.Contains("Move"):
                     if((TutorialData.TutorialEntity.frags & TutorialData.Tutorial_Frags.move) == 0)
                     {
                         quick.StartGuide("Move");
                     }
                     break;
 
+            }
+        }
+        //それ以外のとき
+        else
+        {
+            switch (nowSceneName)
+            {
+                case "Title":
+                    playSound.PlayBGM(PlaySound.BGM_TYPE.title_stageSelect);
+                    isDebug = true; //デバッグ用機能を使用可能にする
+                    break;
+
+                case "Talk":
+                    playSound.PlayBGM(PlaySound.BGM_TYPE.talk);
+                    //フェードアウト処理
+                    Fade fade = GameObject.Find("GameFade").GetComponent<Fade>();
+                    fade.FadeIn(0.5f, () =>
+                     {
+                         fade.FadeOut(0.5f);
+                     });
+                    break;
+
+                case "Select":
+                    playSound.PlayBGM(PlaySound.BGM_TYPE.title_stageSelect);
+                    break;
             }
         }
 
@@ -106,6 +125,7 @@ public class GameManager : MonoBehaviour
     void Update()
     {
         //デバッグ用機能
+        //タイトル画面の時のみ使用可能
         if (Input.GetKey(KeyCode.LeftShift))
         {
             //チュートリアルステージを強制的にプレイした状態にする
@@ -129,6 +149,9 @@ public class GameManager : MonoBehaviour
                                           TutorialData.Tutorial_Frags.other);
     }
 
+    /// <summary>
+    /// スタートボタンを押したとき
+    /// </summary>
     public void OnStart()
     {
         if (!GameData.GameEntity.isPlayNow)
@@ -138,6 +161,9 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// タイムバーリセットをした時
+    /// </summary>
     public void OnReset()
     {
         GameData.GameEntity.isPlayNow = false;
