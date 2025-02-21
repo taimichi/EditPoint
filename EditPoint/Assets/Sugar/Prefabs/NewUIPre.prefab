@@ -345,7 +345,7 @@ Canvas:
   m_SortingBucketNormalizedSize: 0
   m_AdditionalShaderChannelsFlag: 25
   m_SortingLayerID: 0
-  m_SortingOrder: 999
+  m_SortingOrder: 10000
   m_TargetDisplay: 0
 --- !u!222 &2668471610381860503
 CanvasRenderer:

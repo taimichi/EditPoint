@@ -31,7 +31,10 @@ public class GameManager : MonoBehaviour
 
         //デバッグ用フラグをリセット
         isDebug = false;
+    }
 
+    void Start()
+    {
         //チュートリアル以外のステージのとき
         if (nowSceneName.Contains("Stage"))
         {
@@ -40,7 +43,7 @@ public class GameManager : MonoBehaviour
             playSound.PlaySE(PlaySound.SE_TYPE.start);
         }
         //チュートリアルステージの時
-        else if(nowSceneName.Contains("Tutorial"))
+        else if (nowSceneName.Contains("Tutorial"))
         {
             timeBar = GameObject.Find("Timebar").GetComponent<TimeBar>();
             quick = GameObject.Find("GuideCanvas").GetComponent<QuickGuideMenu>();
@@ -48,40 +51,42 @@ public class GameManager : MonoBehaviour
             playSound.PlayBGM(PlaySound.BGM_TYPE.stage1);
             playSound.PlaySE(PlaySound.SE_TYPE.start);
 
+            var frags = TutorialData.TutorialEntity.frags;
+
             //チュートリアルステージを初めてプレイするとき、
             //それぞれの操作方法を始めに表示
             switch (nowSceneName)
             {
                 case string name when name.Contains("Clip"):
-                    if((TutorialData.TutorialEntity.frags & TutorialData.Tutorial_Frags.clip) == 0)
+                    if ((frags & TutorialData.Tutorial_Frags.clip) == 0)
                     {
                         quick.StartGuide("Clip");
                     }
                     break;
 
                 case string name when name.Contains("Block"):
-                    if ((TutorialData.TutorialEntity.frags & TutorialData.Tutorial_Frags.block) == 0)
+                    if ((frags & TutorialData.Tutorial_Frags.block) == 0)
                     {
                         quick.StartGuide("Block");
                     }
                     break;
 
                 case string name when name.Contains("Copy"):
-                    if((TutorialData.TutorialEntity.frags & TutorialData.Tutorial_Frags.copy) == 0)
+                    if ((frags & TutorialData.Tutorial_Frags.copy) == 0)
                     {
                         quick.StartGuide("Copy");
                     }
                     break;
 
                 case string name when name.Contains("Blower"):
-                    if((TutorialData.TutorialEntity.frags & TutorialData.Tutorial_Frags.blower) == 0)
+                    if ((frags & TutorialData.Tutorial_Frags.blower) == 0)
                     {
                         quick.StartGuide("Blower");
                     }
                     break;
 
                 case string name when name.Contains("Move"):
-                    if((TutorialData.TutorialEntity.frags & TutorialData.Tutorial_Frags.move) == 0)
+                    if ((frags & TutorialData.Tutorial_Frags.move) == 0)
                     {
                         quick.StartGuide("Move");
                     }
@@ -103,10 +108,7 @@ public class GameManager : MonoBehaviour
                     playSound.PlayBGM(PlaySound.BGM_TYPE.talk);
                     //フェードアウト処理
                     Fade fade = GameObject.Find("GameFade").GetComponent<Fade>();
-                    fade.FadeIn(0.01f, () =>
-                     {
-                         fade.FadeOut(0.5f);
-                     });
+                    fade.FadeOut(0.5f);
                     break;
 
                 case "Select":
@@ -115,10 +117,6 @@ public class GameManager : MonoBehaviour
             }
         }
 
-    }
-
-    void Start()
-    {
         ModeData.ModeEntity.mode = ModeData.Mode.normal;
     }
 
