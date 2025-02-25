@@ -621,7 +621,7 @@ Canvas:
   m_SortingBucketNormalizedSize: 0
   m_AdditionalShaderChannelsFlag: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 1000
+  m_SortingOrder: 500
   m_TargetDisplay: 0
 --- !u!114 &6609544224649678074
 MonoBehaviour:
@@ -1179,7 +1179,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   timeBar: {fileID: 6609544224346704652}
   ClipPrefab: {fileID: 4323194755857948601, guid: 3de79496991474f48a34ccbe59c522fc, type: 3}
-  b_Lock: 0
 --- !u!114 &4253985493149237776
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1327,8 +1326,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 6609544225311300687}
   m_HandleRect: {fileID: 6609544225311300686}
   m_Direction: 0
-  m_Value: 0.0000012336026
-  m_Size: 0.022789318
+  m_Value: 0.0000012336025
+  m_Size: 0.022789316
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:

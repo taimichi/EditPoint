@@ -14,6 +14,9 @@ public class ToolButton : MonoBehaviour
 
     [SerializeField] GameObject clpObj;
     [SerializeField] ClapperStart clapper;
+    // メニューウィンドウ
+    [SerializeField] GameObject menu;
+
 
     private void Start()
     {
@@ -42,21 +45,16 @@ public class ToolButton : MonoBehaviour
         //        SceneManager.LoadScene(S_stageName);
         //    });
     }
-    public void GroupTitle() // タイトルシーンへ（[2024.07/05]今のところタイトルだがステージ選択に戻す可能性あり）
+    public void SelectScene() // タイトルシーンへ（[2024.07/05]今のところタイトルだがステージ選択に戻す可能性あり）
     {
         // フェード
-        fade.FadeIn(0.5f, () => {
-            SceneManager.LoadScene("Title");
-        });
-    }
-
-    public void BackSelect()
-    {
-        // フェード
-        //clpObj.SetActive(true);
-        //clapper.SceneName = "Select";
         fade.FadeIn(0.5f, () => {
             SceneManager.LoadScene("Select");
         });
+    }
+
+    public void OpenMenu()
+    {
+        menu.SetActive(true);
     }
 }
