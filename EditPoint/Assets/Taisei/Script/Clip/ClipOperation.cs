@@ -322,7 +322,7 @@ public class ClipOperation : MonoBehaviour, IDragHandler, IBeginDragHandler, IEn
             for (int i = 0; i < ClipsRect.Length; i++)
             {
                 ClipsRect[i].localPosition = new Vector3(
-                    ClipsRect[i].localPosition.x - 0.1f, ClipsRect[i].localPosition.y, ClipsRect[i].localPosition.z);
+                    ClipsRect[i].localPosition.x, ClipsRect[i].localPosition.y, ClipsRect[i].localPosition.z);
 
                 if (checkOverlap.IsOverlap(targetImage, ClipsRect[i]))
                 {
@@ -341,8 +341,9 @@ public class ClipOperation : MonoBehaviour, IDragHandler, IBeginDragHandler, IEn
             {
                 playSound.PlaySE(PlaySound.SE_TYPE.objMove);
                 //タイムラインの左端とクリップが重なってる場合
-                if (checkOverlap.IsOverlap(targetImage, rect_UpLeft))
+                if (targetImage.localPosition.x < rect_UpLeft.localPosition.x)
                 {
+                    Debug.Log("左重なった");
                     //サイズ変更による場合
                     if (mode == CLIP_MODE.resize)
                     {
@@ -350,8 +351,9 @@ public class ClipOperation : MonoBehaviour, IDragHandler, IBeginDragHandler, IEn
                     }
                 }
                 //タイムラインの右端とクリップが重なってる場合
-                else if (checkOverlap.IsOverlap(targetImage, rect_DownRight))
+                else if (targetImage.localPosition.x + targetImage.sizeDelta.x > rect_DownRight.localPosition.x)
                 {
+                    Debug.Log("右重なった");
                     //サイズ変更による場合
                     if (mode == CLIP_MODE.resize)
                     {

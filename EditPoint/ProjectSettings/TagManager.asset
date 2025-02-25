@@ -16,6 +16,7 @@ TagManager:
   - MoveGround
   - GetBlock
   - GameManager
+  - Lording
   layers:
   - Default
   - TransparentFX

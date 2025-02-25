@@ -176,7 +176,7 @@ public class ClipPlay : MonoBehaviour
             {
                 for (int i = 0; i < ConnectObj.Count; i++)
                 {
-                    if (ConnectObj[i].GetComponent<MoveGround>())
+                    if (ConnectObj[i].TryGetComponent<MoveGround>(out move))
                     {
                         move = ConnectObj[i].GetComponent<MoveGround>();
                         move.GetClipTime_Manual(startTime + manualTime);
@@ -187,7 +187,7 @@ public class ClipPlay : MonoBehaviour
             {
                 for (int i = 0; i < ConnectObj.Count; i++)
                 {
-                    if (ConnectObj[i].GetComponent<MoveGround>())
+                    if (ConnectObj[i].TryGetComponent<MoveGround>(out move))
                     {
                         move = ConnectObj[i].GetComponent<MoveGround>();
                         move.GetClipTime_Auto(startTime);
