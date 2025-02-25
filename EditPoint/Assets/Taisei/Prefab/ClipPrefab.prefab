@@ -188,10 +188,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   targetImage: {fileID: 4323194755857948600}
-  f_minSize: 350
-  f_maxSize: 4200
-  f_edgeRange: 40
-  b_Lock: 0
+  minWidth: 350
+  maxWidth: 1400
+  edgeRange: 25
 --- !u!114 &4323194755857948604
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -204,7 +203,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 34cd4e14b7722514198b65190da0172a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  f_StartWidth: 700
+  startWidth: 140
   ClipRect: {fileID: 4323194755857948600}
 --- !u!114 &4323194755857948605
 MonoBehaviour:
