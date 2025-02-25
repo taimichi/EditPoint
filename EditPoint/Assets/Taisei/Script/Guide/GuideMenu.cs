@@ -47,17 +47,17 @@ public class GuideMenu : MonoBehaviour
 
     public void OnCloseGuide()
     {
-        Time.timeScale = 1;
-
         key = "";
         DeactiveAll();
 
         GuideMenuObj.SetActive(false);
     }
 
+    /// <summary>
+    /// ‘€ìà–¾ƒƒjƒ…[‚ğŠJ‚­
+    /// </summary>
     public void OnOpenGuide()
     {
-        Time.timeScale = 0;
         GuideMenuObj.SetActive(true);
     }
 
