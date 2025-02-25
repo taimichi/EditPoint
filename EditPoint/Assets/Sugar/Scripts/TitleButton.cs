@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement; // シーン遷移
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 public class TitleButton : MonoBehaviour
 {
@@ -34,9 +35,9 @@ public class TitleButton : MonoBehaviour
             playSound.PlaySE(PlaySound.SE_TYPE.enter);
             // フェード
             fade.FadeIn(0.5f, () => {
-                SceneManager.LoadScene("Talk");
+                SceneManager.LoadSceneAsync("Talk");
             });
-
         }
     }
 }
+

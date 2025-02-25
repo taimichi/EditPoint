@@ -5,6 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class GoalController : MonoBehaviour
 {
+    [SerializeField] private GameObject GoalEffect;
     [SerializeField] ClapperStart clStart;
     private PlayerController plController;
 
@@ -22,6 +23,7 @@ public class GoalController : MonoBehaviour
         {
             if (playerItemData.isKey)
             {
+                Instantiate(GoalEffect, this.gameObject.transform);
                 GameData.GameEntity.isClear = true;
                 playSound.PlaySE(PlaySound.SE_TYPE.gool);
                 plController.PlayerStop();
