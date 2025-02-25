@@ -57,6 +57,9 @@ public class GuideMenu : MonoBehaviour
         GuideMenuObj.SetActive(false);
     }
 
+    /// <summary>
+    /// ‘€ìà–¾ƒƒjƒ…[‚ğŠJ‚­
+    /// </summary>
     public void OnOpenGuide()
     {
         GuideMenuObj.SetActive(true);

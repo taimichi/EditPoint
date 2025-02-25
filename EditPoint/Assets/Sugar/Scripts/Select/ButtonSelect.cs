@@ -13,7 +13,9 @@ public class ButtonSelect : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
     // ここでどのボタン機能か判断
     enum SelectButton
     {
-        File,FileClose,Bg,Title,End,Yes_No,Option,OptionClose,etc
+        File,FileClose,Bg,Title,End,Yes_No,Option,OptionClose,etc,
+        /*ゲームシーン中に使うやつ*/
+        Guide,Game,Select
     }
     [Header("ボタン機能の種類を選ぶ"),SerializeField] SelectButton kindButton;
 
@@ -75,6 +77,16 @@ public class ButtonSelect : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
                 break;
             case SelectButton.OptionClose:
                 OptionClose();
+                break;
+
+            case SelectButton.Guide:
+                Guide();
+                break;
+            case SelectButton.Game:
+                Game();
+                break;
+            case SelectButton.Select:
+                Select();
                 break;
         }
     }
@@ -159,4 +171,23 @@ public class ButtonSelect : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
     }
     #endregion
 
+    #region GameFunc
+    // ガイドを開く
+    private void Guide()
+    {
+        GameObject obj = GameObject.Find("GuideCanvas");
+        obj.GetComponent<GuideMenu>().OnOpenGuide();
+    }
+    // メニューを閉じる
+    private void Game()
+    {
+        fileObj.SetActive(false);
+    }
+    // セレクトシーンに移行
+    private void Select()
+    {
+        GameObject obj = GameObject.Find("PlayBack");
+        obj.GetComponent<ToolButton>().SelectScene();
+    }
+    #endregion
 }
