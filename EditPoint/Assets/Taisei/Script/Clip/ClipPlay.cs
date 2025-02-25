@@ -64,20 +64,18 @@ public class ClipPlay : MonoBehaviour
         {
             for(int i = 0; i < ConnectObj.Count; i++)
             {
-                if(ConnectObj[i].GetComponent<MoveGround>() == true)
+                if(ConnectObj[i].TryGetComponent<MoveGround>(out var moveGroundScript))
                 {
-                    moveGround.Add(ConnectObj[i].GetComponent<MoveGround>());   
+                    moveGround.Add(moveGroundScript);   
                 }
 
-                if(ConnectObj[i].GetComponent<CheckClipConnect>() == true)
+                if(ConnectObj[i].TryGetComponent<CheckClipConnect>(out checkClip))
                 {
-                    checkClip = ConnectObj[i].GetComponent<CheckClipConnect>();
                     checkClip.ConnectClip();
                 }
 
-                if (ConnectObj[i].GetComponent<GetCopyObj>() == true)
+                if (ConnectObj[i].TryGetComponent<GetCopyObj>(out gpo))
                 {
-                    gpo = ConnectObj[i].GetComponent<GetCopyObj>();
                     gpo.GetAttachClip(this.gameObject);
                 }
             }

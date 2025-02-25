@@ -326,6 +326,13 @@ public class ClipOperation : MonoBehaviour, IDragHandler, IBeginDragHandler, IEn
                     }
                 }
             }
+
+            //クリップがタイムラインの外に出た時
+            if (isOut)
+            {
+                targetImage.localPosition = startPos;
+                isOut = false;
+            }
             
             startPos = this.transform.localPosition;
 
