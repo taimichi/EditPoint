@@ -25,6 +25,6 @@ public class TimelineData : ScriptableObject
 
 
     [Header("1回にサイズ変更する量")] public float oneResize = 70f;
-    [Header("1目盛りの幅(ローカル座標基準)")] public float oneTickWidht = 70f;
+    [Header("1目盛りの幅(ローカル座標基準)")] public float oneTickWidth = 70f;
     [Header("1ラインの高さ(ローカル座標基準)")] public float oneTickHeight = 75f;
 }

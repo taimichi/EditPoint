@@ -1,9 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GuideMenu : MonoBehaviour
 {
+    private Canvas canvas;
     [SerializeField] private GameObject GuideMenuObj;
     private float nowTimeScale = 0;
 
@@ -36,6 +38,8 @@ public class GuideMenu : MonoBehaviour
             {"Button",buttonGuide },
             {"Other" ,otherGuide}
         };
+        canvas = this.GetComponent<Canvas>();
+        canvas.worldCamera = GameObject.Find("UICamera").GetComponent<Camera>();
     }
 
 
@@ -47,17 +51,17 @@ public class GuideMenu : MonoBehaviour
 
     public void OnCloseGuide()
     {
-        Time.timeScale = 1;
-
         key = "";
         DeactiveAll();
 
         GuideMenuObj.SetActive(false);
     }
 
+    /// <summary>
+    /// ‘€ìà–¾ƒƒjƒ…[‚ğŠJ‚­
+    /// </summary>
     public void OnOpenGuide()
     {
-        Time.timeScale = 0;
         GuideMenuObj.SetActive(true);
     }
 

@@ -54,6 +54,13 @@ public class ObjectScaleEditor : MonoBehaviour
     // 編集対象
     public GameObject editObject;
 
+    //移動範囲制限用
+    private Camera GameCamera;
+    //カメラのスクリーン座標取得用
+    private Vector2 LeftDownPos;    //左下座標
+    private Vector2 RightUpPos;     //右上座標
+    private bool isOut;             //オブジェクトがカメラの外に出たか
+
     private void Start()
     {
         handle_LayerMask = LayerMask.NameToLayer("Handle");
@@ -61,6 +68,11 @@ public class ObjectScaleEditor : MonoBehaviour
         //virtualObject.transform.position = editObject.transform.position;
         //virtualObject.transform.localEulerAngles = new Vector3(0, 0, editObject.transform.localEulerAngles.z);
         //virtualObject.transform.localScale = editObject.transform.localScale;
+
+        GameCamera = GameObject.Find("GameCamera").GetComponent<Camera>();
+
+        LeftDownPos = GameCamera.ViewportToWorldPoint(new Vector2(0, 0));
+        RightUpPos = GameCamera.ViewportToWorldPoint(new Vector2(1, 1));
     }
 
     private void Update()
@@ -187,7 +199,18 @@ public class ObjectScaleEditor : MonoBehaviour
                     }
                     else if (nowHandleType == HandleType.body)
                     {
-                        editObject.transform.position = virtualObject.transform.position;
+                        //画面外に出ていないとき
+                        if (!CheckOutObj())
+                        {
+                            editObject.transform.position = virtualObject.transform.position;
+                        }
+                        //画面外に出た時
+                        else
+                        {
+                            virtualObject.transform.position = editObject.transform.position;
+                            virtualObject.transform.localEulerAngles = new Vector3(0, 0, editObject.transform.localEulerAngles.z);
+                            virtualObject.transform.localScale = editObject.transform.localScale;
+                        }
                     }
                     else
                     {
@@ -217,14 +240,29 @@ public class ObjectScaleEditor : MonoBehaviour
         //deleteキーで選択してるオブジェクトを消す
         if (Input.GetKeyDown(KeyCode.Delete))
         {
-            if (editObject != null)
-            {
-                Destroy(editObject);
-                editObject = null;
-                this.gameObject.SetActive(false);
-            }
+            ObjectDelete();
         }
 
+    }
+
+    /// <summary>
+    ///　選択されているオブジェクトがカメラの外にいるかどうか
+    /// </summary>
+    /// <returns>false = いない, true = いる</returns>
+    private bool CheckOutObj()
+    {
+        if(virtualObject.transform.position.x < LeftDownPos.x
+            || virtualObject.transform.position.x > RightUpPos.x
+            || virtualObject.transform.position.y < LeftDownPos.y
+            || virtualObject.transform.position.y > RightUpPos.y)
+        {
+            isOut = true;
+        }
+        else
+        {
+            isOut = false;
+        }
+        return isOut;
     }
 
     // マウスポジション取得
@@ -245,4 +283,17 @@ public class ObjectScaleEditor : MonoBehaviour
         virtualObject.transform.localScale = _editObj.transform.localScale;
     }
 
+    /// <summary>
+    /// 選択しているオブジェクトを消す
+    /// </summary>
+    public void ObjectDelete()
+    {
+        if (editObject != null)
+        {
+            Destroy(editObject);
+            editObject = null;
+            this.gameObject.SetActive(false);
+        }
+
+    }
 }

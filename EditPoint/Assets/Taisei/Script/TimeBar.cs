@@ -29,7 +29,7 @@ public class TimeBar : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragH
 
         limit = TLManager.ReturnTimebarLimit();
 
-        limitPosX = startPos.x + (limit * 2 * TimelineData.TimelineEntity.oneTickWidht);
+        limitPosX = startPos.x + (limit * 2 * TimelineData.TimelineEntity.oneTickWidth);
 
         transform.SetAsLastSibling();
     }

@@ -2,44 +2,45 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using System;
+using Pixeye.Unity;
 
 public class ClipOperation : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHandler
 {
-    [SerializeField] private RectTransform targetImage;  //クリップ画像のRectTransform
-    private Vector2 v2_initSizeDelta;
-    private Vector2 v2_initMousePos;
+    [Foldout("Start"), SerializeField, Header("クリップの長さ(秒)")]
+    private float startLength = 5f;
 
-    private Vector2 v2_resizeOffset;
-    private Vector2 v2_moveOffset;
+    [SerializeField] private RectTransform targetImage;  //クリップ画像のRectTransform
+    private Vector2 initSizeDelta;
+    private Vector2 initMousePos;
+
+    private Vector2 resizeOffset;
+    private Vector2 moveOffset;
 
     private bool isResizeRight;  // 右側をリサイズ中かどうかのフラグ
 
-    private Vector2 v2_size;
-    private Vector2 v2_deltaPivot;
-    private Vector3 v2_deltaPos;
+    private Vector2 size;
+    private Vector2 deltaPivot;
+    private Vector3 deltaPos;
 
-    private Vector2 v2_startSize;
+    private Vector2 startSize;
 
-    [SerializeField, Header("クリップの最小サイズ")] private float f_minSize = 350;
-    [SerializeField, Header("クリップの最大サイズ")] private float f_maxSize = 1400;
-    private float f_newSize;
+    [SerializeField, Header("クリップの最小サイズ")] private float minWidth = 350;
+    [SerializeField, Header("クリップの最大サイズ")] private float maxWidth = 1400;
+    private float newWidth;
 
-    [SerializeField, Header("サイズ変更を受け付ける範囲(左右共通)")] private float f_edgeRange = 10f;
+    [SerializeField, Header("サイズ変更を受け付ける範囲(左右共通)")] private float edgeRange = 10f;
 
-    private float f_dotMove = 0;
-    private float f_onetick;            //サイズ変更時、1回にサイズ変更する量
+    private float dotMove = 0;
+    private float onetick;            //サイズ変更時、1回にサイズ変更する量
 
-    private Vector2 v2_mousePos;        //マウスの座標
-    private float f_dotWidth = 0f;
-    private float f_newWidth;           //新しいX座標
-    private float f_dotHeight = 0f;
-    private float f_newHeight;          //新しいY座標
-    private float f_oneWidth;           //移動時、一回に移動する量　横
-    private float f_oneHeight;          //移動時、一回に移動する量　縦
+    private Vector2 mousePos;        //マウスの座標
+    private float dotPosX = 0f;
+    private float dotPosY = 0f;
+    private float newPosY;          //新しいY座標
+    private float oneWidth;           //移動時、一回に移動する量　横
+    private float oneHeight;          //移動時、一回に移動する量　縦
 
-    private float timeBarLimitPos = 0f; //タイムバーの限界X座標
-
-    private int i_resizeCount = 0;
+    private int resizeCount = 0;
 
     private RectTransform rect_UpLeft;    //タイムラインの左上
     private RectTransform rect_DownRight;   //タイムラインの右下
@@ -47,31 +48,48 @@ public class ClipOperation : MonoBehaviour, IDragHandler, IBeginDragHandler, IEn
     private GameObject[] Clips;
     private RectTransform[] ClipsRect;
 
-    private Vector3 v3_beforePos;
-    private Vector2 savePos;
+    private Vector3 startPos;   //初期位置
 
     private CheckOverlap checkOverlap = new CheckOverlap();
 
     private FunctionLookManager functionLook;
 
+    /// <summary>
+    /// クリップ操作の種類
+    /// </summary>
     private enum CLIP_MODE
     {
+        /// <summary>
+        /// 何もしていない、ノーマル
+        /// </summary>
         normal,
+        /// <summary>
+        /// サイズ変更操作
+        /// </summary>
         resize,
+        /// <summary>
+        /// 移動操作
+        /// </summary>
         move,
     }
+    //現在のクリップ操作の状態
     private CLIP_MODE mode = CLIP_MODE.normal;
 
     private PlaySound playSound;
 
+    //クリップがタイムラインの外に出たか
+    private bool isOut = false;
+
+    [SerializeField] private bool isLook = false;
+
     private void Awake()
     {
         //リサイズ用
-        f_onetick = TimelineData.TimelineEntity.oneResize;
+        onetick = TimelineData.TimelineEntity.oneResize;
 
         //クリップ移動用
-        f_oneWidth = TimelineData.TimelineEntity.oneTickWidht;
-        f_oneHeight = TimelineData.TimelineEntity.oneTickHeight;
+        oneWidth = TimelineData.TimelineEntity.oneTickWidth;
+        oneHeight = TimelineData.TimelineEntity.oneTickHeight;
 
         //タイムラインの端のRectTransform取得
         rect_UpLeft = GameObject.Find("UpLeftOutLine").GetComponent<RectTransform>();
@@ -81,23 +99,26 @@ public class ClipOperation : MonoBehaviour, IDragHandler, IBeginDragHandler, IEn
 
         functionLook = GameObject.FindWithTag("GameManager").GetComponent<FunctionLookManager>();
 
+        //初期の長さ
+        targetImage.sizeDelta = new Vector2(
+            startLength * onetick * 2, targetImage.sizeDelta.y
+            );
+
         //クリップの位置を調整
         CalculationWidth(targetImage.localPosition.x);
         CalculationHeight(targetImage.localPosition.y);
         CheckWidth();
         CheckHeight();
-        targetImage.localPosition = new Vector3(f_newWidth, f_newHeight, 0);
-        v2_startSize = targetImage.sizeDelta;
-        targetImage.sizeDelta = new Vector2(v2_startSize.x, v2_startSize.y);
+        targetImage.localPosition = new Vector3(newWidth, newPosY, 0);
+        startSize = targetImage.sizeDelta;
+        targetImage.sizeDelta = new Vector2(startSize.x, startSize.y);
 
+        //子オブジェクトの順番を変更
         int childNum = targetImage.parent.transform.childCount;
         transform.SetSiblingIndex(childNum - 2);
     }
     private void Start()
     {
-        //タイムバーの限界座標を取得
-        timeBarLimitPos = GameObject.Find("Timebar").GetComponent<TimeBar>().ReturnLimitPos();
-
         //作成したばっかのクリップの時
         if (this.gameObject.tag == "CreateClip")
         {
@@ -108,41 +129,41 @@ public class ClipOperation : MonoBehaviour, IDragHandler, IBeginDragHandler, IEn
                 if (checkOverlap.IsOverlap(targetImage, ClipsRect[i]))
                 {
                     //重なったクリップの下に移動
-                    f_newHeight = ClipsRect[i].localPosition.y - f_oneHeight;
+                    newPosY = ClipsRect[i].localPosition.y - oneHeight;
                     CheckHeight();
 
                     //クリップが一番下で重なった場合
                     if (ClipsRect[i].localPosition.y <= rect_DownRight.localPosition.y)
                     {
                         Debug.Log("一番下");
-                        f_newHeight = 0 * f_oneHeight - 15f;
+                        newPosY = 0 * oneHeight - 15f;
 
                         //重なったクリップの右端の座標を取得
                         float rightEdge = ClipsRect[i].anchoredPosition.x + (ClipsRect[i].rect.width * (1 - ClipsRect[i].pivot.x));
 
-                        f_newWidth = rightEdge + f_oneWidth;
+                        newWidth = rightEdge + oneWidth;
 
-                        CalculationWidth(f_newWidth);
-                        CalculationHeight(f_newHeight);
+                        CalculationWidth(newWidth);
+                        CalculationHeight(newPosY);
 
-                        targetImage.localPosition = new Vector3(f_newWidth, f_newHeight, 0);
+                        targetImage.localPosition = new Vector3(newWidth, newPosY, 0);
                         for(int j = 0; j < 5 /*タイムラインのレイヤー数*/ ; j++)
                         {
                             if (checkOverlap.IsOverlap(targetImage, ClipsRect[j]))
                             {
-                                f_newHeight -= f_oneHeight;
-                                targetImage.localPosition = new Vector3(f_newWidth, f_newHeight, 0);
+                                newPosY -= oneHeight;
+                                targetImage.localPosition = new Vector3(newWidth, newPosY, 0);
                             }
                         }
                     }
-                    targetImage.localPosition = new Vector3(f_newWidth, f_newHeight, 0);
+                    targetImage.localPosition = new Vector3(newWidth, newPosY, 0);
                 }
             }
             //タグ変更
             this.gameObject.tag = "SetClip";
         }
-        v3_beforePos = this.transform.localPosition;
-
+        startPos = this.transform.localPosition;
+        isOut = false;
     }
 
     private void Update()
@@ -153,14 +174,14 @@ public class ClipOperation : MonoBehaviour, IDragHandler, IBeginDragHandler, IEn
     public void OnBeginDrag(PointerEventData eventData)
     {
         //再生中は編集機能をロック
-        if (GameData.GameEntity.isPlayNow)
+        if (GameData.GameEntity.isPlayNow || isLook)
         {
             return;
         }
 
         if ((functionLook.FunctionLook & LookFlags.ClipAccess) == 0)
         {
-            v2_initSizeDelta = targetImage.sizeDelta;
+            initSizeDelta = targetImage.sizeDelta;
             RectTransformUtility.ScreenPointToLocalPointInRectangle(
                 targetImage,
                 eventData.position,
@@ -169,14 +190,14 @@ public class ClipOperation : MonoBehaviour, IDragHandler, IBeginDragHandler, IEn
             );
 
             // マウス位置が画像の右端か左端かをチェック
-            if (Mathf.Abs(localMousePos.x - (-targetImage.rect.width * targetImage.pivot.x)) <= f_edgeRange)
+            if (Mathf.Abs(localMousePos.x - (-targetImage.rect.width * targetImage.pivot.x)) <= edgeRange)
             {
                 // 左端
                 SetPivot(targetImage, new Vector2(1, 0.5f));
                 isResizeRight = false;
                 mode = CLIP_MODE.resize;
             }
-            else if (Mathf.Abs(localMousePos.x - (targetImage.rect.width * (1 - targetImage.pivot.x))) <= f_edgeRange)
+            else if (Mathf.Abs(localMousePos.x - (targetImage.rect.width * (1 - targetImage.pivot.x))) <= edgeRange)
             {
                 // 右端
                 SetPivot(targetImage, new Vector2(0, 0.5f));
@@ -188,7 +209,7 @@ public class ClipOperation : MonoBehaviour, IDragHandler, IBeginDragHandler, IEn
                 // 端以外の場合はリサイズを無効化、クリップ移動モードにする
                 mode = CLIP_MODE.move;
                 SetPivot(targetImage, new Vector2(0, 0.5f));
-                v2_moveOffset.x = targetImage.position.x - localMousePos.x;
+                moveOffset.x = targetImage.position.x - localMousePos.x;
             }
 
             if (mode == CLIP_MODE.resize)
@@ -197,7 +218,7 @@ public class ClipOperation : MonoBehaviour, IDragHandler, IBeginDragHandler, IEn
                     (RectTransform)targetImage.parent,
                     eventData.position,
                     eventData.pressEventCamera,
-                    out v2_initMousePos
+                    out initMousePos
                 );
             }
         }
@@ -206,7 +227,7 @@ public class ClipOperation : MonoBehaviour, IDragHandler, IBeginDragHandler, IEn
     public void OnDrag(PointerEventData eventData)
     {
         //再生中は編集機能をロック
-        if (GameData.GameEntity.isPlayNow)
+        if (GameData.GameEntity.isPlayNow || isLook)
         {
             return;
         }
@@ -226,26 +247,18 @@ public class ClipOperation : MonoBehaviour, IDragHandler, IBeginDragHandler, IEn
                     (RectTransform)targetImage.parent,
                     eventData.position,
                     eventData.pressEventCamera,
-                    out v2_mousePos
+                    out mousePos
                 );
 
                 //ドット移動用
-                CalculationWidth(v2_mousePos.x + v2_moveOffset.x);
-                CalculationHeight(v2_mousePos.y);
+                CalculationWidth(mousePos.x + moveOffset.x);
+                CalculationHeight(mousePos.y);
 
                 //タイムラインの範囲外に出た時
                 CheckWidth();
                 CheckHeight();
 
-                targetImage.localPosition = new Vector3(f_newWidth, f_newHeight, 0);
-
-                ////タイムバーの限界座標を超えたら
-                //if (CheckLimitPos())
-                //{
-                //    v2_newPos.x = timeBarLimitPos - targetImage.rect.width - 30;
-                //    this.targetImage.localPosition = new Vector3(v2_newPos.x, v2_newPos.y, 0);
-                //}
-
+                targetImage.localPosition = new Vector3(newWidth, newPosY, 0);
                 return;
             }
 
@@ -256,59 +269,50 @@ public class ClipOperation : MonoBehaviour, IDragHandler, IBeginDragHandler, IEn
                 out Vector2 currentMousePos
             );
 
-            v2_resizeOffset = currentMousePos - v2_initMousePos;
+            resizeOffset = currentMousePos - initMousePos;
 
             if (isResizeRight)
             {
-                f_newSize = v2_initSizeDelta.x + v2_resizeOffset.x;
+                newWidth = initSizeDelta.x + resizeOffset.x;
             }
             else
             {
-                f_newSize = v2_initSizeDelta.x - v2_resizeOffset.x;
+                newWidth = initSizeDelta.x - resizeOffset.x;
             }
 
             CalculationSize();
 
             //クリップの長さ変更の際に最大・最小サイズを超えないようにする
-            f_newSize = Mathf.Clamp(f_newSize, f_minSize, f_maxSize);
+            newWidth = Mathf.Clamp(newWidth, minWidth, maxWidth);
 
             //タイムラインの左端、右端を超えるとき
             if (targetImage.position.x > rect_UpLeft.position.x 
                 || targetImage.position.x < rect_DownRight.position.x)
             {
-                if (i_resizeCount == 0)
+                if (resizeCount == 0)
                 {
-                    i_resizeCount = 1;
+                    resizeCount = 1;
                 }
 
                 //リサイズ前が大きい場合
-                if (targetImage.sizeDelta.x > f_newSize)
+                if (targetImage.sizeDelta.x > newWidth)
                 {
-                    i_resizeCount--;
+                    resizeCount--;
                 }
                 //リサイズ前が小さい場合
-                else if (targetImage.sizeDelta.x < f_newSize)
+                else if (targetImage.sizeDelta.x < newWidth)
                 {
-                    i_resizeCount++;
+                    resizeCount++;
                 }
             }
 
-            targetImage.sizeDelta = new Vector2(f_newSize, targetImage.sizeDelta.y);
-
-            ////サイズ変更時にタイムバーの限界座標に行ったとき
-            //if (CheckLimitPos())
-            //{
-            //    targetImage.sizeDelta = savePos;
-
-            //}
-            //savePos = targetImage.sizeDelta;
-        }
+            targetImage.sizeDelta = new Vector2(newWidth, targetImage.sizeDelta.y);        }
     }
 
     public void OnEndDrag(PointerEventData eventData)
     {
         //再生中は編集機能をロック
-        if (GameData.GameEntity.isPlayNow)
+        if (GameData.GameEntity.isPlayNow || isLook)
         {
             return;
         }
@@ -330,12 +334,19 @@ public class ClipOperation : MonoBehaviour, IDragHandler, IBeginDragHandler, IEn
                     if (targetImage.name != Clips[i].name)
                     {
                         Debug.Log("重なった");
-                        targetImage.localPosition = v3_beforePos;
+                        targetImage.localPosition = startPos;
                     }
                 }
             }
 
-            v3_beforePos = this.transform.localPosition;
+            //クリップがタイムラインの外に出た時
+            if (isOut)
+            {
+                targetImage.localPosition = startPos;
+                isOut = false;
+            }
+            
+            startPos = this.transform.localPosition;
 
             if (mode != CLIP_MODE.normal)
             {
@@ -360,7 +371,7 @@ public class ClipOperation : MonoBehaviour, IDragHandler, IBeginDragHandler, IEn
                         ReCalculationSize();
                     }
                 }
-                i_resizeCount = 0;
+                resizeCount = 0;
                 mode = CLIP_MODE.normal;
             }
         }
@@ -369,12 +380,12 @@ public class ClipOperation : MonoBehaviour, IDragHandler, IBeginDragHandler, IEn
 
     private void SetPivot(RectTransform rectTransform, Vector2 pivot)
     {
-        v2_size = rectTransform.rect.size;
-        v2_deltaPivot = rectTransform.pivot - pivot;
-        v2_deltaPos = new Vector3(v2_deltaPivot.x * v2_size.x, v2_deltaPivot.y * v2_size.y);
+        size = rectTransform.rect.size;
+        deltaPivot = rectTransform.pivot - pivot;
+        deltaPos = new Vector3(deltaPivot.x * size.x, deltaPivot.y * size.y);
 
         rectTransform.pivot = pivot;
-        rectTransform.localPosition -= v2_deltaPos * rectTransform.localScale.x;
+        rectTransform.localPosition -= deltaPos * rectTransform.localScale.x;
     }
 
     /// <summary>
@@ -382,8 +393,8 @@ public class ClipOperation : MonoBehaviour, IDragHandler, IBeginDragHandler, IEn
     /// </summary>
     private void CalculationSize()
     {
-        f_dotMove = (float)Math.Round(f_newSize / f_onetick);
-        f_newSize = f_dotMove * f_onetick;
+        dotMove = (float)Math.Round(newWidth / onetick);
+        newWidth = dotMove * onetick;
     }
 
     /// <summary>
@@ -391,9 +402,9 @@ public class ClipOperation : MonoBehaviour, IDragHandler, IBeginDragHandler, IEn
     /// </summary>
     private void ReCalculationSize()
     {
-        f_dotMove -= i_resizeCount;
-        f_newSize = f_dotMove * f_onetick;
-        targetImage.sizeDelta = new Vector2(f_newSize, targetImage.sizeDelta.y);
+        dotMove -= resizeCount;
+        newWidth = dotMove * onetick;
+        targetImage.sizeDelta = new Vector2(newWidth, targetImage.sizeDelta.y);
     }
 
 
@@ -402,14 +413,14 @@ public class ClipOperation : MonoBehaviour, IDragHandler, IBeginDragHandler, IEn
     /// </summary>
     private void CalculationWidth(float posX)
     {
-        f_dotWidth = posX - ((float)Math.Round(posX / f_oneWidth) * f_oneWidth);
-        if (f_dotWidth < f_oneWidth / 2)
+        dotPosX = posX - ((float)Math.Round(posX / oneWidth) * oneWidth);
+        if (dotPosX < oneWidth / 2)
         {
-            f_newWidth = (float)Math.Round(posX / f_oneWidth) * f_oneWidth + 30f;
+            newWidth = (float)Math.Round(posX / oneWidth) * oneWidth + 30f;
         }
         else
         {
-            f_newWidth = ((float)Math.Round(posX / f_oneWidth) + 1) * f_oneWidth + 30f;
+            newWidth = ((float)Math.Round(posX / oneWidth) + 1) * oneWidth + 30f;
         }
         //計算にある 30 はタイムラインの枠の分
     }
@@ -419,14 +430,14 @@ public class ClipOperation : MonoBehaviour, IDragHandler, IBeginDragHandler, IEn
     /// </summary>
     private void CalculationHeight(float posY)
     {
-        f_dotHeight = posY - ((float)Math.Round(posY / f_oneHeight) * f_oneHeight);
-        if (f_dotHeight < f_oneHeight / 2)
+        dotPosY = posY - ((float)Math.Round(posY / oneHeight) * oneHeight);
+        if (dotPosY < oneHeight / 2)
         {
-            f_newHeight = (float)Math.Round(posY / f_oneHeight) * f_oneHeight - 15f;
+            newPosY = (float)Math.Round(posY / oneHeight) * oneHeight - 15f;
         }
         else
         {
-            f_newHeight = ((float)Math.Round(posY / f_oneHeight) + 1) * f_oneHeight - 15f;
+            newPosY = ((float)Math.Round(posY / oneHeight) + 1) * oneHeight - 15f;
         }
         //計算にある 15 はタイムラインの枠の分
     }
@@ -439,12 +450,14 @@ public class ClipOperation : MonoBehaviour, IDragHandler, IBeginDragHandler, IEn
         //左側
         if (targetImage.localPosition.x < rect_UpLeft.localPosition.x)
         {
-            f_newWidth = rect_UpLeft.localPosition.x;
+            newWidth = rect_UpLeft.localPosition.x;
+            isOut = true;
         }
         //右側
-        else if (targetImage.localPosition.x > rect_DownRight.localPosition.x - targetImage.sizeDelta.x)
+        else if (targetImage.localPosition.x + targetImage.sizeDelta.x > rect_DownRight.localPosition.x)
         {
-            f_newWidth = rect_DownRight.localPosition.x - targetImage.sizeDelta.x;
+            newWidth = rect_DownRight.localPosition.x - targetImage.sizeDelta.x;
+            isOut = true;
         }
     }
 
@@ -456,12 +469,14 @@ public class ClipOperation : MonoBehaviour, IDragHandler, IBeginDragHandler, IEn
         //上
         if (targetImage.localPosition.y > rect_UpLeft.localPosition.y)
         {
-            f_newHeight = rect_UpLeft.localPosition.y;
+            newPosY = rect_UpLeft.localPosition.y;
+            isOut = true;
         }
         //下
         else if (targetImage.localPosition.y < rect_DownRight.localPosition.y)
         {
-            f_newHeight = rect_DownRight.localPosition.y;
+            newPosY = rect_DownRight.localPosition.y;
+            isOut = true;
         }
     }
 
@@ -473,24 +488,5 @@ public class ClipOperation : MonoBehaviour, IDragHandler, IBeginDragHandler, IEn
         {
             ClipsRect[i] = Clips[i].GetComponent<RectTransform>();
         }
-    }
-
-    /// <summary>
-    /// タイムバーの限界座標を超えたかの判定
-    /// </summary>
-    /// <returns>false=超えてない　true=超えた</returns>
-    private bool CheckLimitPos()
-    {
-        bool isCheck = false;
-
-        //タイムバーの限界座標を超えたら
-        float rightEdge = targetImage.anchoredPosition.x + (targetImage.rect.width * (1 - targetImage.pivot.x));
-        if (rightEdge > timeBarLimitPos)
-        {
-            isCheck = true;
-        }
-
-
-        return isCheck;
     }
 }
