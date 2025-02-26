@@ -240,12 +240,7 @@ public class ObjectScaleEditor : MonoBehaviour
         //deleteキーで選択してるオブジェクトを消す
         if (Input.GetKeyDown(KeyCode.Delete))
         {
-            if (editObject != null)
-            {
-                Destroy(editObject);
-                editObject = null;
-                this.gameObject.SetActive(false);
-            }
+            ObjectDelete();
         }
 
     }
@@ -288,4 +283,17 @@ public class ObjectScaleEditor : MonoBehaviour
         virtualObject.transform.localScale = _editObj.transform.localScale;
     }
 
+    /// <summary>
+    /// 選択しているオブジェクトを消す
+    /// </summary>
+    public void ObjectDelete()
+    {
+        if (editObject != null)
+        {
+            Destroy(editObject);
+            editObject = null;
+            this.gameObject.SetActive(false);
+        }
+
+    }
 }
