@@ -167,7 +167,7 @@ public class ClipPlay : MonoBehaviour
             //クリップの経過時間
             Vector3 leftEdge = rect_Clip.localPosition + new Vector3(-rect_Clip.rect.width * rect_Clip.pivot.x, 0, 0);
             float dis = rect_timeBar.localPosition.x - leftEdge.x;
-            manualTime = ((float)Math.Truncate(dis / TimelineData.TimelineEntity.oneTickWidht * 10) / 10) / 2;
+            manualTime = ((float)Math.Truncate(dis / TimelineData.TimelineEntity.oneTickWidth * 10) / 10) / 2;
 
             //タイムバーを手動で動かしてる時
             if (TimeData.TimeEntity.isDragMode)
@@ -286,7 +286,7 @@ public class ClipPlay : MonoBehaviour
     /// </summary>
     public void CalculationMaxTime()
     {
-        maxTime = (rect_Clip.rect.width / (TimelineData.TimelineEntity.oneTickWidht * 2)) + startTime;
+        maxTime = (rect_Clip.rect.width / (TimelineData.TimelineEntity.oneTickWidth * 2)) + startTime;
     }
 
 

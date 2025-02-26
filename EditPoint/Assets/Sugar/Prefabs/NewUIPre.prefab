@@ -264,7 +264,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   img: {fileID: 1797965790954220023}
   fileObj: {fileID: 0}
-  kindButton: 0
+  kindButton: 6
 --- !u!1 &1431935801926304509
 GameObject:
   m_ObjectHideFlags: 0

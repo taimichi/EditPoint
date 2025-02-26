@@ -34,7 +34,7 @@ public class TimelineManager : MonoBehaviour
         //変更後のサイズを計算　width以外は変更しない
         //基準が0.5秒になっているので×2をしている
         size = startSize;
-        size.x = (TLData.oneTickWidht * 2) * timelineLength;
+        size.x = (TLData.oneTickWidth * 2) * timelineLength;
 
         //座標、サイズを変更
         Content.localPosition = pos;

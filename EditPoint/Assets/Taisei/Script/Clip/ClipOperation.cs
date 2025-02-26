@@ -2,9 +2,13 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using System;
+using Pixeye.Unity;
 
 public class ClipOperation : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHandler
 {
+    [Foldout("Start"), SerializeField, Header("クリップの長さ(秒)")]
+    private float startLength = 5f;
+
     [SerializeField] private RectTransform targetImage;  //クリップ画像のRectTransform
     private Vector2 initSizeDelta;
     private Vector2 initMousePos;
@@ -76,13 +80,15 @@ public class ClipOperation : MonoBehaviour, IDragHandler, IBeginDragHandler, IEn
     //クリップがタイムラインの外に出たか
     private bool isOut = false;
 
+    [SerializeField] private bool isLook = false;
+
     private void Awake()
     {
         //リサイズ用
         onetick = TimelineData.TimelineEntity.oneResize;
 
         //クリップ移動用
-        oneWidth = TimelineData.TimelineEntity.oneTickWidht;
+        oneWidth = TimelineData.TimelineEntity.oneTickWidth;
         oneHeight = TimelineData.TimelineEntity.oneTickHeight;
 
         //タイムラインの端のRectTransform取得
@@ -93,6 +99,11 @@ public class ClipOperation : MonoBehaviour, IDragHandler, IBeginDragHandler, IEn
 
         functionLook = GameObject.FindWithTag("GameManager").GetComponent<FunctionLookManager>();
 
+        //初期の長さ
+        targetImage.sizeDelta = new Vector2(
+            startLength * onetick * 2, targetImage.sizeDelta.y
+            );
+
         //クリップの位置を調整
         CalculationWidth(targetImage.localPosition.x);
         CalculationHeight(targetImage.localPosition.y);
@@ -102,6 +113,7 @@ public class ClipOperation : MonoBehaviour, IDragHandler, IBeginDragHandler, IEn
         startSize = targetImage.sizeDelta;
         targetImage.sizeDelta = new Vector2(startSize.x, startSize.y);
 
+        //子オブジェクトの順番を変更
         int childNum = targetImage.parent.transform.childCount;
         transform.SetSiblingIndex(childNum - 2);
     }
@@ -162,7 +174,7 @@ public class ClipOperation : MonoBehaviour, IDragHandler, IBeginDragHandler, IEn
     public void OnBeginDrag(PointerEventData eventData)
     {
         //再生中は編集機能をロック
-        if (GameData.GameEntity.isPlayNow)
+        if (GameData.GameEntity.isPlayNow || isLook)
         {
             return;
         }
@@ -215,7 +227,7 @@ public class ClipOperation : MonoBehaviour, IDragHandler, IBeginDragHandler, IEn
     public void OnDrag(PointerEventData eventData)
     {
         //再生中は編集機能をロック
-        if (GameData.GameEntity.isPlayNow)
+        if (GameData.GameEntity.isPlayNow || isLook)
         {
             return;
         }
@@ -300,7 +312,7 @@ public class ClipOperation : MonoBehaviour, IDragHandler, IBeginDragHandler, IEn
     public void OnEndDrag(PointerEventData eventData)
     {
         //再生中は編集機能をロック
-        if (GameData.GameEntity.isPlayNow)
+        if (GameData.GameEntity.isPlayNow || isLook)
         {
             return;
         }
@@ -442,7 +454,7 @@ public class ClipOperation : MonoBehaviour, IDragHandler, IBeginDragHandler, IEn
             isOut = true;
         }
         //右側
-        else if (targetImage.localPosition.x > rect_DownRight.localPosition.x - targetImage.sizeDelta.x)
+        else if (targetImage.localPosition.x + targetImage.sizeDelta.x > rect_DownRight.localPosition.x)
         {
             newWidth = rect_DownRight.localPosition.x - targetImage.sizeDelta.x;
             isOut = true;
