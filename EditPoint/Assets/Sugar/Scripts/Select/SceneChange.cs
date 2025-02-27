@@ -9,6 +9,13 @@ public class SceneChange : MonoBehaviour
     Fade fade;          // FadeCanvas
     bool isOn = false;
 
+    Lording lording;
+
+    private void Start()
+    {
+        lording = GameObject.FindWithTag("Lording").GetComponent<Lording>();
+    }
+
     private void OnEnable()
     {
         Debug.Log("起動");
@@ -24,8 +31,9 @@ public class SceneChange : MonoBehaviour
         fade = GameObject.Find("GameFade").GetComponent<Fade>();
         // フェード
         fade.FadeIn(0.5f, () => {
-            SceneManager.LoadScene(sceneName);
+            //SceneManager.LoadScene(sceneName);
             isOn = true;
+            lording.LordScene(sceneName);
         });
     }
 }
