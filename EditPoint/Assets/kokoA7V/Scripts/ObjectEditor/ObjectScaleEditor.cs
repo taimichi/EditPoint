@@ -63,6 +63,8 @@ public class ObjectScaleEditor : MonoBehaviour
 
     private FunctionLookManager functionLook;
 
+    private SelectDelete deleteScript;
+
     private void Start()
     {
         handle_LayerMask = LayerMask.NameToLayer("Handle");
@@ -74,6 +76,8 @@ public class ObjectScaleEditor : MonoBehaviour
         GameCamera = GameObject.Find("GameCamera").GetComponent<Camera>();
 
         functionLook = GameObject.Find("GameManager").GetComponent<FunctionLookManager>();
+        deleteScript = GameObject.Find("DeleteCanvas").GetComponent<SelectDelete>();
+        deleteScript.Get_objectScaleEditor(this.gameObject);
 
         LeftDownPos = GameCamera.ViewportToWorldPoint(new Vector2(0, 0));
         RightUpPos = GameCamera.ViewportToWorldPoint(new Vector2(1, 1));
@@ -128,25 +132,13 @@ public class ObjectScaleEditor : MonoBehaviour
         // マウスクリック、ハンドル取得
         if (Input.GetMouseButtonDown(0))
         {
-            nowHandlePriority = 0;
-            foreach (RaycastHit2D hit in Physics2D.RaycastAll(MousePos(), Vector2.zero, handle_LayerMask))
-            {
-                // ハンドルかどうかチェック
-                if (hit.collider.gameObject.TryGetComponent<HandleSign>(out var _handleSign))
-                {
-                    // グラブフラグチェック
-                    clickStartPos = MousePos();
-                    isHandleGrab = true;
-
-                    // プライオリティが一番高いものを取得
-                    if (_handleSign.priority > nowHandlePriority)
-                    {
-                        scaleSign = _handleSign.handleSign;
-                        nowHandleType = _handleSign.handleType;
-                        nowHandlePriority = _handleSign.priority;
-                    }
-                }
-            }
+            HandleGet();
+        }
+        else if (Input.GetMouseButtonDown(1))
+        {
+            HandleGet();
+            deleteScript.GetSelectObject(true, editObject);
+            Debug.Log(editObject.name);
         }
 
         Vector2 nowMousePos = MousePos();
@@ -255,11 +247,39 @@ public class ObjectScaleEditor : MonoBehaviour
     }
 
     /// <summary>
+    /// ハンドル取得
+    /// </summary>
+    private void HandleGet()
+    {
+        nowHandlePriority = 0;
+        foreach (RaycastHit2D hit in Physics2D.RaycastAll(MousePos(), Vector2.zero, handle_LayerMask))
+        {
+            // ハンドルかどうかチェック
+            if (hit.collider.gameObject.TryGetComponent<HandleSign>(out var _handleSign))
+            {
+                // グラブフラグチェック
+                clickStartPos = MousePos();
+                isHandleGrab = true;
+
+                // プライオリティが一番高いものを取得
+                if (_handleSign.priority > nowHandlePriority)
+                {
+                    scaleSign = _handleSign.handleSign;
+                    nowHandleType = _handleSign.handleType;
+                    nowHandlePriority = _handleSign.priority;
+                }
+            }
+        }
+
+    }
+
+    /// <summary>
     ///　選択されているオブジェクトがカメラの外にいるかどうか
     /// </summary>
     /// <returns>false = いない, true = いる</returns>
     private bool CheckOutObj()
     {
+        //カメラの範囲外だった場合
         if(virtualObject.transform.position.x < LeftDownPos.x
             || virtualObject.transform.position.x > RightUpPos.x
             || virtualObject.transform.position.y < LeftDownPos.y
@@ -267,6 +287,7 @@ public class ObjectScaleEditor : MonoBehaviour
         {
             isOut = true;
         }
+        //そうじゃない場合
         else
         {
             isOut = false;
@@ -299,6 +320,7 @@ public class ObjectScaleEditor : MonoBehaviour
     {
         if (editObject != null)
         {
+            editObject.GetComponent<CheckClipConnect>().ListRemove();
             Destroy(editObject);
             editObject = null;
             this.gameObject.SetActive(false);
