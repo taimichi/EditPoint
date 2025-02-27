@@ -87,6 +87,7 @@ public class BlockCreater : MonoBehaviour
             {
                 if (Input.GetMouseButtonDown(0))
                 {
+                    Debug.Log("test");
                     marker.SetActive(true);
                     startPosition = mousePosition;
                     bm.isActive = true;
@@ -218,22 +219,6 @@ public class BlockCreater : MonoBehaviour
         }
 
     }
-
-    //public void CreateMoveSetActive()
-    //{
-    //    if(nowState != State.Create)
-    //    {
-    //        nowState = nowState == State.none ? State.MoveCreate : State.none;
-    //        moveBlockButton.color = nowState == State.none ? Color.white : Color.yellow;
-    //    }
-    //    else
-    //    {
-    //        nowState = State.MoveCreate;
-    //        blockButton.color = Color.white;
-    //        moveBlockButton.color = Color.yellow;
-
-    //    }
-    //}
 
     public int ReturnBlockCount()
     {
