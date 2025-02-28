@@ -72,6 +72,7 @@ public class ClipPlay : MonoBehaviour
                 if(ConnectObj[i].TryGetComponent<CheckClipConnect>(out checkClip))
                 {
                     checkClip.ConnectClip();
+                    checkClip.GetClipPlay(this.gameObject);
                 }
 
                 if (ConnectObj[i].TryGetComponent<GetCopyObj>(out gpo))
@@ -124,6 +125,7 @@ public class ClipPlay : MonoBehaviour
                                         ConnectObj.Add(clickedObject);
                                         checkClip = clickedObject.GetComponent<CheckClipConnect>();
                                         checkClip.ConnectClip();
+                                        checkClip.GetClipPlay(this.gameObject);
                                         if (clickedObject.GetComponent<MoveGround>() == true)
                                         {
                                             moveGround.Add(clickedObject.GetComponent<MoveGround>());
@@ -137,6 +139,7 @@ public class ClipPlay : MonoBehaviour
                                     ConnectObj.Add(clickedObject);
                                     checkClip = clickedObject.GetComponent<CheckClipConnect>();
                                     checkClip.ConnectClip();
+                                    checkClip.GetClipPlay(this.gameObject);
                                     if (clickedObject.GetComponent<MoveGround>() == true)
                                     {
                                         moveGround.Add(clickedObject.GetComponent<MoveGround>());
@@ -226,6 +229,7 @@ public class ClipPlay : MonoBehaviour
         gpo.GetAttachClip(this.gameObject);
         checkClip = _outGetObj.GetComponent<CheckClipConnect>();
         checkClip.ConnectClip();
+        checkClip.GetClipPlay(this.gameObject);
     }
 
     /// <summary>
@@ -287,6 +291,22 @@ public class ClipPlay : MonoBehaviour
         maxTime = (rect_Clip.rect.width / (TimelineData.TimelineEntity.oneTickWidth * 2)) + startTime;
     }
 
+    /// <summary>
+    /// 特定のオブジェクトをリストから削除
+    /// </summary>
+    public void ConnectObjRemove(GameObject obj)
+    {
+        //引数のオブジェクトをリストから検索
+        for(int i = 0; i < ConnectObj.Count; i++)
+        {
+            if(obj == ConnectObj[i])
+            {
+                ConnectObj.Remove(ConnectObj[i]);
+                break;
+            }
+        }
+    }
+
 
     /// <summary>
     /// クリップに関連付けてあるオブジェクトを消す
@@ -305,7 +325,8 @@ public class ClipPlay : MonoBehaviour
                 }
                 MGManager.DeleteMoveGrounds(ConnectObj[i]);
             }
-        Destroy(ConnectObj[i]);
+            Destroy(ConnectObj[i]);
+            ConnectObj.Remove(ConnectObj[i]);
         }
     }
 

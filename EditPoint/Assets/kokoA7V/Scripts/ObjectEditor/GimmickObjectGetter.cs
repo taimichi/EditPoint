@@ -21,7 +21,7 @@ public class GimmickObjectGetter : MonoBehaviour
     private void Update()
     {
 
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0) || Input.GetMouseButtonDown(1))
         {
             if (editObj == null)
             {
