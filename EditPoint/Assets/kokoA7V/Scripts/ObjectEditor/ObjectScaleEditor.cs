@@ -134,11 +134,10 @@ public class ObjectScaleEditor : MonoBehaviour
         {
             HandleGet();
         }
-        else if (Input.GetMouseButtonDown(1))
+        
+        if (Input.GetMouseButtonDown(1) && editObject != null)
         {
-            HandleGet();
             deleteScript.GetSelectObject(true, editObject);
-            Debug.Log(editObject.name);
         }
 
         Vector2 nowMousePos = MousePos();

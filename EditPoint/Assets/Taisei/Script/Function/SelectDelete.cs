@@ -26,6 +26,7 @@ public class SelectDelete : MonoBehaviour
         canvasRect = this.gameObject.GetComponent<RectTransform>();
 
         UIcamera = GameObject.Find("UICamera").GetComponent<Camera>();
+        //deleteCanvas.worldCamera = UIcamera;
 
         buttonRect = DeleteButton.GetComponent<RectTransform>();
     }
@@ -62,9 +63,16 @@ public class SelectDelete : MonoBehaviour
         isTrigger = trigger;
 
         //ボタンをオブジェクトの位置に移動
-        var screenPos = RectTransformUtility.WorldToScreenPoint(Camera.main, SelectObj.transform.position);
-        RectTransformUtility.ScreenPointToLocalPointInRectangle(canvasRect, screenPos, Camera.main, out var newPos);
-        buttonRect.localPosition = newPos;
+        //クリップの場合
+        if (!isTrigger)
+        {
+            buttonRect.position = RectTransformUtility.WorldToScreenPoint(UIcamera, SelectObj.transform.position);
+        }
+        //オブジェクトの場合
+        else
+        {
+            buttonRect.position = RectTransformUtility.WorldToScreenPoint(Camera.main, SelectObj.transform.position);
+        }
     }
 
     //スクリプトを取得
