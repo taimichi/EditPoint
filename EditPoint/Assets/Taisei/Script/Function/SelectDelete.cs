@@ -5,9 +5,6 @@ using UnityEngine.UI;
 
 public class SelectDelete : MonoBehaviour
 {
-    private Canvas deleteCanvas;
-    private RectTransform canvasRect;
-
     [SerializeField] private GameObject DeleteButton;
     private RectTransform buttonRect;
     private GetClip getClip;
@@ -16,17 +13,13 @@ public class SelectDelete : MonoBehaviour
     private Camera UIcamera;
 
     /// <summary>
-    /// false = clip, true = object
+    /// false = clip/true = object
     /// </summary>
     private bool isTrigger;                 //クリップかオブジェクトかどうか
 
     private void Awake()
     {
-        deleteCanvas = this.gameObject.GetComponent<Canvas>();
-        canvasRect = this.gameObject.GetComponent<RectTransform>();
-
         UIcamera = GameObject.Find("UICamera").GetComponent<Camera>();
-        //deleteCanvas.worldCamera = UIcamera;
 
         buttonRect = DeleteButton.GetComponent<RectTransform>();
     }
@@ -56,11 +49,16 @@ public class SelectDelete : MonoBehaviour
         DeleteButton.SetActive(false);
     }
 
-    public void GetSelectObject(bool trigger, GameObject obj)
+    /// <summary>
+    /// デリートボタンを起動する
+    /// </summary>
+    /// <param name="trigger">false=クリップ/true=オブジェクト</param>
+    /// <param name="obj">選択したオブジェクト</param>
+    public void ButtonActive(bool trigger, GameObject obj)
     {
-        SetActiveButton(true);
         SelectObj = obj;
         isTrigger = trigger;
+        SetActiveButton(true);
 
         //ボタンをオブジェクトの位置に移動
         //クリップの場合

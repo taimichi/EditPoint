@@ -459,6 +459,10 @@ public class ClipOperation : MonoBehaviour, IDragHandler, IBeginDragHandler, IEn
             newWidth = rect_DownRight.localPosition.x - targetImage.sizeDelta.x;
             isOut = true;
         }
+        else
+        {
+            Debug.Log("ç∂âEí¥Ç¶ÇƒÇ»Ç¢");
+        }
     }
 
     /// <summary>
@@ -478,6 +482,11 @@ public class ClipOperation : MonoBehaviour, IDragHandler, IBeginDragHandler, IEn
             newPosY = rect_DownRight.localPosition.y;
             isOut = true;
         }
+        else
+        {
+            Debug.Log("è„â∫í¥Ç¶ÇƒÇ»Ç¢");
+        }
+
     }
 
     private void GetClipRect()
