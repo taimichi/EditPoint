@@ -43,7 +43,7 @@ public class GetClip : MonoBehaviour
         if (Input.GetMouseButtonDown(1))
         {
             ClipGet();
-            deleteScript.GetSelectObject(false, Clip);
+            deleteScript.ButtonActive(false, Clip);
         }
 
         //ÉNÉäÉbÉvçÌèú
@@ -97,6 +97,8 @@ public class GetClip : MonoBehaviour
                 if (Clip != null)
                 {
                     BlinkImageObj.SetActive(false);
+                    deleteScript.SetActiveButton(false);
+                    Clip = null;
                 }
             }
         }

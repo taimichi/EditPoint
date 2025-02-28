@@ -21,40 +21,56 @@ public class GimmickObjectGetter : MonoBehaviour
     private void Update()
     {
 
-        if (Input.GetMouseButtonDown(0) || Input.GetMouseButtonDown(1))
+        if (Input.GetMouseButtonDown(0))
         {
-            if (editObj == null)
-            {
-                foreach (RaycastHit2D hit in Physics2D.RaycastAll(MousePos(), Vector2.zero))
-                {
-                    if (hit.collider.gameObject.layer == LayerMask.NameToLayer("Gimmick"))
-                    {
-                        ObjectScaleEditor.SetActive(true);
-                        ose.GetObjTransform(hit.collider.gameObject);
-                        editObj = hit.collider.gameObject;
-                    }
-                }
-            }
-            else
-            {
-                bool isEditCancel = true;
-                foreach (RaycastHit2D hit in Physics2D.RaycastAll(MousePos(), Vector2.zero))
-                {
-                    if (hit.collider.gameObject.layer == LayerMask.NameToLayer("Handle") || hit.collider.gameObject == editObj)
-                    {
-                        isEditCancel = false;
-                    }
-                }
-
-                if (isEditCancel)
-                {
-                    editObj = null;
-                    ObjectScaleEditor.SetActive(false);
-                }
-
-            }
+            GimmickObjGet(false);
+        }
+        else if (Input.GetMouseButtonDown(1))
+        {
+            GimmickObjGet(true);
         }
     }
+
+    /// <summary>
+    /// オブジェクトの選択処理　引数で左or右クリックを判別
+    /// 左 false/右 true
+    /// </summary>
+    /// <param name="trigger">true/false</param>
+    private void GimmickObjGet(bool trigger)
+    {
+        if (editObj == null)
+        {
+            foreach (RaycastHit2D hit in Physics2D.RaycastAll(MousePos(), Vector2.zero))
+            {
+                if (hit.collider.gameObject.layer == LayerMask.NameToLayer("Gimmick"))
+                {
+                    ObjectScaleEditor.SetActive(true);
+                    ose.GetObjTransform(hit.collider.gameObject, trigger);
+                    editObj = hit.collider.gameObject;
+                }
+            }
+        }
+        else
+        {
+            bool isEditCancel = true;
+            foreach (RaycastHit2D hit in Physics2D.RaycastAll(MousePos(), Vector2.zero))
+            {
+                if (hit.collider.gameObject.layer == LayerMask.NameToLayer("Handle") || hit.collider.gameObject == editObj)
+                {
+                    isEditCancel = false;
+                }
+            }
+
+            if (isEditCancel)
+            {
+                editObj = null;
+                ose.DeleteButtonChange(false);
+                ObjectScaleEditor.SetActive(false);
+            }
+
+        }
+    }
+
     private Vector3 MousePos()
     {
         return Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, 10));

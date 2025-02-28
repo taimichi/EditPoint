@@ -156,7 +156,7 @@ public class ObjectMove : MonoBehaviour
 
                     // エディター追加
                     ObjectScaleEditor.SetActive(true);
-                    ObjectScaleEditor.GetComponent<ObjectScaleEditor>().GetObjTransform(Obj);
+                    //ObjectScaleEditor.GetComponent<ObjectScaleEditor>().GetObjTransform(Obj);
                 }
 
 
@@ -171,7 +171,7 @@ public class ObjectMove : MonoBehaviour
                     //Obj.transform.position = scrWldPos + offset;
 
 
-                    ObjectScaleEditor.GetComponent<ObjectScaleEditor>().GetObjTransform(Obj);
+                    //ObjectScaleEditor.GetComponent<ObjectScaleEditor>().GetObjTransform(Obj);
 
                 }
                 else if (Input.GetMouseButtonUp(0))

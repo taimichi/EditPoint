@@ -81,6 +81,8 @@ public class ObjectScaleEditor : MonoBehaviour
 
         LeftDownPos = GameCamera.ViewportToWorldPoint(new Vector2(0, 0));
         RightUpPos = GameCamera.ViewportToWorldPoint(new Vector2(1, 1));
+
+        this.gameObject.SetActive(false);   
     }
 
     private void Update()
@@ -133,11 +135,6 @@ public class ObjectScaleEditor : MonoBehaviour
         if (Input.GetMouseButtonDown(0))
         {
             HandleGet();
-        }
-        
-        if (Input.GetMouseButtonDown(1) && editObject != null)
-        {
-            deleteScript.GetSelectObject(true, editObject);
         }
 
         Vector2 nowMousePos = MousePos();
@@ -300,7 +297,7 @@ public class ObjectScaleEditor : MonoBehaviour
         return Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, 10));
     }
 
-    public void GetObjTransform(GameObject _editObj)
+    public void GetObjTransform(GameObject _editObj, bool trigger)
     {
         editObject = _editObj;
         //objPosition = _editObj.transform.position;
@@ -310,6 +307,23 @@ public class ObjectScaleEditor : MonoBehaviour
         virtualObject.transform.position = _editObj.transform.position;
         virtualObject.transform.localEulerAngles = new Vector3(0, 0, _editObj.transform.localEulerAngles.z);
         virtualObject.transform.localScale = _editObj.transform.localScale;
+
+        if (trigger)
+        {
+            deleteScript.ButtonActive(true, editObject);
+        }
+        else
+        {
+            deleteScript.SetActiveButton(false);
+        }
+    }
+
+    /// <summary>
+    /// 外部から、デリートボタンを削除
+    /// </summary>
+    public void DeleteButtonChange(bool trigger)
+    {
+        deleteScript.SetActiveButton(trigger);
     }
 
     /// <summary>
