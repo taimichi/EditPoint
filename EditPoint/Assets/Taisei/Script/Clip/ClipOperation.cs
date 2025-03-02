@@ -82,6 +82,11 @@ public class ClipOperation : MonoBehaviour, IDragHandler, IBeginDragHandler, IEn
 
     [SerializeField] private bool isLook = false;
 
+    [Foldout("Sprite"), SerializeField] private Sprite ActiveClipSprite;
+    [Foldout("Sprite"), SerializeField] private Sprite NoActiveClipSprite;
+
+    private Image ClipImage;
+
     private void Awake()
     {
         //リサイズ用
@@ -116,9 +121,23 @@ public class ClipOperation : MonoBehaviour, IDragHandler, IBeginDragHandler, IEn
         //子オブジェクトの順番を変更
         int childNum = targetImage.parent.transform.childCount;
         transform.SetSiblingIndex(childNum - 2);
+
+        ClipImage = this.gameObject.GetComponent<Image>();
     }
     private void Start()
     {
+        //クリップの画像を変更
+        if (!isLook)
+        {
+            //可動クリップの画像に変更
+            ClipImage.sprite = ActiveClipSprite;
+        }
+        else
+        {
+            //非可動クリップの画像に変更
+            ClipImage.sprite = NoActiveClipSprite;
+        }
+
         //作成したばっかのクリップの時
         if (this.gameObject.tag == "CreateClip")
         {
@@ -486,8 +505,9 @@ public class ClipOperation : MonoBehaviour, IDragHandler, IBeginDragHandler, IEn
         {
             Debug.Log("上下超えてない");
         }
-
     }
+
+    public bool CheckIsLook() => isLook;
 
     private void GetClipRect()
     {

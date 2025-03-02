@@ -43,7 +43,15 @@ public class GetClip : MonoBehaviour
         if (Input.GetMouseButtonDown(1))
         {
             ClipGet();
-            deleteScript.ButtonActive(false, Clip);
+            if(Clip != null)
+            {
+                ClipOperation clipOp = Clip.GetComponent<ClipOperation>();
+                //動かせないクリップじゃないとき
+                if (!clipOp.CheckIsLook())
+                {
+                    deleteScript.ButtonActive(false, Clip);
+                }
+            }
         }
 
         //クリップ削除

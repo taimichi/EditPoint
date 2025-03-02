@@ -24,11 +24,42 @@ public class SelectDelete : MonoBehaviour
         buttonRect = DeleteButton.GetComponent<RectTransform>();
     }
 
+    private void Update()
+    {
+        if (DeleteButton.activeSelf)
+        {
+            //ボタンをオブジェクトの位置に移動
+            //クリップの場合
+            if (!isTrigger)
+            {
+                RectTransform rect = SelectObj.GetComponent<RectTransform>();
+                Vector3[] newPos = new Vector3[4];
+                rect.GetWorldCorners(newPos);
+
+                buttonRect.position = RectTransformUtility.WorldToScreenPoint(UIcamera, newPos[2]);
+            }
+            //オブジェクトの場合
+            else
+            {
+                Bounds bounds = SelectObj.GetComponent<SpriteRenderer>().bounds;
+                Vector3 newPos = new Vector3(bounds.max.x, bounds.max.y, 0);
+
+                buttonRect.position = RectTransformUtility.WorldToScreenPoint(Camera.main, newPos);
+            }
+        }
+    }
+
     /// <summary>
     /// ボタンを表示するか非表示にするか
     /// </summary>
     public void SetActiveButton(bool set)
     {
+        //非表示にするとき
+        if (!set)
+        {
+            //オブジェクトを空にする
+            SelectObj = null;
+        }
         DeleteButton.SetActive(set);
     }
 
@@ -46,6 +77,7 @@ public class SelectDelete : MonoBehaviour
         {
             objectScale.ObjectDelete();
         }
+        SelectObj = null;
         DeleteButton.SetActive(false);
     }
 
@@ -58,18 +90,37 @@ public class SelectDelete : MonoBehaviour
     {
         SelectObj = obj;
         isTrigger = trigger;
-        SetActiveButton(true);
 
+        if(SelectObj != null)
+        {
+            SetActiveButton(true);
+        }
+
+        PosCalculation();
+    }
+
+    /// <summary>
+    /// デリートボタンの位置を計算
+    /// </summary>
+    private void PosCalculation()
+    {
         //ボタンをオブジェクトの位置に移動
         //クリップの場合
         if (!isTrigger)
         {
-            buttonRect.position = RectTransformUtility.WorldToScreenPoint(UIcamera, SelectObj.transform.position);
+            RectTransform rect = SelectObj.GetComponent<RectTransform>();
+            Vector3[] newPos = new Vector3[4];
+            rect.GetWorldCorners(newPos);
+
+            buttonRect.position = RectTransformUtility.WorldToScreenPoint(UIcamera, newPos[2]);
         }
         //オブジェクトの場合
         else
         {
-            buttonRect.position = RectTransformUtility.WorldToScreenPoint(Camera.main, SelectObj.transform.position);
+            Bounds bounds = SelectObj.GetComponent<SpriteRenderer>().bounds;
+            Vector3 newPos = new Vector3(bounds.max.x, bounds.max.y, 0);
+
+            buttonRect.position = RectTransformUtility.WorldToScreenPoint(Camera.main, newPos);
         }
     }
 

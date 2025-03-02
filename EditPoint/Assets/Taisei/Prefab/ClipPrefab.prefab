@@ -134,7 +134,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0, y: 0.5}
-  m_AnchoredPosition: {x: 930, y: -15}
+  m_AnchoredPosition: {x: 30, y: 135}
   m_SizeDelta: {x: 700, y: 65}
   m_Pivot: {x: 0, y: 0.5}
 --- !u!222 &4323194755857948606
@@ -187,10 +187,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f51bb04b151982a4ca557decb8503389, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  startLength: 5
   targetImage: {fileID: 4323194755857948600}
   minWidth: 350
   maxWidth: 1400
   edgeRange: 30
+  isLook: 0
+  ActiveClipSprite: {fileID: 21300000, guid: b5f033136c47e7e4598e7ef73bbb21bb, type: 3}
+  NoActiveClipSprite: {fileID: 21300000, guid: b3cb66a4392693949bff4b644ddb0280, type: 3}
 --- !u!114 &4323194755857948604
 MonoBehaviour:
   m_ObjectHideFlags: 0
