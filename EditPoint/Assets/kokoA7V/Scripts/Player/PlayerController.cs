@@ -56,6 +56,16 @@ public class PlayerController : MonoBehaviour
         mc.MoveUpdate();
         mc.Friction(0.98f);
 
+        if (inputLR == 0)
+        {
+            rb.gravityScale = 0;
+            mc.ResetMove();
+        }
+        else
+        {
+            rb.gravityScale = 1;
+        }
+
         // îΩì]èàóù
         AutoInput();
 
