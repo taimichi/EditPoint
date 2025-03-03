@@ -100,7 +100,7 @@ public class ObjectScaleEditor : MonoBehaviour
         handle[6].transform.localPosition = new Vector2(0, objScale.y / 2);
         handle[7].transform.localPosition = new Vector2(0, -objScale.y / 2);
 
-        handle[8].transform.localPosition = new Vector2(0, objScale.y / 2 + 0.5f);
+        handle[8].transform.localPosition = new Vector2(0, Mathf.Abs(objScale.y) / 2 + 0.5f);
 
         handle[9].transform.localPosition = Vector2.zero;
 
@@ -160,20 +160,29 @@ public class ObjectScaleEditor : MonoBehaviour
             {
                 if (isHandleGrab)
                 {
-                    // 回転ハンドルか否か
+                    // 回転ハンドル処理
                     if (nowHandleType == HandleType.rot)
                     {
                         virtualObject.transform.localEulerAngles = new Vector3(0, 0, rotRad * Mathf.Rad2Deg - 90);
                     }
+                    // 移動ハンドル処理
                     else if (nowHandleType == HandleType.body)
                     {
                         virtualObject.transform.position = (Vector2)editObject.transform.position + mouseVec;
                     }
+                    // サイズ変更処理
                     else
                     {
-                        //Vector3 absSign = new Vector3(Mathf.Abs(scaleSign.x), Mathf.Abs(scaleSign.y), 1);
-                        virtualObject.transform.position = (Vector2)editObject.transform.position + mouseVec / 2;
-                        virtualObject.transform.localScale = (Vector2)editObject.transform.localScale + editVec * scaleSign;
+                        if (editObject.name == "Blower")
+                        {
+                            Debug.Log("blowerとおさんざき");
+                        }
+                        else
+                        {
+                            //Vector3 absSign = new Vector3(Mathf.Abs(scaleSign.x), Mathf.Abs(scaleSign.y), 1);
+                            virtualObject.transform.position = (Vector2)editObject.transform.position + mouseVec / 2;
+                            virtualObject.transform.localScale = (Vector2)editObject.transform.localScale + editVec * scaleSign;
+                        }
                     }
                 }
             }
@@ -187,11 +196,12 @@ public class ObjectScaleEditor : MonoBehaviour
                     // 接触してない場合のみ代入、してたらリセット
                     if (virtualObject.GetComponent<VirtualObjectCollisionChecker>().isCollision == false)
                     {
-                        // 回転ハンドルか否か
+                        // 回転ハンドル処理
                         if (nowHandleType == HandleType.rot)
                         {
                             editObject.transform.localEulerAngles = new Vector3(0, 0, virtualObject.transform.localEulerAngles.z);
                         }
+                        // 移動ハンドル処理
                         else if (nowHandleType == HandleType.body)
                         {
                             //画面外に出ていないとき
@@ -207,6 +217,7 @@ public class ObjectScaleEditor : MonoBehaviour
                                 virtualObject.transform.localScale = editObject.transform.localScale;
                             }
                         }
+                        // サイズ変更処理
                         else
                         {
                             editObject.transform.position = virtualObject.transform.position;
@@ -220,6 +231,7 @@ public class ObjectScaleEditor : MonoBehaviour
                     }
                     else
                     {
+                        // バーチャル位置リセット
                         virtualObject.transform.position = editObject.transform.position;
                         virtualObject.transform.localEulerAngles = new Vector3(0, 0, editObject.transform.localEulerAngles.z);
                         virtualObject.transform.localScale = editObject.transform.localScale;
