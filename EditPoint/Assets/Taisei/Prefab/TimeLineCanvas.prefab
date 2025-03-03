@@ -695,6 +695,7 @@ MonoBehaviour:
   timelineLength: 15
   timebarLimit: 10
   Content: {fileID: 6609544225284490415}
+  LimitlinePre: {fileID: 3882478211140681269, guid: 347576b2eb726d24887d08298f5a8d5f, type: 3}
 --- !u!1 &6609544224927901824
 GameObject:
   m_ObjectHideFlags: 0

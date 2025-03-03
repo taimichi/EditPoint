@@ -26,12 +26,6 @@ public class CopyAndPaste : MonoBehaviour
 
     //選択したオブジェクト
     private GameObject ClickObj;
-    /// <summary>
-    /// スクリプタブルオブジェクトでまとめてあるマテリアル
-    /// "layerMaterials"というリストが入っている
-    /// </summary>
-    [SerializeField] private Materials materials;
-
 
     //条件を説明する変数
     private bool b_isNoHit;
@@ -87,13 +81,11 @@ public class CopyAndPaste : MonoBehaviour
                     playSound.PlaySE(PlaySound.SE_TYPE.paste);
                     if (CopyObj.name.Contains("Blower"))
                     {
-                        PasteObj.transform.GetChild(0).GetComponent<SpriteRenderer>().material = materials.layerMaterials[0];
                         PasteObj.transform.GetChild(0).GetComponent<Collider2D>().isTrigger = false;
 
                     }
                     else
                     {
-                        PasteObj.GetComponent<SpriteRenderer>().material = materials.layerMaterials[0];
                         PasteObj.GetComponent<Collider2D>().isTrigger = false;
                     }
 
@@ -113,7 +105,6 @@ public class CopyAndPaste : MonoBehaviour
             {
                 Debug.Log("ペーストモード解除");
                 playSound.PlaySE(PlaySound.SE_TYPE.cancell);
-                    MaterialReset();
                     Destroy(PasteObj);
                     PasteObj = null;
                 ModeData.ModeEntity.mode = ModeData.Mode.normal;
@@ -159,31 +150,16 @@ public class CopyAndPaste : MonoBehaviour
 
             if (b_isNoHit || b_isSpecificTag)
             {
-                if (ClickObj != null)
-                {
-                    MaterialReset();
-                }
                 ClickObj = null;
                 return;
             }
 
-            //新たなオブジェクトに更新する前に元のマテリアルに戻す
-            if (ClickObj != null)
-            {
-                MaterialReset();
-            }
 
             ClickObj = hit2d.collider.gameObject;
             if (ClickObj.transform.parent != null && ClickObj.transform.parent.gameObject.name.Contains("Blower"))
             {
                 ClickObj = hit2d.collider.transform.parent.gameObject;
-                ClickObj.transform.GetChild(0).GetComponent<SpriteRenderer>().material = materials.layerMaterials[1];
             }
-            else
-            {
-                ClickObj.GetComponent<SpriteRenderer>().material = materials.layerMaterials[1];
-            }
-
             //コピーモードの時のみ
             if (ModeData.ModeEntity.mode == ModeData.Mode.copy)
             {
@@ -212,7 +188,6 @@ public class CopyAndPaste : MonoBehaviour
         {
             Debug.Log("コピーモード解除");
             playSound.PlaySE(PlaySound.SE_TYPE.cancell);
-            MaterialReset();
             ModeData.ModeEntity.mode = ModeData.Mode.normal;
             ClickObj = null;
             CopyObj = null;
@@ -254,7 +229,6 @@ public class CopyAndPaste : MonoBehaviour
             if (ModeData.ModeEntity.mode == ModeData.Mode.copy || ModeData.ModeEntity.mode == ModeData.Mode.paste)
             {
                 ModeData.ModeEntity.mode = ModeData.Mode.normal;
-                MaterialReset();
                 if (PasteObj != null)
                 {
                     Destroy(PasteObj);
@@ -279,24 +253,5 @@ public class CopyAndPaste : MonoBehaviour
             playSound.PlaySE(PlaySound.SE_TYPE.cancell);
         }
     }
-
-    /// <summary>
-    /// マテリアルを最初の状態に戻す
-    /// </summary>
-    private void MaterialReset()
-    {
-        if (ClickObj != null)
-        {
-            if(ClickObj.name.Contains("Blower"))
-            {
-                ClickObj.transform.GetChild(0).GetComponent<SpriteRenderer>().material = materials.layerMaterials[0];
-            }
-            else
-            {
-                ClickObj.GetComponent<SpriteRenderer>().material = materials.layerMaterials[0];
-            }
-        }
-    }
-
 
 }

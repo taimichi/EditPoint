@@ -7,7 +7,6 @@ public class GuideMenu : MonoBehaviour
 {
     private Canvas canvas;
     [SerializeField] private GameObject GuideMenuObj;
-    private float nowTimeScale = 0;
 
     [SerializeField] private GameObject clipGuide;
     [SerializeField] private GameObject blockGuide;

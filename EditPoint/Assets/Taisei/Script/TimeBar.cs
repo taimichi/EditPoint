@@ -41,11 +41,6 @@ public class TimeBar : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragH
         plController = GameObject.Find("Player").GetComponent<PlayerController>();
     }
 
-    void Update()
-    {
-        
-    }
-
     private void FixedUpdate()
     {
         //çƒê∂íÜÇ©Ç«Ç§Ç©

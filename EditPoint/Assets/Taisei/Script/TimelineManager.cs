@@ -10,6 +10,8 @@ public class TimelineManager : MonoBehaviour
 
     [SerializeField] private RectTransform Content;
 
+    [SerializeField] private GameObject LimitlinePre;
+
     private Vector3 startPos;   //変更前の座標
     private Vector3 pos;        //変更後の座標
     private Vector2 startSize;  //変更前のサイズ
@@ -39,5 +41,20 @@ public class TimelineManager : MonoBehaviour
         //座標、サイズを変更
         Content.localPosition = pos;
         Content.sizeDelta = size;
+    }
+
+    private void Start()
+    {
+        GameObject TimebarObj = GameObject.Find("Timebar");
+        TimeBar timeBarScript = TimebarObj.GetComponent<TimeBar>();
+        Vector3 limitPos = new Vector3(timeBarScript.ReturnLimitPos(), TimebarObj.transform.localPosition.y, 0);
+        Debug.Log(limitPos);
+
+        GameObject limit = Instantiate(LimitlinePre,Content);
+        limit.transform.localPosition = limitPos;
+        //子オブジェクトの順番を変更
+        int childNum = Content.childCount;
+        limit.transform.SetSiblingIndex(childNum - 1);
+
     }
 }
