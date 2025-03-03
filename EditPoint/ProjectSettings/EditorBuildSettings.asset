@@ -27,27 +27,27 @@ EditorBuildSettings:
     path: Assets/kokoA7V/Scenes/Stage/Stage2-2.unity
     guid: 3c7f318343c37ec4ab726bedf552750d
   - enabled: 1
-    path: Assets/Stage/Tutorial/Tutorial_Clip1-1.unity
+    path: Assets/Stage/Tutorial/Stage1-4_TutorialClip.unity
     guid: c02cdd17abfc51940a39cd003c3e12a9
   - enabled: 1
-    path: Assets/Stage/Tutorial/Tutorial_Clip1-2.unity
+    path: Assets/Stage/Tutorial/Stage1-6.unity
     guid: f6f8b888a73defe48b6e173826ce3312
   - enabled: 1
-    path: Assets/Stage/Tutorial/Tutorial_Block1-1.unity
+    path: Assets/Stage/Tutorial/Stage2-1_TutorialBlock.unity
     guid: fbb1cc7f703e8a74c9b7c6287494378b
   - enabled: 1
-    path: Assets/Stage/Tutorial/Tutorial_Block1-2.unity
+    path: Assets/Stage/Tutorial/Stage2-2.unity
     guid: 34b63715b60815b44b1bab30692c6a77
   - enabled: 1
-    path: Assets/Stage/Tutorial/Tutorial_Blower1-1.unity
+    path: Assets/Stage/Tutorial/Stage2-4_TutorialBlower.unity
     guid: ed37e59004bb10645a1687573660e64c
   - enabled: 1
-    path: Assets/Stage/Tutorial/Tutorial_Copy1-1.unity
+    path: Assets/Stage/Tutorial/Stage2-5_TutorialCopy.unity
     guid: 166d2166e931cd54db5c44f35e77d790
   - enabled: 1
-    path: Assets/Stage/Tutorial/Tutorial_Copy1-2.unity
+    path: Assets/Stage/Tutorial/Stage2-6.unity
     guid: fae1faf4dad1da541a0a421d21555ada
   - enabled: 1
-    path: Assets/Stage/Tutorial/Tutorial_Move1-1.unity
+    path: Assets/Stage/Tutorial/Stage1-1_TutorialMove.unity
     guid: c8ce337dadca9b241bb7ee6de30934c6
   m_configObjects: {}
