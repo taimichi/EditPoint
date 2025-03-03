@@ -173,7 +173,8 @@ public class ObjectScaleEditor : MonoBehaviour
                     // サイズ変更処理
                     else
                     {
-                        if (editObject.name == "Blower")
+                        // 特例処理、Blowerはサイズ変更不可
+                        if (editObject.tag == "Blower")
                         {
                             Debug.Log("blowerとおさんざき");
                         }

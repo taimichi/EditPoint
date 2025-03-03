@@ -33,8 +33,8 @@ public class BlowerWind : MonoBehaviour
                 float rot = (blowerBody.transform.localEulerAngles.z + 90) * Mathf.Deg2Rad;
 
                 mc.Flic(new Vector2(Mathf.Cos(rot) * power, Mathf.Sin(rot) * power));
-                Debug.Log(new Vector2(Mathf.Cos(rot) * power, Mathf.Sin(rot) * power));
-                Debug.Log(rot);
+                //Debug.Log(new Vector2(Mathf.Cos(rot) * power, Mathf.Sin(rot) * power));
+                //Debug.Log(rot);
 
                 //if (blower.dir == 0)
                 //{

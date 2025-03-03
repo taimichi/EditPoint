@@ -18,6 +18,7 @@ TagManager:
   - GameManager
   - Lording
   - DeleteButton
+  - Blower
   layers:
   - Default
   - TransparentFX
