@@ -29,6 +29,7 @@ public class ImageLoader : MonoBehaviour
         {
             Sprite newSprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), Vector2.one * 0.5f);
             displayImage.sprite = newSprite;
+            displayImage.color = Color.white;
         }
 
         yield return null;
