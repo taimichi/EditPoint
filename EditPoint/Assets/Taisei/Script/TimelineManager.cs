@@ -48,7 +48,6 @@ public class TimelineManager : MonoBehaviour
         GameObject TimebarObj = GameObject.Find("Timebar");
         TimeBar timeBarScript = TimebarObj.GetComponent<TimeBar>();
         Vector3 limitPos = new Vector3(timeBarScript.ReturnLimitPos(), TimebarObj.transform.localPosition.y, 0);
-        Debug.Log(limitPos);
 
         GameObject limit = Instantiate(LimitlinePre,Content);
         limit.transform.localPosition = limitPos;

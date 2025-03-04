@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 4930810361197173517}
   - component: {fileID: 628160524187660931}
   - component: {fileID: 8041723142839804317}
-  m_Layer: 7
+  m_Layer: 0
   m_Name: phantom
   m_TagString: MoveGround
   m_Icon: {fileID: 0}
@@ -157,7 +157,7 @@ GameObject:
   - component: {fileID: 1522255055780122330}
   - component: {fileID: 724535308093983451}
   - component: {fileID: 9002585363814096423}
-  m_Layer: 7
+  m_Layer: 0
   m_Name: GameObject
   m_TagString: Untagged
   m_Icon: {fileID: 0}
