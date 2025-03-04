@@ -225,3 +225,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   lockList: []
+  GetEffect: {fileID: 3384366999043453948, guid: f72fa168c1a896649a3d22780be93920, type: 3}
