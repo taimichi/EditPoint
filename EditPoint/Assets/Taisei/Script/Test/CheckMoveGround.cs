@@ -12,12 +12,15 @@ public class CheckMoveGround : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if(collision.gameObject.layer == LayerMask.NameToLayer("Ground"))
+        if (collision.gameObject.layer == LayerMask.NameToLayer("Ground"))
         {
-            isTrigger = true;
-            if (move != null)
+            if (collision.gameObject.tag != "MoveGround")
             {
-                move.SetTrigger(isTrigger);
+                isTrigger = true;
+                if (move != null)
+                {
+                    move.SetTrigger(isTrigger);
+                }
             }
         }
     }
@@ -26,7 +29,10 @@ public class CheckMoveGround : MonoBehaviour
     {
         if (collision.gameObject.layer == LayerMask.NameToLayer("Ground"))
         {
-            isTrigger = false;
+            if (collision.gameObject.tag != "MoveGround")
+            {
+                isTrigger = false;
+            }
         }
     }
 }

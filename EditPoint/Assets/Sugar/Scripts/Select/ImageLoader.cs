@@ -1,26 +1,33 @@
 using UnityEngine;
 using UnityEngine.UI;
 using System.IO;
-using SFB;  // Standalone File Browser (要インストール)
+using System.Collections;
+using SimpleFileBrowser; // Runtime File Browser のネームスペース
 
 public class ImageLoader : MonoBehaviour
 {
-    public Image displayImage; // UnityのUIのImageコンポーネントを設定
+    public Image displayImage; // UIのImageコンポーネント
 
     public void LoadImage()
     {
         // ユーザーにファイル選択を促す
-        string[] paths = StandaloneFileBrowser.OpenFilePanel("画像を選択", "", new[] {
-            new ExtensionFilter("画像ファイル", "png", "jpg", "jpeg")
-        }, false);
-
-        if (paths.Length > 0 && !string.IsNullOrEmpty(paths[0]))
-        {
-            StartCoroutine(LoadTexture(paths[0]));
-        }
+        FileBrowser.ShowLoadDialog(
+            (paths) => {
+                if (paths.Length > 0 && !string.IsNullOrEmpty(paths[0]))
+                {
+                    StartCoroutine(LoadTexture(paths[0]));
+                }
+            },
+            () => Debug.Log("キャンセルされました"),
+            FileBrowser.PickMode.Files,
+            false,
+            null,
+            "画像を選択",
+            "選択"
+        );
     }
 
-    private System.Collections.IEnumerator LoadTexture(string path)
+    private IEnumerator LoadTexture(string path)
     {
         byte[] fileData = File.ReadAllBytes(path);
         Texture2D texture = new Texture2D(2, 2);
