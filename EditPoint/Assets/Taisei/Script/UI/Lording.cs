@@ -21,6 +21,7 @@ public class Lording : MonoBehaviour
     /// <param name="sceneName">‘JˆÚæ‚ÌƒV[ƒ“–¼</param>
     public void LordScene(string sceneName)
     {
+        LordingPanel.SetActive(true);
         StartCoroutine(Lord(sceneName));
     }
 

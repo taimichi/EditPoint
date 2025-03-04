@@ -1,7 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using Pixeye.Unity;
 
 public class GameManager : MonoBehaviour
 {
@@ -16,6 +18,9 @@ public class GameManager : MonoBehaviour
 
     //タイトル画面のみ(デバッグ用)
     private bool isDebug = false;
+
+    private Image backGround;
+    [Foldout("Sprite"), SerializeField] private Sprite[] sprites;
 
     private void Awake()
     {
@@ -41,6 +46,28 @@ public class GameManager : MonoBehaviour
             timeBar = GameObject.Find("Timebar").GetComponent<TimeBar>();
             playSound.PlayBGM(PlaySound.BGM_TYPE.stage1);
             playSound.PlaySE(PlaySound.SE_TYPE.start);
+
+            backGround = GameObject.Find("BackGroundImage").GetComponent<Image>();
+
+            switch (nowSceneName)
+            {
+                case string name when name.Contains("Stage1"):
+                    backGround.sprite = sprites[0];
+
+                    break;
+
+                case string name when name.Contains("Stage2"):
+                    backGround.sprite = sprites[0];
+                    break;
+
+                case string name when name.Contains("Stage3"):
+                    backGround.sprite = sprites[1];
+                    break;
+
+                case string name when name.Contains("Stage4"):
+                    backGround.sprite = sprites[2];
+                    break;
+            }
         }
         //チュートリアルステージの時
         else if (nowSceneName.Contains("Tutorial"))

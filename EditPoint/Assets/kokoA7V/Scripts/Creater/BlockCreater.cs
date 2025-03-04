@@ -6,25 +6,12 @@ using UnityEngine.UI;
 
 public class BlockCreater : MonoBehaviour
 {
-    //public enum State
-    //{
-    //    none,
-    //    Create,
-    //    //MoveCreate
-    //}
-
-    //[SerializeField]
-    //State nowState = State.none;
-
     bool isDrag;
 
     Vector2 mousePosition;
 
     [SerializeField]
     GameObject blockPrefab;
-
-    //[SerializeField]
-    //GameObject moveBlockPrefab;
 
     [SerializeField]
     GameObject markerPrefab;
@@ -38,7 +25,6 @@ public class BlockCreater : MonoBehaviour
     private int blockCounter = 1;
 
     private string createName = "CreateBlock";
-    //[SerializeField] private Image moveBlockButton;
 
     private ClipGenerator clipGenerator;
 
@@ -48,6 +34,8 @@ public class BlockCreater : MonoBehaviour
     private bool isCheck = false;
 
     private FunctionLookManager functionLook;
+
+    private Vector2 min_markerSize = new Vector2(0.1f, 0.1f);
 
     private void Start()
     {
@@ -99,6 +87,7 @@ public class BlockCreater : MonoBehaviour
             {
                 if (Input.GetMouseButtonDown(0))
                 {
+                    Debug.Log("test");
                     marker.SetActive(true);
                     startPosition = mousePosition;
                     bm.isActive = true;
@@ -165,7 +154,23 @@ public class BlockCreater : MonoBehaviour
     {
         playSound.PlaySE(PlaySound.SE_TYPE.blockGene);
         GameObject created = Instantiate(blockPrefab);
-        created.transform.localScale = new Vector3 (Mathf.Abs(marker.transform.localScale.x), Mathf.Abs(marker.transform.localScale.y), marker.transform.localScale.z);
+        //マーカーのサイズが特定のサイズ以下のとき
+        if(Mathf.Abs(marker.transform.localScale.x) <= min_markerSize.x 
+            || Mathf.Abs(marker.transform.localScale.y) <= min_markerSize.y)
+        {
+            //サイズ設定
+            created.transform.localScale = new Vector3(1f, 1f, marker.transform.localScale.z);
+        }
+        //通常
+        else
+        {
+            //サイズ設定
+            created.transform.localScale = new Vector3(
+                Mathf.Abs(marker.transform.localScale.x), 
+                Mathf.Abs(marker.transform.localScale.y), 
+                marker.transform.localScale.z
+                );
+        }
         created.transform.position = marker.transform.position;
         created.GetComponent<Collider2D>().enabled = false;
         created.GetComponent<Collider2D>().enabled = true;
@@ -176,22 +181,6 @@ public class BlockCreater : MonoBehaviour
         clipGenerator.ClipGene(created, isCheck);
         isCheck = true;
     }
-
-    //private void CreateMoveBlock()
-    //{
-    //    GameObject created = Instantiate(moveBlockPrefab);
-    //    created.transform.localScale = marker.transform.localScale;
-    //    created.transform.position = marker.transform.position;
-
-    //    MoveGround mg = created.GetComponent<MoveGround>();
-    //    mg.path.Add(marker.transform.position);
-    //    mg.path.Add(new Vector3(marker.transform.position.x, marker.transform.position.y + 2, marker.transform.position.z));
-    //    mg.pathTime.Add(1);
-    //    mg.pathTime.Add(1);
-
-    //    created.name = createName + blockCounter;
-    //    blockCounter++;
-    //}
 
     public void CreateSetActive()
     {
@@ -230,22 +219,6 @@ public class BlockCreater : MonoBehaviour
         }
 
     }
-
-    //public void CreateMoveSetActive()
-    //{
-    //    if(nowState != State.Create)
-    //    {
-    //        nowState = nowState == State.none ? State.MoveCreate : State.none;
-    //        moveBlockButton.color = nowState == State.none ? Color.white : Color.yellow;
-    //    }
-    //    else
-    //    {
-    //        nowState = State.MoveCreate;
-    //        blockButton.color = Color.white;
-    //        moveBlockButton.color = Color.yellow;
-
-    //    }
-    //}
 
     public int ReturnBlockCount()
     {

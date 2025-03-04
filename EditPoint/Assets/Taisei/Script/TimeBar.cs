@@ -29,7 +29,7 @@ public class TimeBar : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragH
 
         limit = TLManager.ReturnTimebarLimit();
 
-        limitPosX = startPos.x + (limit * 2 * TimelineData.TimelineEntity.oneTickWidht);
+        limitPosX = startPos.x + (limit * 2 * TimelineData.TimelineEntity.oneTickWidth);
 
         transform.SetAsLastSibling();
     }
@@ -41,18 +41,13 @@ public class TimeBar : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragH
         plController = GameObject.Find("Player").GetComponent<PlayerController>();
     }
 
-    void Update()
-    {
-        
-    }
-
     private void FixedUpdate()
     {
         //çƒê∂íÜÇ©Ç«Ç§Ç©
         if (GameData.GameEntity.isPlayNow)
         {
             //éûä‘ì‡ÇÃéû
-            if (barPos.localPosition.x < limitPosX - 1)
+            if (barPos.localPosition.x < limitPosX)
             {
                 barPos.localPosition = nowPos;
                 nowPos.x += speed * Time.deltaTime;

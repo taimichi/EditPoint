@@ -17,6 +17,8 @@ TagManager:
   - GetBlock
   - GameManager
   - Lording
+  - DeleteButton
+  - Blower
   layers:
   - Default
   - TransparentFX

@@ -16,13 +16,20 @@ public class ChangeButtonColor : MonoBehaviour
         //再生中は編集機能をロック
         if (GameData.GameEntity.isPlayNow)
         {
+            if (imageColor != null)
+            {
+                imageColor.color = Color.white;
+            }
             return;
         }
 
-        if (Input.GetMouseButtonDown(1))
+        if (image != null)
         {
-            imageColor.color = Color.white;
-            isFirst = false;
+            if (Input.GetMouseButtonDown(1))
+            {
+                imageColor.color = Color.white;
+                isFirst = false;
+            }
         }
     }
 
@@ -31,6 +38,10 @@ public class ChangeButtonColor : MonoBehaviour
         //再生中は編集機能をロック
         if (GameData.GameEntity.isPlayNow)
         {
+            if(imageColor != null)
+            {
+                imageColor.color = Color.white;
+            }
             return;
         }
 

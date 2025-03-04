@@ -40,7 +40,7 @@ public class ToolButton : MonoBehaviour
         // フェード
         //clpObj.SetActive(true);
         //clapper.SceneName = S_stageName;
-        SceneManager.LoadScene(S_stageName);
+        SceneManager.LoadSceneAsync(S_stageName);
         //    fade.FadeIn(0.5f, () => {
         //        SceneManager.LoadScene(S_stageName);
         //    });

@@ -4,21 +4,23 @@ using UnityEngine;
 
 public class BlowerWind : MonoBehaviour
 {
-    Blower blower;
+    [SerializeField]
+    GameObject blowerBody;
 
-    private void Start()
-    {
-        blower = this.transform.parent.parent.gameObject.GetComponent<Blower>();
-    }
+    [SerializeField]
+    float power = 5;
+
+    [SerializeField]
+    float length = 5;
 
     private void Update()
     {
         Vector2 scale = transform.localScale;
-        scale.y = blower.length;
+        scale.y = length;
         transform.localScale = scale;
 
         Vector2 pos = transform.localPosition;
-        pos.y = blower.length / 2;
+        pos.y = length / 2;
         transform.localPosition = pos;
     }
 
@@ -28,22 +30,28 @@ public class BlowerWind : MonoBehaviour
         {
             if (collision.gameObject.TryGetComponent<GeneralMoveController>(out var mc))
             {
-                if (blower.dir == 0)
-                {
-                    mc.Flic(new Vector2(0, blower.power));
-                }
-                else if (blower.dir == 2)
-                {
-                    mc.Flic(new Vector2(0, -blower.power));
-                }
-                else if (blower.dir == 1)
-                {
-                    mc.Flic(new Vector2(-blower.power, 0));
-                }
-                else if (blower.dir == 3)
-                {
-                    mc.Flic(new Vector2(blower.power, 0));
-                }
+                float rot = (blowerBody.transform.localEulerAngles.z + 90) * Mathf.Deg2Rad;
+
+                mc.Flic(new Vector2(Mathf.Cos(rot) * power, Mathf.Sin(rot) * power));
+                //Debug.Log(new Vector2(Mathf.Cos(rot) * power, Mathf.Sin(rot) * power));
+                //Debug.Log(rot);
+
+                //if (blower.dir == 0)
+                //{
+                //    mc.Flic(new Vector2(0, blower.power));
+                //}
+                //else if (blower.dir == 2)
+                //{
+                //    mc.Flic(new Vector2(0, -blower.power));
+                //}
+                //else if (blower.dir == 1)
+                //{
+                //    mc.Flic(new Vector2(-blower.power, 0));
+                //}
+                //else if (blower.dir == 3)
+                //{
+                //    mc.Flic(new Vector2(blower.power, 0));
+                //}
             }
         }
     }

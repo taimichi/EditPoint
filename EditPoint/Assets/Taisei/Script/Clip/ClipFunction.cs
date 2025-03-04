@@ -22,6 +22,9 @@ public class ClipFunction : MonoBehaviour
     private void Awake()
     {
         functionLook = GameObject.FindWithTag("GameManager").GetComponent<FunctionLookManager>();
+
+        Button cutButton = GameObject.Find("Cut").GetComponent<Button>();
+        cutButton.onClick.AddListener(OnCut);
     }
 
     /// <summary>
@@ -66,7 +69,7 @@ public class ClipFunction : MonoBehaviour
                 clipRect.sizeDelta = new Vector2(dis, clipRect.rect.height);
 
                 //右端取得
-                float rightEdge = clipRect.anchoredPosition.x + (clipRect.rect.width * (1 - clipRect.pivot.x));
+                float rightEdge = clipRect.localPosition.x + (clipRect.rect.width * (1 - clipRect.pivot.x));
 
                 //カットした時の右側用
                 GameObject newClip = Instantiate(Clip, clipRect.localPosition, Quaternion.identity, this.transform.parent);
@@ -75,9 +78,9 @@ public class ClipFunction : MonoBehaviour
                 //カットしたクリップの長さを調整
                 newClipRect.sizeDelta = new Vector2(newDis, newClipRect.rect.height);
                 //カットしたクリップの位置を調整
-                newClipRect.localPosition = new Vector2(rightEdge + 0.1f, clipRect.localPosition.y);
+                newClipRect.localPosition = new Vector2(rightEdge, clipRect.localPosition.y);
 
-                //一旦片方のクリップのオブジェクトとの紐づけを解除
+                //一旦片方のクリップのオブジェクトとの紐づけを解除(2重の紐づけを解消するため)
                 ClipPlay newClipPlay = newClip.GetComponent<ClipPlay>();
                 newClipPlay.DestroyConnectObj();
 

@@ -15,6 +15,9 @@ public class GetClip : MonoBehaviour
 
     private bool isTagHit;
 
+    private SelectDelete deleteScript;
+    private bool isButton = false;          //デリートボタンをクリックしたかどうか
+
     void Start()
     {
         if(raycaster == null)
@@ -26,67 +29,100 @@ public class GetClip : MonoBehaviour
         {
             eventSystem = EventSystem.current;
         }
+
+        deleteScript = GameObject.Find("DeleteCanvas").GetComponent<SelectDelete>();
+        deleteScript.Get_getClip(this.gameObject);
     }
 
     void Update()
     {
         if (Input.GetMouseButtonDown(0))
         {
-            PointerEventData pointData = new PointerEventData(eventSystem);
-            pointData.position = Input.mousePosition;
-
-            List<RaycastResult> results = new List<RaycastResult>();
-           
-            raycaster.Raycast(pointData, results);
-
-            foreach (RaycastResult result in results)
+            ClipGet();
+        }
+        if (Input.GetMouseButtonDown(1))
+        {
+            ClipGet();
+            if(Clip != null)
             {
-                //クリップかタイムバーかどうか
-                isTagHit = new List<string> { "CreateClip", "SetClip", "Timebar"}.Contains(result.gameObject.tag);
-
-                //クリップかタイムバーの時のみ
-                if(isTagHit)
+                ClipOperation clipOp = Clip.GetComponent<ClipOperation>();
+                //動かせないクリップじゃないとき
+                if (!clipOp.CheckIsLook())
                 {
-                    //タイムバーに触れた時はforeachから即抜け出す
-                    if (result.gameObject.tag == "Timebar")
-                    {
-                        break;
-                    }
-                    //クリップだったときの処理
-                    else
-                    {
-                        if (Clip != null && Clip != result.gameObject)
-                        {
-                            BlinkImageObj.SetActive(false);
-                        }
-                        //一つ目の子オブジェクト(取得した時に出る枠)を取得
-                        BlinkImageObj = result.gameObject.transform.GetChild(0).gameObject;
-                        Clip = result.gameObject;
-                        BlinkImageObj.SetActive(true);
-                        break;
-                    }
+                    deleteScript.ButtonActive(false, Clip);
                 }
-                else
-                {
-                    if (Clip != null)
-                    {
-                        BlinkImageObj.SetActive(false);
-                    }
-                }
-            }            
+            }
         }
 
         //クリップ削除
         if (Input.GetKeyDown(KeyCode.Delete))
         {
-            if (Clip != null)
+            ClipDestroy();
+        }
+    }
+
+    /// <summary>
+    /// クリップ取得の関数
+    /// </summary>
+    private void ClipGet()
+    {
+        PointerEventData pointData = new PointerEventData(eventSystem);
+        pointData.position = Input.mousePosition;
+
+        List<RaycastResult> results = new List<RaycastResult>();
+
+        raycaster.Raycast(pointData, results);
+
+        foreach (RaycastResult result in results)
+        {
+            //クリップかタイムバーかどうか
+            isTagHit = new List<string> { "CreateClip", "SetClip", "Timebar" }.Contains(result.gameObject.tag);
+
+            //クリップかタイムバーの時のみ
+            if (isTagHit)
             {
-                ClipPlay clipPlay = Clip.GetComponent<ClipPlay>();
-                clipPlay.ClipObjDestroy();
-                Destroy(Clip);
-                Clip = null;
+                //タイムバーに触れた時はforeachから即抜け出す
+                if (result.gameObject.tag == "Timebar")
+                {
+                    break;
+                }
+                //クリップだったときの処理
+                else
+                {
+                    if (Clip != null && Clip != result.gameObject)
+                    {
+                        BlinkImageObj.SetActive(false);
+                    }
+                    //一つ目の子オブジェクト(取得した時に出る枠)を取得
+                    BlinkImageObj = result.gameObject.transform.GetChild(0).gameObject;
+                    Clip = result.gameObject;
+                    BlinkImageObj.SetActive(true);
+                    break;
+                }
+            }
+            else
+            {
+                if (Clip != null)
+                {
+                    BlinkImageObj.SetActive(false);
+                    deleteScript.SetActiveButton(false);
+                    Clip = null;
+                }
             }
         }
+
+    }
+
+    public void ClipDestroy()
+    {
+        if (Clip != null)
+        {
+            ClipPlay clipPlay = Clip.GetComponent<ClipPlay>();
+            clipPlay.ClipObjDestroy();
+            Destroy(Clip);
+            Clip = null;
+        }
+
     }
 
     /// <summary>

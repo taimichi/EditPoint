@@ -54,6 +54,17 @@ public class ObjectScaleEditor : MonoBehaviour
     // 編集対象
     public GameObject editObject;
 
+    //移動範囲制限用
+    private Camera GameCamera;
+    //カメラのスクリーン座標取得用
+    private Vector2 LeftDownPos;    //左下座標
+    private Vector2 RightUpPos;     //右上座標
+    private bool isOut;             //オブジェクトがカメラの外に出たか
+
+    private FunctionLookManager functionLook;
+
+    private SelectDelete deleteScript;
+
     private void Start()
     {
         handle_LayerMask = LayerMask.NameToLayer("Handle");
@@ -61,6 +72,17 @@ public class ObjectScaleEditor : MonoBehaviour
         //virtualObject.transform.position = editObject.transform.position;
         //virtualObject.transform.localEulerAngles = new Vector3(0, 0, editObject.transform.localEulerAngles.z);
         //virtualObject.transform.localScale = editObject.transform.localScale;
+
+        GameCamera = GameObject.Find("GameCamera").GetComponent<Camera>();
+
+        functionLook = GameObject.Find("GameManager").GetComponent<FunctionLookManager>();
+        deleteScript = GameObject.Find("DeleteCanvas").GetComponent<SelectDelete>();
+        deleteScript.Get_objectScaleEditor(this.gameObject);
+
+        LeftDownPos = GameCamera.ViewportToWorldPoint(new Vector2(0, 0));
+        RightUpPos = GameCamera.ViewportToWorldPoint(new Vector2(1, 1));
+
+        this.gameObject.SetActive(false);   
     }
 
     private void Update()
@@ -78,7 +100,7 @@ public class ObjectScaleEditor : MonoBehaviour
         handle[6].transform.localPosition = new Vector2(0, objScale.y / 2);
         handle[7].transform.localPosition = new Vector2(0, -objScale.y / 2);
 
-        handle[8].transform.localPosition = new Vector2(0, objScale.y / 2 + 0.5f);
+        handle[8].transform.localPosition = new Vector2(0, Mathf.Abs(objScale.y) / 2 + 0.5f);
 
         handle[9].transform.localPosition = Vector2.zero;
 
@@ -112,25 +134,7 @@ public class ObjectScaleEditor : MonoBehaviour
         // マウスクリック、ハンドル取得
         if (Input.GetMouseButtonDown(0))
         {
-            nowHandlePriority = 0;
-            foreach (RaycastHit2D hit in Physics2D.RaycastAll(MousePos(), Vector2.zero, handle_LayerMask))
-            {
-                // ハンドルかどうかチェック
-                if (hit.collider.gameObject.TryGetComponent<HandleSign>(out var _handleSign))
-                {
-                    // グラブフラグチェック
-                    clickStartPos = MousePos();
-                    isHandleGrab = true;
-
-                    // プライオリティが一番高いものを取得
-                    if (_handleSign.priority > nowHandlePriority)
-                    {
-                        scaleSign = _handleSign.handleSign;
-                        nowHandleType = _handleSign.handleType;
-                        nowHandlePriority = _handleSign.priority;
-                    }
-                }
-            }
+            HandleGet();
         }
 
         Vector2 nowMousePos = MousePos();
@@ -148,83 +152,156 @@ public class ObjectScaleEditor : MonoBehaviour
         Vector2 rotMouseVec = nowMousePos - objPosition;
         float rotRad = Mathf.Atan2(rotMouseVec.y, rotMouseVec.x);
 
-        // マウスドラッグ、オブジェクト大きさ変更中
-        if (Input.GetMouseButton(0))
+        //オブジェクト移動がロックされていないとき
+        if((functionLook.FunctionLook & LookFlags.ObjectMove) == 0)
         {
-            if (isHandleGrab)
+            // マウスドラッグ、オブジェクト大きさ変更中
+            if (Input.GetMouseButton(0))
             {
-                // 回転ハンドルか否か
-                if (nowHandleType == HandleType.rot)
+                if (isHandleGrab)
                 {
-                    virtualObject.transform.localEulerAngles = new Vector3(0, 0, rotRad * Mathf.Rad2Deg - 90);
-                }
-                else if (nowHandleType == HandleType.body)
-                {
-                    virtualObject.transform.position = (Vector2)editObject.transform.position + mouseVec;
-                }
-                else
-                {
-                    //Vector3 absSign = new Vector3(Mathf.Abs(scaleSign.x), Mathf.Abs(scaleSign.y), 1);
-                    virtualObject.transform.position = (Vector2)editObject.transform.position + mouseVec / 2;
-                    virtualObject.transform.localScale = (Vector2)editObject.transform.localScale + editVec * scaleSign;
-                }
-            }
-        }
-
-        // マウスクリック離す、仮オブジェクトのサイズに変更
-        if (Input.GetMouseButtonUp(0))
-        {
-            if (isHandleGrab)
-            {
-                // virtualが他オブジェクトに接触しているかチェック
-                // 接触してない場合のみ代入、してたらリセット
-                if (virtualObject.GetComponent<VirtualObjectCollisionChecker>().isCollision == false)
-                {
-                    // 回転ハンドルか否か
+                    // 回転ハンドル処理
                     if (nowHandleType == HandleType.rot)
                     {
-                        editObject.transform.localEulerAngles = new Vector3(0, 0, virtualObject.transform.localEulerAngles.z);
+                        virtualObject.transform.localEulerAngles = new Vector3(0, 0, rotRad * Mathf.Rad2Deg - 90);
                     }
+                    // 移動ハンドル処理
                     else if (nowHandleType == HandleType.body)
                     {
-                        editObject.transform.position = virtualObject.transform.position;
+                        virtualObject.transform.position = (Vector2)editObject.transform.position + mouseVec;
+                    }
+                    // サイズ変更処理
+                    else
+                    {
+                        // 特例処理、Blowerはサイズ変更不可
+                        if (editObject.tag == "Blower")
+                        {
+                            Debug.Log("blowerとおさんざき");
+                        }
+                        else
+                        {
+                            //Vector3 absSign = new Vector3(Mathf.Abs(scaleSign.x), Mathf.Abs(scaleSign.y), 1);
+                            virtualObject.transform.position = (Vector2)editObject.transform.position + mouseVec / 2;
+                            virtualObject.transform.localScale = (Vector2)editObject.transform.localScale + editVec * scaleSign;
+                        }
+                    }
+                }
+            }
+
+            // マウスクリック離す、仮オブジェクトのサイズに変更
+            if (Input.GetMouseButtonUp(0))
+            {
+                if (isHandleGrab)
+                {
+                    // virtualが他オブジェクトに接触しているかチェック
+                    // 接触してない場合のみ代入、してたらリセット
+                    if (virtualObject.GetComponent<VirtualObjectCollisionChecker>().isCollision == false)
+                    {
+                        // 回転ハンドル処理
+                        if (nowHandleType == HandleType.rot)
+                        {
+                            editObject.transform.localEulerAngles = new Vector3(0, 0, virtualObject.transform.localEulerAngles.z);
+                        }
+                        // 移動ハンドル処理
+                        else if (nowHandleType == HandleType.body)
+                        {
+                            //画面外に出ていないとき
+                            if (!CheckOutObj())
+                            {
+                                editObject.transform.position = virtualObject.transform.position;
+                            }
+                            //画面外に出た時
+                            else
+                            {
+                                virtualObject.transform.position = editObject.transform.position;
+                                virtualObject.transform.localEulerAngles = new Vector3(0, 0, editObject.transform.localEulerAngles.z);
+                                virtualObject.transform.localScale = editObject.transform.localScale;
+                            }
+                        }
+                        // サイズ変更処理
+                        else
+                        {
+                            editObject.transform.position = virtualObject.transform.position;
+                            editObject.transform.localScale = virtualObject.transform.localScale;
+                        }
+
+
+                        objPosition = editObject.transform.position;
+                        objRotation = editObject.transform.localEulerAngles.z;
+                        objScale = editObject.transform.localScale;
                     }
                     else
                     {
-                        editObject.transform.position = virtualObject.transform.position;
-                        editObject.transform.localScale = virtualObject.transform.localScale;
+                        // バーチャル位置リセット
+                        virtualObject.transform.position = editObject.transform.position;
+                        virtualObject.transform.localEulerAngles = new Vector3(0, 0, editObject.transform.localEulerAngles.z);
+                        virtualObject.transform.localScale = editObject.transform.localScale;
                     }
 
-
-                    objPosition = editObject.transform.position;
-                    objRotation = editObject.transform.localEulerAngles.z;
-                    objScale = editObject.transform.localScale;
-                }
-                else
-                {
-                    virtualObject.transform.position = editObject.transform.position;
-                    virtualObject.transform.localEulerAngles = new Vector3(0, 0, editObject.transform.localEulerAngles.z);
-                    virtualObject.transform.localScale = editObject.transform.localScale;
                 }
 
+                // フラグ解除
+                isHandleGrab = false;
+                nowHandleType = HandleType.def;
             }
-
-            // フラグ解除
-            isHandleGrab = false;
-            nowHandleType = HandleType.def;
         }
+
 
         //deleteキーで選択してるオブジェクトを消す
         if (Input.GetKeyDown(KeyCode.Delete))
         {
-            if (editObject != null)
+            ObjectDelete();
+        }
+
+    }
+
+    /// <summary>
+    /// ハンドル取得
+    /// </summary>
+    private void HandleGet()
+    {
+        nowHandlePriority = 0;
+        foreach (RaycastHit2D hit in Physics2D.RaycastAll(MousePos(), Vector2.zero, handle_LayerMask))
+        {
+            // ハンドルかどうかチェック
+            if (hit.collider.gameObject.TryGetComponent<HandleSign>(out var _handleSign))
             {
-                Destroy(editObject);
-                editObject = null;
-                this.gameObject.SetActive(false);
+                // グラブフラグチェック
+                clickStartPos = MousePos();
+                isHandleGrab = true;
+
+                // プライオリティが一番高いものを取得
+                if (_handleSign.priority > nowHandlePriority)
+                {
+                    scaleSign = _handleSign.handleSign;
+                    nowHandleType = _handleSign.handleType;
+                    nowHandlePriority = _handleSign.priority;
+                }
             }
         }
 
+    }
+
+    /// <summary>
+    ///　選択されているオブジェクトがカメラの外にいるかどうか
+    /// </summary>
+    /// <returns>false = いない, true = いる</returns>
+    private bool CheckOutObj()
+    {
+        //カメラの範囲外だった場合
+        if(virtualObject.transform.position.x < LeftDownPos.x
+            || virtualObject.transform.position.x > RightUpPos.x
+            || virtualObject.transform.position.y < LeftDownPos.y
+            || virtualObject.transform.position.y > RightUpPos.y)
+        {
+            isOut = true;
+        }
+        //そうじゃない場合
+        else
+        {
+            isOut = false;
+        }
+        return isOut;
     }
 
     // マウスポジション取得
@@ -233,7 +310,7 @@ public class ObjectScaleEditor : MonoBehaviour
         return Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, 10));
     }
 
-    public void GetObjTransform(GameObject _editObj)
+    public void GetObjTransform(GameObject _editObj, bool trigger)
     {
         editObject = _editObj;
         //objPosition = _editObj.transform.position;
@@ -243,6 +320,37 @@ public class ObjectScaleEditor : MonoBehaviour
         virtualObject.transform.position = _editObj.transform.position;
         virtualObject.transform.localEulerAngles = new Vector3(0, 0, _editObj.transform.localEulerAngles.z);
         virtualObject.transform.localScale = _editObj.transform.localScale;
+
+        if (trigger)
+        {
+            deleteScript.ButtonActive(true, editObject);
+        }
+        else
+        {
+            deleteScript.SetActiveButton(false);
+        }
     }
 
+    /// <summary>
+    /// 外部から、デリートボタンを削除
+    /// </summary>
+    public void DeleteButtonChange(bool trigger)
+    {
+        deleteScript.SetActiveButton(trigger);
+    }
+
+    /// <summary>
+    /// 選択しているオブジェクトを消す
+    /// </summary>
+    public void ObjectDelete()
+    {
+        if (editObject != null)
+        {
+            editObject.GetComponent<CheckClipConnect>().ListRemove();
+            Destroy(editObject);
+            editObject = null;
+            this.gameObject.SetActive(false);
+        }
+
+    }
 }
