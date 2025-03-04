@@ -11,25 +11,25 @@ public class CopyAndPaste : MonoBehaviour
     //コピー元のオブジェクト
     private GameObject CopyObj;
 
-    [SerializeField, Header("ペーストできる回数")] private int i_PasteNum = 1000;
-    [SerializeField, Header("コピーできる回数")] private int i_CopyNum = 1000;
+    [SerializeField, Header("ペーストできる回数")] private int pasteNum = 1000;
+    [SerializeField, Header("コピーできる回数")] private int copyNum = 1000;
 
     //オブジェクトのペーストや移動するときにtrueにする
-    private bool b_setOnOff = false;
+    private bool isSetOnOff = false;
 
     //ペースト時のオブジェクト
     private GameObject PasteObj;
 
     //マウスの座標関連
-    private Vector3 v3_mousePos;
-    private Vector3 v3_scrWldPos;
+    private Vector3 mousePos;
+    private Vector3 scrWldPos;
 
     //選択したオブジェクト
     private GameObject ClickObj;
 
     //条件を説明する変数
-    private bool b_isNoHit;
-    private bool b_isSpecificTag;
+    private bool isNoHit;
+    private bool isSpecificTag;
 
     private PlaySound playSound;
 
@@ -63,14 +63,14 @@ public class CopyAndPaste : MonoBehaviour
             return;
         }
 
-        if(b_setOnOff && ModeData.ModeEntity.mode == ModeData.Mode.paste)
+        if(isSetOnOff && ModeData.ModeEntity.mode == ModeData.Mode.paste)
         {
-            v3_mousePos = Input.mousePosition;
-            v3_mousePos.z = 10;
+            mousePos = Input.mousePosition;
+            mousePos.z = 10;
 
-            v3_scrWldPos = Camera.main.ScreenToWorldPoint(v3_mousePos);
+            scrWldPos = Camera.main.ScreenToWorldPoint(mousePos);
 
-                PasteObj.transform.position = v3_scrWldPos;
+                PasteObj.transform.position = scrWldPos;
 
             //UIの上じゃなかったら
             if (!EventSystem.current.IsPointerOverGameObject())
@@ -108,7 +108,7 @@ public class CopyAndPaste : MonoBehaviour
                     Destroy(PasteObj);
                     PasteObj = null;
                 ModeData.ModeEntity.mode = ModeData.Mode.normal;
-                b_setOnOff = false;
+                isSetOnOff = false;
                 copyModeText.enabled = false;
             }
         }
@@ -126,7 +126,7 @@ public class CopyAndPaste : MonoBehaviour
 
     public bool ReturnSetOnOff()
     {
-        return b_setOnOff;
+        return isSetOnOff;
     }
 
     private void GetObj()
@@ -142,13 +142,13 @@ public class CopyAndPaste : MonoBehaviour
                 return;
             }
 
-            b_isNoHit = (hit2d == false);
-            if (!b_isNoHit)
+            isNoHit = (hit2d == false);
+            if (!isNoHit)
             {
-                b_isSpecificTag = new List<string> { "Player", "UnTouch", "Markar" }.Contains(hit2d.collider.tag);
+                isSpecificTag = (hit2d.collider.gameObject.layer == LayerMask.NameToLayer("Gimmick"));
             }
 
-            if (b_isNoHit || b_isSpecificTag)
+            if (isNoHit || !isSpecificTag)
             {
                 ClickObj = null;
                 return;
@@ -167,7 +167,7 @@ public class CopyAndPaste : MonoBehaviour
                 if (ClickObj != null)
                 {
                     playSound.PlaySE(PlaySound.SE_TYPE.copy);
-                        if (i_CopyNum > 0)
+                        if (copyNum > 0)
                         {
                             CopyObj = ClickObj;
                             PasteObj = null;
@@ -199,7 +199,7 @@ public class CopyAndPaste : MonoBehaviour
     private void Paste()
     {
         copyModeText.text = "現在ペーストモードです";
-        if (i_PasteNum > 0)
+        if (pasteNum > 0)
         {
             PasteObj = Instantiate(CopyObj);
             if(CopyObj.name.Contains("Blower"))
@@ -210,9 +210,9 @@ public class CopyAndPaste : MonoBehaviour
             {
                 PasteObj.GetComponent<Collider2D>().isTrigger = true;
             }
-            i_PasteNum--;
+            pasteNum--;
         }
-        b_setOnOff = true;
+        isSetOnOff = true;
     }
 
     //コピーボタンを押した時
@@ -236,12 +236,12 @@ public class CopyAndPaste : MonoBehaviour
                 ClickObj = null;
                 CopyObj = null;
                 PasteObj = null;
-                b_setOnOff = false;
+                isSetOnOff = false;
                 copyModeText.enabled = false;
             }
             else
             {
-                i_CopyNum--;
+                copyNum--;
                 ModeData.ModeEntity.mode = ModeData.Mode.copy;
                 copyModeText.enabled = true;
                 copyModeText.text = "現在コピーモードです";
