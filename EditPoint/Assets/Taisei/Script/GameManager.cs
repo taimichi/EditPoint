@@ -183,6 +183,7 @@ public class GameManager : MonoBehaviour
         {
             timeBar.OnReStart();
             GameData.GameEntity.isPlayNow = true;
+            GameData.GameEntity.isTimebarReset = false;
         }
     }
 
