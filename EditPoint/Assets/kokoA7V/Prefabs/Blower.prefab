@@ -253,7 +253,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6bd1155b53bf563409aaed422e0821b3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isGround: 1
+  isGround: 0
 --- !u!114 &984178018188503336
 MonoBehaviour:
   m_ObjectHideFlags: 0

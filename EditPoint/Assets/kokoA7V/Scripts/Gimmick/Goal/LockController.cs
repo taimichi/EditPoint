@@ -9,6 +9,12 @@ public class LockController : MonoBehaviour
     {
         Debug.Log("Ç†ÇÒÇÎÇ¡Ç≠ÅI");
         //Destroy(KeyM);
-        Destroy(this.gameObject);
+        this.gameObject.SetActive(false);
     }
+
+    public void LockReset()
+    {
+        this.gameObject.SetActive(true);
+    }
+
 }
