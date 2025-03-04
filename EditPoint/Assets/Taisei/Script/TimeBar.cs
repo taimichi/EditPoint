@@ -47,7 +47,7 @@ public class TimeBar : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragH
         if (GameData.GameEntity.isPlayNow)
         {
             //ŽžŠÔ“à‚ÌŽž
-            if (barPos.localPosition.x < limitPosX - 1)
+            if (barPos.localPosition.x < limitPosX)
             {
                 barPos.localPosition = nowPos;
                 nowPos.x += speed * Time.deltaTime;
