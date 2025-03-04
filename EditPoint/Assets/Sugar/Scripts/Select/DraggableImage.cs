@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class DraggableImage : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IDragHandler
+public class DraggableImage : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IDragHandler, IPointerEnterHandler, IPointerExitHandler
 {
     private bool isDragging = false;
     private Vector2 originalPosition;
@@ -10,6 +10,11 @@ public class DraggableImage : MonoBehaviour, IPointerDownHandler, IPointerUpHand
 
     public RectTransform targetImage; // 目標地点のImageのRectTransform
     public float snapDistance = 50f; // スナップする距離の閾値
+
+    // ダブルクリックか判定する
+    int clickCnt = 0;
+    // 触れたかどうかの判定
+    bool IsHit = false;
 
     // ここに表示する予定のキャンバスオブジェクトを渡す
     [SerializeField] LoadingProgressBar load;
@@ -33,6 +38,20 @@ public class DraggableImage : MonoBehaviour, IPointerDownHandler, IPointerUpHand
 
     }
 
+    // UIのインターフェース
+    #region interface
+    // UI上にカーソルが触れているか
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+        IsHit = true;
+    }
+    // 離れた場合
+    public void OnPointerExit(PointerEventData eventData)
+    {
+        // 離れた場合はリセット
+        clickCnt = 0;
+        IsHit = false;
+    }
     public void OnPointerDown(PointerEventData eventData)
     {
         isDragging = true;
@@ -53,6 +72,7 @@ public class DraggableImage : MonoBehaviour, IPointerDownHandler, IPointerUpHand
             rectTransform.anchoredPosition = localPoint;
         }
     }
+    #endregion
 
     public void OnPointerUp(PointerEventData eventData)
     {
@@ -99,6 +119,28 @@ public class DraggableImage : MonoBehaviour, IPointerDownHandler, IPointerUpHand
             }
         }
     }
+
+    // ダブルクリック処理のみ記載
+    // ドラッグする予定の位置に移動すること
+    private void FixedUpdate()
+    {
+        // 触れてないなら処理なし
+        if (!IsHit) { return; }
+
+        if(Input.GetMouseButtonDown(0))
+        {
+            clickCnt++;
+        }
+
+        // 少なくとも二回押された時にダブルクリックとして扱う
+        if(clickCnt>=2)
+        {
+            rectTransform.anchoredPosition = targetImage.anchoredPosition;
+            LoadObj.SetActive(true);
+            load.SetObj = StagePanel;
+        }
+    }
+
 
     /// <summary>
     /// 元の位置に戻す
