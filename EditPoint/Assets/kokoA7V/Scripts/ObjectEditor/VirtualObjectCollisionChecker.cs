@@ -59,7 +59,8 @@ public class VirtualObjectCollisionChecker : MonoBehaviour
 
     void CollisionDisp()
     {
-        GetComponent<SpriteRenderer>().color = new Color32(255, 0, 0, 128);
+        //GetComponent<SpriteRenderer>().color = new Color32(255, 0, 0, 128);
+        GetComponent<SpriteRenderer>().color = new Color32(0, 255, 255, 128);
     }
 
     void UnCollisionDisp()
