@@ -38,11 +38,14 @@ public class GimmickObjectGetter : MonoBehaviour
     /// <param name="trigger">true/false</param>
     private void GimmickObjGet(bool trigger)
     {
+
+        // ObjectScaleEdditor用のブロッククリック時取得プログラム
         if (editObj == null)
         {
             foreach (RaycastHit2D hit in Physics2D.RaycastAll(MousePos(), Vector2.zero))
             {
-                if (hit.collider.gameObject.layer == LayerMask.NameToLayer("Gimmick"))
+                // コピペ時はうごかないように
+                if (hit.collider.gameObject.layer == LayerMask.NameToLayer("Gimmick") && ModeData.ModeEntity.mode != ModeData.Mode.copy　&& ModeData.ModeEntity.mode != ModeData.Mode.paste)
                 {
                     ObjectScaleEditor.SetActive(true);
                     ose.GetObjTransform(hit.collider.gameObject, trigger);
