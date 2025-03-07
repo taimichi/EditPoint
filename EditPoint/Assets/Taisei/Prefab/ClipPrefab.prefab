@@ -191,7 +191,7 @@ MonoBehaviour:
   targetImage: {fileID: 4323194755857948600}
   minWidth: 350
   maxWidth: 2800
-  edgeRange: 30
+  edgeRange: 40
   isLook: 0
   ActiveClipSprite: {fileID: 21300000, guid: b5f033136c47e7e4598e7ef73bbb21bb, type: 3}
   NoActiveClipSprite: {fileID: 21300000, guid: b3cb66a4392693949bff4b644ddb0280, type: 3}
