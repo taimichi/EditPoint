@@ -81,8 +81,7 @@ public class CopyAndPaste : MonoBehaviour
                     playSound.PlaySE(PlaySound.SE_TYPE.paste);
                     if (CopyObj.name.Contains("Blower"))
                     {
-                        PasteObj.transform.GetChild(0).GetComponent<Collider2D>().isTrigger = false;
-
+                        PasteObj.transform.GetComponent<Collider2D>().isTrigger = false;
                     }
                     else
                     {
@@ -158,7 +157,7 @@ public class CopyAndPaste : MonoBehaviour
             ClickObj = hit2d.collider.gameObject;
             if (ClickObj.transform.parent != null && ClickObj.transform.parent.gameObject.name.Contains("Blower"))
             {
-                ClickObj = hit2d.collider.transform.parent.gameObject;
+                ClickObj = hit2d.collider.transform.gameObject;
             }
             //コピーモードの時のみ
             if (ModeData.ModeEntity.mode == ModeData.Mode.copy)
@@ -204,7 +203,7 @@ public class CopyAndPaste : MonoBehaviour
             PasteObj = Instantiate(CopyObj);
             if(CopyObj.name.Contains("Blower"))
             {
-                PasteObj.transform.GetChild(0).GetComponent<Collider2D>().isTrigger = true;
+                PasteObj.transform.GetComponent<Collider2D>().isTrigger = true;
             }
             else
             {

@@ -120,7 +120,7 @@ public class ClipOperation : MonoBehaviour, IDragHandler, IBeginDragHandler, IEn
 
         //子オブジェクトの順番を変更
         int childNum = targetImage.parent.transform.childCount;
-        transform.SetSiblingIndex(childNum - 2);
+        transform.SetSiblingIndex(childNum - 3);
 
         ClipImage = this.gameObject.GetComponent<Image>();
     }

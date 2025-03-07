@@ -35,8 +35,9 @@ public class TutorialData : ScriptableObject
         copy = 1 << 2,
         blower = 1 << 3,
         move = 1 << 4,
-        button = 1 << 5,
-        other = 1 << 6,
+        cut = 1 << 5,
+        card = 1 << 6,
+        moveGround = 1 << 7
     }
     //末尾にマックスのやつ作って要素数を取得できるように
 
