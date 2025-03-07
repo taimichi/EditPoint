@@ -2,41 +2,39 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using Pixeye.Unity;
 
 public class GuideMenu : MonoBehaviour
 {
     private Canvas canvas;
     [SerializeField] private GameObject GuideMenuObj;
 
-    [SerializeField] private GameObject clipGuide;
-    [SerializeField] private GameObject blockGuide;
-    [SerializeField] private GameObject copyGuide;
-    [SerializeField] private GameObject moveGuide;
-    [SerializeField] private GameObject blowerGuide;
-    [SerializeField] private GameObject buttonGuide;
-    [SerializeField] private GameObject otherGuide;
+    [SerializeField] private GameObject GuideImage;
+    private Image GuideSprite;
 
     [SerializeField] private GameObject LButton;
     [SerializeField] private GameObject RButton;
-    [SerializeField] private GameObject clipGuide1;
-    [SerializeField] private GameObject clipGuide2;
 
-    private string key = "";
+    #region Sprite
+    [Foldout("Sprite")] [SerializeField] private Sprite[] ClipGuide;
+    [Foldout("Sprite")] [SerializeField] private Sprite[] BlockGeneGuide;
+    [Foldout("Sprite")] [SerializeField] private Sprite[] CopyGuide;
+    [Foldout("Sprite")] [SerializeField] private Sprite[] MoveGuide;
+    [Foldout("Sprite")] [SerializeField] private Sprite[] DeleteGuide;
+    [Foldout("Sprite")] [SerializeField] private Sprite[] TimelineGuide;
+    [Foldout("Sprite")] [SerializeField] private Sprite[] ButtonGuide;
+    [Foldout("Sprite")] [SerializeField] private Sprite[] BlowerGuide;
+    [Foldout("Sprite")] [SerializeField] private Sprite[] MoveGroundGuide;
+    [Foldout("Sprite")] [SerializeField] private Sprite[] CardGuide;
+    [Foldout("Sprite")] [SerializeField] private Sprite[] CutGuide;
+    #endregion
 
-    private Dictionary<string, GameObject> guides;
+    private Sprite[] sprites;
+    private int nowPage = 0;
 
     private void Awake()
     {
-        guides = new Dictionary<string, GameObject>
-        {
-            {"Clip", clipGuide},
-            {"Block",blockGuide },
-            {"Copy",copyGuide },
-            {"Move",moveGuide },
-            {"Blower",blowerGuide },
-            {"Button",buttonGuide },
-            {"Other" ,otherGuide}
-        };
+        GuideSprite = GuideImage.GetComponent<Image>();
         canvas = this.GetComponent<Canvas>();
         canvas.worldCamera = GameObject.Find("UICamera").GetComponent<Camera>();
     }
@@ -44,15 +42,21 @@ public class GuideMenu : MonoBehaviour
 
     void Start()
     {
+        CloseLRButton();
+        GuideImage.SetActive(false);
         GuideMenuObj.SetActive(false);
     }
 
-
+    /// <summary>
+    /// 操作説明画面を閉じる
+    /// </summary>
     public void OnCloseGuide()
     {
-        key = "";
-        DeactiveAll();
+        CloseLRButton();
+        sprites = null;
+        nowPage = 0;
 
+        GuideImage.SetActive(false);
         GuideMenuObj.SetActive(false);
     }
 
@@ -64,23 +68,34 @@ public class GuideMenu : MonoBehaviour
         GuideMenuObj.SetActive(true);
     }
 
+    /// <summary>
+    /// 左矢印ボタンを押したとき
+    /// </summary>
     public void OnLButton()
     {
-        clipGuide1.SetActive(true);
-        clipGuide2.SetActive(false);
-
-        LButton.SetActive(false);
+        nowPage--;
+        if (nowPage <= 0)
+        {
+            LButton.SetActive(false);
+        }
         RButton.SetActive(true);
+
+        GuideSprite.sprite = sprites[nowPage];
     }
 
+    /// <summary>
+    /// 右矢印ボタンを押したとき
+    /// </summary>
     public void OnRButton()
     {
-        clipGuide1.SetActive(false);
-        clipGuide2.SetActive(true);
-
+        nowPage++;
+        if(nowPage >= sprites.Length -1)
+        {
+            RButton.SetActive(false);
+        }
         LButton.SetActive(true);
-        RButton.SetActive(false);
 
+        GuideSprite.sprite = sprites[nowPage];
     }
 
     /// <summary>
@@ -88,14 +103,11 @@ public class GuideMenu : MonoBehaviour
     /// </summary>
     public void OnClipGuide()
     {
-        key = "Clip";
-        ActiveOnOff();
+        sprites = ClipGuide;
 
-        clipGuide1.SetActive(true);
-        clipGuide2.SetActive(false);
+        SetLRButton();
+        SetImage();
 
-        LButton.SetActive(false);
-        RButton.SetActive(true);
     }
 
     /// <summary>
@@ -103,8 +115,10 @@ public class GuideMenu : MonoBehaviour
     /// </summary>
     public void OnBlockGuide()
     {
-        key = "Block";
-        ActiveOnOff();
+        sprites = BlockGeneGuide;
+        SetImage();
+        CloseLRButton();
+
     }
 
     /// <summary>
@@ -112,8 +126,10 @@ public class GuideMenu : MonoBehaviour
     /// </summary>
     public void OnBlowerGuide()
     {
-        key = "Blower";
-        ActiveOnOff();
+        sprites = BlowerGuide;
+        SetImage();
+        CloseLRButton();
+
     }
 
     /// <summary>
@@ -121,17 +137,21 @@ public class GuideMenu : MonoBehaviour
     /// </summary>
     public void OnCopyGuide()
     {
-        key = "Copy";
-        ActiveOnOff();
+        sprites = CopyGuide;
+        SetImage();
+        CloseLRButton();
+
     }
 
     /// <summary>
-    /// 移動操作説明
+    /// 移動・サイズ・角度変更操作説明
     /// </summary>
     public void OnMoveGuide()
     {
-        key = "Move";
-        ActiveOnOff();
+        sprites = MoveGuide;
+        SetImage();
+        SetLRButton();
+
     }
 
     /// <summary>
@@ -139,38 +159,92 @@ public class GuideMenu : MonoBehaviour
     /// </summary>
     public void OnButtonGuide()
     {
-        key = "Button";
-        ActiveOnOff();
-    }
-
-    public void OnOtherGuide()
-    {
-        key = "Other";
-        ActiveOnOff();
-    }
-
-    /// <summary>
-    /// keyで設定してあるオブジェクトを表示、それ以外は非表示にする
-    /// </summary>
-    private void ActiveOnOff()
-    {
-        DeactiveAll();
-        foreach (var Obj in guides)
-        {
-            Obj.Value.SetActive(Obj.Key == key);
-        }
+        sprites = ButtonGuide;
+        SetImage();
+        CloseLRButton();
 
     }
 
     /// <summary>
-    /// 全操作方法を非表示にする
+    /// 削除ボタン説明
     /// </summary>
-    private void DeactiveAll()
+    public void OnDeleteGuide()
     {
-        foreach (var Obj in guides)
-        {
-            Obj.Value.SetActive(false);
-        }
+        sprites = DeleteGuide;
+        SetImage();
+        CloseLRButton();
+
+    }
+
+    /// <summary>
+    /// タイムライン説明
+    /// </summary>
+    public void OnTimelineGuide()
+    {
+        sprites = TimelineGuide;
+        SetImage();
+        CloseLRButton();
+
+    }
+
+    /// <summary>
+    /// 動く床説明
+    /// </summary>
+    public void OnMoveGroundGuide()
+    {
+        sprites = MoveGroundGuide;
+        SetImage();
+        SetLRButton();
+
+    }
+
+    /// <summary>
+    /// カードキー説明
+    /// </summary>
+    public void OnCardGuide()
+    {
+        sprites = CardGuide;
+        SetImage();
+        CloseLRButton();
+
+    }
+
+    /// <summary>
+    /// カット説明
+    /// </summary>
+    public void OnCutGuide()
+    {
+        sprites = CutGuide;
+        SetImage();
+        CloseLRButton();
+    }
+
+    /// <summary>
+    /// 画像を設定する
+    /// </summary>
+    private void SetImage()
+    {
+        nowPage = 0;
+        GuideImage.SetActive(true);
+        GuideSprite.sprite = sprites[nowPage];
+    }
+
+    /// <summary>
+    /// 左右ボタンをセットする
+    /// </summary>
+    private void SetLRButton()
+    {
+        LButton.SetActive(false);
+        RButton.SetActive(true);
+    }
+
+    /// <summary>
+    /// 左右ボタンを閉じる
+    /// </summary>
+    private void CloseLRButton()
+    {
+        LButton.SetActive(false);
+        RButton.SetActive(false);
     }
 
 }

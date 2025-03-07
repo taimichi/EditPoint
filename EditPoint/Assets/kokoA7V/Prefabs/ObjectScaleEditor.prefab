@@ -84,9 +84,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bf1c9e659af76ef42a04f9e10181b5e5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  handle_LayerMask:
-    serializedVersion: 2
-    m_Bits: 512
   objPosition: {x: 0, y: 0}
   objRotation: 0
   objScale: {x: 1, y: 1}
@@ -101,9 +98,9 @@ MonoBehaviour:
   - {fileID: 294403894135901784}
   - {fileID: 294403895134822385}
   handleSize: 0.1
-  isHandleGrab: 0
   virtualObject: {fileID: 294403894831137702}
-  handleParentObject: {fileID: 294403893566561736}
+  handleParent: {fileID: 0}
+  editObject: {fileID: 0}
 --- !u!1 &294403893802510281
 GameObject:
   m_ObjectHideFlags: 0
@@ -228,7 +225,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   handleSign: {x: -1, y: 1}
-  isRot: 0
+  handleType: 0
   priority: 3
 --- !u!1 &294403894135901784
 GameObject:
@@ -354,7 +351,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   handleSign: {x: 0, y: -1}
-  isRot: 0
+  handleType: 0
   priority: 1
 --- !u!1 &294403894168651900
 GameObject:
@@ -480,7 +477,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   handleSign: {x: 1, y: 0}
-  isRot: 0
+  handleType: 0
   priority: 1
 --- !u!1 &294403894831137702
 GameObject:
@@ -689,7 +686,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   handleSign: {x: 0, y: 1}
-  isRot: 0
+  handleType: 0
   priority: 1
 --- !u!1 &294403895049408033
 GameObject:
@@ -815,7 +812,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   handleSign: {x: -1, y: 0}
-  isRot: 0
+  handleType: 0
   priority: 1
 --- !u!1 &294403895122092663
 GameObject:
@@ -941,7 +938,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   handleSign: {x: 1, y: 1}
-  isRot: 0
+  handleType: 0
   priority: 3
 --- !u!1 &294403895132392493
 GameObject:
@@ -1067,7 +1064,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   handleSign: {x: 1, y: -1}
-  isRot: 0
+  handleType: 0
   priority: 3
 --- !u!1 &294403895134822385
 GameObject:
@@ -1143,7 +1140,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 12
-  m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 6445e80d60c20b245a943e0aefdc2051, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -1171,7 +1168,7 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1, y: 1}
+    oldSize: {x: 2.56, y: 2.56}
     newSize: {x: 1, y: 1}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -1193,7 +1190,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   handleSign: {x: 0, y: 0}
-  isRot: 1
+  handleType: 0
   priority: 2
 --- !u!1 &294403895254538158
 GameObject:
@@ -1319,5 +1316,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   handleSign: {x: -1, y: -1}
-  isRot: 0
+  handleType: 0
   priority: 3
