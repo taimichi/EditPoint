@@ -19,9 +19,13 @@ public class ClipFunction : MonoBehaviour
 
     private FunctionLookManager functionLook;
 
+    private PlaySound playSound;
+
     private void Awake()
     {
         functionLook = GameObject.FindWithTag("GameManager").GetComponent<FunctionLookManager>();
+        playSound = GameObject.Find("AudioCanvas").GetComponent<PlaySound>();
+
 
         Button cutButton = GameObject.Find("Cut").GetComponent<Button>();
         cutButton.onClick.AddListener(OnCut);
@@ -112,6 +116,8 @@ public class ClipFunction : MonoBehaviour
                     }
                     newClipPlay.OutGetObj(obj);
                 }
+
+                playSound.PlaySE(PlaySound.SE_TYPE.cut);
             }
         }
     }

@@ -9,7 +9,7 @@ public class ClipSpeed : MonoBehaviour
     [SerializeField] private RectTransform ClipRect;    //クリップのRectTransform
     private float playSpeed;  //現在のクリップの再生速度
     private float changeSpeed;    //変更時のクリップ再生速度
-    private const float MIN_SPEED = 0.01f;
+    private const float MIN_SPEED = 0.1f;
 
     void Start()
     {

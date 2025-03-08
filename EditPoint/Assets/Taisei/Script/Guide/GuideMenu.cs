@@ -32,11 +32,15 @@ public class GuideMenu : MonoBehaviour
     private Sprite[] sprites;
     private int nowPage = 0;
 
+    private PlaySound playSound;
+
+
     private void Awake()
     {
         GuideSprite = GuideImage.GetComponent<Image>();
         canvas = this.GetComponent<Canvas>();
         canvas.worldCamera = GameObject.Find("UICamera").GetComponent<Camera>();
+        playSound = GameObject.Find("AudioCanvas").GetComponent<PlaySound>();
     }
 
 
@@ -52,6 +56,8 @@ public class GuideMenu : MonoBehaviour
     /// </summary>
     public void OnCloseGuide()
     {
+        playSound.PlaySE(PlaySound.SE_TYPE.cancell);
+
         CloseLRButton();
         sprites = null;
         nowPage = 0;
@@ -65,6 +71,7 @@ public class GuideMenu : MonoBehaviour
     /// </summary>
     public void OnOpenGuide()
     {
+        playSound.PlaySE(PlaySound.SE_TYPE.enter);
         GuideMenuObj.SetActive(true);
     }
 
@@ -73,6 +80,7 @@ public class GuideMenu : MonoBehaviour
     /// </summary>
     public void OnLButton()
     {
+        playSound.PlaySE(PlaySound.SE_TYPE.enter);
         nowPage--;
         if (nowPage <= 0)
         {
@@ -88,6 +96,7 @@ public class GuideMenu : MonoBehaviour
     /// </summary>
     public void OnRButton()
     {
+        playSound.PlaySE(PlaySound.SE_TYPE.enter);
         nowPage++;
         if(nowPage >= sprites.Length -1)
         {
@@ -103,8 +112,8 @@ public class GuideMenu : MonoBehaviour
     /// </summary>
     public void OnClipGuide()
     {
+        playSound.PlaySE(PlaySound.SE_TYPE.enter);
         sprites = ClipGuide;
-
         SetLRButton();
         SetImage();
 
@@ -115,6 +124,7 @@ public class GuideMenu : MonoBehaviour
     /// </summary>
     public void OnBlockGuide()
     {
+        playSound.PlaySE(PlaySound.SE_TYPE.enter);
         sprites = BlockGeneGuide;
         SetImage();
         CloseLRButton();
@@ -126,6 +136,7 @@ public class GuideMenu : MonoBehaviour
     /// </summary>
     public void OnBlowerGuide()
     {
+        playSound.PlaySE(PlaySound.SE_TYPE.enter);
         sprites = BlowerGuide;
         SetImage();
         CloseLRButton();
@@ -137,6 +148,7 @@ public class GuideMenu : MonoBehaviour
     /// </summary>
     public void OnCopyGuide()
     {
+        playSound.PlaySE(PlaySound.SE_TYPE.enter);
         sprites = CopyGuide;
         SetImage();
         CloseLRButton();
@@ -148,6 +160,7 @@ public class GuideMenu : MonoBehaviour
     /// </summary>
     public void OnMoveGuide()
     {
+        playSound.PlaySE(PlaySound.SE_TYPE.enter);
         sprites = MoveGuide;
         SetImage();
         SetLRButton();
@@ -159,6 +172,7 @@ public class GuideMenu : MonoBehaviour
     /// </summary>
     public void OnButtonGuide()
     {
+        playSound.PlaySE(PlaySound.SE_TYPE.enter);
         sprites = ButtonGuide;
         SetImage();
         CloseLRButton();
@@ -170,6 +184,7 @@ public class GuideMenu : MonoBehaviour
     /// </summary>
     public void OnDeleteGuide()
     {
+        playSound.PlaySE(PlaySound.SE_TYPE.enter);
         sprites = DeleteGuide;
         SetImage();
         CloseLRButton();
@@ -181,6 +196,7 @@ public class GuideMenu : MonoBehaviour
     /// </summary>
     public void OnTimelineGuide()
     {
+        playSound.PlaySE(PlaySound.SE_TYPE.enter);
         sprites = TimelineGuide;
         SetImage();
         CloseLRButton();
@@ -192,6 +208,7 @@ public class GuideMenu : MonoBehaviour
     /// </summary>
     public void OnMoveGroundGuide()
     {
+        playSound.PlaySE(PlaySound.SE_TYPE.enter);
         sprites = MoveGroundGuide;
         SetImage();
         SetLRButton();
@@ -203,6 +220,7 @@ public class GuideMenu : MonoBehaviour
     /// </summary>
     public void OnCardGuide()
     {
+        playSound.PlaySE(PlaySound.SE_TYPE.enter);
         sprites = CardGuide;
         SetImage();
         CloseLRButton();
@@ -214,6 +232,7 @@ public class GuideMenu : MonoBehaviour
     /// </summary>
     public void OnCutGuide()
     {
+        playSound.PlaySE(PlaySound.SE_TYPE.enter);
         sprites = CutGuide;
         SetImage();
         CloseLRButton();
@@ -246,5 +265,6 @@ public class GuideMenu : MonoBehaviour
         LButton.SetActive(false);
         RButton.SetActive(false);
     }
+
 
 }

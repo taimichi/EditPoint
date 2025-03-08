@@ -44,7 +44,6 @@ public class GameManager : MonoBehaviour
         if (nowSceneName.Contains("Stage"))
         {
             timeBar = GameObject.Find("Timebar").GetComponent<TimeBar>();
-            playSound.PlayBGM(PlaySound.BGM_TYPE.stage1);
             playSound.PlaySE(PlaySound.SE_TYPE.start);
 
             backGround = GameObject.Find("BackGroundImage").GetComponent<Image>();
@@ -53,19 +52,26 @@ public class GameManager : MonoBehaviour
             {
                 case string name when name.Contains("Stage1"):
                     backGround.sprite = sprites[0];
+                    playSound.PlayBGM(PlaySound.BGM_TYPE.noon);
 
                     break;
 
                 case string name when name.Contains("Stage2"):
                     backGround.sprite = sprites[0];
+                    playSound.PlayBGM(PlaySound.BGM_TYPE.noon);
+
                     break;
 
                 case string name when name.Contains("Stage3"):
                     backGround.sprite = sprites[1];
+                    playSound.PlayBGM(PlaySound.BGM_TYPE.evening);
+
                     break;
 
                 case string name when name.Contains("Stage4"):
                     backGround.sprite = sprites[2];
+                    playSound.PlayBGM(PlaySound.BGM_TYPE.night);
+
                     break;
             }
 

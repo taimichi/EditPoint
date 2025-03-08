@@ -4380,19 +4380,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 8014358231907955315}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 3886019841072937472}
-        m_TargetAssemblyTypeName: ButtonSE, Assembly-CSharp
-        m_MethodName: PlaySE_Develop
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &8014358231907955313
 MonoBehaviour:
   m_ObjectHideFlags: 0
