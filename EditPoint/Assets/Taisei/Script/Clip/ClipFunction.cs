@@ -96,7 +96,7 @@ public class ClipFunction : MonoBehaviour
                 ClipSpeed clipSpeed = Clip.GetComponent<ClipSpeed>();
                 clipSpeed.GetStartWidth(dis);   // 長さ
                 clipSpeed.UpdateSpeed(1f);      // 速さ
-                                                //クリップ(右)
+                //クリップ(右)
                 ClipSpeed newClipSpeed = newClip.GetComponent<ClipSpeed>();
                 newClipSpeed.GetStartWidth(newDis); //長さ
                 newClipSpeed.UpdateSpeed(1f);       //速さ
