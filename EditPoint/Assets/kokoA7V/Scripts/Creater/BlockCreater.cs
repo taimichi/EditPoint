@@ -87,7 +87,6 @@ public class BlockCreater : MonoBehaviour
             {
                 if (Input.GetMouseButtonDown(0))
                 {
-                    Debug.Log("test");
                     marker.SetActive(true);
                     startPosition = mousePosition;
                     bm.isActive = true;
