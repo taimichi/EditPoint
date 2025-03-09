@@ -42,7 +42,7 @@ public class KeyController : MonoBehaviour
     public void KeyReset()
     {
         this.gameObject.SetActive(true);
-        playerItemData.isKey = false;
+        //playerItemData.isKey = false;
         for(int i = 0; i < lockList.Count; i++)
         {
             lockList[i].LockReset();
