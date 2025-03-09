@@ -189,7 +189,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   startLength: 5
   targetImage: {fileID: 4323194755857948600}
-  minWidth: 350
+  minWidth: 70
   maxWidth: 2800
   edgeRange: 40
   isLook: 0
