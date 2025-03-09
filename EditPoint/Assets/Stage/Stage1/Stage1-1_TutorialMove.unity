@@ -7329,7 +7329,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8014358231511110947, guid: 407ea158a887c10498356f692359ce3f, type: 3}
       propertyPath: m_Text
-      value: "\u30FB"
+      value: "\u30FB\u7269\u306E\u79FB\u52D5\u3001\u30B5\u30A4\u30BA\u3001\u89D2\u5EA6\u5909\u66F4\u306E\u307F"
       objectReference: {fileID: 0}
     - target: {fileID: 8014358231608919997, guid: 407ea158a887c10498356f692359ce3f, type: 3}
       propertyPath: m_AnchoredPosition.x

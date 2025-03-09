@@ -7259,11 +7259,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8014358231511110945, guid: 407ea158a887c10498356f692359ce3f, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8014358231511110947, guid: 407ea158a887c10498356f692359ce3f, type: 3}
       propertyPath: m_Text
-      value: "\u30FB\u518D\u751F\u30DC\u30BF\u30F3\u3092\u62BC\u3059\u3068 \u3000\u30D7\u30EC\u30A4\u30E4\u30FC\u304C\u52D5\u304D\u51FA\u3059"
+      value: "\u30FB\u30AF\u30EA\u30C3\u30D7\u64CD\u4F5C\u306E\u307F"
       objectReference: {fileID: 0}
     - target: {fileID: 8014358231608919997, guid: 407ea158a887c10498356f692359ce3f, type: 3}
       propertyPath: m_AnchoredPosition.x
@@ -7599,7 +7599,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8014358232698059624, guid: 407ea158a887c10498356f692359ce3f, type: 3}
       propertyPath: m_Text
-      value: "\u30FB\u64CD\u4F5C\u65B9\u6CD5\u306A\u3069\u306F\u3053\u3061\u3089\u304B\u3089"
+      value: "\u30B9\u30C6\u30FC\u30B8\u30001-6"
       objectReference: {fileID: 0}
     - target: {fileID: 8014358232837590700, guid: 407ea158a887c10498356f692359ce3f, type: 3}
       propertyPath: m_RootOrder

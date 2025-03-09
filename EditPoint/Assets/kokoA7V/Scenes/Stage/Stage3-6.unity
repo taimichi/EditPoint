@@ -460,7 +460,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8014358231511110947, guid: 407ea158a887c10498356f692359ce3f, type: 3}
       propertyPath: m_Text
-      value: "\u30FB\u5909\u66F4\u3057\u305F\u3044\u9001\u98A8\u6A5F\u3092\n\u3000\u30AF\u30EA\u30C3\u30AF\u3067\u9078\u629E"
+      value: "\u30FB\u6A5F\u80FD\u5236\u9650\u306A\u3057\uFF01"
       objectReference: {fileID: 0}
     - target: {fileID: 8014358231608919998, guid: 407ea158a887c10498356f692359ce3f, type: 3}
       propertyPath: clpObj
@@ -472,7 +472,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8014358231705053396, guid: 407ea158a887c10498356f692359ce3f, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8014358231705053398, guid: 407ea158a887c10498356f692359ce3f, type: 3}
       propertyPath: m_Text
@@ -768,7 +768,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8014358232698059624, guid: 407ea158a887c10498356f692359ce3f, type: 3}
       propertyPath: m_Text
-      value: "\u30FB\u9001\u98A8\u6A5F\u306F\u5411\u304D\u3092\u5909\u3048\u3089\u308C\u308B\n\u3000\u30DE\u30A6\u30B9\u30DB\u30A4\u30FC\u30EB\u3067\u5411\u304D\u5909\u66F4"
+      value: "\u30B9\u30C6\u30FC\u30B8\u30003-6"
       objectReference: {fileID: 0}
     - target: {fileID: 8014358232837590700, guid: 407ea158a887c10498356f692359ce3f, type: 3}
       propertyPath: m_RootOrder
@@ -6651,6 +6651,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 217963949539351819, guid: a21fe513849ddc64e93385872eb3335d, type: 3}
+      propertyPath: lookFlags
+      value: 32
+      objectReference: {fileID: 0}
     - target: {fileID: 2126423836645193108, guid: a21fe513849ddc64e93385872eb3335d, type: 3}
       propertyPath: _camera
       value: 
