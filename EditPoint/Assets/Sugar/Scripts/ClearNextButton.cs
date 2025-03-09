@@ -11,10 +11,14 @@ public class ClearNextButton : MonoBehaviour
     string NextStageName;
 
     bool Click = false;
+
+    private PlaySound playSound;
+
     void Start()
     {
         // Œ»İ‚ÌƒV[ƒ“–¼‚ğæ“¾
         nowStageName = SceneManager.GetActiveScene().name;
+        playSound = GameObject.Find("AudioCanvas").GetComponent<PlaySound>();
     }
 
     // Update is called once per frame
@@ -44,6 +48,7 @@ public class ClearNextButton : MonoBehaviour
     {
         if (Click) { return; }
         Click = true;
-        fade.FadeIn(0.5f, () => SceneManager.LoadScene(NextStageName));
+        playSound.PlaySE(PlaySound.SE_TYPE.sceneChange);
+        fade.FadeIn(1.5f, () => SceneManager.LoadScene(NextStageName));
     }
 }

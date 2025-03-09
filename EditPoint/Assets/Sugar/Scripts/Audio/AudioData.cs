@@ -9,10 +9,10 @@ public class AudioData : MonoBehaviour
     public static AudioData instance;
 
     // 音量のデータ
-    // 初期音量は１ ⇒　BGMちょっとデカかったので0.15に調整しましたbyたいせい
+    // 初期音量は１ ⇒ 初期音量調整しましたbyたいせい
     private float volumeMASTER=1.0f;
-    private float volumeBGM=0.15f;
-    private float volumeSE=0.2f;
+    private float volumeBGM=0.5f;
+    private float volumeSE=0.5f;
 
     private void Awake()
     {

@@ -94,12 +94,13 @@ public class ClipFunction : MonoBehaviour
                 //クリップの長さと速さの初期値を設定
                 //クリップ(左)
                 ClipSpeed clipSpeed = Clip.GetComponent<ClipSpeed>();
+                float nowSpeed = clipSpeed.ReturnPlaySpeed();
                 clipSpeed.GetStartWidth(dis);   // 長さ
-                clipSpeed.UpdateSpeed(1f);      // 速さ
+                clipSpeed.UpdateSpeed(nowSpeed);      // 速さ
                 //クリップ(右)
                 ClipSpeed newClipSpeed = newClip.GetComponent<ClipSpeed>();
                 newClipSpeed.GetStartWidth(newDis); //長さ
-                newClipSpeed.UpdateSpeed(1f);       //速さ
+                newClipSpeed.UpdateSpeed(nowSpeed);       //速さ
 
                 newClipPlay.CalculationMaxTime();
                 new_maxTime = newClipPlay.ReturnMaxTime();
