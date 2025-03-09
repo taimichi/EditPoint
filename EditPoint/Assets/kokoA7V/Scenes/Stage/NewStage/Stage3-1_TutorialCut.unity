@@ -1462,6 +1462,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 217963949539351819, guid: a21fe513849ddc64e93385872eb3335d, type: 3}
+      propertyPath: lookFlags
+      value: 51
+      objectReference: {fileID: 0}
     - target: {fileID: 2126423836645193108, guid: a21fe513849ddc64e93385872eb3335d, type: 3}
       propertyPath: _camera
       value: 
@@ -6708,6 +6712,14 @@ PrefabInstance:
     - target: {fileID: 3343774879042635853, guid: 407ea158a887c10498356f692359ce3f, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 3422465424469360283, guid: 407ea158a887c10498356f692359ce3f, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3422465425267610121, guid: 407ea158a887c10498356f692359ce3f, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3811232130858818866, guid: 407ea158a887c10498356f692359ce3f, type: 3}
       propertyPath: m_IsActive
