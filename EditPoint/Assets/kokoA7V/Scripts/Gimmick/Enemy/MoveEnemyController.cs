@@ -79,6 +79,11 @@ public class MoveEnemyController : MonoBehaviour
             }
             timer = pathTime[nowPath];
         }
+
+        // “®‚¢‚Ä‚é•ûŒü‚ÉŒ©‚½–Ú•ÏX
+        Vector3 dir = this.transform.localScale;
+        dir.x = Mathf.Sign(dist.x) * -2;
+        this.transform.localScale = dir;
     }
 
 }
