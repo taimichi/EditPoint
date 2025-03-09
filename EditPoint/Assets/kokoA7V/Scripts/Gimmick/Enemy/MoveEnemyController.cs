@@ -82,7 +82,7 @@ public class MoveEnemyController : MonoBehaviour
 
         // “®‚¢‚Ä‚é•ûŒü‚ÉŒ©‚½–Ú•ÏX
         Vector3 dir = this.transform.localScale;
-        dir.x = Mathf.Sign(dist.x) * -2;
+        dir.x = Mathf.Sign(dist.x) * -1;
         this.transform.localScale = dir;
     }
 
