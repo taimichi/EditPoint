@@ -2106,7 +2106,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65896a62c6891954180eb47edc6180b7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  std: {fileID: 11400000, guid: 9026cc16e748e894ea99fb26986976e6, type: 2}
+  std: {fileID: 11400000, guid: cc1a0f0955f69b84499a42c1621119fa, type: 2}
   fade: {fileID: 0}
 --- !u!114 &386557679
 MonoBehaviour:
@@ -2120,7 +2120,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65896a62c6891954180eb47edc6180b7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  std: {fileID: 11400000, guid: 9026cc16e748e894ea99fb26986976e6, type: 2}
+  std: {fileID: 11400000, guid: cc1a0f0955f69b84499a42c1621119fa, type: 2}
   fade: {fileID: 2668471610414793107}
 --- !u!1 &4236125589936076818
 GameObject:

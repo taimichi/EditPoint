@@ -32,6 +32,7 @@ public class PlaySound : MonoBehaviour
         death,      //€–S
         develop,    //ŠJ”­’†
         fall,       //—‰º
+        sceneChange,//ê–Ê“]Š·
     }
 
     public enum BGM_TYPE

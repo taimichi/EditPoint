@@ -1233,6 +1233,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: d6d908b68dfcb80459531abc7a8cb39d, type: 3}
   - {fileID: 8300000, guid: 9439f0c8e7544c24cad444d995ab5649, type: 3}
   - {fileID: 8300000, guid: f46c242cf495b4c41a65b36cb23ab475, type: 3}
+  - {fileID: 8300000, guid: f3d54ea0ae2d3fa4b855db6251e7ba70, type: 3}
   clipMusic:
   - {fileID: 8300000, guid: f07c6e77202edcc47b7c29768d1aeef3, type: 3}
   - {fileID: 8300000, guid: 9cc576c293fc1b44a8ce023d91449536, type: 3}

@@ -33,8 +33,9 @@ public class TitleButton : MonoBehaviour
         if (Input.GetMouseButtonDown(0) || Input.GetMouseButtonDown(1))
         {
             playSound.PlaySE(PlaySound.SE_TYPE.enter);
+            playSound.PlaySE(PlaySound.SE_TYPE.sceneChange);
             // フェード
-            fade.FadeIn(0.5f, () => {
+            fade.FadeIn(1.5f, () => {
                 SceneManager.LoadSceneAsync("Talk");
             });
         }
