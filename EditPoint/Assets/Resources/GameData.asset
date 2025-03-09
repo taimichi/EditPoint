@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: GameData
   m_EditorClassIdentifier: 
   isPlayNow: 0
-  isTimebarReset: 1
+  isTimebarReset: 0
   isLimitTime: 0
-  isClear: 1
+  isClear: 0
