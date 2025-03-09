@@ -19,8 +19,12 @@ public class GameManager : MonoBehaviour
     //タイトル画面のみ(デバッグ用)
     private bool isDebug = false;
 
+    //背景
     private Image backGround;
+    //背景画像
     [Foldout("Sprite"), SerializeField] private Sprite[] sprites;
+
+    private List<KeyController> KeyScripts = new List<KeyController>();
 
     private void Awake()
     {
@@ -166,7 +170,7 @@ public class GameManager : MonoBehaviour
                     playSound.PlayBGM(PlaySound.BGM_TYPE.talk);
                     //フェードアウト処理
                     Fade fade = GameObject.Find("GameFade").GetComponent<Fade>();
-                    fade.FadeOut(1.5f);
+                    fade.FadeOut(1.0f);
                     break;
 
                 case "Select":
@@ -226,5 +230,17 @@ public class GameManager : MonoBehaviour
         GameData.GameEntity.isPlayNow = false;
         GameData.GameEntity.isTimebarReset = true;
         GameData.GameEntity.isLimitTime = false;
+        if(KeyScripts.Count != 0)
+        {
+            for(int i= 0; i < KeyScripts.Count; i++)
+            {
+                KeyScripts[i].KeyReset();
+            }
+        }
+    }
+
+    public void AddKeyList(KeyController _keyController)
+    {
+        KeyScripts.Add(_keyController);
     }
 }
