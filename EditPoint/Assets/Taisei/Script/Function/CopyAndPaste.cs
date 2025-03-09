@@ -79,9 +79,10 @@ public class CopyAndPaste : MonoBehaviour
                 if (Input.GetMouseButtonDown(0))
                 {
                     playSound.PlaySE(PlaySound.SE_TYPE.paste);
+                    //“–‚½‚è”»’è‚ğŒ³‚É–ß‚·
                     if (CopyObj.name.Contains("Blower"))
                     {
-                        PasteObj.transform.GetComponent<Collider2D>().isTrigger = false;
+                        //‘—•—‹@‚Í‰½‚à‚µ‚È‚¢
                     }
                     else
                     {
@@ -201,9 +202,10 @@ public class CopyAndPaste : MonoBehaviour
         if (pasteNum > 0)
         {
             PasteObj = Instantiate(CopyObj);
+            //Õ“Ë”»’è‚ğ‚È‚­‚·
             if(CopyObj.name.Contains("Blower"))
             {
-                PasteObj.transform.GetComponent<Collider2D>().isTrigger = true;
+                //‘—•—‹@‚Í‰½‚à‚µ‚È‚¢
             }
             else
             {
