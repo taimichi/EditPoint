@@ -126,6 +126,41 @@ public class ClipOperation : MonoBehaviour, IDragHandler, IBeginDragHandler, IEn
     }
     private void Start()
     {
+        //リサイズ用
+        onetick = TimelineData.TimelineEntity.oneResize;
+
+        //クリップ移動用
+        oneWidth = TimelineData.TimelineEntity.oneTickWidth;
+        oneHeight = TimelineData.TimelineEntity.oneTickHeight;
+
+        //タイムラインの端のRectTransform取得
+        rect_UpLeft = GameObject.Find("UpLeftOutLine").GetComponent<RectTransform>();
+        rect_DownRight = GameObject.Find("DownRightOutLine").GetComponent<RectTransform>();
+
+        playSound = GameObject.Find("AudioCanvas").GetComponent<PlaySound>();
+
+        functionLook = GameObject.FindWithTag("GameManager").GetComponent<FunctionLookManager>();
+
+        //初期の長さ
+        targetImage.sizeDelta = new Vector2(
+            startLength * onetick * 2, targetImage.sizeDelta.y
+            );
+
+        //クリップの位置を調整
+        CalculationWidth(targetImage.localPosition.x);
+        CalculationHeight(targetImage.localPosition.y);
+        CheckWidth();
+        CheckHeight();
+        targetImage.localPosition = new Vector3(newWidth, newPosY, 0);
+        startSize = targetImage.sizeDelta;
+        targetImage.sizeDelta = new Vector2(startSize.x, startSize.y);
+
+        //子オブジェクトの順番を変更
+        int childNum = targetImage.parent.transform.childCount;
+        transform.SetSiblingIndex(childNum - 3);
+
+        ClipImage = this.gameObject.GetComponent<Image>();
+
         //クリップの画像を変更
         if (!isLook)
         {

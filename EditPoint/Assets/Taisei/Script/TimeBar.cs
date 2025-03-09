@@ -36,6 +36,18 @@ public class TimeBar : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragH
 
     void Start()
     {
+        TimeData.TimeEntity.isDragMode = isDragMode;
+        TimeData.TimeEntity.nowTime = nowTime;
+        barPos = this.gameObject.GetComponent<RectTransform>();
+        startPos = barPos.localPosition;
+
+        limit = TLManager.ReturnTimebarLimit();
+
+        limitPosX = startPos.x + (limit * 2 * TimelineData.TimelineEntity.oneTickWidth);
+
+        transform.SetAsLastSibling();
+
+
         nowPos = barPos.localPosition;
 
         plController = GameObject.Find("Player").GetComponent<PlayerController>();
