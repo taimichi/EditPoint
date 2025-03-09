@@ -38,6 +38,7 @@ public class MoveEnemyController : MonoBehaviour
 
     private void PathReset()
     {
+        nowPath = 0;
         this.transform.position = pathPosition[nowPath];
         timer = pathTime[nowPath];
     }
