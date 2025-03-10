@@ -101,8 +101,13 @@ public class BlockCreater : MonoBehaviour
                     {
                         if (ModeData.ModeEntity.mode == ModeData.Mode.create)
                         {
+                            Vector3 PlPos = GameObject.Find("Player").transform.position;
+
+                            float dis = Vector3.Distance(PlPos, mousePosition);
+
                             //マーカーがプレイヤーと触れてないとき
-                            if (!bm.ReturnHitPL())
+                            //またはクリックした位置がプレイヤーから半径1.5より離れてる時
+                            if (!bm.ReturnHitPL() && dis > 1.5f)
                             {
                                 CreateBlock();
                             }

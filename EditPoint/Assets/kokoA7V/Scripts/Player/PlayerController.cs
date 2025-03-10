@@ -185,6 +185,11 @@ public class PlayerController : MonoBehaviour
 
     public void OnPlayerReset()
     {
+        if(this.transform.parent != null)
+        {
+            this.transform.parent = null;
+        }
+
         Vector3 scale = this.transform.localScale;
         scale.x = Mathf.Abs(scale.x) * 1;
         this.transform.localScale = scale;

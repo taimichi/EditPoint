@@ -20,14 +20,17 @@ public class GimmickObjectGetter : MonoBehaviour
 
     private void Update()
     {
-
-        if (Input.GetMouseButtonDown(0))
+        //çƒê∂ÇµÇƒÇ¢Ç»Ç¢Ç∆Ç´
+        if (!GameData.GameEntity.isPlayNow)
         {
-            GimmickObjGet(false);
-        }
-        else if (Input.GetMouseButtonDown(1))
-        {
-            GimmickObjGet(true);
+            if (Input.GetMouseButtonDown(0))
+            {
+                GimmickObjGet(false);
+            }
+            else if (Input.GetMouseButtonDown(1))
+            {
+                GimmickObjGet(true);
+            }
         }
     }
 
