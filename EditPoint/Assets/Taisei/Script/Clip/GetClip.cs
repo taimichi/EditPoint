@@ -16,7 +16,6 @@ public class GetClip : MonoBehaviour
     private bool isTagHit;
 
     private SelectDelete deleteScript;
-    private bool isButton = false;          //デリートボタンをクリックしたかどうか
 
     void Start()
     {
@@ -89,6 +88,15 @@ public class GetClip : MonoBehaviour
                 //クリップだったときの処理
                 else
                 {
+                    //ロックされたクリップのとき
+                    if(result.gameObject.TryGetComponent<ClipOperation>(out var operation))
+                    {
+                        if (operation.CheckIsLook())
+                        {
+                            return;
+                        }
+                    }
+
                     if (Clip != null && Clip != result.gameObject)
                     {
                         BlinkImageObj.SetActive(false);
