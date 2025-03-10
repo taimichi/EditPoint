@@ -92,7 +92,6 @@ public class BlockCreater : MonoBehaviour
 
                     if (hit2d == true && hit2d.collider.tag == "UnCreateArea")
                     {
-                        Debug.Log("ttttt");
                         return;
                     }
                     else
