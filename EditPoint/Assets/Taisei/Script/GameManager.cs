@@ -145,7 +145,7 @@ public class GameManager : MonoBehaviour
                         break;
 
                     case string name when name.Contains("Cut"):
-                        if((TutorialData.TutorialEntity.frags |= TutorialData.Tutorial_Frags.cut) == 0)
+                        if((TutorialData.TutorialEntity.frags & TutorialData.Tutorial_Frags.cut) == 0)
                         {
                             quick.StartGuide("Cut");
                             TutorialData.TutorialEntity.frags |= TutorialData.Tutorial_Frags.cut;

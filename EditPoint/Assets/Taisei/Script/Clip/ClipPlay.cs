@@ -326,7 +326,7 @@ public class ClipPlay : MonoBehaviour
                 MGManager.DeleteMoveGrounds(ConnectObj[i]);
             }
             Destroy(ConnectObj[i]);
-            ConnectObj.Remove(ConnectObj[i]);
+            Debug.Log("test");
         }
     }
 

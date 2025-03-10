@@ -122,7 +122,6 @@ public class GetClip : MonoBehaviour
             Destroy(Clip);
             Clip = null;
         }
-
     }
 
     /// <summary>
