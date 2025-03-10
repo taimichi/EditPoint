@@ -21,7 +21,8 @@ public class ClipFunction : MonoBehaviour
 
     private PlaySound playSound;
 
-    private void Awake()
+
+    private void Start()
     {
         functionLook = GameObject.FindWithTag("GameManager").GetComponent<FunctionLookManager>();
         playSound = GameObject.Find("AudioCanvas").GetComponent<PlaySound>();

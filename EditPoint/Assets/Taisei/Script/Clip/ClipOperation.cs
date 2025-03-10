@@ -141,10 +141,6 @@ public class ClipOperation : MonoBehaviour, IDragHandler, IBeginDragHandler, IEn
 
         functionLook = GameObject.FindWithTag("GameManager").GetComponent<FunctionLookManager>();
 
-        //初期の長さ
-        targetImage.sizeDelta = new Vector2(
-            startLength * onetick * 2, targetImage.sizeDelta.y
-            );
 
         //クリップの位置を調整
         CalculationWidth(targetImage.localPosition.x);
