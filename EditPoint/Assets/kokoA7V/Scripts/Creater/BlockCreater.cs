@@ -87,13 +87,25 @@ public class BlockCreater : MonoBehaviour
             {
                 if (Input.GetMouseButtonDown(0))
                 {
-                    marker.SetActive(true);
-                    startPosition = mousePosition;
-                    bm.isActive = true;
-                    isDrag = true;
+                    Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+                    RaycastHit2D hit2d = Physics2D.Raycast((Vector2)ray.origin, (Vector2)ray.direction);
+
+                    if (hit2d == true && hit2d.collider.tag == "UnCreateArea")
+                    {
+                        Debug.Log("ttttt");
+                        return;
+                    }
+                    else
+                    {
+                        marker.SetActive(true);
+                        startPosition = mousePosition;
+                        bm.isActive = true;
+                        isDrag = true;
+
+                    }
                 }
 
-                if (Input.GetMouseButtonUp(0))
+                if (Input.GetMouseButtonUp(0) && marker.activeSelf)
                 {
                     endPosition = mousePosition;
 
