@@ -3,6 +3,8 @@ using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using System;
 using Pixeye.Unity;
+using System.Collections;
+using System.Collections.Generic;
 
 public class ClipOperation : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHandler
 {
@@ -80,12 +82,14 @@ public class ClipOperation : MonoBehaviour, IDragHandler, IBeginDragHandler, IEn
     //クリップがタイムラインの外に出たか
     private bool isOut = false;
 
-    [SerializeField] private bool isLook = false;
+    [SerializeField, Header("干渉可能かどうか false=可能 / true=不可")] private bool isLook = false;
 
     [Foldout("Sprite"), SerializeField] private Sprite ActiveClipSprite;
     [Foldout("Sprite"), SerializeField] private Sprite NoActiveClipSprite;
 
     private Image ClipImage;
+
+    private ClipEdwardPanel selectPanel;
 
     private void Awake()
     {
@@ -140,6 +144,9 @@ public class ClipOperation : MonoBehaviour, IDragHandler, IBeginDragHandler, IEn
         playSound = GameObject.Find("AudioCanvas").GetComponent<PlaySound>();
 
         functionLook = GameObject.FindWithTag("GameManager").GetComponent<FunctionLookManager>();
+
+        selectPanel = GameObject.Find("SelectPanel").GetComponent<ClipEdwardPanel>();
+        selectPanel.SelectPanelActive(false);
 
 
         //クリップの位置を調整
@@ -231,6 +238,8 @@ public class ClipOperation : MonoBehaviour, IDragHandler, IBeginDragHandler, IEn
 
         if ((functionLook.FunctionLook & LookFlags.ClipAccess) == 0)
         {
+            startPos = this.transform.localPosition;
+
             initSizeDelta = targetImage.sizeDelta;
             RectTransformUtility.ScreenPointToLocalPointInRectangle(
                 targetImage,
@@ -369,39 +378,49 @@ public class ClipOperation : MonoBehaviour, IDragHandler, IBeginDragHandler, IEn
 
         if ((functionLook.FunctionLook & LookFlags.ClipAccess) == 0)
         {
-            //ピボットを初期のものに
-            SetPivot(targetImage, new Vector2(0, 0.5f));
-            //重なった場合
-            GetClipRect();
-            for (int i = 0; i < ClipsRect.Length; i++)
-            {
-                ClipsRect[i].localPosition = new Vector3(
-                    ClipsRect[i].localPosition.x, ClipsRect[i].localPosition.y, ClipsRect[i].localPosition.z);
-
-                if (checkOverlap.IsOverlap(targetImage, ClipsRect[i]))
-                {
-                    //同じオブジェクトじゃないとき
-                    if (targetImage.name != Clips[i].name)
-                    {
-                        Debug.Log("重なった");
-                        targetImage.localPosition = startPos;
-                    }
-                }
-            }
-
             //クリップがタイムラインの外に出た時
             if (isOut)
             {
                 targetImage.localPosition = startPos;
                 isOut = false;
             }
-            
-            startPos = this.transform.localPosition;
 
+            //ピボットを初期のものに
+            SetPivot(targetImage, new Vector2(0, 0.5f));
+            GetClipRect();
+            //重なったかどうか
+            for (int i = 0; i < ClipsRect.Length; i++)
+            {
+                ClipsRect[i].localPosition = new Vector3(
+                    ClipsRect[i].localPosition.x, ClipsRect[i].localPosition.y, ClipsRect[i].localPosition.z);
+
+                //重なった時
+                if (checkOverlap.IsOverlap(targetImage, ClipsRect[i]))
+                {
+                    //同じオブジェクトじゃないとき
+                    if (targetImage.name != Clips[i].name)
+                    {
+                        Debug.Log("重なった");
+
+                        //重なったクリップが干渉不能なクリップじゃないとき
+                        ClipOperation overRapClip = Clips[i].GetComponent<ClipOperation>();
+                        if (!overRapClip.CheckIsLook())
+                        {
+                            StartCoroutine(CheckClipEdward(Clips[i]));
+                        }
+                        else
+                        {
+                            targetImage.localPosition = startPos;
+                        }
+                        break;
+                    }
+                }
+            }
+            
             if (mode != CLIP_MODE.normal)
             {
                 playSound.PlaySE(PlaySound.SE_TYPE.objMove);
-                //タイムラインの左端とクリップが重なってる場合
+                //クリップがタイムラインの左端を超えてる時
                 if (targetImage.localPosition.x < rect_UpLeft.localPosition.x)
                 {
                     Debug.Log("左重なった");
@@ -411,7 +430,7 @@ public class ClipOperation : MonoBehaviour, IDragHandler, IBeginDragHandler, IEn
                         ReCalculationSize();
                     }
                 }
-                //タイムラインの右端とクリップが重なってる場合
+                //クリップがタイムラインの右端を超えてる時
                 else if (targetImage.localPosition.x + targetImage.sizeDelta.x > rect_DownRight.localPosition.x)
                 {
                     Debug.Log("右重なった");
@@ -425,6 +444,59 @@ public class ClipOperation : MonoBehaviour, IDragHandler, IBeginDragHandler, IEn
                 mode = CLIP_MODE.normal;
             }
         }
+
+    }
+
+    /// <summary>
+    /// クリップを合成するかしないかを決める
+    /// 引数には重なったクリップを入れる
+    /// </summary>
+    IEnumerator CheckClipEdward(GameObject _clip)
+    {
+        selectPanel.SelectPanelActive(true);
+        //選択がされるまでストップ
+        yield return new WaitUntil(() => selectPanel.ReturnOnClick() == true);
+
+        //選択されたら↓
+
+        //合成するかどうか
+        //いいえのとき
+        if (!selectPanel.ReturnSelect())
+        {
+            Debug.Log("元に戻すよ");
+            targetImage.localPosition = startPos;
+        }
+        //はいのとき
+        else
+        {
+            Debug.Log("合成するよ");
+            ClipEdward(_clip);
+        }
+
+        selectPanel.SelectPanelActive(false);
+    }
+
+    /// <summary>
+    /// クリップを合成
+    /// </summary>
+    private void ClipEdward(GameObject _clip)
+    {
+        //重なったクリップ
+        ClipPlay overRapClip = _clip.GetComponent<ClipPlay>();
+
+        //このクリップ
+        ClipPlay thisClip = this.gameObject.GetComponent<ClipPlay>();
+        //このクリップに紐づいているオブジェクトを取得
+        List<GameObject> connectObj = thisClip.ReturnConnectObj();
+        
+        //重なったクリップに現在持っているクリップに紐づけられたオブジェクトを移す
+        for(int i = 0; i < connectObj.Count; i++)
+        {
+            overRapClip.OutGetObj(connectObj[i]);
+        }
+
+        //このクリップを削除
+        Destroy(this.gameObject);
 
     }
 
@@ -511,7 +583,7 @@ public class ClipOperation : MonoBehaviour, IDragHandler, IBeginDragHandler, IEn
         }
         else
         {
-            Debug.Log("左右超えてない");
+            //Debug.Log("左右超えてない");
         }
     }
 
@@ -534,7 +606,7 @@ public class ClipOperation : MonoBehaviour, IDragHandler, IBeginDragHandler, IEn
         }
         else
         {
-            Debug.Log("上下超えてない");
+            //Debug.Log("上下超えてない");
         }
     }
 
