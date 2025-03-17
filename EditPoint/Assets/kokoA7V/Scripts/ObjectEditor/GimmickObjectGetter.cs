@@ -23,13 +23,16 @@ public class GimmickObjectGetter : MonoBehaviour
         //çƒê∂ÇµÇƒÇ¢Ç»Ç¢Ç∆Ç´
         if (!GameData.GameEntity.isPlayNow)
         {
-            if (Input.GetMouseButtonDown(0))
+            if(ModeData.ModeEntity.mode == ModeData.Mode.normal)
             {
-                GimmickObjGet(false);
-            }
-            else if (Input.GetMouseButtonDown(1))
-            {
-                GimmickObjGet(true);
+                if (Input.GetMouseButtonDown(0))
+                {
+                    GimmickObjGet(false);
+                }
+                else if (Input.GetMouseButtonDown(1))
+                {
+                    GimmickObjGet(true);
+                }
             }
         }
     }
