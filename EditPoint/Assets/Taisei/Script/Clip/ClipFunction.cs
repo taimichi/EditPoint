@@ -48,6 +48,11 @@ public class ClipFunction : MonoBehaviour
         {
             //クリックしたクリップを取得
             Clip = GetClip.ReturnGetClip();
+            if (Clip == null)
+            {
+                playSound.PlaySE(PlaySound.SE_TYPE.develop);
+                return;
+            }
             //クリップの枠を非表示
             Clip.transform.GetChild(0).gameObject.SetActive(false);
             RectTransform clipRect = Clip.GetComponent<RectTransform>();
@@ -120,6 +125,10 @@ public class ClipFunction : MonoBehaviour
                 }
 
                 playSound.PlaySE(PlaySound.SE_TYPE.cut);
+            }
+            else
+            {
+                playSound.PlaySE(PlaySound.SE_TYPE.develop);
             }
         }
     }
