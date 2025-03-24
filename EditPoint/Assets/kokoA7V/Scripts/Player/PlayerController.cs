@@ -128,13 +128,12 @@ public class PlayerController : MonoBehaviour
         bool isHit = false;
 
         float rayLength = 0.3f;
-        float rayWidth = 0.4f;
+        float rayWidth = 0.3f;
         Vector3 center = this.transform.position;    // 始点
         Vector3 len = Vector3.right * rayLength * inputLR; // 長さ
 
-        // カプセルコライダーの都合上、レイの位置が悪かったので調整
-        //float centerOffset = 0.125f;
-        //center.y += centerOffset;
+        float centerOffset = 0.125f;
+        center.y += centerOffset;
 
         center.y += rayWidth;
 
