@@ -32,23 +32,28 @@ public class GuideMenu : MonoBehaviour
     private Sprite[] sprites;
     private int nowPage = 0;
 
+    //現在表示しているページ数
+    [SerializeField] private Text PageNum;
+
     private PlaySound playSound;
-
-
-    private void Awake()
-    {
-        GuideSprite = GuideImage.GetComponent<Image>();
-        canvas = this.GetComponent<Canvas>();
-        canvas.worldCamera = GameObject.Find("UICamera").GetComponent<Camera>();
-        playSound = GameObject.Find("AudioCanvas").GetComponent<PlaySound>();
-    }
 
 
     void Start()
     {
+        GuideSprite = GuideImage.GetComponent<Image>();
+        canvas = this.GetComponent<Canvas>();
+        if(GameObject.Find("UICamera") != null)
+        {
+            canvas.worldCamera = GameObject.Find("UICamera").GetComponent<Camera>();
+        }
+        playSound = GameObject.Find("AudioCanvas").GetComponent<PlaySound>();
+
+
         CloseLRButton();
         GuideImage.SetActive(false);
         GuideMenuObj.SetActive(false);
+
+        PageNum.enabled = false;
     }
 
     /// <summary>
@@ -85,10 +90,13 @@ public class GuideMenu : MonoBehaviour
         if (nowPage <= 0)
         {
             LButton.SetActive(false);
+            nowPage = 0;
         }
         RButton.SetActive(true);
 
         GuideSprite.sprite = sprites[nowPage];
+
+        PageNum.text = (nowPage + 1).ToString() + " / " + sprites.Length;
     }
 
     /// <summary>
@@ -101,10 +109,13 @@ public class GuideMenu : MonoBehaviour
         if(nowPage >= sprites.Length -1)
         {
             RButton.SetActive(false);
+            nowPage = sprites.Length - 1;
         }
         LButton.SetActive(true);
 
         GuideSprite.sprite = sprites[nowPage];
+
+        PageNum.text = (nowPage + 1).ToString() + " / " + sprites.Length;
     }
 
     /// <summary>
@@ -255,6 +266,9 @@ public class GuideMenu : MonoBehaviour
     {
         LButton.SetActive(false);
         RButton.SetActive(true);
+
+        PageNum.enabled = true;
+        PageNum.text = (nowPage + 1).ToString() + " / " + sprites.Length;
     }
 
     /// <summary>
@@ -264,6 +278,8 @@ public class GuideMenu : MonoBehaviour
     {
         LButton.SetActive(false);
         RButton.SetActive(false);
+
+        PageNum.enabled = false;
     }
 
 

@@ -35,6 +35,5 @@ public class TextFade : MonoBehaviour
                 }
                 break;
         }
-        Debug.Log(num);
     }
 }
