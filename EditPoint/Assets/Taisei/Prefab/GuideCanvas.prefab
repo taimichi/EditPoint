@@ -2563,6 +2563,7 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 2a8012687f566d84c90b55eaba01f6ed, type: 3}
   - {fileID: 21300000, guid: 0fe8dd0d0a5bb9048a8f9390d450b882, type: 3}
   - {fileID: 21300000, guid: 4340b133c3cf8ef4c95dae40a19dfe28, type: 3}
+  - {fileID: 21300000, guid: b08949212f4ce734b9d8b1c56a59d098, type: 3}
   BlockGeneGuide:
   - {fileID: 21300000, guid: 2d4a578431655d04ea6b5bfbbcab3bab, type: 3}
   CopyGuide:
