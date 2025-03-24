@@ -27,6 +27,7 @@ public class GuideMenu : MonoBehaviour
     [Foldout("Sprite")] [SerializeField] private Sprite[] MoveGroundGuide;
     [Foldout("Sprite")] [SerializeField] private Sprite[] CardGuide;
     [Foldout("Sprite")] [SerializeField] private Sprite[] CutGuide;
+    [Foldout("Sprite")] [SerializeField] private Sprite[] OtherGuide;
     #endregion
 
     private Sprite[] sprites;
@@ -245,6 +246,14 @@ public class GuideMenu : MonoBehaviour
     {
         playSound.PlaySE(PlaySound.SE_TYPE.enter);
         sprites = CutGuide;
+        SetImage();
+        CloseLRButton();
+    }
+
+    public void OnOtherGuide()
+    {
+        playSound.PlaySE(PlaySound.SE_TYPE.enter);
+        sprites = OtherGuide;
         SetImage();
         CloseLRButton();
     }
