@@ -225,6 +225,7 @@ MonoBehaviour:
   clipName: {fileID: 4323194755795921081}
   ConnectObj: []
   clipSpeed: {fileID: 4323194755857948604}
+  materialsData: {fileID: 11400000, guid: 2705b0d92f0f2524196b095c86996a76, type: 2}
 --- !u!1 &9174298150372608419
 GameObject:
   m_ObjectHideFlags: 0

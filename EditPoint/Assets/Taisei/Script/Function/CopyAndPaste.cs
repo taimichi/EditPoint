@@ -34,7 +34,7 @@ public class CopyAndPaste : MonoBehaviour
     private PlaySound playSound;
 
     private ClipPlay clipPlay;
-    private GetCopyObj gco;
+    private GetConnectClip gco;
 
     private FunctionLookManager functionLook;
 
@@ -92,9 +92,9 @@ public class CopyAndPaste : MonoBehaviour
                             PasteObj.GetComponent<Collider2D>().isTrigger = false;
                         }
 
-                        if (CopyObj.GetComponent<GetCopyObj>() == true)
+                        if (CopyObj.GetComponent<GetConnectClip>() == true)
                         {
-                            gco = CopyObj.GetComponent<GetCopyObj>();
+                            gco = CopyObj.GetComponent<GetConnectClip>();
                             clipPlay = gco.ReturnAttachClip().GetComponent<ClipPlay>();
                             clipPlay.OutGetObj(PasteObj);
                         }

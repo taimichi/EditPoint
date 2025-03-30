@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GetCopyObj : MonoBehaviour
+public class GetConnectClip : MonoBehaviour
 {
     private GameObject attachClip;
 
@@ -15,8 +15,9 @@ public class GetCopyObj : MonoBehaviour
         attachClip = _clip;
     }
 
-    public GameObject ReturnAttachClip()
-    {
-        return attachClip;
-    }
+    /// <summary>
+    /// 紐づけられたクリップを返す
+    /// </summary>
+    /// <returns>このスクリプトがついているオブジェクトと紐づいているクリップ</returns>
+    public GameObject ReturnAttachClip() => attachClip;
 }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
+//クリップの再生速度を変更する
 public class ClipSpeed : MonoBehaviour
 {
     [SerializeField, Header("初期のクリップの長さ(700が再生速度1倍)")] private float startWidth = 140f;

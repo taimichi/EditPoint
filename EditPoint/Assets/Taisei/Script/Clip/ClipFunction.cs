@@ -4,6 +4,8 @@ using UnityEngine;
 using UnityEngine.UI;
 using System;
 
+//クリップに関連する機能用
+//カット機能はここで実装
 public class ClipFunction : MonoBehaviour
 {
     [SerializeField] private RectTransform Timebar; //タイムバーのRectTransform

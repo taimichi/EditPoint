@@ -267,10 +267,10 @@ public class GameManager : MonoBehaviour
                 break;
 
             case 2.0f:
-                playSpeed = 4.0f;
+                playSpeed = 2.5f;
                 break;
 
-            case 4.0f:
+            case 2.5f:
                 playSpeed = 1.0f;
                 break;
         }

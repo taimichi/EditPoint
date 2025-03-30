@@ -94,15 +94,15 @@ public class RangeSelection : MonoBehaviour
                     {
                         if(L_SelectedObj[i].layer == LayerMask.NameToLayer("Layer1"))
                         {
-                            L_SelectedObj[i].GetComponent<SpriteRenderer>().material = materials.layerMaterials[3];
+                            L_SelectedObj[i].GetComponent<SpriteRenderer>().material = materials.MaterialData[3];
                         }
                         else if (L_SelectedObj[i].layer == LayerMask.NameToLayer("Layer2"))
                         {
-                            L_SelectedObj[i].GetComponent<SpriteRenderer>().material = materials.layerMaterials[4];
+                            L_SelectedObj[i].GetComponent<SpriteRenderer>().material = materials.MaterialData[4];
                         }
                         else if (L_SelectedObj[i].layer == LayerMask.NameToLayer("Layer3"))
                         {
-                            L_SelectedObj[i].GetComponent<SpriteRenderer>().material = materials.layerMaterials[5];
+                            L_SelectedObj[i].GetComponent<SpriteRenderer>().material = materials.MaterialData[5];
                         }
                     }
                     L_SelectedObj = new List<GameObject>();
@@ -136,7 +136,7 @@ public class RangeSelection : MonoBehaviour
                 targetRenderer.transform.localScale = v3_initScale;
                 for(int i = 0; i < L_SelectedObj.Count; i++)
                 {
-                    L_SelectedObj[i].GetComponent<SpriteRenderer>().material = materials.layerMaterials[6];
+                    L_SelectedObj[i].GetComponent<SpriteRenderer>().material = materials.MaterialData[6];
                 }
             }
 
@@ -223,15 +223,15 @@ public class RangeSelection : MonoBehaviour
         {
             if (L_SelectedObj[i].layer == LayerMask.NameToLayer("Layer1"))
             {
-                L_SelectedObj[i].GetComponent<SpriteRenderer>().material = materials.layerMaterials[3];
+                L_SelectedObj[i].GetComponent<SpriteRenderer>().material = materials.MaterialData[3];
             }
             else if (L_SelectedObj[i].layer == LayerMask.NameToLayer("Layer2"))
             {
-                L_SelectedObj[i].GetComponent<SpriteRenderer>().material = materials.layerMaterials[4];
+                L_SelectedObj[i].GetComponent<SpriteRenderer>().material = materials.MaterialData[4];
             }
             else if (L_SelectedObj[i].layer == LayerMask.NameToLayer("Layer3"))
             {
-                L_SelectedObj[i].GetComponent<SpriteRenderer>().material = materials.layerMaterials[5];
+                L_SelectedObj[i].GetComponent<SpriteRenderer>().material = materials.MaterialData[5];
             }
         }
 

@@ -6,43 +6,48 @@ using Pixeye.Unity;
 using System.Collections;
 using System.Collections.Generic;
 
+//クリップの位置やサイズ、合成などの操作関連
 public class ClipOperation : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHandler
 {
     [Foldout("Start"), SerializeField, Header("クリップの長さ(秒)")]
     private float startLength = 5f;
 
     [SerializeField] private RectTransform targetImage;  //クリップ画像のRectTransform
-    private Vector2 initSizeDelta;
-    private Vector2 initMousePos;
+    private Vector2 biginSizeDelta;             //変更前のクリップの画像サイズ
+    private Vector2 beginMouse_LocalPos;        //クリックしたときのローカル座標
 
-    private Vector2 resizeOffset;
-    private Vector2 moveOffset;
+    private Vector2 resizeOffset;               //変更前と変更後のサイズ差
+    private Vector2 moveOffset;                 //クリップの中心座標からマウス座標の差
 
     private bool isResizeRight;  // 右側をリサイズ中かどうかのフラグ
 
+    //位置を動かさず、Pivotのみを変更するため用の変数
     private Vector2 size;
     private Vector2 deltaPivot;
     private Vector3 deltaPos;
 
-    private Vector2 startSize;
+    private Vector2 startSize;  //初期サイズ
 
     [SerializeField, Header("クリップの最小サイズ")] private float minWidth = 350;
     [SerializeField, Header("クリップの最大サイズ")] private float maxWidth = 1400;
-    private float newWidth;
+    private float newWidth;         //新しいクリップの長さ
 
     [SerializeField, Header("サイズ変更を受け付ける範囲(左右共通)")] private float edgeRange = 10f;
 
     private float dotMove = 0;
     private float onetick;            //サイズ変更時、1回にサイズ変更する量
 
-    private Vector2 mousePos;        //マウスの座標
-    private float dotPosX = 0f;
-    private float dotPosY = 0f;
+    private Vector2 NowMouse_LocalPos;        //マウスの座標
+
+    private float dotPosX = 0f;     //ドット単位移動用　X座標
+    private float newPosX;          //新しいX座標
+    private float dotPosY = 0f;     //ドット単位移動用　Y座標
     private float newPosY;          //新しいY座標
+
     private float oneWidth;           //移動時、一回に移動する量　横
     private float oneHeight;          //移動時、一回に移動する量　縦
 
-    private int resizeCount = 0;
+    private int resizeCount = 0;        //元のサイズからなんマス分変更されたか
 
     private RectTransform rect_UpLeft;    //タイムラインの左上
     private RectTransform rect_DownRight;   //タイムラインの右下
@@ -52,8 +57,10 @@ public class ClipOperation : MonoBehaviour, IDragHandler, IBeginDragHandler, IEn
 
     private Vector3 startPos;   //初期位置
 
+    //クリップが重なっているか計算する用
     private CheckOverlap checkOverlap = new CheckOverlap();
 
+    //機能ロックスクリプト
     private FunctionLookManager functionLook;
 
     /// <summary>
@@ -84,50 +91,26 @@ public class ClipOperation : MonoBehaviour, IDragHandler, IBeginDragHandler, IEn
 
     [SerializeField, Header("干渉可能かどうか false=可能 / true=不可")] private bool isLook = false;
 
-    [Foldout("Sprite"), SerializeField] private Sprite ActiveClipSprite;
-    [Foldout("Sprite"), SerializeField] private Sprite NoActiveClipSprite;
+    #region ClipSprite
+    [Foldout("Sprite"), SerializeField] private Sprite ActiveClipSprite;    //操作可能時のクリップのスプライト
+    [Foldout("Sprite"), SerializeField] private Sprite NoActiveClipSprite;  //操作不可能事のクリップのスプライト
+    #endregion
 
-    private Image ClipImage;
+    private Image ClipImage;    //クリップのImage
 
-    private ClipEdwardPanel selectPanel;
+    private SelectYesNo select_ClipCombine;
 
     private void Awake()
     {
         //リサイズ用
         onetick = TimelineData.TimelineEntity.oneResize;
 
-        //クリップ移動用
-        oneWidth = TimelineData.TimelineEntity.oneTickWidth;
-        oneHeight = TimelineData.TimelineEntity.oneTickHeight;
-
-        //タイムラインの端のRectTransform取得
-        rect_UpLeft = GameObject.Find("UpLeftOutLine").GetComponent<RectTransform>();
-        rect_DownRight = GameObject.Find("DownRightOutLine").GetComponent<RectTransform>();
-
-        playSound = GameObject.Find("AudioCanvas").GetComponent<PlaySound>();
-
-        functionLook = GameObject.FindWithTag("GameManager").GetComponent<FunctionLookManager>();
-
         //初期の長さ
         targetImage.sizeDelta = new Vector2(
             startLength * onetick * 2, targetImage.sizeDelta.y
             );
-
-        //クリップの位置を調整
-        CalculationWidth(targetImage.localPosition.x);
-        CalculationHeight(targetImage.localPosition.y);
-        CheckWidth();
-        CheckHeight();
-        targetImage.localPosition = new Vector3(newWidth, newPosY, 0);
-        startSize = targetImage.sizeDelta;
-        targetImage.sizeDelta = new Vector2(startSize.x, startSize.y);
-
-        //子オブジェクトの順番を変更
-        int childNum = targetImage.parent.transform.childCount;
-        transform.SetSiblingIndex(childNum - 3);
-
-        ClipImage = this.gameObject.GetComponent<Image>();
     }
+
     private void Start()
     {
         //リサイズ用
@@ -145,8 +128,8 @@ public class ClipOperation : MonoBehaviour, IDragHandler, IBeginDragHandler, IEn
 
         functionLook = GameObject.FindWithTag("GameManager").GetComponent<FunctionLookManager>();
 
-        selectPanel = GameObject.Find("SelectPanel").GetComponent<ClipEdwardPanel>();
-        selectPanel.SelectPanelActive(false);
+        select_ClipCombine = GameObject.Find("Selects").GetComponent<SelectYesNo>();
+        select_ClipCombine.SelectPanelActive(false);
 
 
         //クリップの位置を調整
@@ -154,7 +137,7 @@ public class ClipOperation : MonoBehaviour, IDragHandler, IBeginDragHandler, IEn
         CalculationHeight(targetImage.localPosition.y);
         CheckWidth();
         CheckHeight();
-        targetImage.localPosition = new Vector3(newWidth, newPosY, 0);
+        targetImage.localPosition = new Vector3(newPosX, newPosY, 0);
         startSize = targetImage.sizeDelta;
         targetImage.sizeDelta = new Vector2(startSize.x, startSize.y);
 
@@ -179,7 +162,7 @@ public class ClipOperation : MonoBehaviour, IDragHandler, IBeginDragHandler, IEn
         //作成したばっかのクリップの時
         if (this.gameObject.tag == "CreateClip")
         {
-            GetClipRect();
+            GetAllClipRect();
             for (int i = 0; i < ClipsRect.Length; i++)
             {
                 //他のクリップと重なった場合
@@ -225,7 +208,7 @@ public class ClipOperation : MonoBehaviour, IDragHandler, IBeginDragHandler, IEn
 
     private void Update()
     {
-        GetClipRect();
+        GetAllClipRect();
     }
 
     public void OnBeginDrag(PointerEventData eventData)
@@ -240,7 +223,7 @@ public class ClipOperation : MonoBehaviour, IDragHandler, IBeginDragHandler, IEn
         {
             startPos = this.transform.localPosition;
 
-            initSizeDelta = targetImage.sizeDelta;
+            biginSizeDelta = targetImage.sizeDelta;
             RectTransformUtility.ScreenPointToLocalPointInRectangle(
                 targetImage,
                 eventData.position,
@@ -277,7 +260,7 @@ public class ClipOperation : MonoBehaviour, IDragHandler, IBeginDragHandler, IEn
                     (RectTransform)targetImage.parent,
                     eventData.position,
                     eventData.pressEventCamera,
-                    out initMousePos
+                    out beginMouse_LocalPos
                 );
             }
         }
@@ -293,7 +276,17 @@ public class ClipOperation : MonoBehaviour, IDragHandler, IBeginDragHandler, IEn
 
         if ((functionLook.FunctionLook & LookFlags.ClipAccess) == 0)
         {
-            if (mode != CLIP_MODE.resize)
+            //スクリーン座標をRectTransform上のローカル座標に変換
+            RectTransformUtility.ScreenPointToLocalPointInRectangle
+                (
+                    (RectTransform)targetImage.parent,
+                    eventData.position,
+                    eventData.pressEventCamera,
+                    out NowMouse_LocalPos
+                );
+
+            //クリップ移動状態の時
+            if (mode == CLIP_MODE.move)
             {
                 if (targetImage == null)
                 {
@@ -301,71 +294,68 @@ public class ClipOperation : MonoBehaviour, IDragHandler, IBeginDragHandler, IEn
                     return;
                 }
 
-                //クリップ移動処理
-                RectTransformUtility.ScreenPointToLocalPointInRectangle(
-                    (RectTransform)targetImage.parent,
-                    eventData.position,
-                    eventData.pressEventCamera,
-                    out mousePos
-                );
-
                 //ドット移動用
-                CalculationWidth(mousePos.x + moveOffset.x);
-                CalculationHeight(mousePos.y);
+                CalculationWidth(NowMouse_LocalPos.x + moveOffset.x);
+                CalculationHeight(NowMouse_LocalPos.y);
 
                 //タイムラインの範囲外に出た時
                 CheckWidth();
                 CheckHeight();
 
-                targetImage.localPosition = new Vector3(newWidth, newPosY, 0);
+                //位置更新
+                targetImage.localPosition = new Vector3(newPosX, newPosY, 0);
+
                 return;
             }
 
-            RectTransformUtility.ScreenPointToLocalPointInRectangle(
-                (RectTransform)targetImage.parent,
-                eventData.position,
-                eventData.pressEventCamera,
-                out Vector2 currentMousePos
-            );
-
-            resizeOffset = currentMousePos - initMousePos;
-
-            if (isResizeRight)
+            //クリップサイズ変更の時
+            if(mode == CLIP_MODE.resize)
             {
-                newWidth = initSizeDelta.x + resizeOffset.x;
-            }
-            else
-            {
-                newWidth = initSizeDelta.x - resizeOffset.x;
-            }
+                //変更前と変更後のマウスの移動量を計算
+                resizeOffset = NowMouse_LocalPos - beginMouse_LocalPos;
 
-            CalculationSize();
-
-            //クリップの長さ変更の際に最大・最小サイズを超えないようにする
-            newWidth = Mathf.Clamp(newWidth, minWidth, maxWidth);
-
-            //タイムラインの左端、右端を超えるとき
-            if (targetImage.position.x > rect_UpLeft.position.x 
-                || targetImage.position.x < rect_DownRight.position.x)
-            {
-                if (resizeCount == 0)
+                //クリップの右端のとき
+                if (isResizeRight)
                 {
-                    resizeCount = 1;
+                    newWidth = biginSizeDelta.x + resizeOffset.x;
+                }
+                //クリップの左端のとき
+                else
+                {
+                    newWidth = biginSizeDelta.x - resizeOffset.x;
                 }
 
-                //リサイズ前が大きい場合
-                if (targetImage.sizeDelta.x > newWidth)
+                //変更するサイズ調整
+                CalculationSize();
+
+                //クリップの長さ変更の際に最大・最小サイズを超えないようにする
+                newWidth = Mathf.Clamp(newWidth, minWidth, maxWidth);
+
+                //タイムラインの左端、右端を超えるとき
+                if (targetImage.position.x > rect_UpLeft.position.x
+                    || targetImage.position.x < rect_DownRight.position.x)
                 {
-                    resizeCount--;
+                    if (resizeCount == 0)
+                    {
+                        resizeCount = 1;
+                    }
+
+                    //リサイズ前が大きい場合
+                    if (targetImage.sizeDelta.x > newWidth)
+                    {
+                        resizeCount--;
+                    }
+                    //リサイズ前が小さい場合
+                    else if (targetImage.sizeDelta.x < newWidth)
+                    {
+                        resizeCount++;
+                    }
                 }
-                //リサイズ前が小さい場合
-                else if (targetImage.sizeDelta.x < newWidth)
-                {
-                    resizeCount++;
-                }
+
+                targetImage.sizeDelta = new Vector2(newWidth, targetImage.sizeDelta.y);
             }
 
-            targetImage.sizeDelta = new Vector2(newWidth, targetImage.sizeDelta.y);        }
+        }
     }
 
     public void OnEndDrag(PointerEventData eventData)
@@ -387,13 +377,10 @@ public class ClipOperation : MonoBehaviour, IDragHandler, IBeginDragHandler, IEn
 
             //ピボットを初期のものに
             SetPivot(targetImage, new Vector2(0, 0.5f));
-            GetClipRect();
+            GetAllClipRect();
             //重なったかどうか
             for (int i = 0; i < ClipsRect.Length; i++)
             {
-                ClipsRect[i].localPosition = new Vector3(
-                    ClipsRect[i].localPosition.x, ClipsRect[i].localPosition.y, ClipsRect[i].localPosition.z);
-
                 //重なった時
                 if (checkOverlap.IsOverlap(targetImage, ClipsRect[i]))
                 {
@@ -406,10 +393,12 @@ public class ClipOperation : MonoBehaviour, IDragHandler, IBeginDragHandler, IEn
                         ClipOperation overRapClip = Clips[i].GetComponent<ClipOperation>();
                         if (!overRapClip.CheckIsLook())
                         {
-                            StartCoroutine(CheckClipEdward(Clips[i]));
+                            //クリップを合成するかどうか
+                            StartCoroutine(CheckClipCombine(Clips[i]));
                         }
                         else
                         {
+                            //元の位置に戻す
                             targetImage.localPosition = startPos;
                         }
                         break;
@@ -451,17 +440,17 @@ public class ClipOperation : MonoBehaviour, IDragHandler, IBeginDragHandler, IEn
     /// クリップを合成するかしないかを決める
     /// 引数には重なったクリップを入れる
     /// </summary>
-    IEnumerator CheckClipEdward(GameObject _clip)
+    IEnumerator CheckClipCombine(GameObject _clip)
     {
-        selectPanel.SelectPanelActive(true);
+        select_ClipCombine.SelectPanelActive(true);
         //選択がされるまでストップ
-        yield return new WaitUntil(() => selectPanel.ReturnOnClick() == true);
+        yield return new WaitUntil(() => select_ClipCombine.ReturnOnClick() == true);
 
         //選択されたら↓
 
         //合成するかどうか
         //いいえのとき
-        if (!selectPanel.ReturnSelect())
+        if (!select_ClipCombine.ReturnSelect())
         {
             Debug.Log("元に戻すよ");
             targetImage.localPosition = startPos;
@@ -470,16 +459,16 @@ public class ClipOperation : MonoBehaviour, IDragHandler, IBeginDragHandler, IEn
         else
         {
             Debug.Log("合成するよ");
-            ClipEdward(_clip);
+            ClipCombine(_clip);
         }
 
-        selectPanel.SelectPanelActive(false);
+        select_ClipCombine.SelectPanelActive(false);
     }
 
     /// <summary>
     /// クリップを合成
     /// </summary>
-    private void ClipEdward(GameObject _clip)
+    private void ClipCombine(GameObject _clip)
     {
         //重なったクリップ
         ClipPlay overRapClip = _clip.GetComponent<ClipPlay>();
@@ -500,6 +489,12 @@ public class ClipOperation : MonoBehaviour, IDragHandler, IBeginDragHandler, IEn
 
     }
 
+    /// <summary>
+    /// 引数のRectTransformのPivotのみを変更
+    /// (Pivotのみを直接変更すると画像の位置が変わるため)
+    /// </summary>
+    /// <param name="rectTransform">変更したいPivotのRectTransform</param>
+    /// <param name="pivot">変更後のPivotの値</param>
     private void SetPivot(RectTransform rectTransform, Vector2 pivot)
     {
         size = rectTransform.rect.size;
@@ -538,11 +533,11 @@ public class ClipOperation : MonoBehaviour, IDragHandler, IBeginDragHandler, IEn
         dotPosX = posX - ((float)Math.Round(posX / oneWidth) * oneWidth);
         if (dotPosX < oneWidth / 2)
         {
-            newWidth = (float)Math.Round(posX / oneWidth) * oneWidth + 30f;
+            newPosX = (float)Math.Round(posX / oneWidth) * oneWidth + 30f;
         }
         else
         {
-            newWidth = ((float)Math.Round(posX / oneWidth) + 1) * oneWidth + 30f;
+            newPosX = ((float)Math.Round(posX / oneWidth) + 1) * oneWidth + 30f;
         }
         //計算にある 30 はタイムラインの枠の分
     }
@@ -572,13 +567,13 @@ public class ClipOperation : MonoBehaviour, IDragHandler, IBeginDragHandler, IEn
         //左側
         if (targetImage.localPosition.x < rect_UpLeft.localPosition.x)
         {
-            newWidth = rect_UpLeft.localPosition.x;
+            newPosX = rect_UpLeft.localPosition.x;
             isOut = true;
         }
         //右側
         else if (targetImage.localPosition.x + targetImage.sizeDelta.x > rect_DownRight.localPosition.x)
         {
-            newWidth = rect_DownRight.localPosition.x - targetImage.sizeDelta.x;
+            newPosX = rect_DownRight.localPosition.x - targetImage.sizeDelta.x;
             isOut = true;
         }
         else
@@ -610,11 +605,21 @@ public class ClipOperation : MonoBehaviour, IDragHandler, IBeginDragHandler, IEn
         }
     }
 
+    /// <summary>
+    /// クリップがロックされているかどうか
+    /// </summary>
+    /// <returns>false=ロックされていない / true=ロックされている</returns>
     public bool CheckIsLook() => isLook;
 
-    private void GetClipRect()
+    /// <summary>
+    /// 全クリップを取得
+    /// </summary>
+    private void GetAllClipRect()
     {
+        //クリップをGameObject型で取得
         Clips = GameObject.FindGameObjectsWithTag("SetClip");
+
+        //クリップのRectTransformを取得
         ClipsRect = new RectTransform[Clips.Length];
         for(int i = 0; i < Clips.Length; i++)
         {

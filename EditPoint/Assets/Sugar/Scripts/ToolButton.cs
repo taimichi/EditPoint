@@ -17,6 +17,8 @@ public class ToolButton : MonoBehaviour
     // メニューウィンドウ
     [SerializeField] GameObject menu;
 
+    [SerializeField] SelectYesNo selectScript;  //リセットするときに即リセットをしないように選択肢を設ける
+
 
     private void Start()
     {
@@ -40,7 +42,7 @@ public class ToolButton : MonoBehaviour
         // フェード
         //clpObj.SetActive(true);
         //clapper.SceneName = S_stageName;
-        SceneManager.LoadScene(S_stageName);
+        StartCoroutine(SelectNow());
         //    fade.FadeIn(0.5f, () => {
         //        SceneManager.LoadScene(S_stageName);
         //    });
@@ -53,8 +55,28 @@ public class ToolButton : MonoBehaviour
         });
     }
 
+    //ボタンでメニューを開く
     public void OpenMenu()
     {
         menu.SetActive(true);
+    }
+
+    /// <summary>
+    /// 選択中の処理
+    /// </summary>
+    IEnumerator SelectNow()
+    {
+        selectScript.SelectPanelActive(true);
+        yield return new WaitUntil(() => selectScript.ReturnOnClick());
+
+        if (selectScript.ReturnSelect())
+        {            
+            SceneManager.LoadScene(S_stageName);
+        }
+        else
+        {
+            selectScript.SelectPanelActive(false);
+        }
+
     }
 }

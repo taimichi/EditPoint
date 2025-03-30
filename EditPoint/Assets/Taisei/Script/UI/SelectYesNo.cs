@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ClipEdwardPanel : MonoBehaviour
+public class SelectYesNo : MonoBehaviour
 {
     [SerializeField] private GameObject SelectPanel;
     private bool isOnClick = false; //選択ボタンが押されたか
@@ -11,6 +11,7 @@ public class ClipEdwardPanel : MonoBehaviour
     /// </summary>
     private bool isSelect = false;  //はいかいいえか
 
+    //ボタンアニメーションスクリプト
     [SerializeField] private ButtonHover[] hover;
 
     /// <summary>
