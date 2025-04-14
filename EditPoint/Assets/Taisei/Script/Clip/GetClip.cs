@@ -83,6 +83,7 @@ public class GetClip : MonoBehaviour
                 //タイムバーに触れた時はforeachから即抜け出す
                 if (result.gameObject.tag == "Timebar")
                 {
+                    Debug.Log("test");
                     break;
                 }
                 //クリップだったときの処理
@@ -98,7 +99,7 @@ public class GetClip : MonoBehaviour
                             {
                                 clipPlay.ConnectObjMaterialChange(0);
                             }
-                            return;
+                            break;
                         }
                     }
 
@@ -117,7 +118,7 @@ public class GetClip : MonoBehaviour
                     BlinkImageObj = result.gameObject.transform.GetChild(0).gameObject;
                     Clip = result.gameObject;
                     BlinkImageObj.SetActive(true);
-                    if (Clip.TryGetComponent<ClipPlay>(out var clipPlayScript))
+                    if (result.gameObject.TryGetComponent<ClipPlay>(out var clipPlayScript))
                     {
                         clipPlayScript.ConnectObjMaterialChange(1);
                     }

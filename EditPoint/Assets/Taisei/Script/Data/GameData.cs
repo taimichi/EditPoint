@@ -43,4 +43,9 @@ public class GameData : ScriptableObject
     /// </summary>
     public bool isClear = false;
 
+    /// <summary>
+    /// Å‰‚É‰ï˜b‚µ‚½‚©‚Ç‚¤‚©
+    /// </summary>
+    public bool isTalk = false;
+
 }

@@ -149,4 +149,5 @@ public class QuickGuideMenu : MonoBehaviour
         GuideSprite.sprite = sprites[nowPage];
     }
 
+    public bool IsCheckActive() => QuickGuideObj.activeSelf;
 }

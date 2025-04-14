@@ -24,6 +24,8 @@ public class TimeBar : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragH
     private Camera UICamera;
     private GraphicRaycaster raycaster;
 
+    private QuickGuideMenu quickGuide;
+
     private void Awake()
     {
         TimeData.TimeEntity.isDragMode = isDragMode;
@@ -61,6 +63,8 @@ public class TimeBar : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragH
 
         UICamera = TimeLineCanvas.GetComponent<Canvas>().worldCamera;   //タイムラインキャンバスに設定されてるカメラを取得
         raycaster = TimeLineCanvas.GetComponent<GraphicRaycaster>();
+
+        quickGuide = GameObject.Find("GuideCanvas").GetComponent<QuickGuideMenu>();
     }
 
     private void Update()
@@ -89,62 +93,9 @@ public class TimeBar : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragH
             nowTime = (float)Math.Truncate(f_distance / speed * 10) / 10;
             TimeData.TimeEntity.nowTime = nowTime;
 
-            //クリックした位置に移動
-            if (Input.GetMouseButtonDown(0))
-            {
-                if (IsPointOver(this.transform.parent.gameObject))
-                {
-                    //マウスのローカル座標取得
-                    RectTransformUtility.ScreenPointToLocalPointInRectangle(
-                        (RectTransform)barPos.parent,
-                        Input.mousePosition,
-                        UICamera,
-                        out Vector2 mouse_LocalPos
-                    );
-
-                    mouse_LocalPos.y = startPos.y;
-                    if (mouse_LocalPos.x <= startPos.x)
-                    {
-                        mouse_LocalPos.x = startPos.x;
-                    }
-                    else if (mouse_LocalPos.x >= limitPosX)
-                    {
-                        mouse_LocalPos.x = limitPosX;
-                    }
-                    barPos.localPosition = mouse_LocalPos;
-                    nowPos = barPos.localPosition;
-                }
-            }
         }
 
     }
-
-    /// <summary>
-    /// 特定のUIオブジェクトの上にあるかどうか
-    /// </summary>
-    /// <param name="_target">限定したいオブジェクト</param>
-    /// <returns>false=ない / true=ある</returns>
-    private bool IsPointOver(GameObject _target)
-    {
-        PointerEventData pointerData = new PointerEventData(EventSystem.current)
-        {
-            position = Input.mousePosition
-        };
-
-        List<RaycastResult> results = new List<RaycastResult>();
-        raycaster.Raycast(pointerData, results);
-
-        foreach (var result in results)
-        {
-            if (result.gameObject == _target)
-            {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
 
     //ドラッグ開始するとき
     public void OnBeginDrag(PointerEventData eventData)
