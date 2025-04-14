@@ -95,4 +95,12 @@ public class ButtonHover : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
         onUI = false;
     }
     #endregion
+
+    /// <summary>
+    /// ŠO•”‚©‚ç‹­§“I‚É“®‚«‚ğI—¹‚·‚é
+    /// </summary>
+    public void ResetButton()
+    {
+        onUI = false;
+    }
 }

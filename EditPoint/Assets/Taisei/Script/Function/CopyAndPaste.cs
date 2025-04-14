@@ -34,7 +34,7 @@ public class CopyAndPaste : MonoBehaviour
     private PlaySound playSound;
 
     private ClipPlay clipPlay;
-    private GetCopyObj gco;
+    private GetConnectClip gco;
 
     private FunctionLookManager functionLook;
 
@@ -75,27 +75,34 @@ public class CopyAndPaste : MonoBehaviour
             //UIの上じゃなかったら
             if (!EventSystem.current.IsPointerOverGameObject())
             {
-                //クリックしたらカーソルの位置にオブジェクトを置く
-                if (Input.GetMouseButtonDown(0))
+                HitUnCreateArea hitArea = PasteObj.GetComponent<HitUnCreateArea>();
+                if (!hitArea.ReturnHit())
                 {
-                    playSound.PlaySE(PlaySound.SE_TYPE.paste);
-                    if (CopyObj.name.Contains("Blower"))
+                    //クリックしたらカーソルの位置にオブジェクトを置く
+                    if (Input.GetMouseButtonDown(0))
                     {
-                        PasteObj.transform.GetComponent<Collider2D>().isTrigger = false;
-                    }
-                    else
-                    {
-                        PasteObj.GetComponent<Collider2D>().isTrigger = false;
-                    }
+                        playSound.PlaySE(PlaySound.SE_TYPE.paste);
+                        //当たり判定を元に戻す
+                        if (CopyObj.name.Contains("Blower"))
+                        {
+                            //送風機は何もしない
+                        }
+                        else
+                        {
+                            PasteObj.GetComponent<Collider2D>().isTrigger = false;
+                        }
 
-                    if(CopyObj.GetComponent<GetCopyObj>() == true)
-                    {
-                        gco = CopyObj.GetComponent<GetCopyObj>();
-                        clipPlay = gco.ReturnAttachClip().GetComponent<ClipPlay>();
-                        clipPlay.OutGetObj(PasteObj);
-                    }
+                        if (CopyObj.GetComponent<GetConnectClip>() == true)
+                        {
+                            gco = CopyObj.GetComponent<GetConnectClip>();
+                            clipPlay = gco.ReturnAttachClip().GetComponent<ClipPlay>();
+                            clipPlay.OutGetObj(PasteObj);
+                        }
 
-                    Paste();
+                        Destroy(PasteObj.GetComponent<HitUnCreateArea>());
+
+                        Paste();
+                    }
                 }
             }
 
@@ -104,8 +111,8 @@ public class CopyAndPaste : MonoBehaviour
             {
                 Debug.Log("ペーストモード解除");
                 playSound.PlaySE(PlaySound.SE_TYPE.cancell);
-                    Destroy(PasteObj);
-                    PasteObj = null;
+                Destroy(PasteObj);
+                PasteObj = null;
                 ModeData.ModeEntity.mode = ModeData.Mode.normal;
                 isSetOnOff = false;
                 copyModeText.enabled = false;
@@ -201,14 +208,16 @@ public class CopyAndPaste : MonoBehaviour
         if (pasteNum > 0)
         {
             PasteObj = Instantiate(CopyObj);
+            //衝突判定をなくす
             if(CopyObj.name.Contains("Blower"))
             {
-                PasteObj.transform.GetComponent<Collider2D>().isTrigger = true;
+                //送風機は何もしない
             }
             else
             {
                 PasteObj.GetComponent<Collider2D>().isTrigger = true;
             }
+            PasteObj.AddComponent<HitUnCreateArea>();
             pasteNum--;
         }
         isSetOnOff = true;

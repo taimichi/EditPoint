@@ -195,6 +195,8 @@ public class ObjectScaleEditor : MonoBehaviour
                 {
                     // virtualが他オブジェクトに接触しているかチェック
                     // 接触してない場合のみ代入、してたらリセット
+                    // ↑修正、接触しててもオブジェクト接地可能
+                    // ↑修正、接地不可エリアに接触時に移動不可
                     if (virtualObject.GetComponent<VirtualObjectCollisionChecker>().isCollision == false)
                     {
                         // 回転ハンドル処理

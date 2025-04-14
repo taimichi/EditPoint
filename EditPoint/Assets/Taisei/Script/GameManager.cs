@@ -19,8 +19,17 @@ public class GameManager : MonoBehaviour
     //タイトル画面のみ(デバッグ用)
     private bool isDebug = false;
 
+    //背景
     private Image backGround;
+    //背景画像
     [Foldout("Sprite"), SerializeField] private Sprite[] sprites;
+
+    private List<KeyController> KeyScripts = new List<KeyController>();
+
+    private float playSpeed = 1f;
+
+    private Button speedChangeButton;
+    private Text speedText;
 
     private void Awake()
     {
@@ -40,32 +49,46 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
+        Time.timeScale = 1;
+
         //チュートリアル以外のステージのとき
         if (nowSceneName.Contains("Stage"))
         {
             timeBar = GameObject.Find("Timebar").GetComponent<TimeBar>();
-            playSound.PlayBGM(PlaySound.BGM_TYPE.stage1);
             playSound.PlaySE(PlaySound.SE_TYPE.start);
 
             backGround = GameObject.Find("BackGroundImage").GetComponent<Image>();
+
+            GameObject SpeedChangeObj = GameObject.Find("SpeedChange");
+            speedChangeButton = SpeedChangeObj.GetComponent<Button>();
+            speedChangeButton.onClick.AddListener(OnChangePlaySpeed);
+            speedText = GameObject.Find("SpeedText").GetComponent<Text>();
+            speedText.text = "×" + playSpeed.ToString();
 
             switch (nowSceneName)
             {
                 case string name when name.Contains("Stage1"):
                     backGround.sprite = sprites[0];
+                    playSound.PlayBGM(PlaySound.BGM_TYPE.noon);
 
                     break;
 
                 case string name when name.Contains("Stage2"):
                     backGround.sprite = sprites[0];
+                    playSound.PlayBGM(PlaySound.BGM_TYPE.noon);
+
                     break;
 
                 case string name when name.Contains("Stage3"):
                     backGround.sprite = sprites[1];
+                    playSound.PlayBGM(PlaySound.BGM_TYPE.evening);
+
                     break;
 
                 case string name when name.Contains("Stage4"):
                     backGround.sprite = sprites[2];
+                    playSound.PlayBGM(PlaySound.BGM_TYPE.night);
+
                     break;
             }
 
@@ -135,7 +158,7 @@ public class GameManager : MonoBehaviour
                         break;
 
                     case string name when name.Contains("Cut"):
-                        if((TutorialData.TutorialEntity.frags |= TutorialData.Tutorial_Frags.cut) == 0)
+                        if((TutorialData.TutorialEntity.frags & TutorialData.Tutorial_Frags.cut) == 0)
                         {
                             quick.StartGuide("Cut");
                             TutorialData.TutorialEntity.frags |= TutorialData.Tutorial_Frags.cut;
@@ -160,7 +183,7 @@ public class GameManager : MonoBehaviour
                     playSound.PlayBGM(PlaySound.BGM_TYPE.talk);
                     //フェードアウト処理
                     Fade fade = GameObject.Find("GameFade").GetComponent<Fade>();
-                    fade.FadeOut(0.5f);
+                    fade.FadeOut(1.0f);
                     break;
 
                 case "Select":
@@ -193,10 +216,7 @@ public class GameManager : MonoBehaviour
     /// </summary>
     private void DebugOption()
     {
-        TutorialData.TutorialEntity.frags &= (TutorialData.Tutorial_Frags.clip | TutorialData.Tutorial_Frags.block |
-                                          TutorialData.Tutorial_Frags.copy | TutorialData.Tutorial_Frags.blower |
-                                          TutorialData.Tutorial_Frags.move | TutorialData.Tutorial_Frags.cut |
-                                          TutorialData.Tutorial_Frags.card | TutorialData.Tutorial_Frags.moveGround);
+        TutorialData.TutorialEntity.frags = TutorialData.Tutorial_Frags.None;
     }
 
     /// <summary>
@@ -209,6 +229,7 @@ public class GameManager : MonoBehaviour
             timeBar.OnReStart();
             GameData.GameEntity.isPlayNow = true;
             GameData.GameEntity.isTimebarReset = false;
+            Time.timeScale = playSpeed;
         }
     }
 
@@ -217,8 +238,48 @@ public class GameManager : MonoBehaviour
     /// </summary>
     public void OnReset()
     {
+        Time.timeScale = 1;
         GameData.GameEntity.isPlayNow = false;
         GameData.GameEntity.isTimebarReset = true;
         GameData.GameEntity.isLimitTime = false;
+        if(KeyScripts.Count != 0)
+        {
+            for(int i= 0; i < KeyScripts.Count; i++)
+            {
+                KeyScripts[i].KeyReset();
+            }
+        }
+    }
+
+    /// <summary>
+    /// 再生時のスピード変更
+    /// </summary>
+    public void OnChangePlaySpeed()
+    {
+        switch (playSpeed)
+        {
+            case 1.0f:
+                playSpeed = 1.5f;
+                break;
+
+            case 1.5f:
+                playSpeed = 2.0f;
+                break;
+
+            case 2.0f:
+                playSpeed = 2.5f;
+                break;
+
+            case 2.5f:
+                playSpeed = 1.0f;
+                break;
+        }
+        speedText.text = "×" + playSpeed.ToString();
+        Time.timeScale = playSpeed;
+    }
+
+    public void AddKeyList(KeyController _keyController)
+    {
+        KeyScripts.Add(_keyController);
     }
 }

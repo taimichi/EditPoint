@@ -3,12 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
+//クリップの再生速度を変更する
 public class ClipSpeed : MonoBehaviour
 {
     [SerializeField, Header("初期のクリップの長さ(700が再生速度1倍)")] private float startWidth = 140f;
     [SerializeField] private RectTransform ClipRect;    //クリップのRectTransform
-    private float playSpeed;  //現在のクリップの再生速度
+    private float playSpeed = 1f;  //現在のクリップの再生速度
     private float changeSpeed;    //変更時のクリップ再生速度
+    private const float MIN_SPEED = 0.1f;
+    private const float MAX_SPEED = 2.0f; 
 
     void Start()
     {
@@ -17,18 +20,37 @@ public class ClipSpeed : MonoBehaviour
 
     void Update()
     {
-        changeSpeed = (float)Math.Truncate(ClipRect.sizeDelta.x / startWidth * 10) / 10;
-        //再生速度が1以下の時
-        if (changeSpeed <= 1) 
+        changeSpeed = startWidth - ClipRect.sizeDelta.x;
+        
+        if(changeSpeed > 0)
         {
-            changeSpeed = Mathf.Abs(changeSpeed - 1) + 1;
+            changeSpeed = Mathf.Abs(changeSpeed);
+            //加速
+            float test = changeSpeed / TimelineData.TimelineEntity.oneResize;
+            playSpeed = (0.1f * test) + 1;
+
+            if(playSpeed >= MAX_SPEED)
+            {
+                playSpeed = MAX_SPEED;
+            }
         }
-        //再生速度が1より上の時
+        else if (changeSpeed < 0)
+        {
+            changeSpeed = Mathf.Abs(changeSpeed);
+            //減速
+            float test = changeSpeed / TimelineData.TimelineEntity.oneResize;
+            playSpeed = 1 - (0.1f * test);
+
+            //最低速を下回った場合
+            if(playSpeed <= MIN_SPEED)
+            {
+                playSpeed = MIN_SPEED;
+            }
+        }
         else
         {
-            changeSpeed = Mathf.Abs(changeSpeed - 2);
+            playSpeed = 1f;
         }
-        playSpeed = changeSpeed;
     }
 
     /// <summary>
@@ -40,10 +62,10 @@ public class ClipSpeed : MonoBehaviour
     /// <summary>
     /// 外部からf_StartWidthを変更する
     /// </summary>
-    /// <param name="getWidth">受け取るWidth</param>
-    public void GetStartWidth(float getWidth)
+    /// <param name="_getWidth">受け取るWidth</param>
+    public void GetStartWidth(float _getWidth)
     {
-        startWidth = getWidth;
+        startWidth = _getWidth;
     }
 
     /// <summary>

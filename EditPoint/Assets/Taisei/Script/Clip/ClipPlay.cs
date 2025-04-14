@@ -5,6 +5,8 @@ using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using System;
 
+//クリップのメイン
+//クリップとオブジェクトの紐づけや、紐づけたオブジェクトの表示非表示など
 public class ClipPlay : MonoBehaviour
 {
     private RectTransform rect_timeBar; //タイムバーのRectTransform
@@ -28,16 +30,17 @@ public class ClipPlay : MonoBehaviour
 
     private float manualTime = 0; //タイムバーを手動で動かしたときの時間
 
-    private MoveGround move;
-
-    private GetCopyObj gpo;
-
-    private float startTime = 0f;
-    private float maxTime = 0f;
+    private float startTime = 0f;       //クリップの開始時間
+    private float maxTime = 0f;         //クリップの長さ
 
     private MoveGroundManager MGManager;
+    private MoveGround move;
 
-    private CheckOverlap checkOverlap = new CheckOverlap();
+    private GetConnectClip getConnectClip;  //このクリップに紐づいているオブジェクトに、このクリップを渡す用
+
+    private CheckOverlap checkOverlap = new CheckOverlap();     //ほかのクリップやタイムバーが重なったかどうかを判定するスクリプト
+
+    [SerializeField] private Materials materialsData;       //クリップを選択した時、紐づいているオブジェクトにアウトラインをつける用
 
     private void Awake()
     {
@@ -62,22 +65,22 @@ public class ClipPlay : MonoBehaviour
         }
         else
         {
-            for(int i = 0; i < ConnectObj.Count; i++)
+            for(int connectObjNum = 0; connectObjNum < ConnectObj.Count; connectObjNum++)
             {
-                if(ConnectObj[i].TryGetComponent<MoveGround>(out MoveGround moveGroundScript))
+                if(ConnectObj[connectObjNum].TryGetComponent<MoveGround>(out MoveGround moveGroundScript))
                 {
                     moveGround.Add(moveGroundScript);   
                 }
 
-                if(ConnectObj[i].TryGetComponent<CheckClipConnect>(out checkClip))
+                if(ConnectObj[connectObjNum].TryGetComponent<CheckClipConnect>(out checkClip))
                 {
                     checkClip.ConnectClip();
                     checkClip.GetClipPlay(this.gameObject);
                 }
 
-                if (ConnectObj[i].TryGetComponent<GetCopyObj>(out gpo))
+                if (ConnectObj[connectObjNum].TryGetComponent<GetConnectClip>(out getConnectClip))
                 {
-                    gpo.GetAttachClip(this.gameObject);
+                    getConnectClip.GetAttachClip(this.gameObject);
                 }
             }
         }
@@ -117,9 +120,9 @@ public class ClipPlay : MonoBehaviour
                                 GameObject clickedObject = hit.collider.gameObject;
                                 Debug.Log(clickedObject);
 
-                                for (int i = 0; i < ConnectObj.Count; i++)
+                                for (int connectObjNum = 0; connectObjNum < ConnectObj.Count; connectObjNum++)
                                 {
-                                    if (clickedObject.name != ConnectObj[i].name)
+                                    if (clickedObject.name != ConnectObj[connectObjNum].name)
                                     {
                                         Debug.Log("新しいオブジェクト追加");
                                         ConnectObj.Add(clickedObject);
@@ -175,20 +178,26 @@ public class ClipPlay : MonoBehaviour
             //タイムバーを手動で動かしてる時
             if (TimeData.TimeEntity.isDragMode)
             {
-                for (int i = 0; i < ConnectObj.Count; i++)
+                for (int connectObjNum = 0; connectObjNum < ConnectObj.Count; connectObjNum++)
                 {
-                    if (ConnectObj[i].TryGetComponent<MoveGround>(out move))
+                    //動く床オブジェクトの時
+                    if (ConnectObj[connectObjNum].TryGetComponent<MoveGround>(out move))
                     {
+                        //クリップの開始秒数を渡す
+                        //
                         move.GetClipTime_Manual(startTime + manualTime);
                     }
                 }
             }
+            //タイムバーが自動で動いているとき
             else
             {
-                for (int i = 0; i < ConnectObj.Count; i++)
+                for (int connectObjNum = 0; connectObjNum < ConnectObj.Count; connectObjNum++)
                 {
-                    if (ConnectObj[i].TryGetComponent<MoveGround>(out move))
+                    //動く床のオブジェクトの時
+                    if (ConnectObj[connectObjNum].TryGetComponent<MoveGround>(out move))
                     {
+                        //クリップの開始秒数を渡す
                         move.GetClipTime_Auto(startTime);
                     }
                 }
@@ -203,9 +212,9 @@ public class ClipPlay : MonoBehaviour
     /// </summary>
     public void DestroyConnectObj()
     {
-        for(int i = 0; i < ConnectObj.Count; i++)
+        for(int connectObjNum = 0; connectObjNum < ConnectObj.Count; connectObjNum++)
         {
-            ConnectObj.Remove(ConnectObj[i]);
+            ConnectObj.Remove(ConnectObj[connectObjNum]);
         }
     }
 
@@ -225,8 +234,8 @@ public class ClipPlay : MonoBehaviour
         {
             clipName.text = "中身のあるクリップ";
         }
-        gpo = _outGetObj.GetComponent<GetCopyObj>();
-        gpo.GetAttachClip(this.gameObject);
+        getConnectClip = _outGetObj.GetComponent<GetConnectClip>();
+        getConnectClip.GetAttachClip(this.gameObject);
         checkClip = _outGetObj.GetComponent<CheckClipConnect>();
         checkClip.ConnectClip();
         checkClip.GetClipPlay(this.gameObject);
@@ -240,37 +249,37 @@ public class ClipPlay : MonoBehaviour
         if (checkOverlap.IsOverlap(rect_Clip, rect_timeBar))
         {
             //タイムバーと接触しているとき
-            for (int i = 0; i < ConnectObj.Count; i++)
+            for (int connectObjNum = 0; connectObjNum < ConnectObj.Count; connectObjNum++)
             {
                 //非表示状態だったら
-                if (!ConnectObj[i].activeSelf)
+                if (!ConnectObj[connectObjNum].activeSelf)
                 {
-                    ConnectObj[i].SetActive(true);
+                    ConnectObj[connectObjNum].SetActive(true);
                 }
             }
         }
         else
         {
             //タイムバーと接触していないとき
-            for (int i = 0; i < ConnectObj.Count; i++)
+            for (int connectObjNum = 0; connectObjNum < ConnectObj.Count; connectObjNum++)
             {
                 //動く床だったとき
-                if (ConnectObj[i].name.Contains("MoveGround"))
+                if (ConnectObj[connectObjNum].name.Contains("MoveGround"))
                 {
                     //プレイヤーがMoveGroundの子オブジェクトになってる時
-                    if (ConnectObj[i].transform.Find("Player") != null)
+                    if (ConnectObj[connectObjNum].transform.Find("Player") != null)
                     {
                         //子オブジェクトを解除する
-                        ConnectObj[i].transform.Find("Player").gameObject.transform.parent = null;
+                        ConnectObj[connectObjNum].transform.Find("Player").gameObject.transform.parent = null;
                     }
 
                     //非表示にする前に初期位置に戻す
-                    ConnectObj[i].GetComponent<MoveGround>().SetStartPos();
+                    ConnectObj[connectObjNum].GetComponent<MoveGround>().SetStartPos();
                 }
                 //表示状態だったら
-                if (ConnectObj[i].activeSelf)
+                if (ConnectObj[connectObjNum].activeSelf)
                 {
-                    ConnectObj[i].SetActive(false);
+                    ConnectObj[connectObjNum].SetActive(false);
 
                     // クリップ切れたときのエディター非表示
                     GameObject objectEditor = GameObject.Find("ObjectEditor");
@@ -279,6 +288,22 @@ public class ClipPlay : MonoBehaviour
                         objectEditor.SetActive(false);
                     }
                 }
+            }
+        }
+    }
+
+    /// <summary>
+    /// 紐づけられたオブジェクトのImageのマテリアルを変更する
+    /// </summary>
+    /// <param name="_materialNum">変更したいマテリアルの番号
+    /// 0=選択されていない時, 1=選択中の時</param>
+    public void ConnectObjMaterialChange(int _materialNum)
+    {
+        for(int connectObjNum = 0; connectObjNum < ConnectObj.Count; connectObjNum++)
+        {
+            if(ConnectObj[connectObjNum].TryGetComponent<SpriteRenderer>(out var ConnectSprite))
+            {
+                ConnectSprite.material = materialsData.MaterialData[_materialNum];
             }
         }
     }
@@ -297,11 +322,11 @@ public class ClipPlay : MonoBehaviour
     public void ConnectObjRemove(GameObject obj)
     {
         //引数のオブジェクトをリストから検索
-        for(int i = 0; i < ConnectObj.Count; i++)
+        for(int connectObjNum = 0; connectObjNum < ConnectObj.Count; connectObjNum++)
         {
-            if(obj == ConnectObj[i])
+            if(obj == ConnectObj[connectObjNum])
             {
-                ConnectObj.Remove(ConnectObj[i]);
+                ConnectObj.Remove(ConnectObj[connectObjNum]);
                 break;
             }
         }
@@ -313,20 +338,20 @@ public class ClipPlay : MonoBehaviour
     /// </summary>
     public void ClipObjDestroy()
     {
-        for(int i = 0; i < ConnectObj.Count; i++)
+        for(int connectObjNum = 0; connectObjNum < ConnectObj.Count; connectObjNum++)
         {
-            if (ConnectObj[i].name.Contains("MoveGround"))
+            if (ConnectObj[connectObjNum].name.Contains("MoveGround"))
             {
                 //プレイヤーがMoveGroundの子オブジェクトになってる時
-                if (ConnectObj[i].transform.Find("Player") != null)
+                if (ConnectObj[connectObjNum].transform.Find("Player") != null)
                 {
                     //子オブジェクトを解除する
-                    ConnectObj[i].transform.Find("Player").gameObject.transform.parent = null;
+                    ConnectObj[connectObjNum].transform.Find("Player").gameObject.transform.parent = null;
                 }
-                MGManager.DeleteMoveGrounds(ConnectObj[i]);
+                MGManager.DeleteMoveGrounds(ConnectObj[connectObjNum]);
             }
-            Destroy(ConnectObj[i]);
-            ConnectObj.Remove(ConnectObj[i]);
+            Destroy(ConnectObj[connectObjNum]);
+            Debug.Log("test");
         }
     }
 

@@ -38,6 +38,10 @@ public class FallUI : MonoBehaviour
     /// </summary>
     private bool fade = false;                          //暗転か明転か
 
+    private PlaySound playSound;
+
+    private bool isSE = false;
+
     void Start()
     {
         offset = MAX_SIZE - MIN_SIZE;                   //サイズ差を求める
@@ -53,6 +57,8 @@ public class FallUI : MonoBehaviour
         InStartPos = FadeInImage.transform.localPosition;   //フェードイン画像の初期座標を取得
         OutStartSize = OutRect.sizeDelta;                   //フェードアウト画像の初期サイズを取得
         OutStartPos = FadeOutImage.transform.localPosition; //フェードアウト画像の初期座標を取得
+
+        playSound = GameObject.Find("AudioCanvas").GetComponent<PlaySound>();
 
     }
 
@@ -116,6 +122,7 @@ public class FallUI : MonoBehaviour
             fade = false;           //フェードを暗転に切り替え
             startFade = false;      //フェード処理を実行不可能にする
             fadeTimer = 0;          //タイマーをリセット
+            isSE = false;
 
             //キャンバスを非表示に
             FallCanvas.SetActive(false);
@@ -130,5 +137,10 @@ public class FallUI : MonoBehaviour
     {
         FallCanvas.SetActive(true);
         startFade = true;
+        if (!isSE)
+        {
+            playSound.PlaySE(PlaySound.SE_TYPE.fall);
+            isSE = true;
+        }
     }
 }

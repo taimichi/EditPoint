@@ -6,5 +6,5 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "Data", menuName = "ScriptableObjects/LayerMaterials")]
 public class Materials : ScriptableObject
 {
-    public List<Material> layerMaterials = new List<Material>();
+    public List<Material> MaterialData = new List<Material>();
 }

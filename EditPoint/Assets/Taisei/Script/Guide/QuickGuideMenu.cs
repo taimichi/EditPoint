@@ -27,9 +27,12 @@ public class QuickGuideMenu : MonoBehaviour
     private Sprite[] sprites;
     private int nowPage = 0;
 
+    private PlaySound playSound;
+
     private void Awake()
     {
         GuideSprite = GuideImage.GetComponent<Image>();
+        playSound = GameObject.Find("AudioCanvas").GetComponent<PlaySound>();
     }
 
     /// <summary>
@@ -55,6 +58,7 @@ public class QuickGuideMenu : MonoBehaviour
     /// </summary>
     public void OnClose()
     {
+        playSound.PlaySE(PlaySound.SE_TYPE.cancell);
         nowPage = 0;
         CloseLRButton();
         GuideImage.SetActive(false);
@@ -66,6 +70,7 @@ public class QuickGuideMenu : MonoBehaviour
     /// </summary>
     public void OnRightButton()
     {
+        playSound.PlaySE(PlaySound.SE_TYPE.enter);
         nowPage++;
         if(nowPage >= sprites.Length - 1)
         {
@@ -81,6 +86,7 @@ public class QuickGuideMenu : MonoBehaviour
     /// </summary>
     public void OnLeftButton()
     {
+        playSound.PlaySE(PlaySound.SE_TYPE.enter);
         nowPage--;
         if(nowPage <= 0)
         {

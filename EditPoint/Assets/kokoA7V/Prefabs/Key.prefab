@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 7476452863678751626}
   - component: {fileID: 2229427524005097049}
   - component: {fileID: 1077665526808857393}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: "\u30AB\u30FC\u30C9\u30AD\u30FC"
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -112,7 +112,7 @@ GameObject:
   - component: {fileID: 5932100966663974446}
   - component: {fileID: 5932100966663974445}
   - component: {fileID: 5932100966663974440}
-  m_Layer: 8
+  m_Layer: 7
   m_Name: Key
   m_TagString: UnTouch
   m_Icon: {fileID: 0}

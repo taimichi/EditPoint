@@ -334,8 +334,8 @@ MonoBehaviour:
   child: {fileID: 4160269659502617399}
   childCheck: {fileID: 8041723142839804317}
   childSR: {fileID: 1653908907189739537}
-  N_color: {r: 1, g: 1, b: 1, a: 0.92156863}
-  C_color: {r: 1, g: 0, b: 0, a: 0.92156863}
+  N_color: {r: 1, g: 1, b: 1, a: 0.78431374}
+  C_color: {r: 1, g: 0, b: 0, a: 0.78431374}
 --- !u!61 &6219358312794054324
 BoxCollider2D:
   m_ObjectHideFlags: 0

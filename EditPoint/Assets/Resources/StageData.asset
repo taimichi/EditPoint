@@ -1,0 +1,47 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d7fbaf0da8a7ece418a6467b4236d1b0, type: 3}
+  m_Name: StageData
+  m_EditorClassIdentifier: 
+  STAGE_DATA:
+  - Stage1-1_TutorialMove
+  - Stage1-2
+  - Stage1-3
+  - Stage1-4_TutorialClip
+  - Stage1-5
+  - Stage1-6_TutorialMoveGround
+  - Stage1-7
+  - Stage1-8
+  - Stage2-1_TutorialBlock
+  - Stage2-2
+  - Stage2-3
+  - Stage2-4_TutorialBlower
+  - Stage2-5_TutorialCopy
+  - Stage2-6
+  - Stage2-7
+  - Stage2-8
+  - Stage3-1_TutorialCut
+  - Stage3-2
+  - Stage3-3_TutorialCard
+  - Stage3-4
+  - Stage3-5
+  - Stage3-6
+  - Stage3-7
+  - Stage3-8
+  - Stage4-1
+  - Stage4-2
+  - Stage4-3
+  - Stage4-4
+  - Stage4-5
+  - Stage4-6
+  - Stage4-7
+  - Stage4-8

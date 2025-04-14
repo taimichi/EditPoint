@@ -66,15 +66,16 @@ public class SelectDelete : MonoBehaviour
     //デリートボタンを押したとき
     public void OnDelete()
     {
-        Debug.Log("削除");
         //クリップ削除
         if (!isTrigger)
         {
+            Debug.Log("クリップ削除");
             getClip.ClipDestroy();
         }
         //オブジェクト削除
         else
         {
+            Debug.Log("オブジェクト削除");
             objectScale.ObjectDelete();
         }
         SelectObj = null;

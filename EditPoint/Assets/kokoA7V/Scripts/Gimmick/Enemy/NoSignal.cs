@@ -8,6 +8,11 @@ public class NoSignal : MonoBehaviour
     private float timer = 0f;
     private float maxTime = 1.0f;
 
+    private void Start()
+    {
+        Time.timeScale = 0;
+    }
+
     void Update()
     {
         //if (Input.GetMouseButtonDown(0))
@@ -17,6 +22,7 @@ public class NoSignal : MonoBehaviour
 
         if (timer >= maxTime)
         {
+            Time.timeScale = 1;
             SceneManager.LoadScene(SceneManager.GetActiveScene().name);
             //Reset();
         }

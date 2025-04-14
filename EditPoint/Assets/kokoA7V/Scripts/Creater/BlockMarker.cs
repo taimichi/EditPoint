@@ -45,6 +45,13 @@ public class BlockMarker : MonoBehaviour
             Debug.Log("プレイヤーと接触");
             isHitPlayer = true;
         }
+
+        if (collision.tag == "UnCreateArea")
+        {
+            Debug.Log("接地不可エリアと接触");
+            // プレイヤー接触時の接地不可を流用、ほんとはよくない…
+            isHitPlayer = true;
+        }
     }
 
     private void OnTriggerExit2D(Collider2D collision)
@@ -57,6 +64,12 @@ public class BlockMarker : MonoBehaviour
         if (collision.tag == "Player")
         {
             Debug.Log("Playerと接触解除");
+            isHitPlayer = false;
+        }
+
+        if (collision.tag == "UnCreateArea")
+        {
+            // プレイヤー接触時の接地不可を流用、ほんとはよくない…
             isHitPlayer = false;
         }
     }

@@ -189,9 +189,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   startLength: 5
   targetImage: {fileID: 4323194755857948600}
-  minWidth: 350
+  minWidth: 70
   maxWidth: 2800
-  edgeRange: 30
+  edgeRange: 40
   isLook: 0
   ActiveClipSprite: {fileID: 21300000, guid: b5f033136c47e7e4598e7ef73bbb21bb, type: 3}
   NoActiveClipSprite: {fileID: 21300000, guid: b3cb66a4392693949bff4b644ddb0280, type: 3}
@@ -225,6 +225,7 @@ MonoBehaviour:
   clipName: {fileID: 4323194755795921081}
   ConnectObj: []
   clipSpeed: {fileID: 4323194755857948604}
+  materialsData: {fileID: 11400000, guid: 2705b0d92f0f2524196b095c86996a76, type: 2}
 --- !u!1 &9174298150372608419
 GameObject:
   m_ObjectHideFlags: 0

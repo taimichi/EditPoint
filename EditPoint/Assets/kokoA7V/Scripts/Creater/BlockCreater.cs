@@ -87,14 +87,24 @@ public class BlockCreater : MonoBehaviour
             {
                 if (Input.GetMouseButtonDown(0))
                 {
-                    Debug.Log("test");
-                    marker.SetActive(true);
-                    startPosition = mousePosition;
-                    bm.isActive = true;
-                    isDrag = true;
+                    Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+                    RaycastHit2D hit2d = Physics2D.Raycast((Vector2)ray.origin, (Vector2)ray.direction);
+
+                    if (hit2d == true && hit2d.collider.tag == "UnCreateArea")
+                    {
+                        return;
+                    }
+                    else
+                    {
+                        marker.SetActive(true);
+                        startPosition = mousePosition;
+                        bm.isActive = true;
+                        isDrag = true;
+
+                    }
                 }
 
-                if (Input.GetMouseButtonUp(0))
+                if (Input.GetMouseButtonUp(0) && marker.activeSelf)
                 {
                     endPosition = mousePosition;
 
@@ -102,8 +112,13 @@ public class BlockCreater : MonoBehaviour
                     {
                         if (ModeData.ModeEntity.mode == ModeData.Mode.create)
                         {
+                            Vector3 PlPos = GameObject.Find("Player").transform.position;
+
+                            float dis = Vector3.Distance(PlPos, mousePosition);
+
                             //マーカーがプレイヤーと触れてないとき
-                            if (!bm.ReturnHitPL())
+                            //またはクリックした位置がプレイヤーから半径1.5より離れてる時
+                            if (!bm.ReturnHitPL() && dis > 1.5f)
                             {
                                 CreateBlock();
                             }

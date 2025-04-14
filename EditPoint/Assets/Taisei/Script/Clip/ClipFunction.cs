@@ -4,6 +4,8 @@ using UnityEngine;
 using UnityEngine.UI;
 using System;
 
+//クリップに関連する機能用
+//カット機能はここで実装
 public class ClipFunction : MonoBehaviour
 {
     [SerializeField] private RectTransform Timebar; //タイムバーのRectTransform
@@ -19,9 +21,14 @@ public class ClipFunction : MonoBehaviour
 
     private FunctionLookManager functionLook;
 
-    private void Awake()
+    private PlaySound playSound;
+
+
+    private void Start()
     {
         functionLook = GameObject.FindWithTag("GameManager").GetComponent<FunctionLookManager>();
+        playSound = GameObject.Find("AudioCanvas").GetComponent<PlaySound>();
+
 
         Button cutButton = GameObject.Find("Cut").GetComponent<Button>();
         cutButton.onClick.AddListener(OnCut);
@@ -43,6 +50,11 @@ public class ClipFunction : MonoBehaviour
         {
             //クリックしたクリップを取得
             Clip = GetClip.ReturnGetClip();
+            if (Clip == null)
+            {
+                playSound.PlaySE(PlaySound.SE_TYPE.develop);
+                return;
+            }
             //クリップの枠を非表示
             Clip.transform.GetChild(0).gameObject.SetActive(false);
             RectTransform clipRect = Clip.GetComponent<RectTransform>();
@@ -90,12 +102,13 @@ public class ClipFunction : MonoBehaviour
                 //クリップの長さと速さの初期値を設定
                 //クリップ(左)
                 ClipSpeed clipSpeed = Clip.GetComponent<ClipSpeed>();
+                float nowSpeed = clipSpeed.ReturnPlaySpeed();
                 clipSpeed.GetStartWidth(dis);   // 長さ
-                clipSpeed.UpdateSpeed(1f);      // 速さ
-                                                //クリップ(右)
+                clipSpeed.UpdateSpeed(nowSpeed);      // 速さ
+                //クリップ(右)
                 ClipSpeed newClipSpeed = newClip.GetComponent<ClipSpeed>();
                 newClipSpeed.GetStartWidth(newDis); //長さ
-                newClipSpeed.UpdateSpeed(1f);       //速さ
+                newClipSpeed.UpdateSpeed(nowSpeed);       //速さ
 
                 newClipPlay.CalculationMaxTime();
                 new_maxTime = newClipPlay.ReturnMaxTime();
@@ -112,6 +125,12 @@ public class ClipFunction : MonoBehaviour
                     }
                     newClipPlay.OutGetObj(obj);
                 }
+
+                playSound.PlaySE(PlaySound.SE_TYPE.cut);
+            }
+            else
+            {
+                playSound.PlaySE(PlaySound.SE_TYPE.develop);
             }
         }
     }

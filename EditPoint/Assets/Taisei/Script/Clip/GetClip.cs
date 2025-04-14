@@ -16,7 +16,6 @@ public class GetClip : MonoBehaviour
     private bool isTagHit;
 
     private SelectDelete deleteScript;
-    private bool isButton = false;          //デリートボタンをクリックしたかどうか
 
     void Start()
     {
@@ -89,14 +88,40 @@ public class GetClip : MonoBehaviour
                 //クリップだったときの処理
                 else
                 {
+                    //ロックされたクリップのとき
+                    if (result.gameObject.TryGetComponent<ClipOperation>(out var operation))
+                    {
+                        if (operation.CheckIsLook())
+                        {
+                            //非選択状態にする
+                            if(result.gameObject.TryGetComponent<ClipPlay>(out var clipPlay))
+                            {
+                                clipPlay.ConnectObjMaterialChange(0);
+                            }
+                            return;
+                        }
+                    }
+
+                    //別のクリップが選択されていた場合、それらを一度解除する
                     if (Clip != null && Clip != result.gameObject)
                     {
+                        //非選択状態にする
+                        if(Clip.TryGetComponent<ClipPlay>(out var clipPlay))
+                        {
+                            clipPlay.ConnectObjMaterialChange(0);
+                        }
                         BlinkImageObj.SetActive(false);
                     }
+
                     //一つ目の子オブジェクト(取得した時に出る枠)を取得
                     BlinkImageObj = result.gameObject.transform.GetChild(0).gameObject;
                     Clip = result.gameObject;
                     BlinkImageObj.SetActive(true);
+                    if (Clip.TryGetComponent<ClipPlay>(out var clipPlayScript))
+                    {
+                        clipPlayScript.ConnectObjMaterialChange(1);
+                    }
+
                     break;
                 }
             }
@@ -104,6 +129,11 @@ public class GetClip : MonoBehaviour
             {
                 if (Clip != null)
                 {
+                    //非選択状態にする
+                    if (Clip.TryGetComponent<ClipPlay>(out var clipPlay))
+                    {
+                        clipPlay.ConnectObjMaterialChange(0);
+                    }
                     BlinkImageObj.SetActive(false);
                     deleteScript.SetActiveButton(false);
                     Clip = null;
@@ -122,7 +152,6 @@ public class GetClip : MonoBehaviour
             Destroy(Clip);
             Clip = null;
         }
-
     }
 
     /// <summary>

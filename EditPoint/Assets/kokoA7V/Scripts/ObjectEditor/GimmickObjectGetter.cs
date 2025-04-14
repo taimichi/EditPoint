@@ -20,14 +20,20 @@ public class GimmickObjectGetter : MonoBehaviour
 
     private void Update()
     {
-
-        if (Input.GetMouseButtonDown(0))
+        //再生していないとき
+        if (!GameData.GameEntity.isPlayNow)
         {
-            GimmickObjGet(false);
-        }
-        else if (Input.GetMouseButtonDown(1))
-        {
-            GimmickObjGet(true);
+            if(ModeData.ModeEntity.mode == ModeData.Mode.normal)
+            {
+                if (Input.GetMouseButtonDown(0))
+                {
+                    GimmickObjGet(false);
+                }
+                else if (Input.GetMouseButtonDown(1))
+                {
+                    GimmickObjGet(true);
+                }
+            }
         }
     }
 
@@ -38,11 +44,14 @@ public class GimmickObjectGetter : MonoBehaviour
     /// <param name="trigger">true/false</param>
     private void GimmickObjGet(bool trigger)
     {
+
+        // ObjectScaleEdditor用のブロッククリック時取得プログラム
         if (editObj == null)
         {
             foreach (RaycastHit2D hit in Physics2D.RaycastAll(MousePos(), Vector2.zero))
             {
-                if (hit.collider.gameObject.layer == LayerMask.NameToLayer("Gimmick"))
+                // コピペ時はうごかないように
+                if (hit.collider.gameObject.layer == LayerMask.NameToLayer("Gimmick") && ModeData.ModeEntity.mode != ModeData.Mode.copy　&& ModeData.ModeEntity.mode != ModeData.Mode.paste)
                 {
                     ObjectScaleEditor.SetActive(true);
                     ose.GetObjTransform(hit.collider.gameObject, trigger);

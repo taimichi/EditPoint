@@ -39,16 +39,23 @@ public class VirtualObjectCollisionChecker : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        // collision対象レイヤー指定、要修正
-        if (collision.gameObject.layer == LayerMask.NameToLayer("Ground")
-            || collision.gameObject.layer == LayerMask.NameToLayer("Gimmick")
-            || collision.gameObject.layer == LayerMask.NameToLayer("Player"))
+        // 移動先が被ると
+        // 仕様変更につき不要
+        //// collision対象レイヤー指定、要修正
+        //if (collision.gameObject.layer == LayerMask.NameToLayer("Ground")
+        //    || collision.gameObject.layer == LayerMask.NameToLayer("Gimmick")
+        //    || collision.gameObject.layer == LayerMask.NameToLayer("Player"))
+        //{
+        //    // 現在編集中のオブジェクトは対象にならない
+        //    if (collision.gameObject != nowEditObject)
+        //    {
+        //        collisionList.Add(collision.gameObject);
+        //    }
+        //}
+
+        if (collision.gameObject.tag == "UnCreateArea")
         {
-            // 現在編集中のオブジェクトは対象にならない
-            if (collision.gameObject != nowEditObject)
-            {
-                collisionList.Add(collision.gameObject);
-            }
+            collisionList.Add(collision.gameObject);
         }
     }
 
@@ -60,6 +67,7 @@ public class VirtualObjectCollisionChecker : MonoBehaviour
     void CollisionDisp()
     {
         GetComponent<SpriteRenderer>().color = new Color32(255, 0, 0, 128);
+        //GetComponent<SpriteRenderer>().color = new Color32(0, 255, 255, 128);
     }
 
     void UnCollisionDisp()

@@ -43,4 +43,12 @@ public class ButtonSE : MonoBehaviour
     {
         playSound.PlaySE(PlaySound.SE_TYPE.develop);
     }
+
+    /// <summary>
+    /// キャンセルボタンのサウンド
+    /// </summary>
+   public void PlaySE_Cancel()
+    {
+        playSound.PlaySE(PlaySound.SE_TYPE.cancell);
+    }
 }

@@ -18,7 +18,7 @@ public class PlaySound : MonoBehaviour
         move,       //移動
         select,     //オブジェクト選択
         objMove,    //クリップ、オブジェクト移動
-        clipResize, //クリップサイズ変更
+        cut,        //カット
         clipGene,   //クリップ生成
         toolButton, //ツールボタンクリック
         katinko,    //カチンコ
@@ -31,13 +31,17 @@ public class PlaySound : MonoBehaviour
         itemGet,    //アイテム入手
         death,      //死亡
         develop,    //開発中
+        fall,       //落下
+        sceneChange,//場面転換
     }
 
     public enum BGM_TYPE
     {
         title_stageSelect,
-        stage1,
+        noon,
         talk,
+        evening,
+        night
     }
 
     public void PlayBGM(BGM_TYPE _bgm)

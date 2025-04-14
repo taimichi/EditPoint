@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3308635693940422910}
   - component: {fileID: 6087898439985930815}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: "\u30B7\u30E3\u30C3\u30BF\u30FC_\u30EA\u30E1\u30A4\u30AF"
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -96,7 +96,7 @@ GameObject:
   - component: {fileID: 8275585977216180597}
   - component: {fileID: 8275585977216180598}
   - component: {fileID: 8275585977216180594}
-  m_Layer: 8
+  m_Layer: 7
   m_Name: Lock
   m_TagString: UnTouch
   m_Icon: {fileID: 0}
@@ -208,7 +208,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0e15dc9ed81eb86409418d49bf27f291, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  KeyM: {fileID: 0}
 --- !u!114 &8275585977216180594
 MonoBehaviour:
   m_ObjectHideFlags: 0
