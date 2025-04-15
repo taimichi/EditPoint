@@ -105,10 +105,6 @@ public class ClipOperation : MonoBehaviour, IDragHandler, IBeginDragHandler, IEn
         //リサイズ用
         onetick = TimelineData.TimelineEntity.oneResize;
 
-        //初期の長さ
-        targetImage.sizeDelta = new Vector2(
-            startLength * onetick * 2, targetImage.sizeDelta.y
-            );
     }
 
     private void Start()
@@ -131,6 +127,10 @@ public class ClipOperation : MonoBehaviour, IDragHandler, IBeginDragHandler, IEn
         select_ClipCombine = GameObject.Find("Selects").GetComponent<SelectYesNo>();
         select_ClipCombine.SelectPanelActive(false);
 
+        //初期の長さ
+        targetImage.sizeDelta = new Vector2(
+            startLength * onetick * 2, targetImage.sizeDelta.y
+            );
 
         //クリップの位置を調整
         CalculationWidth(targetImage.localPosition.x);
@@ -181,22 +181,22 @@ public class ClipOperation : MonoBehaviour, IDragHandler, IBeginDragHandler, IEn
                         //重なったクリップの右端の座標を取得
                         float rightEdge = ClipsRect[i].anchoredPosition.x + (ClipsRect[i].rect.width * (1 - ClipsRect[i].pivot.x));
 
-                        newWidth = rightEdge + oneWidth;
+                        newPosX = rightEdge + oneWidth;
 
-                        CalculationWidth(newWidth);
+                        CalculationWidth(newPosX);
                         CalculationHeight(newPosY);
 
-                        targetImage.localPosition = new Vector3(newWidth, newPosY, 0);
+                        targetImage.localPosition = new Vector3(newPosX, newPosY, 0);
                         for(int j = 0; j < 5 /*タイムラインのレイヤー数*/ ; j++)
                         {
                             if (checkOverlap.IsOverlap(targetImage, ClipsRect[j]))
                             {
                                 newPosY -= oneHeight;
-                                targetImage.localPosition = new Vector3(newWidth, newPosY, 0);
+                                targetImage.localPosition = new Vector3(newPosX, newPosY, 0);
                             }
                         }
                     }
-                    targetImage.localPosition = new Vector3(newWidth, newPosY, 0);
+                    targetImage.localPosition = new Vector3(newPosX, newPosY, 0);
                 }
             }
             //タグ変更

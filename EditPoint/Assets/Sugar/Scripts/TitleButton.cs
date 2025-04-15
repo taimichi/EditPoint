@@ -47,10 +47,25 @@ public class TitleButton : MonoBehaviour
             {
                 playSound.PlaySE(PlaySound.SE_TYPE.enter);
                 playSound.PlaySE(PlaySound.SE_TYPE.sceneChange);
-                // フェード
-                fade.FadeIn(1.5f, () => {
-                    SceneManager.LoadSceneAsync("Talk");
-                });
+
+                //ゲームを開いてから会話シーンに行ったかどうか
+                if (!GameData.GameEntity.isTalk)
+                {
+                    //会話シーンに行ったことないとき
+                    // フェード
+                    fade.FadeIn(1.5f, () => {
+                        GameData.GameEntity.isTalk = true;
+                        SceneManager.LoadSceneAsync("Talk");
+                    });
+                }
+                else
+                {
+                    //会話シーンに行ったことあるとき
+                    // フェード
+                    fade.FadeIn(1.5f, () => {
+                        SceneManager.LoadScene("Select");
+                    });
+                }
             }
         }
     }

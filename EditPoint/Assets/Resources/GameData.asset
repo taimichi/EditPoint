@@ -16,3 +16,4 @@ MonoBehaviour:
   isTimebarReset: 0
   isLimitTime: 0
   isClear: 0
+  isTalk: 0
