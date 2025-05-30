@@ -104,7 +104,10 @@ public class ClipOperation : MonoBehaviour, IDragHandler, IBeginDragHandler, IEn
     {
         //リサイズ用
         onetick = TimelineData.TimelineEntity.oneResize;
-
+        //初期の長さ
+        targetImage.sizeDelta = new Vector2(
+            startLength * onetick * 2, targetImage.sizeDelta.y
+            );
     }
 
     private void Start()
@@ -126,11 +129,6 @@ public class ClipOperation : MonoBehaviour, IDragHandler, IBeginDragHandler, IEn
 
         select_ClipCombine = GameObject.Find("Selects").GetComponent<SelectYesNo>();
         select_ClipCombine.SelectPanelActive(false);
-
-        //初期の長さ
-        targetImage.sizeDelta = new Vector2(
-            startLength * onetick * 2, targetImage.sizeDelta.y
-            );
 
         //クリップの位置を調整
         CalculationWidth(targetImage.localPosition.x);

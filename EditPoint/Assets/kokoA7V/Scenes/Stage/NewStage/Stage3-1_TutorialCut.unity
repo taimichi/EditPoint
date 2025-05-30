@@ -3746,6 +3746,10 @@ PrefabInstance:
       propertyPath: m_Text
       value: "\u52D5\u304F\u8DB3\u5834"
       objectReference: {fileID: 0}
+    - target: {fileID: 4323194755857948595, guid: 3de79496991474f48a34ccbe59c522fc, type: 3}
+      propertyPath: startLength
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 4323194755857948600, guid: 3de79496991474f48a34ccbe59c522fc, type: 3}
       propertyPath: m_Pivot.x
       value: 0
