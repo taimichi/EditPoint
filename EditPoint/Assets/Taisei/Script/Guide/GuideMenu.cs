@@ -1,37 +1,23 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using Pixeye.Unity;
 
 public class GuideMenu : MonoBehaviour
 {
+    //チュートリアル用画像が入っているスクリプタブルオブジェクト
+    [SerializeField, Header("チュートリアル用画像")] private GuideSpriteListData guideSprite;
+
     private Canvas canvas;
     [SerializeField] private GameObject GuideMenuObj;
 
+    //画像を表示するImageオブジェクト
     [SerializeField] private GameObject GuideImage;
     private Image GuideSprite;
 
-    [SerializeField] private GameObject LButton;
-    [SerializeField] private GameObject RButton;
+    [SerializeField] private GameObject LButton;    //左矢印ボタン
+    [SerializeField] private GameObject RButton;    //右矢印ボタン
 
-    #region Sprite
-    [Foldout("Sprite")] [SerializeField] private Sprite[] ClipGuide;
-    [Foldout("Sprite")] [SerializeField] private Sprite[] BlockGeneGuide;
-    [Foldout("Sprite")] [SerializeField] private Sprite[] CopyGuide;
-    [Foldout("Sprite")] [SerializeField] private Sprite[] MoveGuide;
-    [Foldout("Sprite")] [SerializeField] private Sprite[] DeleteGuide;
-    [Foldout("Sprite")] [SerializeField] private Sprite[] TimelineGuide;
-    [Foldout("Sprite")] [SerializeField] private Sprite[] ButtonGuide;
-    [Foldout("Sprite")] [SerializeField] private Sprite[] BlowerGuide;
-    [Foldout("Sprite")] [SerializeField] private Sprite[] MoveGroundGuide;
-    [Foldout("Sprite")] [SerializeField] private Sprite[] CardGuide;
-    [Foldout("Sprite")] [SerializeField] private Sprite[] CutGuide;
-    [Foldout("Sprite")] [SerializeField] private Sprite[] OtherGuide;
-    #endregion
-
-    private Sprite[] sprites;
-    private int nowPage = 0;
+    private Sprite[] sprites;   //表示用のスプライトを入れる配列
+    private int nowPage = 0;    //現在のページ数
 
     //現在表示しているページ数
     [SerializeField] private Text PageNum;
@@ -41,16 +27,22 @@ public class GuideMenu : MonoBehaviour
 
     void Start()
     {
+        //Image取得
         GuideSprite = GuideImage.GetComponent<Image>();
+        //キャンバス取得
         canvas = this.GetComponent<Canvas>();
+        //ヌルチェック
         if(GameObject.Find("UICamera") != null)
         {
+            //UIカメラを取得
             canvas.worldCamera = GameObject.Find("UICamera").GetComponent<Camera>();
         }
         playSound = GameObject.Find("AudioCanvas").GetComponent<PlaySound>();
 
-
+        //左右ボタンを非表示
         CloseLRButton();
+
+        //チュートリアル用オブジェクトを非表示
         GuideImage.SetActive(false);
         GuideMenuObj.SetActive(false);
 
@@ -65,6 +57,7 @@ public class GuideMenu : MonoBehaviour
         playSound.PlaySE(PlaySound.SE_TYPE.cancell);
 
         CloseLRButton();
+        //ページ数とスプライト配列を初期化
         sprites = null;
         nowPage = 0;
 
@@ -78,6 +71,7 @@ public class GuideMenu : MonoBehaviour
     public void OnOpenGuide()
     {
         playSound.PlaySE(PlaySound.SE_TYPE.enter);
+        //操作説明用オブジェクトを表示
         GuideMenuObj.SetActive(true);
     }
 
@@ -88,15 +82,19 @@ public class GuideMenu : MonoBehaviour
     {
         playSound.PlaySE(PlaySound.SE_TYPE.enter);
         nowPage--;
+        //ページ数が0以下になるとき
         if (nowPage <= 0)
         {
+            //さらに前のページに戻らないよう左矢印ボタンを非表示
             LButton.SetActive(false);
+            //ページ数を0に
             nowPage = 0;
         }
         RButton.SetActive(true);
 
+        //チュートリアル用画像を更新
         GuideSprite.sprite = sprites[nowPage];
-
+        //ページ数を更新
         PageNum.text = (nowPage + 1).ToString() + " / " + sprites.Length;
     }
 
@@ -107,16 +105,30 @@ public class GuideMenu : MonoBehaviour
     {
         playSound.PlaySE(PlaySound.SE_TYPE.enter);
         nowPage++;
+        //ページ数が最大値以上になるとき
         if(nowPage >= sprites.Length -1)
         {
+            //次のページに進まないよう右矢印ボタンを非表示
             RButton.SetActive(false);
+            //ページ数を最大値に
             nowPage = sprites.Length - 1;
         }
         LButton.SetActive(true);
 
+        //チュートリアル用画像を更新
         GuideSprite.sprite = sprites[nowPage];
-
+        //ページ数を更新
         PageNum.text = (nowPage + 1).ToString() + " / " + sprites.Length;
+    }
+
+    /// <summary>
+    /// スプライトを設定
+    /// </summary>
+    /// <param name="_guide">設定するスプライトの内容</param>
+    private void SetGuideSprite(GuideSpriteListData.GUIDE _guide)
+    {
+        //表示用のスプライトに表示したいチュートリアル用画像を設定
+        sprites = guideSprite.GuideSprites[_guide].GuideSprites;
     }
 
     /// <summary>
@@ -125,7 +137,7 @@ public class GuideMenu : MonoBehaviour
     public void OnClipGuide()
     {
         playSound.PlaySE(PlaySound.SE_TYPE.enter);
-        sprites = ClipGuide;
+        SetGuideSprite(GuideSpriteListData.GUIDE.clip);
         SetLRButton();
         SetImage();
 
@@ -137,7 +149,7 @@ public class GuideMenu : MonoBehaviour
     public void OnBlockGuide()
     {
         playSound.PlaySE(PlaySound.SE_TYPE.enter);
-        sprites = BlockGeneGuide;
+        SetGuideSprite(GuideSpriteListData.GUIDE.blockGene);
         SetImage();
         CloseLRButton();
 
@@ -149,7 +161,7 @@ public class GuideMenu : MonoBehaviour
     public void OnBlowerGuide()
     {
         playSound.PlaySE(PlaySound.SE_TYPE.enter);
-        sprites = BlowerGuide;
+        SetGuideSprite(GuideSpriteListData.GUIDE.blower);
         SetImage();
         CloseLRButton();
 
@@ -161,7 +173,7 @@ public class GuideMenu : MonoBehaviour
     public void OnCopyGuide()
     {
         playSound.PlaySE(PlaySound.SE_TYPE.enter);
-        sprites = CopyGuide;
+        SetGuideSprite(GuideSpriteListData.GUIDE.copy);
         SetImage();
         CloseLRButton();
 
@@ -173,7 +185,7 @@ public class GuideMenu : MonoBehaviour
     public void OnMoveGuide()
     {
         playSound.PlaySE(PlaySound.SE_TYPE.enter);
-        sprites = MoveGuide;
+        SetGuideSprite(GuideSpriteListData.GUIDE.move);
         SetImage();
         SetLRButton();
 
@@ -185,7 +197,7 @@ public class GuideMenu : MonoBehaviour
     public void OnButtonGuide()
     {
         playSound.PlaySE(PlaySound.SE_TYPE.enter);
-        sprites = ButtonGuide;
+        SetGuideSprite(GuideSpriteListData.GUIDE.button);
         SetImage();
         CloseLRButton();
 
@@ -197,7 +209,7 @@ public class GuideMenu : MonoBehaviour
     public void OnDeleteGuide()
     {
         playSound.PlaySE(PlaySound.SE_TYPE.enter);
-        sprites = DeleteGuide;
+        SetGuideSprite(GuideSpriteListData.GUIDE.delete);
         SetImage();
         CloseLRButton();
 
@@ -209,7 +221,7 @@ public class GuideMenu : MonoBehaviour
     public void OnTimelineGuide()
     {
         playSound.PlaySE(PlaySound.SE_TYPE.enter);
-        sprites = TimelineGuide;
+        SetGuideSprite(GuideSpriteListData.GUIDE.timeline);
         SetImage();
         CloseLRButton();
 
@@ -221,7 +233,7 @@ public class GuideMenu : MonoBehaviour
     public void OnMoveGroundGuide()
     {
         playSound.PlaySE(PlaySound.SE_TYPE.enter);
-        sprites = MoveGroundGuide;
+        SetGuideSprite(GuideSpriteListData.GUIDE.moveGround);
         SetImage();
         SetLRButton();
 
@@ -233,7 +245,7 @@ public class GuideMenu : MonoBehaviour
     public void OnCardGuide()
     {
         playSound.PlaySE(PlaySound.SE_TYPE.enter);
-        sprites = CardGuide;
+        SetGuideSprite(GuideSpriteListData.GUIDE.card);
         SetImage();
         CloseLRButton();
 
@@ -245,7 +257,7 @@ public class GuideMenu : MonoBehaviour
     public void OnCutGuide()
     {
         playSound.PlaySE(PlaySound.SE_TYPE.enter);
-        sprites = CutGuide;
+        SetGuideSprite(GuideSpriteListData.GUIDE.cut);
         SetImage();
         CloseLRButton();
     }
@@ -253,7 +265,7 @@ public class GuideMenu : MonoBehaviour
     public void OnOtherGuide()
     {
         playSound.PlaySE(PlaySound.SE_TYPE.enter);
-        sprites = OtherGuide;
+        SetGuideSprite(GuideSpriteListData.GUIDE.other);
         SetImage();
         CloseLRButton();
     }
