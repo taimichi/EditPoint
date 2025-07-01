@@ -135,14 +135,18 @@ public class ClipOperation : MonoBehaviour, IDragHandler, IBeginDragHandler, IEn
         CalculationHeight(targetImage.localPosition.y);
         CheckWidth();
         CheckHeight();
+        //位置を設定
         targetImage.localPosition = new Vector3(newPosX, newPosY, 0);
+        //開始サイズを取得
         startSize = targetImage.sizeDelta;
+        //サイズを設定
         targetImage.sizeDelta = new Vector2(startSize.x, startSize.y);
 
         //子オブジェクトの順番を変更
         int childNum = targetImage.parent.transform.childCount;
         transform.SetSiblingIndex(childNum - 3);
 
+        //クリップの画像を取得
         ClipImage = this.gameObject.GetComponent<Image>();
 
         //クリップの画像を変更
@@ -160,13 +164,14 @@ public class ClipOperation : MonoBehaviour, IDragHandler, IBeginDragHandler, IEn
         //作成したばっかのクリップの時
         if (this.gameObject.tag == "CreateClip")
         {
+            //全クリップを取得
             GetAllClipRect();
             for (int i = 0; i < ClipsRect.Length; i++)
             {
                 //他のクリップと重なった場合
                 if (checkOverlap.IsOverlap(targetImage, ClipsRect[i]))
                 {
-                    //重なったクリップの下に移動
+                    //重なったクリップの下の段に移動
                     newPosY = ClipsRect[i].localPosition.y - oneHeight;
                     CheckHeight();
 
@@ -178,28 +183,36 @@ public class ClipOperation : MonoBehaviour, IDragHandler, IBeginDragHandler, IEn
 
                         //重なったクリップの右端の座標を取得
                         float rightEdge = ClipsRect[i].anchoredPosition.x + (ClipsRect[i].rect.width * (1 - ClipsRect[i].pivot.x));
-
+                        //新たなx座標を取得
                         newPosX = rightEdge + oneWidth;
 
+                        //再度計算し、座標を調整
                         CalculationWidth(newPosX);
                         CalculationHeight(newPosY);
 
+                        //座標更新
                         targetImage.localPosition = new Vector3(newPosX, newPosY, 0);
+
                         for(int j = 0; j < 5 /*タイムラインのレイヤー数*/ ; j++)
                         {
+                            //まだ他のクリップと重なった場合
                             if (checkOverlap.IsOverlap(targetImage, ClipsRect[j]))
                             {
+                                //新たなy座標を設定
                                 newPosY -= oneHeight;
+                                //座標更新
                                 targetImage.localPosition = new Vector3(newPosX, newPosY, 0);
                             }
                         }
                     }
+                    //座標更新
                     targetImage.localPosition = new Vector3(newPosX, newPosY, 0);
                 }
             }
             //タグ変更
             this.gameObject.tag = "SetClip";
         }
+        //開始時の座標を取得
         startPos = this.transform.localPosition;
         isOut = false;
     }
@@ -221,7 +234,9 @@ public class ClipOperation : MonoBehaviour, IDragHandler, IBeginDragHandler, IEn
         {
             startPos = this.transform.localPosition;
 
+            //変更前のクリップのサイズを取得
             biginSizeDelta = targetImage.sizeDelta;
+            //マウスカーソルの座標を取得し、ローカル座標に直す
             RectTransformUtility.ScreenPointToLocalPointInRectangle(
                 targetImage,
                 eventData.position,
@@ -233,14 +248,18 @@ public class ClipOperation : MonoBehaviour, IDragHandler, IBeginDragHandler, IEn
             if (Mathf.Abs(localMousePos.x - (-targetImage.rect.width * targetImage.pivot.x)) <= edgeRange)
             {
                 // 左端
+                //クリップのピボットを変更
                 SetPivot(targetImage, new Vector2(1, 0.5f));
+                //左側変更フラグに
                 isResizeRight = false;
                 mode = CLIP_MODE.resize;
             }
             else if (Mathf.Abs(localMousePos.x - (targetImage.rect.width * (1 - targetImage.pivot.x))) <= edgeRange)
             {
                 // 右端
+                //クリップのピボットを変更
                 SetPivot(targetImage, new Vector2(0, 0.5f));
+                //右側変更フラグに
                 isResizeRight = true;
                 mode = CLIP_MODE.resize;
             }
@@ -248,12 +267,16 @@ public class ClipOperation : MonoBehaviour, IDragHandler, IBeginDragHandler, IEn
             {
                 // 端以外の場合はリサイズを無効化、クリップ移動モードにする
                 mode = CLIP_MODE.move;
+                //ピボットを通常の状態に
                 SetPivot(targetImage, new Vector2(0, 0.5f));
+                //マウスカーソルとクリップの中心位置の距離を取得
                 moveOffset.x = targetImage.position.x - localMousePos.x;
             }
 
+            //クリップサイズ変更モードの時
             if (mode == CLIP_MODE.resize)
             {
+                //マウスカーソルの座標を取得し、ローカル座標に直す
                 RectTransformUtility.ScreenPointToLocalPointInRectangle(
                     (RectTransform)targetImage.parent,
                     eventData.position,
@@ -272,6 +295,7 @@ public class ClipOperation : MonoBehaviour, IDragHandler, IBeginDragHandler, IEn
             return;
         }
 
+        //クリップ操作が禁止されていないとき
         if ((functionLook.FunctionLook & LookFlags.ClipAccess) == 0)
         {
             //スクリーン座標をRectTransform上のローカル座標に変換
@@ -350,6 +374,7 @@ public class ClipOperation : MonoBehaviour, IDragHandler, IBeginDragHandler, IEn
                     }
                 }
 
+                //クリップのサイズを変更
                 targetImage.sizeDelta = new Vector2(newWidth, targetImage.sizeDelta.y);
             }
 
@@ -495,11 +520,16 @@ public class ClipOperation : MonoBehaviour, IDragHandler, IBeginDragHandler, IEn
     /// <param name="pivot">変更後のPivotの値</param>
     private void SetPivot(RectTransform rectTransform, Vector2 pivot)
     {
+        //変更したいRectTransformのサイズを取得
         size = rectTransform.rect.size;
+        //ピボットの変更前と変更後の差分
         deltaPivot = rectTransform.pivot - pivot;
+        //変更前の変更後の座標の差分
         deltaPos = new Vector3(deltaPivot.x * size.x, deltaPivot.y * size.y);
 
+        //新たなピボットを設定
         rectTransform.pivot = pivot;
+        //ピボット変更による座標ずれを修正
         rectTransform.localPosition -= deltaPos * rectTransform.localScale.x;
     }
 

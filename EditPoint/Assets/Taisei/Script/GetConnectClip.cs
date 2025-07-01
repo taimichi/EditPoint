@@ -7,7 +7,7 @@ public class GetConnectClip : MonoBehaviour
     private GameObject attachClip;
 
     /// <summary>
-    /// このオブジェクトと紐づけられているクリップを取得
+    /// このオブジェクトと紐づけられているクリップを設定
     /// </summary>
     /// <param name="_clip">紐づけられているクリップ</param>
     public void GetAttachClip(GameObject _clip)
