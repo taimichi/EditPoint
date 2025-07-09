@@ -2555,39 +2555,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 34294061b6604d24c9a9a1303d0809ed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  guideSprite: {fileID: 11400000, guid: 833bdbf8237927246b2517b1a238ec89, type: 2}
   GuideMenuObj: {fileID: 7461670952042457470}
   GuideImage: {fileID: 7461670950362645170}
   LButton: {fileID: 7461670950688687905}
   RButton: {fileID: 7461670951580177383}
-  ClipGuide:
-  - {fileID: 21300000, guid: 2a8012687f566d84c90b55eaba01f6ed, type: 3}
-  - {fileID: 21300000, guid: 0fe8dd0d0a5bb9048a8f9390d450b882, type: 3}
-  - {fileID: 21300000, guid: 4340b133c3cf8ef4c95dae40a19dfe28, type: 3}
-  - {fileID: 21300000, guid: b08949212f4ce734b9d8b1c56a59d098, type: 3}
-  BlockGeneGuide:
-  - {fileID: 21300000, guid: 2d4a578431655d04ea6b5bfbbcab3bab, type: 3}
-  CopyGuide:
-  - {fileID: 21300000, guid: 14e1003bc2ad04d46a6823524ddbacb1, type: 3}
-  MoveGuide:
-  - {fileID: 21300000, guid: f40998a164df11d4b825583327ee1f95, type: 3}
-  - {fileID: 21300000, guid: 910ef4557e2b0fe45ba3559c625f8310, type: 3}
-  DeleteGuide:
-  - {fileID: 21300000, guid: eb9b0306c2022b94a9a0bc5a32d84ab1, type: 3}
-  TimelineGuide:
-  - {fileID: 21300000, guid: dcce91b6c6b50e94886ce2581aeaae1c, type: 3}
-  ButtonGuide:
-  - {fileID: 21300000, guid: b0b5ca57132e80a4da5f96c69a37113b, type: 3}
-  BlowerGuide:
-  - {fileID: 21300000, guid: 2d3dea6e2e0339b46a2fe10b0da1f967, type: 3}
-  MoveGroundGuide:
-  - {fileID: 21300000, guid: 6546e3551edff4e489f8bee355111785, type: 3}
-  - {fileID: 21300000, guid: 6694ab23160cd924ea2886c62222a8fd, type: 3}
-  CardGuide:
-  - {fileID: 21300000, guid: 5c6579354c3cfac4ea31d26f8c890188, type: 3}
-  CutGuide:
-  - {fileID: 21300000, guid: b4328d6e592d2b54e910854873146a9d, type: 3}
-  OtherGuide:
-  - {fileID: 21300000, guid: fda8166be8a69fc42a4bc45f80d962dd, type: 3}
   PageNum: {fileID: 5574072042175570572}
 --- !u!114 &4036931674506953822
 MonoBehaviour:
@@ -2601,30 +2573,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9cdc0a8890629f6419b0176e01f3afd1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  guideSprite: {fileID: 11400000, guid: 833bdbf8237927246b2517b1a238ec89, type: 2}
   QuickGuideObj: {fileID: 5156956734673203509}
   GuideImage: {fileID: 8346706850053942421}
   LButton: {fileID: 3013196004396524566}
   RButton: {fileID: 954187159131151373}
-  clip:
-  - {fileID: 21300000, guid: 2a8012687f566d84c90b55eaba01f6ed, type: 3}
-  - {fileID: 21300000, guid: 0fe8dd0d0a5bb9048a8f9390d450b882, type: 3}
-  - {fileID: 21300000, guid: 4340b133c3cf8ef4c95dae40a19dfe28, type: 3}
-  block:
-  - {fileID: 21300000, guid: 2d4a578431655d04ea6b5bfbbcab3bab, type: 3}
-  blower:
-  - {fileID: 21300000, guid: 2d3dea6e2e0339b46a2fe10b0da1f967, type: 3}
-  copy:
-  - {fileID: 21300000, guid: 14e1003bc2ad04d46a6823524ddbacb1, type: 3}
-  move:
-  - {fileID: 21300000, guid: f40998a164df11d4b825583327ee1f95, type: 3}
-  - {fileID: 21300000, guid: 910ef4557e2b0fe45ba3559c625f8310, type: 3}
-  moveGround:
-  - {fileID: 21300000, guid: 6546e3551edff4e489f8bee355111785, type: 3}
-  - {fileID: 21300000, guid: 6694ab23160cd924ea2886c62222a8fd, type: 3}
-  card:
-  - {fileID: 21300000, guid: 5c6579354c3cfac4ea31d26f8c890188, type: 3}
-  cut:
-  - {fileID: 21300000, guid: b4328d6e592d2b54e910854873146a9d, type: 3}
 --- !u!1 &7461670950109266885
 GameObject:
   m_ObjectHideFlags: 0
