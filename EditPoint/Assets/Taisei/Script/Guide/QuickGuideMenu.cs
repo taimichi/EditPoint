@@ -6,26 +6,18 @@ using Pixeye.Unity;
 
 public class QuickGuideMenu : MonoBehaviour
 {
+    //チュートリアル用画像が入っているスクリプタブルオブジェクト
+    [SerializeField] private GuideSpriteListData guideSprite;
+
     [SerializeField] private GameObject QuickGuideObj;
     [SerializeField] private GameObject GuideImage;
     private Image GuideSprite;
 
-    [SerializeField] private GameObject LButton;
-    [SerializeField] private GameObject RButton;
+    [SerializeField] private GameObject LButton;        //左矢印ボタン
+    [SerializeField] private GameObject RButton;        //右矢印ボタン
 
-    #region Sprite
-    [Foldout("Sprite")] [SerializeField] private Sprite[] clip;
-    [Foldout("Sprite")] [SerializeField] private Sprite[] block;
-    [Foldout("Sprite")] [SerializeField] private Sprite[] blower;
-    [Foldout("Sprite")] [SerializeField] private Sprite[] copy;
-    [Foldout("Sprite")] [SerializeField] private Sprite[] move;
-    [Foldout("Sprite")] [SerializeField] private Sprite[] moveGround;
-    [Foldout("Sprite")] [SerializeField] private Sprite[] card;
-    [Foldout("Sprite")] [SerializeField] private Sprite[] cut;
-    #endregion
-
-    private Sprite[] sprites;
-    private int nowPage = 0;
+    private Sprite[] sprites;   //表示用スプライト配列
+    private int nowPage = 0;    //現在のページ数
 
     private PlaySound playSound;
 
@@ -111,38 +103,38 @@ public class QuickGuideMenu : MonoBehaviour
         switch (guideName)
         {
             case "Clip":
-                sprites = clip;
+                sprites = guideSprite.GuideSprites[GuideSpriteListData.GUIDE.clip].GuideSprites;
                 SetLRButton();
                 break;
 
             case "Block":
-                sprites = block;
+                sprites = guideSprite.GuideSprites[GuideSpriteListData.GUIDE.blockGene].GuideSprites ;
                 break;
 
             case "Blower":
-                sprites = blower;
+                sprites = guideSprite.GuideSprites[GuideSpriteListData.GUIDE.blower].GuideSprites;
                 break;
 
             case "Copy":
-                sprites = copy;
+                sprites = guideSprite.GuideSprites[GuideSpriteListData.GUIDE.copy].GuideSprites;
                 break;
 
             case "Move":
-                sprites = move;
+                sprites = guideSprite.GuideSprites[GuideSpriteListData.GUIDE.move].GuideSprites;
                 SetLRButton();
                 break;
 
             case "MoveGround":
-                sprites = moveGround;
+                sprites = guideSprite.GuideSprites[GuideSpriteListData.GUIDE.moveGround].GuideSprites;
                 SetLRButton();
                 break;
 
             case "Card":
-                sprites = card;
+                sprites = guideSprite.GuideSprites[GuideSpriteListData.GUIDE.card].GuideSprites;
                 break;
 
             case "Cut":
-                sprites = cut;
+                sprites = guideSprite.GuideSprites[GuideSpriteListData.GUIDE.cut].GuideSprites;
                 break;
         }
 
