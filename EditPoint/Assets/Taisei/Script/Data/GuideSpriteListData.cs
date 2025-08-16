@@ -28,5 +28,5 @@ public class GuideSpriteListData : ScriptableObject
     /// <summary>
     /// チュートリアルの画像データを入れるdictionary
     /// </summary>
-    [SerializeField] public SerializedDictionary<GUIDE, GuideSpriteData> GuideSprites;
+    [SerializeField] public SerializedDictionary<GUIDE, GuideSpriteData> GuideSpriteDictionary;
 }

@@ -137,7 +137,7 @@ public class CopyAndPaste : MonoBehaviour
 
     private void GetObj()
     {
-        //クリックしたときに選択したオブジェクトのレイヤーに変更
+        //クリックしたときに選択したオブジェクトを取得
         if (Input.GetMouseButtonDown(0))
         {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);

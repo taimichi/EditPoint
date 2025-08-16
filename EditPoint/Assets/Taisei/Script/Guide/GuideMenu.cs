@@ -16,8 +16,8 @@ public class GuideMenu : MonoBehaviour
     [SerializeField] private GameObject LButton;    //左矢印ボタン
     [SerializeField] private GameObject RButton;    //右矢印ボタン
 
-    private Sprite[] sprites;   //表示用のスプライトを入れる配列
-    private int nowPage = 0;    //現在のページ数
+    private Sprite[] sprites;                       //表示用のスプライトを入れる配列
+    private int nowPage = 0;                        //現在のページ数
 
     //現在表示しているページ数
     [SerializeField] private Text PageNum;
@@ -128,7 +128,7 @@ public class GuideMenu : MonoBehaviour
     private void SetGuideSprite(GuideSpriteListData.GUIDE _guide)
     {
         //表示用のスプライトに表示したいチュートリアル用画像を設定
-        sprites = guideSprite.GuideSprites[_guide].GuideSprites;
+        sprites = guideSprite.GuideSpriteDictionary[_guide].GuideSprites;
     }
 
     /// <summary>

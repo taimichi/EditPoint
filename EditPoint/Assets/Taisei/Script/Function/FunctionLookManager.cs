@@ -6,12 +6,12 @@ using UnityEngine;
 [System.Flags]
 public enum LookFlags
 {
-    None = 0,
-    CopyPaste = 1 << 0,
-    ObjectMove = 1 << 1,
-    ClipAccess = 1 << 2,
-    Cut = 1 << 3,
-    ClipGenerate = 1 << 4,
+    None          = 0,
+    CopyPaste     = 1 << 0,
+    ObjectMove    = 1 << 1,
+    ClipAccess    = 1 << 2,
+    Cut           = 1 << 3,
+    ClipGenerate  = 1 << 4,
     BlockGenerate = 1 << 5
 }
 

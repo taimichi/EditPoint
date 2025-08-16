@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3f585205dd3eef1429dcae0ecfa52369, type: 3}
   m_Name: GuideList
   m_EditorClassIdentifier: 
-  GuideSprites:
+  GuideSpriteDictionary:
     m_list:
     - Key: 1
       Value: {fileID: 11400000, guid: 52bd9528735588747a4f8e13314b6ec4, type: 2}

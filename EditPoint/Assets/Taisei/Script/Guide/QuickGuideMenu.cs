@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using Pixeye.Unity;
 
+//ステージ初めに表示されるチュートリアル用
 public class QuickGuideMenu : MonoBehaviour
 {
     //チュートリアル用画像が入っているスクリプタブルオブジェクト
@@ -15,6 +16,7 @@ public class QuickGuideMenu : MonoBehaviour
 
     [SerializeField] private GameObject LButton;        //左矢印ボタン
     [SerializeField] private GameObject RButton;        //右矢印ボタン
+    [SerializeField] private GameObject CloseButton;    //閉じるボタン
 
     private Sprite[] sprites;   //表示用スプライト配列
     private int nowPage = 0;    //現在のページ数
@@ -25,6 +27,9 @@ public class QuickGuideMenu : MonoBehaviour
     {
         GuideSprite = GuideImage.GetComponent<Image>();
         playSound = GameObject.Find("AudioCanvas").GetComponent<PlaySound>();
+
+        //閉じるボタンを非表示
+        CloseButton.SetActive(false);
     }
 
     /// <summary>
@@ -34,15 +39,21 @@ public class QuickGuideMenu : MonoBehaviour
     {
         LButton.SetActive(false);
         RButton.SetActive(true);
+
+        //閉じるボタンを非表示
+        CloseButton.SetActive(false);
     }
 
     /// <summary>
-    /// 左右ボタンを非表示にする
+    /// 左右ボタンを使用不可にする
     /// </summary>
     private void CloseLRButton()
     {
         LButton.SetActive(false);
         RButton.SetActive(false);
+
+        //閉じるボタンを表示
+        CloseButton.SetActive(true);
     }
 
     /// <summary>
@@ -63,13 +74,18 @@ public class QuickGuideMenu : MonoBehaviour
     public void OnRightButton()
     {
         playSound.PlaySE(PlaySound.SE_TYPE.enter);
+        //ページ数を変更
         nowPage++;
+        //現在のページ数が最大数になったとき
         if(nowPage >= sprites.Length - 1)
         {
             RButton.SetActive(false);
+            //閉じるボタン表示
+            CloseButton.SetActive(true);
         }
         LButton.SetActive(true);
 
+        //チュートリアル画像更新
         GuideSprite.sprite = sprites[nowPage];
     }
 
@@ -79,13 +95,23 @@ public class QuickGuideMenu : MonoBehaviour
     public void OnLeftButton()
     {
         playSound.PlaySE(PlaySound.SE_TYPE.enter);
+        //ページ数を更新
         nowPage--;
+        //現在のページ数が最小値になったとき
         if(nowPage <= 0)
         {
             LButton.SetActive(false);
         }
         RButton.SetActive(true);
 
+        //閉じるボタンが表示状態だったら
+        if (CloseButton.activeSelf)
+        {
+            //閉じるボタンを非表示に
+            CloseButton.SetActive(false);
+        }
+
+        //チュートリアル画像更新
         GuideSprite.sprite = sprites[nowPage];
     }
 
@@ -102,44 +128,62 @@ public class QuickGuideMenu : MonoBehaviour
 
         switch (guideName)
         {
+            //テンプレート
+            //case "string(表示したい操作方法の名前)":
+            //    画像表示
+            //    sprites = guideSprite.GuideSpriteDictionary[GuideSpriteListData.GUIDE.xxx].GuideSprites;
+            //    break;
+
+            //クリップ
             case "Clip":
-                sprites = guideSprite.GuideSprites[GuideSpriteListData.GUIDE.clip].GuideSprites;
+                sprites = guideSprite.GuideSpriteDictionary[GuideSpriteListData.GUIDE.clip].GuideSprites;
                 SetLRButton();
                 break;
 
+            //ブロック生成
             case "Block":
-                sprites = guideSprite.GuideSprites[GuideSpriteListData.GUIDE.blockGene].GuideSprites ;
+                sprites = guideSprite.GuideSpriteDictionary[GuideSpriteListData.GUIDE.blockGene].GuideSprites ;
                 break;
 
+            //送風機
             case "Blower":
-                sprites = guideSprite.GuideSprites[GuideSpriteListData.GUIDE.blower].GuideSprites;
+                sprites = guideSprite.GuideSpriteDictionary[GuideSpriteListData.GUIDE.blower].GuideSprites;
                 break;
 
+            //コピー＆ペースト
             case "Copy":
-                sprites = guideSprite.GuideSprites[GuideSpriteListData.GUIDE.copy].GuideSprites;
+                sprites = guideSprite.GuideSpriteDictionary[GuideSpriteListData.GUIDE.copy].GuideSprites;
                 break;
 
+            //物の移動・拡縮・回転
             case "Move":
-                sprites = guideSprite.GuideSprites[GuideSpriteListData.GUIDE.move].GuideSprites;
-                SetLRButton();
+                sprites = guideSprite.GuideSpriteDictionary[GuideSpriteListData.GUIDE.move].GuideSprites;
                 break;
-
+                
+            //動く床
             case "MoveGround":
-                sprites = guideSprite.GuideSprites[GuideSpriteListData.GUIDE.moveGround].GuideSprites;
-                SetLRButton();
+                sprites = guideSprite.GuideSpriteDictionary[GuideSpriteListData.GUIDE.moveGround].GuideSprites;
                 break;
 
+            //カードキー
             case "Card":
-                sprites = guideSprite.GuideSprites[GuideSpriteListData.GUIDE.card].GuideSprites;
+                sprites = guideSprite.GuideSpriteDictionary[GuideSpriteListData.GUIDE.card].GuideSprites;
                 break;
 
+            //カット
             case "Cut":
-                sprites = guideSprite.GuideSprites[GuideSpriteListData.GUIDE.cut].GuideSprites;
+                sprites = guideSprite.GuideSpriteDictionary[GuideSpriteListData.GUIDE.cut].GuideSprites;
                 break;
         }
 
+        //画像枚数が2枚以上の時
+        if(sprites.Length >= 2)
+        {
+            //左右ボタンを使用可能に
+            SetLRButton();
+        }
+
+        //チュートリアル画像をセット
         GuideSprite.sprite = sprites[nowPage];
     }
-
-    public bool IsCheckActive() => QuickGuideObj.activeSelf;
 }

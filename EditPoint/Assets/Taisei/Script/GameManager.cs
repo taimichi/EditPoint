@@ -104,7 +104,9 @@ public class GameManager : MonoBehaviour
                     case string name when name.Contains("Clip"):
                         if ((TutorialData.TutorialEntity.frags & TutorialData.Tutorial_Frags.clip) == 0)
                         {
+                            //チュートリアルを表示
                             quick.StartGuide("Clip");
+                            //フラグをオンにする
                             TutorialData.TutorialEntity.frags |= TutorialData.Tutorial_Frags.clip;
                         }
                         break;
@@ -216,6 +218,7 @@ public class GameManager : MonoBehaviour
     /// </summary>
     private void DebugOption()
     {
+        //全フラグをオフにする
         TutorialData.TutorialEntity.frags = TutorialData.Tutorial_Frags.None;
     }
 
