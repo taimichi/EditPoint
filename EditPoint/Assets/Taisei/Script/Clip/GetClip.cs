@@ -83,7 +83,7 @@ public class GetClip : MonoBehaviour
                 //タイムバーに触れた時はforeachから即抜け出す
                 if (result.gameObject.tag == "Timebar")
                 {
-                    Debug.Log("test");
+
                     break;
                 }
                 //クリップだったときの処理

@@ -31,6 +31,8 @@ public class GameManager : MonoBehaviour
     private Button speedChangeButton;
     private Text speedText;
 
+    [SerializeField] private GameObject test; 
+
     private void Awake()
     {
         //各フラグをリセット
@@ -51,7 +53,7 @@ public class GameManager : MonoBehaviour
     {
         Time.timeScale = 1;
 
-        //チュートリアル以外のステージのとき
+        //ステージシーンのとき
         if (nowSceneName.Contains("Stage"))
         {
             timeBar = GameObject.Find("Timebar").GetComponent<TimeBar>();
@@ -64,6 +66,11 @@ public class GameManager : MonoBehaviour
             speedChangeButton.onClick.AddListener(OnChangePlaySpeed);
             speedText = GameObject.Find("SpeedText").GetComponent<Text>();
             speedText.text = "×" + playSpeed.ToString();
+
+            test.SetActive(true);
+            test.GetComponent<Fade>().FadeOut(1.0f, () => {
+                test.SetActive(false); }
+            );
 
             switch (nowSceneName)
             {

@@ -29,7 +29,6 @@ public class ClipPlay : MonoBehaviour
     private float maxTime = 0f;         //クリップの長さ
 
     private MoveGroundManager MGManager;
-    private MoveGround move;
 
     private GetConnectClip getConnectClip;  //このクリップに紐づいているオブジェクトに、このクリップを渡す用
 
@@ -126,31 +125,23 @@ public class ClipPlay : MonoBehaviour
             //タイムバーを手動で動かしてる時
             if (TimeData.TimeEntity.isDragMode)
             {
-                for (int connectObjNum = 0; connectObjNum < ConnectObj.Count; connectObjNum++)
+                //動く床を取得
+                GameObject moveGround = ReturnConnectMoveObj();
+                if (moveGround != null)
                 {
-                    //動く床オブジェクトの時
-                    if (ConnectObj[connectObjNum].TryGetComponent<MoveGround>(out move))
-                    {
-                        //クリップの開始秒数を動く床のスクリプトに渡す
-                        move.GetClipTime_Manual(startTime + manualTime);
-                    }
+                    //手動再生時の時間を渡す
+                    moveGround.GetComponent<MoveGround>().GetClipTime_Manual(startTime + manualTime);
                 }
+                
             }
             //タイムバーが自動で動いているとき
             else
             {
-                for (int connectObjNum = 0; connectObjNum < ConnectObj.Count; connectObjNum++)
-                {
-                    //動く床のオブジェクトの時
-                    if (ConnectObj[connectObjNum].TryGetComponent<MoveGround>(out move))
-                    {
-                        //クリップの開始秒数を動く床のスクリプトに渡す
-                        move.GetClipTime_Auto(startTime);
-                    }
-                }
+
             }
         }
 
+        //クリップの再生関連の処理
         ClipPlayNow();
     }
 
@@ -319,4 +310,24 @@ public class ClipPlay : MonoBehaviour
     /// </summary>
     /// <returns>クリップの最大時間</returns>
     public float ReturnMaxTime() => maxTime;
+
+    /// <summary>
+    /// 紐づいている動く床オブジェクトを返す
+    /// </summary>
+    /// <returns>動く床のゲームオブジェクト(何もない場合はnull)</returns>
+    public GameObject ReturnConnectMoveObj()
+    {
+        for (int connectObjNum = 0; connectObjNum < ConnectObj.Count; connectObjNum++)
+        {
+            //動く床オブジェクトの時
+            if (ConnectObj[connectObjNum].name.Contains("MoveGround"))
+            {
+                //動く床オブジェクトを返す
+                return ConnectObj[connectObjNum];
+            }
+        }
+
+        //何もなかった場合はnullを返す
+        return null;
+    }
 }

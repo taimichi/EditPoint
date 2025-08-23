@@ -22,21 +22,11 @@ public class MoveGround : MonoBehaviour
     private float playSpeed = 1f;
 
     //外部からの取得用
-    //自動再生の時のクリップの時間
-    private float _autoClipTime = 0f;
     //手動再生の時のクリップの時間
     private float _manualClipTime = 0f;
     //実際に処理で使う用
-    //自動再生の時のクリップの時間
-    private float AutoClipTime = 0f;
     //手動再生の時のクリップの時間
     private float ManualClipTime = 0f;
-
-    //初期位置
-    Vector3 startPos;
-
-    //カットしたかどうか
-    private bool isCut = false;
 
     /// <summary>
     /// 地面と触れたかどうか
@@ -56,40 +46,48 @@ public class MoveGround : MonoBehaviour
     private bool isStart = false;
 
     //動く床の幻影
-    [Foldout("Child"), SerializeField] private GameObject child;
-    [Foldout("Child"), SerializeField] private CheckMoveGround childCheck;
-    [Foldout("Child"), SerializeField] private SpriteRenderer childSR;
-    [Foldout("Child"), SerializeField] private Color N_color;   // 通常の時の色
-    [Foldout("Child"), SerializeField] private Color C_color;   // 床に触れた時
+    [Foldout("Child"), SerializeField] private GameObject child;            //影用オブジェクト
+    [Foldout("Child"), SerializeField] private CheckMoveGround childCheck;  //判定用スクリプト
+    [Foldout("Child"), SerializeField] private SpriteRenderer childSR;      //影用オブジェクトのスプライトレンダラー
+    [Foldout("Child"), SerializeField] private Color N_color;               // 通常の時の色
+    [Foldout("Child"), SerializeField] private Color C_color;               // 床に触れた時
 
     private float beforeTime = 0f;
 
-
-    //カットした時の保存用
-    private struct saveInfo
+    private struct moveGroundState
     {
-        public bool isSave;         // カットしてあるかどうか
-        public int savePathNum;     // 保存したnowPath
-        public Vector3 savePos;     // 保存した座標
-        public float saveTime;      // 保存した時間
+        public Vector3 startPos;    //開始位置
+        public float startTime;     //開始時間
+        public int startPath;       //開始時のnowPath
+        public Vector3 child_startPos;
     }
-    private saveInfo info;
+    private moveGroundState normal;
 
-    private void Start()
+
+    private void Awake()
     {
-        childSR.color = N_color;
-        MGManager = GameObject.Find("GameManager").GetComponent<MoveGroundManager>();
-        MGManager.GetMoveGrounds(this.gameObject);
-        info.isSave = false;
+        //位置を最初の位置に設定
         this.transform.position = path[0];
+        //移動時間を設定
         timer = pathTime[0];
         nowPath = 0;
 
-        //path.Add(Vector3.zero);
-        //pathTime.Add(0);
+        //開始時の状態を保存
+        normal.startPos = this.transform.position;
+        normal.startPath = nowPath;
+        normal.startTime = timer;
 
-        startPos = this.transform.position;
-        isCut = false;
+        normal.child_startPos = normal.startPos;
+    }
+
+    private void Start()
+    {
+        //子オブジェクトのカラーを通常時の色に
+        childSR.color = N_color;
+        //動く床のマネージャースクリプトを取得
+        MGManager = GameObject.Find("GameManager").GetComponent<MoveGroundManager>();
+        MGManager.GetMoveGrounds(this.gameObject);
+
         isInvert = false;
         isStart = false;
     }
@@ -108,20 +106,13 @@ public class MoveGround : MonoBehaviour
             //再生中のみ
             if (GameData.GameEntity.isPlayNow)
             {
+                //影用オブジェクトを非表示に
                 child.SetActive(false);
+                //ループ始めの１回目のみ
                 if (!isStart)
                 {
                     isStart = true;
-                    //カットされたとき
-                    if (info.isSave)
-                    {
-                        this.transform.position = info.savePos;
-                    }
-                    //カットされていないとき
-                    else
-                    {
-                        this.transform.position = startPos;
-                    }
+                    this.transform.position = normal.startPos;
                 }
 
                 // 移動用
@@ -156,7 +147,7 @@ public class MoveGround : MonoBehaviour
                 nowPos.x = Mathf.Floor(nowPos.x * 10) / 10;
                 nowPos.y = Mathf.Floor(nowPos.y * 10) / 10;
 
-                //反転処理
+                //床の移動反転処理
                 if (isInvert)
                 {
                     int i = nowPath;
@@ -166,36 +157,46 @@ public class MoveGround : MonoBehaviour
                     }
                     if (nowPos == path[i - 1])
                     {
+                        //次の座標位置の番号へ
                         nowPath++;
+                        //座標位置の番号が座標位置配列の最大数-1に達した時
                         if (nowPath == path.Count - 1)
                         {
                             nowPath = 0;
                         }
+                        //時間更新
                         timer = pathTime[nowPath];
                         isGroundHit = false;
                         isInvert = false;
                     }
                 }
 
+                //時間が0秒以下になったら
                 if (timer <= 0)
                 {
+                    //次の座標位置の番号へ
                     nowPath++;
+                    //座標位置の番号が座標位置配列の最大数-1に達した時
                     if (nowPath == path.Count - 1)
                     {
                         nowPath = 0;
                     }
-                    //Debug.Log(nowPath + " 到着");
+                    //時間更新
                     timer = pathTime[nowPath];
                     isGroundHit = false;
                 }
 
+                //動く床が別の地面に衝突した時
                 if (isCheckGroundHit)
                 {
+                    //次の座標位置の番号へ
                     nowPath++;
+                    //座標位置の番号が座標位置配列の最大数-1に達した時
                     if (nowPath == path.Count - 1)
                     {
                         nowPath = 0;
                     }
+                    //時間更新
                     timer = pathTime[nowPath];
                     isGroundHit = false;
                     isCheckGroundHit = false;
@@ -239,7 +240,7 @@ public class MoveGround : MonoBehaviour
             {
                 movePos *= -1;
             }
-            child.transform.position = startPos + movePos;
+            child.transform.position = normal.child_startPos + movePos;
 
             //幻影の色変化処理
             if (childCheck.ReturnIsTrigger() && beforeTime == 0)
@@ -255,6 +256,7 @@ public class MoveGround : MonoBehaviour
         }
     }
 
+    //衝突時
     private void OnCollisionEnter2D(Collision2D collision)
     {
         // Playerを子オブジェクト化
@@ -265,6 +267,7 @@ public class MoveGround : MonoBehaviour
 
     }
 
+    //衝突後
     private void OnCollisionExit2D(Collision2D collision)
     {
         // Playerが離れたら子オブジェクト解除
@@ -274,53 +277,6 @@ public class MoveGround : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// 初期位置更新
-    /// </summary>
-    private void StartPosUpdate()
-    {
-        //カット機能を使った際の処理
-        if (_autoClipTime > 0 && !isCut)
-        {
-            Debug.Log("カットした");
-            int i = 0;
-            AutoClipTime = _autoClipTime;
-            //スタート時間を動く床の移動時間から順に引いていく
-            while (AutoClipTime >= pathTime[i])
-            {
-                AutoClipTime -= pathTime[i];
-                i++;
-                if (i >= pathTime.Count - 1)
-                {
-                    i = 0;
-                }
-            }
-            AutoClipTime = pathTime[i] - AutoClipTime;
-
-            Vector3 dist = path[i + 1] - path[i];
-            if (i + 1 == path.Count - 1)
-            {
-                dist = path[i - 1] - path[i];
-            }
-            Vector3 moveSpeed = dist / pathTime[i];
-
-            //開始時間を変更
-            //autoClipは上の処理で必ずpathTime[nowPath]以下の値になってるため
-            //引いて残りの時間を求める
-            info.saveTime = pathTime[i] - (pathTime[i] - AutoClipTime);
-            timer = info.saveTime;
-            info.savePathNum = nowPath;
-
-            //動く床の開始位置を変更
-            info.savePos = path[i] + (moveSpeed * (pathTime[i] - AutoClipTime) * speed * playSpeed);
-            //this.transform.position = info.savePos;
-            //startPos = this.transform.position;
-
-            isCut = true;
-            info.isSave = true;
-        }
-
-    }
 
     /// <summary>
     /// タイムバーリセット(初期位置に戻る)がされたかどうか
@@ -329,19 +285,10 @@ public class MoveGround : MonoBehaviour
     {
         if (GameData.GameEntity.isTimebarReset)
         {
-            //カットされたクリップの時
-            if(info.isSave)
-            {
-                this.transform.position = startPos;
-                nowPath = info.savePathNum;
-                timer = info.saveTime;
-            }
-            else
-            {
-                this.transform.position = path[0];
-                timer = pathTime[0];
-                nowPath = 0;
-            }
+            this.transform.position = normal.startPos;
+            timer = normal.startTime;
+            nowPath = normal.startPath;
+
             isInvert = false;
             isStart = false;
         }
@@ -365,27 +312,61 @@ public class MoveGround : MonoBehaviour
         _manualClipTime = _clipTime;
     }
 
-    /// <summary>
-    /// クリップから自動時の現在にクリップの秒数を取得
-    /// </summary>
-    /// <param name="_clipTime">クリップの現在の秒数(自動時)</param>
-    public void GetClipTime_Auto(float _clipTime)
-    {
-        _autoClipTime = _clipTime;
-
-        StartPosUpdate();
-    }
 
     /// <summary>
     /// 現在の位置から初期位置に戻す
     /// </summary>
     public void SetStartPos()
     {
-        this.transform.position = startPos;
+        this.transform.position = normal.startPos;
     }
 
     public void SetTrigger(bool trigger)
     {
         isGroundHit = trigger;
+    }
+
+    /// <summary>
+    /// 紐づけられたクリップがカット処理されたとき
+    /// </summary>
+    public void Cuted(float newStartTime)
+    {
+        int i = 0;
+        float time = newStartTime;
+        while (time >= pathTime[i])
+        {
+            time -= pathTime[i];
+            i++;
+            if (i >= pathTime.Count - 1)
+            {
+                i = 0;
+            }
+        }
+        if (i == pathTime.Count - 2)
+        {
+            time = pathTime[i] - time;
+        }
+
+        Vector3 dist = path[i + 1] - path[i];
+        if (i + 1 == path.Count - 1)
+        {
+            dist = path[i - 1] - path[i];
+        }
+        Vector3 moveSpeed = dist / pathTime[i];
+        Vector3 movePos = moveSpeed * time * speed * playSpeed;
+        if (i == path.Count - 2)
+        {
+            movePos *= -1;
+        }
+        //開始座標変更
+        normal.startPos += movePos;
+        this.transform.position = normal.startPos;
+        //開始時間変更
+        time = pathTime[i] - time;
+        normal.startTime = pathTime[i] - (pathTime[i] - time);
+        timer = normal.startTime;
+        //開始nowPath変更
+        normal.startPath = i;
+        nowPath = normal.startPath;
     }
 }

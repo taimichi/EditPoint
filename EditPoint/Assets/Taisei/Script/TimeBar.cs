@@ -72,13 +72,13 @@ public class TimeBar : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragH
         //再生中
         if (GameData.GameEntity.isPlayNow)
         {
-            //時間内の時
-            if (barPos.localPosition.x < limitPosX)
+            //時間内の時かつステージがクリアされてないとき
+            if (barPos.localPosition.x < limitPosX && !GameData.GameEntity.isClear)
             {
                 barPos.localPosition = nowPos;
                 nowPos.x += speed * Time.deltaTime;
             }
-            //最後まで再生した時
+            //最後まで再生した時かステージがクリアされたとき
             else
             {
                 //時間の限界時の処理
@@ -89,8 +89,11 @@ public class TimeBar : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragH
         //再生してないとき
         else
         {
+            //タイムバーの開始位置から現在の位置の距離を求める
             float f_distance = this.transform.localPosition.x - startPos.x;
+            //タイムバーのある位置の時間を求める
             nowTime = (float)Math.Truncate(f_distance / speed * 10) / 10;
+            //現在の時間を
             TimeData.TimeEntity.nowTime = nowTime;
 
         }

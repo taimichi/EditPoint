@@ -19,8 +19,10 @@ public class ClipFunction : MonoBehaviour
 
     private CheckOverlap checkOverlap = new CheckOverlap();
 
+    //機能ロックスクリプト
     private FunctionLookManager functionLook;
 
+    //サウンド用
     private PlaySound playSound;
 
 
@@ -103,27 +105,35 @@ public class ClipFunction : MonoBehaviour
                 //クリップ(左)
                 ClipSpeed clipSpeed = Clip.GetComponent<ClipSpeed>();
                 float nowSpeed = clipSpeed.ReturnPlaySpeed();
-                clipSpeed.GetStartWidth(dis);   // 長さ
-                clipSpeed.UpdateSpeed(nowSpeed);      // 速さ
+                clipSpeed.GetStartWidth(dis);           // 長さ
+                clipSpeed.UpdateSpeed(nowSpeed);        // 速さ
                 //クリップ(右)
                 ClipSpeed newClipSpeed = newClip.GetComponent<ClipSpeed>();
-                newClipSpeed.GetStartWidth(newDis); //長さ
-                newClipSpeed.UpdateSpeed(nowSpeed);       //速さ
+                newClipSpeed.GetStartWidth(newDis);     //長さ
+                newClipSpeed.UpdateSpeed(nowSpeed);     //速さ
 
+                //新しいクリップの時間を更新
                 newClipPlay.CalculationMaxTime();
+                //新しいクリップの最大時間を取得
                 new_maxTime = newClipPlay.ReturnMaxTime();
+
+                //新しいクリップの開始時間を変更
                 newClipPlay.UpdateStartTime(old_maxTime - new_maxTime);
 
                 //クリップに紐づけられたオブジェクトを複製して、新しいクリップと紐づけ
                 for (int i = 0; i < newConnectObj.Count; i++)
                 {
                     GameObject obj = Instantiate(newConnectObj[i]);
-                    //動く床だった時
-                    if (TryGetComponent<MoveGround>(out var test))
-                    {
-                        test.GetClipTime_Auto(old_maxTime - new_maxTime);
-                    }
+
                     newClipPlay.OutGetObj(obj);
+                }
+
+                //動く床オブジェクトを取得
+                GameObject moveGround = newClipPlay.ReturnConnectMoveObj();
+                if (moveGround != null)
+                {
+                    //動く床のカット時の処理
+                    moveGround.GetComponent<MoveGround>().Cuted(old_maxTime - new_maxTime);
                 }
 
                 playSound.PlaySE(PlaySound.SE_TYPE.cut);
