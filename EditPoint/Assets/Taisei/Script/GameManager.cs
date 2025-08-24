@@ -31,7 +31,7 @@ public class GameManager : MonoBehaviour
     private Button speedChangeButton;
     private Text speedText;
 
-    [SerializeField] private GameObject test; 
+    [SerializeField] private GameObject fadeObj; 
 
     private void Awake()
     {
@@ -47,6 +47,12 @@ public class GameManager : MonoBehaviour
 
         //デバッグ用フラグをリセット
         isDebug = false;
+
+        //ステージシーンの時
+        if (!nowSceneName.Contains("Stage"))
+        {
+            fadeObj.SetActive(false);
+        }
     }
 
     void Start()
@@ -67,9 +73,8 @@ public class GameManager : MonoBehaviour
             speedText = GameObject.Find("SpeedText").GetComponent<Text>();
             speedText.text = "×" + playSpeed.ToString();
 
-            test.SetActive(true);
-            test.GetComponent<Fade>().FadeOut(1.0f, () => {
-                test.SetActive(false); }
+            fadeObj.GetComponent<Fade>().FadeOut(1.0f, () => {
+                fadeObj.SetActive(false); }
             );
 
             switch (nowSceneName)
@@ -142,7 +147,7 @@ public class GameManager : MonoBehaviour
                         }
                         break;
 
-                    case string name when name.Contains("Move"):
+                    case string name when name.Contains("Transform"):
                         if ((TutorialData.TutorialEntity.frags & TutorialData.Tutorial_Frags.move) == 0)
                         {
                             quick.StartGuide("Move");

@@ -368,5 +368,6 @@ public class MoveGround : MonoBehaviour
         //ŠJnnowPath•ÏX
         normal.startPath = i;
         nowPath = normal.startPath;
+
     }
 }

@@ -26401,7 +26401,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6f02c0fe89a0ac74dabfca4d21e3ed7f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sceneName: Stage1-1_TutorialMove
+  sceneName: Stage1-1_TutorialTransform
 --- !u!1 &2127868672
 GameObject:
   m_ObjectHideFlags: 0

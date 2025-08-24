@@ -246,7 +246,7 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 1448d44172098b44b9e5cf86d4233e26, type: 3}
   - {fileID: 21300000, guid: fe148f4aa9f71fe4a872dadefd55f35c, type: 3}
   - {fileID: 21300000, guid: 7e14e470ecbd7234f8de7ab27cae6216, type: 3}
-  test: {fileID: 2901133184031600567}
+  fadeObj: {fileID: 2901133184031600567}
 --- !u!114 &2312610123839145837
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -824,7 +824,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5754903268281461704, guid: 6e10c3b2759b814478e6d901644aeaa6, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5754903268303216738, guid: 6e10c3b2759b814478e6d901644aeaa6, type: 3}
       propertyPath: m_Pivot.x

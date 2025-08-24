@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: StageData
   m_EditorClassIdentifier: 
   STAGE_DATA:
-  - Stage1-1_TutorialMove
+  - Stage1-1_TutorialTransform
   - Stage1-2
   - Stage1-3
   - Stage1-4_TutorialClip
