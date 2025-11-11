@@ -11,13 +11,20 @@ public class ButtonSelect : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
     [SerializeField] GameObject fileObj;
 
     // ここでどのボタン機能か判断
-    enum SelectButton
+    public enum SelectButton
     {
         File,FileClose,Bg,Title,End,Yes_No,Option,OptionClose,etc,
         /*ゲームシーン中に使うやつ*/
         Guide,Game,Select
     }
     [Header("ボタン機能の種類を選ぶ"),SerializeField] SelectButton kindButton;
+
+    //ステージセレクトのロック用
+    //false=使用不可 / true=使用可能
+    private bool isLock = true;
+    [SerializeField] private GameObject LockPanel;
+
+
 
     // UIのインターフェース
     #region interface
@@ -35,6 +42,26 @@ public class ButtonSelect : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
     }
     #endregion
 
+    void Start()
+    {
+        //ステージセレクトボタンの時
+        if(kindButton == SelectButton.File)
+        {
+            SceneChange sc = fileObj.GetComponent<SceneChange>();
+            sc.SarchStage();
+            isLock = sc.ReturnIsLock();
+            //ロック状態の時
+            if (!isLock)
+            {
+                LockPanel.SetActive(true);
+            }
+            else
+            {
+                LockPanel.SetActive(false);
+            }
+        }
+    }
+
     void Update()
     {
         // 選ばれた状態でのみ
@@ -47,6 +74,7 @@ public class ButtonSelect : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
                 img.SetActive(false);
             }
         }
+
     }
 
     // どのボタンを使うか判断
@@ -167,7 +195,10 @@ public class ButtonSelect : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
     // ファイル機能
     private void File()
     {
-        fileObj.SetActive(true);
+        if (isLock)
+        {
+            fileObj.SetActive(true);
+        }
     }
     #endregion
 

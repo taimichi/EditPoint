@@ -24,21 +24,22 @@ public class ClearNextButton : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        for (int i = 0; i < std.STAGE_DATA.Count; i++)
+        for (int i = 0; i < std.stageData.Length; i++)
         {
             // 現在シーンの次のシーン名を取得
-            if(nowStageName==std.STAGE_DATA[i])
+            if(nowStageName==std.stageData[i].stageName)
             {
                 Debug.Log("DATA" + i);
-                Debug.Log(std.STAGE_DATA.Count);
+                Debug.Log(std.stageData[i].stageName.Length);
                 // 最大値を越したら0に戻す
-                if (i+1 == std.STAGE_DATA.Count)
+                if (i + 1 == std.stageData.Length)
                 {
-                    NextStageName = std.STAGE_DATA[0];
+                    NextStageName = std.stageData[0].stageName;
                 }
                 else
                 {
-                    NextStageName = std.STAGE_DATA[i + 1];
+                    NextStageName = std.stageData[i + 1].stageName;
+                    std.stageData[i + 1].stagelock = NewStageData.StageLock.Open;
                 }
             }
         }

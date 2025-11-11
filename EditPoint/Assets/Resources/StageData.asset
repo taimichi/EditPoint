@@ -12,36 +12,132 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d7fbaf0da8a7ece418a6467b4236d1b0, type: 3}
   m_Name: StageData
   m_EditorClassIdentifier: 
-  STAGE_DATA:
-  - Stage1-1_TutorialTransform
-  - Stage1-2
-  - Stage1-3
-  - Stage1-4_TutorialClip
-  - Stage1-5
-  - Stage1-6_TutorialMoveGround
-  - Stage1-7
-  - Stage1-8
-  - Stage2-1_TutorialBlock
-  - Stage2-2
-  - Stage2-3
-  - Stage2-4_TutorialBlower
-  - Stage2-5_TutorialCopy
-  - Stage2-6
-  - Stage2-7
-  - Stage2-8
-  - Stage3-1_TutorialCut
-  - Stage3-2
-  - Stage3-3_TutorialCard
-  - Stage3-4
-  - Stage3-5
-  - Stage3-6
-  - Stage3-7
-  - Stage3-8
-  - Stage4-1
-  - Stage4-2
-  - Stage4-3
-  - Stage4-4
-  - Stage4-5
-  - Stage4-6
-  - Stage4-7
-  - Stage4-8
+  stageData:
+  - stageName: Stage1-1_TutorialTransform
+    worldNum: 1
+    stageNum: 1
+    stagelock: 0
+  - stageName: Stage1-2
+    worldNum: 1
+    stageNum: 2
+    stagelock: 1
+  - stageName: Stage1-3
+    worldNum: 1
+    stageNum: 3
+    stagelock: 1
+  - stageName: Stage1-4_TutorialClip
+    worldNum: 1
+    stageNum: 4
+    stagelock: 1
+  - stageName: Stage1-5
+    worldNum: 1
+    stageNum: 5
+    stagelock: 1
+  - stageName: Stage1-6_TutorialGround
+    worldNum: 1
+    stageNum: 6
+    stagelock: 1
+  - stageName: Stage1-7
+    worldNum: 1
+    stageNum: 7
+    stagelock: 1
+  - stageName: Stage1-8
+    worldNum: 1
+    stageNum: 8
+    stagelock: 1
+  - stageName: Stage2-1_TutorialBlock
+    worldNum: 2
+    stageNum: 1
+    stagelock: 0
+  - stageName: Stage2-2
+    worldNum: 2
+    stageNum: 2
+    stagelock: 1
+  - stageName: Stage2-3
+    worldNum: 2
+    stageNum: 3
+    stagelock: 1
+  - stageName: Stage2-4_TutorialBlower
+    worldNum: 2
+    stageNum: 4
+    stagelock: 1
+  - stageName: Stage2-5_TutorialCopy
+    worldNum: 2
+    stageNum: 5
+    stagelock: 1
+  - stageName: Stage2-6
+    worldNum: 2
+    stageNum: 6
+    stagelock: 1
+  - stageName: Stage2-7
+    worldNum: 2
+    stageNum: 7
+    stagelock: 1
+  - stageName: Stage2-8
+    worldNum: 2
+    stageNum: 8
+    stagelock: 1
+  - stageName: Stage3-1_TutorialCut
+    worldNum: 3
+    stageNum: 1
+    stagelock: 1
+  - stageName: Stage3-2
+    worldNum: 3
+    stageNum: 2
+    stagelock: 1
+  - stageName: Stage3-3_TutorialCard
+    worldNum: 3
+    stageNum: 3
+    stagelock: 1
+  - stageName: Stage3-4
+    worldNum: 3
+    stageNum: 4
+    stagelock: 1
+  - stageName: Stage3-5
+    worldNum: 3
+    stageNum: 5
+    stagelock: 1
+  - stageName: Stage3-6
+    worldNum: 3
+    stageNum: 6
+    stagelock: 1
+  - stageName: Stage3-7
+    worldNum: 3
+    stageNum: 7
+    stagelock: 1
+  - stageName: Stage3-8
+    worldNum: 3
+    stageNum: 8
+    stagelock: 1
+  - stageName: Stage4-1
+    worldNum: 4
+    stageNum: 1
+    stagelock: 1
+  - stageName: Stage4-2
+    worldNum: 4
+    stageNum: 2
+    stagelock: 1
+  - stageName: Stage4-3
+    worldNum: 4
+    stageNum: 3
+    stagelock: 1
+  - stageName: Stage4-4
+    worldNum: 4
+    stageNum: 4
+    stagelock: 1
+  - stageName: Stage4-5
+    worldNum: 4
+    stageNum: 5
+    stagelock: 1
+  - stageName: Stage4-6
+    worldNum: 4
+    stageNum: 6
+    stagelock: 1
+  - stageName: Stage4-7
+    worldNum: 4
+    stageNum: 7
+    stagelock: 1
+  - stageName: Stage4-8
+    worldNum: 4
+    stageNum: 8
+    stagelock: 1

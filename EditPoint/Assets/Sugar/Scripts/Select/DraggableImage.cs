@@ -7,6 +7,8 @@ public class DraggableImage : MonoBehaviour, IPointerDownHandler, IPointerUpHand
     private Vector2 originalPosition;
     private RectTransform rectTransform;
     private Canvas canvas; // UIの座標系を取得するためのCanvas
+    private NewStageData stageDataScript;
+    private bool isLock = true; //ロックされてるかどうか false=ロックされてる / true=ロックされてない
 
     public RectTransform targetImage; // 目標地点のImageのRectTransform
     public float snapDistance = 50f; // スナップする距離の閾値
@@ -22,6 +24,11 @@ public class DraggableImage : MonoBehaviour, IPointerDownHandler, IPointerUpHand
     [SerializeField] GameObject LoadObj;
     // 表示するステージパネル
     [SerializeField] GameObject StagePanel;
+
+    //ワールド番号
+    [SerializeField] private int worldNum = 1;
+    [SerializeField] private GameObject LockPanel;
+
     private void Awake()
     {
         rectTransform = GetComponent<RectTransform>();
@@ -36,6 +43,37 @@ public class DraggableImage : MonoBehaviour, IPointerDownHandler, IPointerUpHand
         Vector2 checkPosition = new Vector2(rectTransform.anchoredPosition.x, rectTransform.anchoredPosition.y);  // チェックしたい位置
         CheckUIObjectAtPosition(checkPosition, canvas);
 
+    }
+
+    private void Start()
+    {
+        stageDataScript = NewStageData.StageEntity;
+        //該当ワールドを検索
+        for(int i = 0; i < stageDataScript.stageData.Length; i++)
+        {
+            //設定したワールド番号がステージデータのワールド番号と同じとき
+            if(worldNum == stageDataScript.stageData[i].worldNum)
+            {
+                //ステージ番号が1の時(1は各ワールドの始めのステージ)
+                if(stageDataScript.stageData[i].stageNum == 1)
+                {
+                    //ステージ1がロックされてたら
+                    if (stageDataScript.stageData[i].stagelock == NewStageData.StageLock.Lock)
+                    {
+                        //ロック状態にする
+                        isLock = false;
+                        LockPanel.SetActive(true);
+                        break;
+                    }
+                    else
+                    {
+                        //ロック状態を解除
+                        isLock = true;
+                        LockPanel.SetActive(false);
+                    }
+                }
+            }
+        }
     }
 
     // UIのインターフェース
@@ -54,44 +92,55 @@ public class DraggableImage : MonoBehaviour, IPointerDownHandler, IPointerUpHand
     }
     public void OnPointerDown(PointerEventData eventData)
     {
-        isDragging = true;
+        if (isLock)
+        {
+            isDragging = true;
+        }
     }
 
     public void OnDrag(PointerEventData eventData)
     {
-        if (isDragging && canvas != null)
+        if (isLock)
         {
-            // UIの座標変換を考慮して位置を更新
-            RectTransformUtility.ScreenPointToLocalPointInRectangle(
-                canvas.transform as RectTransform,
-                eventData.position,
-                eventData.pressEventCamera,
-                out Vector2 localPoint
-            );
+            if (isDragging && canvas != null)
+            {
+                // UIの座標変換を考慮して位置を更新
+                RectTransformUtility.ScreenPointToLocalPointInRectangle(
+                    canvas.transform as RectTransform,
+                    eventData.position,
+                    eventData.pressEventCamera,
+                    out Vector2 localPoint
+                );
 
-            rectTransform.anchoredPosition = localPoint;
+                rectTransform.anchoredPosition = localPoint;
+            }
         }
+
     }
     #endregion
 
     public void OnPointerUp(PointerEventData eventData)
     {
-        isDragging = false;
-
-        // 目標のImageとの距離を計算
-        float distance = Vector2.Distance(rectTransform.anchoredPosition, targetImage.anchoredPosition);
-
-        // しきい値内なら目標Imageの位置にスナップ
-        if (distance < snapDistance)
+        if (isLock)
         {
-            rectTransform.anchoredPosition = targetImage.anchoredPosition;
-            LoadObj.SetActive(true);
-            load.SetObj = StagePanel;
+            isDragging = false;
+
+            // 目標のImageとの距離を計算
+            float distance = Vector2.Distance(rectTransform.anchoredPosition, targetImage.anchoredPosition);
+
+            // しきい値内なら目標Imageの位置にスナップ
+            if (distance < snapDistance)
+            {
+                rectTransform.anchoredPosition = targetImage.anchoredPosition;
+                LoadObj.SetActive(true);
+                load.SetObj = StagePanel;
+            }
+            else
+            {
+                rectTransform.anchoredPosition = originalPosition; // 元の位置に戻る
+            }
         }
-        else
-        {
-            rectTransform.anchoredPosition = originalPosition; // 元の位置に戻る
-        }
+
     }
 
     // 指定された座標が特定のRectTransform内にあるかチェック
@@ -124,21 +173,25 @@ public class DraggableImage : MonoBehaviour, IPointerDownHandler, IPointerUpHand
     // ドラッグする予定の位置に移動すること
     private void FixedUpdate()
     {
-        // 触れてないなら処理なし
-        if (!IsHit) { return; }
-
-        if(Input.GetMouseButtonDown(0))
+        if (isLock)
         {
-            clickCnt++;
+            // 触れてないなら処理なし
+            if (!IsHit) { return; }
+
+            if (Input.GetMouseButtonDown(0))
+            {
+                clickCnt++;
+            }
+
+            // 少なくとも二回押された時にダブルクリックとして扱う
+            if (clickCnt >= 2)
+            {
+                rectTransform.anchoredPosition = targetImage.anchoredPosition;
+                LoadObj.SetActive(true);
+                load.SetObj = StagePanel;
+            }
         }
 
-        // 少なくとも二回押された時にダブルクリックとして扱う
-        if(clickCnt>=2)
-        {
-            rectTransform.anchoredPosition = targetImage.anchoredPosition;
-            LoadObj.SetActive(true);
-            load.SetObj = StagePanel;
-        }
     }
 
 
