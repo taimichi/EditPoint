@@ -223,12 +223,14 @@ public class GameManager : MonoBehaviour
                 DebugOption_Reset();
                 GameData.GameEntity.isTimebarReset = false;
                 Debug.Log("チュートリアル情報を初期化");
+                playSound.PlaySE(PlaySound.SE_TYPE.develop);
             }
             //全ステージを開放する
             else if(Input.GetKeyDown(KeyCode.O) && isDebug)
             {
                 DebugOption_Open();
                 Debug.Log("全ステージを開放");
+                playSound.PlaySE(PlaySound.SE_TYPE.develop);
             }
 
         }
