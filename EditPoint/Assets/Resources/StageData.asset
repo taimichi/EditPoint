@@ -48,7 +48,7 @@ MonoBehaviour:
   - stageName: Stage2-1_TutorialBlock
     worldNum: 2
     stageNum: 1
-    stagelock: 0
+    stagelock: 1
   - stageName: Stage2-2
     worldNum: 2
     stageNum: 2

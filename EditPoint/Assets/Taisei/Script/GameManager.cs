@@ -202,6 +202,8 @@ public class GameManager : MonoBehaviour
 
                 case "Select":
                     playSound.PlayBGM(PlaySound.BGM_TYPE.title_stageSelect);
+                    Fade fade2 = GameObject.Find("GameFade").GetComponent<Fade>();
+                    fade2.FadeOut(1.0f);
                     break;
             }
         }
@@ -215,24 +217,55 @@ public class GameManager : MonoBehaviour
         //タイトル画面の時のみ使用可能
         if (Input.GetKey(KeyCode.LeftShift))
         {
-            //チュートリアルステージを強制的にプレイした状態にする
+            //強制的に初期状態にする
             if (Input.GetKeyDown(KeyCode.D) && isDebug)
             {
-                DebugOption();
+                DebugOption_Reset();
                 GameData.GameEntity.isTimebarReset = false;
                 Debug.Log("チュートリアル情報を初期化");
+            }
+            //全ステージを開放する
+            else if(Input.GetKeyDown(KeyCode.O) && isDebug)
+            {
+                DebugOption_Open();
+                Debug.Log("全ステージを開放");
+            }
+
+        }
+    }
+
+    #region デバッグ機能
+    /// <summary>
+    /// デバッグ用機能　チュートリアルステージをプレイしたかどうかの情報を初期化する
+    /// </summary>
+    private void DebugOption_Reset()
+    {
+        //全フラグをオフにする
+        TutorialData.TutorialEntity.frags = TutorialData.Tutorial_Frags.None;
+
+        //ステージ1-1以外のステージをロック状態に
+        for(int i = 0; i < NewStageData.StageEntity.stageData.Length; i++)
+        {
+            //ステージ1以外をロック状態に
+            if (i != 0)
+            {
+                NewStageData.StageEntity.stageData[i].stagelock = NewStageData.StageLock.Lock;
             }
         }
     }
 
     /// <summary>
-    /// デバッグ用機能　チュートリアルステージをプレイしたかどうかの情報を初期化する
+    /// デバッグ用機能　全ステージを開放する
     /// </summary>
-    private void DebugOption()
+    private void DebugOption_Open()
     {
-        //全フラグをオフにする
-        TutorialData.TutorialEntity.frags = TutorialData.Tutorial_Frags.None;
+        //ステージ1-1以外のステージをロック状態に
+        for (int i = 0; i < NewStageData.StageEntity.stageData.Length; i++)
+        {
+            NewStageData.StageEntity.stageData[i].stagelock = NewStageData.StageLock.Open;
+        }
     }
+    #endregion
 
     /// <summary>
     /// スタートボタンを押したとき

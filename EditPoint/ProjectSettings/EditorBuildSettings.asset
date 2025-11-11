@@ -18,34 +18,34 @@ EditorBuildSettings:
     path: Assets/Stage/Stage1/Stage1-1_TutorialTransform.unity
     guid: c8ce337dadca9b241bb7ee6de30934c6
   - enabled: 1
-    path: Assets/kokoA7V/Scenes/Stage/NewStage/Stage1-2.unity
+    path: Assets/Stage/Stage1/Stage1-2.unity
     guid: 9ad1b5543a87f4f4e804130b5aa75f46
   - enabled: 1
-    path: Assets/kokoA7V/Scenes/Stage/NewStage/Stage1-3.unity
+    path: Assets/Stage/Stage1/Stage1-3.unity
     guid: 375325d5edc6fc94cbfe6d0f6d6cc151
   - enabled: 1
     path: Assets/Stage/Stage1/Stage1-4_TutorialClip.unity
     guid: c02cdd17abfc51940a39cd003c3e12a9
   - enabled: 1
-    path: Assets/kokoA7V/Scenes/Stage/NewStage/Stage1-5.unity
+    path: Assets/Stage/Stage1/Stage1-5.unity
     guid: c4009b64bcf959448b2aa47207fd9772
   - enabled: 1
     path: Assets/Stage/Stage1/Stage1-6_TutorialMoveGround.unity
     guid: f6f8b888a73defe48b6e173826ce3312
   - enabled: 1
-    path: Assets/kokoA7V/Scenes/Stage/NewStage/Stage1-7.unity
+    path: Assets/Stage/Stage1/Stage1-7.unity
     guid: 84f8b0307aa448d4c8c915bc0441c800
   - enabled: 1
-    path: Assets/kokoA7V/Scenes/Stage/NewStage/Stage1-8.unity
+    path: Assets/Stage/Stage1/Stage1-8.unity
     guid: fdc806a08362d034a9a1f47f494eaccb
   - enabled: 1
     path: Assets/Stage/Stage2/Stage2-1_TutorialBlock.unity
     guid: fbb1cc7f703e8a74c9b7c6287494378b
   - enabled: 1
-    path: Assets/kokoA7V/Scenes/Stage/NewStage/Stage2-2.unity
+    path: Assets/Stage/Stage2/Stage2-2.unity
     guid: 28a51a7b65992064791ef2ba3b1b47f8
   - enabled: 1
-    path: Assets/kokoA7V/Scenes/Stage/NewStage/Stage2-3.unity
+    path: Assets/Stage/Stage2/Stage2-3.unity
     guid: bd8f4906cb7ea7b4384f2e242b93b504
   - enabled: 1
     path: Assets/Stage/Stage2/Stage2-4_TutorialBlower.unity
@@ -57,57 +57,57 @@ EditorBuildSettings:
     path: Assets/Stage/Stage2/Stage2-6.unity
     guid: fae1faf4dad1da541a0a421d21555ada
   - enabled: 1
-    path: Assets/kokoA7V/Scenes/Stage/NewStage/Stage2-7.unity
+    path: Assets/Stage/Stage2/Stage2-7.unity
     guid: c82f76d844007b84aabdae96431d20a2
   - enabled: 1
-    path: Assets/kokoA7V/Scenes/Stage/NewStage/Stage2-8.unity
+    path: Assets/Stage/Stage2/Stage2-8.unity
     guid: 29768d7cc742ac84d8f5df01b070b18a
   - enabled: 1
-    path: Assets/kokoA7V/Scenes/Stage/NewStage/Stage3-1_TutorialCut.unity
+    path: Assets/Stage/Stage3/Stage3-1_TutorialCut.unity
     guid: ac91b299bb9d1d542a2547b2ea634213
   - enabled: 1
-    path: Assets/kokoA7V/Scenes/Stage/NewStage/Stage3-2.unity
+    path: Assets/Stage/Stage3/Stage3-2.unity
     guid: 473d9b3ebd7bc174b860c3a09410b077
   - enabled: 1
-    path: Assets/kokoA7V/Scenes/Stage/NewStage/Stage3-3_TutorialCard.unity
+    path: Assets/Stage/Stage3/Stage3-3_TutorialCard.unity
     guid: d79d23925ee93484c8ea588ca3e9f1df
   - enabled: 1
-    path: Assets/kokoA7V/Scenes/Stage/NewStage/Stage3-4.unity
+    path: Assets/Stage/Stage3/Stage3-4.unity
     guid: f550faccd51d6df4fbc15b6866d16774
   - enabled: 1
-    path: Assets/kokoA7V/Scenes/Stage/Stage3-5.unity
+    path: Assets/Stage/Stage3/Stage3-5.unity
     guid: 4a11a05ab8c84f54c911986c7decd673
   - enabled: 1
-    path: Assets/kokoA7V/Scenes/Stage/Stage3-6.unity
+    path: Assets/Stage/Stage3/Stage3-6.unity
     guid: 81566ab69ca632440968c391da20bbbc
   - enabled: 1
-    path: Assets/kokoA7V/Scenes/Stage/Stage3-7.unity
+    path: Assets/Stage/Stage3/Stage3-7.unity
     guid: f2db479db95aa5a44a89c830085fac78
   - enabled: 1
-    path: Assets/kokoA7V/Scenes/Stage/NewStage/Stage3-8.unity
+    path: Assets/Stage/Stage3/Stage3-8.unity
     guid: 4b530f53cdee29441b9117f4a7cfa04c
   - enabled: 1
-    path: Assets/kokoA7V/Scenes/Stage/NewStage/Stage4-1.unity
+    path: Assets/Stage/Stage4/Stage4-1.unity
     guid: 043cfd7f4e2a83d47bee7a64848ca874
   - enabled: 1
-    path: Assets/kokoA7V/Scenes/Stage/NewStage/Stage4-2.unity
+    path: Assets/Stage/Stage4/Stage4-2.unity
     guid: 92cdccb05e7ea9a47860257fea723a4e
   - enabled: 1
-    path: Assets/kokoA7V/Scenes/Stage/NewStage/Stage4-3.unity
+    path: Assets/Stage/Stage4/Stage4-3.unity
     guid: a8a8dcb6175623f4391f55ff095dc4e6
   - enabled: 1
-    path: Assets/kokoA7V/Scenes/Stage/NewStage/Stage4-4.unity
+    path: Assets/Stage/Stage4/Stage4-4.unity
     guid: bce5ec7bbd180fe4c8d43e058ef1fbab
   - enabled: 1
-    path: Assets/kokoA7V/Scenes/Stage/NewStage/Stage4-5.unity
+    path: Assets/Stage/Stage4/Stage4-5.unity
     guid: 67c4b4e24dc0a3a4cb89a6762b303f86
   - enabled: 1
-    path: Assets/kokoA7V/Scenes/Stage/NewStage/Stage4-6.unity
+    path: Assets/Stage/Stage4/Stage4-6.unity
     guid: 4090c73121a95424bb6db398f3a5dd0e
   - enabled: 1
-    path: Assets/kokoA7V/Scenes/Stage/NewStage/Stage4-7.unity
+    path: Assets/Stage/Stage4/Stage4-7.unity
     guid: e6797ff3de63d9b4886b649f7b981486
   - enabled: 1
-    path: Assets/kokoA7V/Scenes/Stage/NewStage/Stage4-8.unity
+    path: Assets/Stage/Stage4/Stage4-8.unity
     guid: d6c3a685eb438804eba8a39d1af1a0b0
   m_configObjects: {}
