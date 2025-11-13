@@ -48,10 +48,17 @@ public class Lording : MonoBehaviour
             yield return null;
         }
 
-        //ロード完了待機
-        while (Time.time - startTime < minLoadTime)
+        if(Time.time-startTime < minLoadTime)
         {
-            yield return null;
+            slider.value = 0;
+            float lordbarValue = 1f / minLoadTime;
+            //ロード完了待機
+            while (slider.value < 1)
+            {
+                slider.value += Mathf.Clamp01(lordbarValue * Time.deltaTime);
+                yield return null;
+            }
+            slider.value = 1;
         }
 
         //シーンのアクティブ化を許可
