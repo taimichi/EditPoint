@@ -6,13 +6,13 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Sugar/Scenes/Title.unity
+    path: Assets/Stage/Other/Title.unity
     guid: 08cec35019e8a1e48867416f0315ceba
   - enabled: 1
-    path: Assets/Sugar/Scenes/Talk.unity
+    path: Assets/Stage/Other/Talk.unity
     guid: 544c14807f9e8b242a8a90927ffe31d3
   - enabled: 1
-    path: Assets/Sugar/Scenes/Select.unity
+    path: Assets/Stage/Other/Select.unity
     guid: 04416c198e049ca4ead49fa4cfb2fbc7
   - enabled: 1
     path: Assets/Stage/Stage1/Stage1-1_TutorialTransform.unity

@@ -62,18 +62,19 @@ public class DraggableImage : MonoBehaviour, IPointerDownHandler, IPointerUpHand
                     {
                         //ロック状態にする
                         isLock = false;
-                        LockPanel.SetActive(true);
                         break;
                     }
                     else
                     {
                         //ロック状態を解除
                         isLock = true;
-                        LockPanel.SetActive(false);
                     }
                 }
             }
         }
+
+        UnLockAnimation unLock = LockPanel.transform.GetComponentInChildren<UnLockAnimation>();
+        unLock.GetNum(worldNum, 0);
     }
 
     // UIのインターフェース

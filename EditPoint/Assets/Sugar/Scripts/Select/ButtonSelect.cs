@@ -50,15 +50,9 @@ public class ButtonSelect : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
             SceneChange sc = fileObj.GetComponent<SceneChange>();
             sc.SarchStage();
             isLock = sc.ReturnIsLock();
-            //ÉçÉbÉNèÛë‘ÇÃéû
-            if (!isLock)
-            {
-                LockPanel.SetActive(true);
-            }
-            else
-            {
-                LockPanel.SetActive(false);
-            }
+
+            UnLockAnimation unLock = LockPanel.transform.GetChild(0).GetComponent<UnLockAnimation>();
+            unLock.GetNum(sc.stageAddress.worldNum, sc.stageAddress.stageNum);
         }
     }
 

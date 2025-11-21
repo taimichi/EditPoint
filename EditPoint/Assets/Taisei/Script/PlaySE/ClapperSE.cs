@@ -6,7 +6,6 @@ public class ClapperSE : MonoBehaviour
 {
     [SerializeField] private PlaySound playSound;
 
-    // Start is called before the first frame update
     void Start()
     {
         if (playSound == null)
@@ -15,7 +14,6 @@ public class ClapperSE : MonoBehaviour
         }
     }
 
-    // Update is called once per frame
     void Update()
     {
         

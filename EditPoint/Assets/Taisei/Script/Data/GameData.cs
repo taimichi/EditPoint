@@ -48,4 +48,14 @@ public class GameData : ScriptableObject
     /// </summary>
     public bool isTalk = false;
 
+    [System.Flags]
+    public enum CLEARTALK_FRAG
+    {
+        none = 0,
+        stage1 = 1 << 0,
+        stage2 = 1 << 1,
+        stage3 = 1 << 2,
+        stage4 = 1 << 3,
+    }
+    [EnumFlags] public CLEARTALK_FRAG talkFrags = CLEARTALK_FRAG.none;
 }

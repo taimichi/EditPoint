@@ -15,6 +15,17 @@ public class StaffCredit : MonoBehaviour
     private float timer = 0f;                           //最後止まっている時間の計測用
     private const float LIMIT_TIME = 3.0f;              //最後止まる時間
 
+    //クレジットの状態
+    private enum CREDIT
+    {
+        start,  //開始待ち状態
+        now,    //処理中状態
+        finish, //終了処理状態
+
+    }
+    //現在のクレジット状態
+    private CREDIT nowMode = CREDIT.start;
+
     #region fade
     [SerializeField] private Image fadeImage;
     private Color startColor;
@@ -41,14 +52,15 @@ public class StaffCredit : MonoBehaviour
     void Update()
     {
         //クレジットパネルが表示状態になった時
-        if (CreditPanel.activeSelf)
+        if (CreditPanel.activeSelf && nowMode == CREDIT.now)
         {
             //クレジットの最後が最終地点に行ったら
             if(rectCredit.localPosition.y >= rectEnd.localPosition.y)
             {
                 if(timer >= LIMIT_TIME)
                 {
-                    StartFade();
+                    nowMode = CREDIT.finish;
+                    StartCoroutine(CreditEnd());
                     return;
                 }
                 timer += Time.deltaTime;
@@ -60,47 +72,77 @@ public class StaffCredit : MonoBehaviour
                 rectCredit.localPosition += Vector3.up * moveSpeed;
             }
         }
-        else
+    }
+
+    /// <summary>
+    /// スタッフクレジットの終了処理
+    /// </summary>
+    private IEnumerator CreditEnd()
+    {
+        //終了処理状態の時
+        while (nowMode == CREDIT.finish)
         {
-            //初期位置へ
-            rectCredit.localPosition = new Vector3(
-                                                    rectCredit.localPosition.x,
-                                                    rectStart.localPosition.y,
-                                                    rectCredit.localPosition.z);
+            //フェード処理
+            FadeStart();
+            //0.02秒更新
+            yield return new WaitForSeconds(Time.deltaTime);
         }
     }
 
     /// <summary>
     /// フェード処理
     /// </summary>
-    private void StartFade()
+    private void FadeStart()
     {
         if (!isFade)
         {
-            //アルファ値を変更
-            alpha += fadeSpeed;
-            fadeImage.color = new Color(startColor.r, startColor.g, startColor.b, alpha);
-
-            if (alpha >= 1f)
-            {
-                isFade = true;
-            }
+            FadeIn();
         }
         else
         {
-            CreditPanel.SetActive(false);
-            //スタート地点に戻る
-            rectCredit.localPosition = new Vector3(
-                                    rectCredit.localPosition.x,
-                                    rectStart.localPosition.y,
-                                    rectCredit.localPosition.z);
-            //初期状態に戻す
-            timer = 0f;
-            fadeImage.color = startColor;
-            alpha = 0;
-            isFade = false;
+            FadeOut();
 
+            CreditPanel.SetActive(false);
+            if (alpha <= 0f)
+            {
+                //スタート地点に戻る
+                rectCredit.localPosition = new Vector3(
+                                        rectCredit.localPosition.x,
+                                        rectStart.localPosition.y,
+                                        rectCredit.localPosition.z);
+                //初期状態に戻す
+                timer = 0f;
+                fadeImage.color = startColor;
+                alpha = 0;
+                isFade = false;
+                nowMode = CREDIT.start;
+            }
         }
+    }
+
+    private void FadeIn()
+    {
+        //アルファ値を変更
+        alpha += fadeSpeed;
+        fadeImage.color = new Color(startColor.r, startColor.g, startColor.b, alpha);
+
+        if (alpha >= 1f)
+        {
+            isFade = true;
+        }
+    }
+
+    private void FadeOut()
+    {
+        //アルファ値を変更
+        alpha -= fadeSpeed;
+        fadeImage.color = new Color(startColor.r, startColor.g, startColor.b, alpha);
+
+        if (alpha <= 0f)
+        {
+            isFade = false;
+        }
+
     }
 
     //スキップボタンを押したとき
@@ -114,5 +156,14 @@ public class StaffCredit : MonoBehaviour
                                                 rectCredit.localPosition.x,
                                                 rectStart.localPosition.y,
                                                 rectCredit.localPosition.z);
+    }
+
+    /// <summary>
+    /// スタッフロール開始
+    /// </summary>
+    public void OnStartCredit()
+    {
+        CreditPanel.SetActive(true);
+        nowMode = CREDIT.now;
     }
 }

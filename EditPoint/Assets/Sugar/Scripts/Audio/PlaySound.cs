@@ -33,6 +33,7 @@ public class PlaySound : MonoBehaviour
         develop,    //ŠJ”­’†
         fall,       //—‰º
         sceneChange,//ê–Ê“]Š·
+        unLock,     //ŠJù
     }
 
     public enum BGM_TYPE

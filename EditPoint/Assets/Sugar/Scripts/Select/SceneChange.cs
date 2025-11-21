@@ -11,12 +11,12 @@ public class SceneChange : MonoBehaviour
     /// 両方の数値が0の場合はステージなし
     /// </summary>
     [System.Serializable]
-    private struct STAGA_NUMBER
+    public struct STAGA_NUMBER
     {
         public int worldNum;    //ワールド番号
         public int stageNum;    //ステージ番号
     }
-    [SerializeField] STAGA_NUMBER stageAddress;
+    public STAGA_NUMBER stageAddress;
 
     string sceneName;
    

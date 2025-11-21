@@ -19,15 +19,12 @@ public class ClearNextButton : MonoBehaviour
         // 現在のシーン名を取得
         nowStageName = SceneManager.GetActiveScene().name;
         playSound = GameObject.Find("AudioCanvas").GetComponent<PlaySound>();
-    }
 
-    // Update is called once per frame
-    void Update()
-    {
+        //次のシーン名を取得
         for (int i = 0; i < std.stageData.Length; i++)
         {
             // 現在シーンの次のシーン名を取得
-            if(nowStageName==std.stageData[i].stageName)
+            if (nowStageName == std.stageData[i].stageName)
             {
                 Debug.Log("DATA" + i);
                 Debug.Log(std.stageData[i].stageName.Length);
@@ -39,10 +36,26 @@ public class ClearNextButton : MonoBehaviour
                 else
                 {
                     NextStageName = std.stageData[i + 1].stageName;
-                    std.stageData[i + 1].stagelock = NewStageData.StageLock.Open;
+                    //次のステージが新しいワールドの1ステージ目
+                    //かつ
+                    //ステージがロック状態だった時
+                    if (std.stageData[i + 1].stageNum == 1 && std.stageData[i + 1].stagelock == NewStageData.StageLock.Lock)
+                    {
+                        GameObject NextButton = GameObject.Find("Next");
+                        if (NextButton != null)
+                        {
+                            NextButton.SetActive(false);
+                        }
+                    }
+                    std.stageData[i + 1].stagelock = NewStageData.StageLock.FirstUnLock;
                 }
             }
         }
+    }
+
+    void Update()
+    {
+
     }
 
     public void NextButton()

@@ -30,6 +30,7 @@ public class NewStageData : ScriptableObject
     {
         Open,
         Lock,
+        FirstUnLock,
     }
 
     [System.Serializable]

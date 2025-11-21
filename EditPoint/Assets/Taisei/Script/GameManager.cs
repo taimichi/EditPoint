@@ -31,7 +31,9 @@ public class GameManager : MonoBehaviour
     private Button speedChangeButton;
     private Text speedText;
 
-    [SerializeField] private GameObject fadeObj; 
+    [SerializeField] private GameObject fadeObj;
+
+    private AllTexts allText;
 
     private void Awake()
     {
@@ -57,6 +59,9 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
+        //fps値を60に固定
+        Application.targetFrameRate = 60;
+
         Time.timeScale = 1;
 
         //ステージシーンのとき
@@ -204,6 +209,8 @@ public class GameManager : MonoBehaviour
                     playSound.PlayBGM(PlaySound.BGM_TYPE.title_stageSelect);
                     Fade fade2 = GameObject.Find("GameFade").GetComponent<Fade>();
                     fade2.FadeOut(1.0f);
+
+                    allText = GameObject.Find("TalkCanvas").GetComponent<AllTexts>();
                     break;
             }
         }
@@ -231,6 +238,77 @@ public class GameManager : MonoBehaviour
                 DebugOption_Open();
                 Debug.Log("全ステージを開放");
                 playSound.PlaySE(PlaySound.SE_TYPE.develop);
+            }
+        }
+
+        //ステージセレクトの時
+        if(nowSceneName == "Select")
+        {
+            #region デバッグ用会話のみ発生
+            if (Input.GetKeyDown(KeyCode.T))
+            {
+                allText.SetAllTexts(AllTexts.TEXT_MESSAGE.clear_stage1);
+            }
+            if (Input.GetKeyDown(KeyCode.Y))
+            {
+                allText.SetAllTexts(AllTexts.TEXT_MESSAGE.clear_stage2);
+            }
+            if (Input.GetKeyDown(KeyCode.U))
+            {
+                allText.SetAllTexts(AllTexts.TEXT_MESSAGE.clear_stage3);
+            }
+            if (Input.GetKeyDown(KeyCode.I))
+            {
+                allText.SetAllTexts(AllTexts.TEXT_MESSAGE.clear_stage4);
+            }
+
+            if (Input.GetKeyDown(KeyCode.Return))
+            {
+                for (int i = 0; i < NewStageData.StageEntity.stageData.Length; i++)
+                {
+                    NewStageData.StageEntity.stageData[i].stagelock = NewStageData.StageLock.Open;
+                }
+            }
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                for (int i = 0; i < NewStageData.StageEntity.stageData.Length; i++)
+                {
+                    NewStageData.StageEntity.stageData[i].stagelock = NewStageData.StageLock.Lock;
+                }
+            }
+
+            #endregion
+
+            //一度も全ステクリア会話が発生していないとき
+            if ((GameData.GameEntity.talkFrags & GameData.CLEARTALK_FRAG.stage4) == 0)
+            {
+                //全ステージクリアしたかどうか
+                bool isAllClear = false;
+
+                //全ステージクリアをしたかチェック
+                for (int i = 0; i < NewStageData.StageEntity.stageData.Length; i++)
+                {
+                    //１つでもクリアしてないところがあった時
+                    if(NewStageData.StageEntity.stageData[i].stagelock != NewStageData.StageLock.Open)
+                    {
+                        //ループを抜ける
+                        isAllClear = false;
+                        break;
+                    }
+                    //全ステージクリア
+                    isAllClear = true;
+                }
+
+                //全ステージクリアしてた時
+                if (isAllClear)
+                {
+                    //会話テキストセットスクリプト取得
+                    AllTexts texts = GameObject.Find("TalkCanvas").GetComponent<AllTexts>();
+                    //会話発生
+                    texts.SetAllTexts(AllTexts.TEXT_MESSAGE.clear_stage4);
+                    //１回以上会話発生した判定に
+                    GameData.GameEntity.talkFrags |= GameData.CLEARTALK_FRAG.stage4;
+                }
             }
 
         }

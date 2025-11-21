@@ -1234,6 +1234,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 9439f0c8e7544c24cad444d995ab5649, type: 3}
   - {fileID: 8300000, guid: f46c242cf495b4c41a65b36cb23ab475, type: 3}
   - {fileID: 8300000, guid: f3d54ea0ae2d3fa4b855db6251e7ba70, type: 3}
+  - {fileID: 8300000, guid: 410e39087ba6c8644b17686338674dbf, type: 3}
   clipMusic:
   - {fileID: 8300000, guid: f07c6e77202edcc47b7c29768d1aeef3, type: 3}
   - {fileID: 8300000, guid: 9cc576c293fc1b44a8ce023d91449536, type: 3}
@@ -2264,6 +2265,7 @@ MonoBehaviour:
   img: {fileID: 3138824523691205674}
   fileObj: {fileID: 0}
   kindButton: 7
+  LockPanel: {fileID: 0}
 --- !u!1 &6593209997393989791
 GameObject:
   m_ObjectHideFlags: 0

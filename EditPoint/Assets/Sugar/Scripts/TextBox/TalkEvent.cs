@@ -100,10 +100,20 @@ public class TalkEvent : MonoBehaviour
         AD,
     }
     #endregion
+
+    #region たいせい追加分
+    [SerializeField] private Image TextBoxCursor;
+    private float clickTime = 0.4f;
+    private float cursorTimer = 0f;
+    #endregion
+
     void Start()
     {
         // インスタンス生成
         tData = new TalkData();
+
+        TextBoxCursor.enabled = false;
+
     }
 
     public int ParamSnum
@@ -144,9 +154,11 @@ public class TalkEvent : MonoBehaviour
                 break;
             case 1: // 会話送り
                 resTalk = RemoveTextBetweenMarkers(resTalk, markerstart, markerend);
-                if (Input.GetMouseButtonDown(0))
+                if (talkText[(int)sBox].text == resTalk)
                 {
-                    if (talkText[(int)sBox].text == resTalk)
+                    CursorProcess();
+
+                    if (Input.GetMouseButtonDown(0))
                     {
                         Snum++;
                         resTalk = "";
@@ -244,9 +256,11 @@ public class TalkEvent : MonoBehaviour
             case 6:
                 resTalk = RemoveTextBetweenMarkers(resTalk, markerstart, markerend);
 
-                if (Input.GetMouseButtonDown(0))
+                if (talkText[(int)sBox].text == resTalk)
                 {
-                    if (talkText[(int)sBox].text == resTalk)
+                    CursorProcess();
+
+                    if (Input.GetMouseButtonDown(0))
                     {
                         Snum++;
                         resTalk = "";
@@ -280,9 +294,11 @@ public class TalkEvent : MonoBehaviour
             case 8:
                 resTalk = RemoveTextBetweenMarkers(resTalk, markerstart, markerend);
 
-                if (Input.GetMouseButtonDown(0))
+                if (talkText[(int)sBox].text == resTalk)
                 {
-                    if (talkText[(int)sBox].text == resTalk)
+                    CursorProcess();
+
+                    if (Input.GetMouseButtonDown(0))
                     {
                         Snum++;
                         resTalk = "";
@@ -316,9 +332,11 @@ public class TalkEvent : MonoBehaviour
             case 10:
                 resTalk = RemoveTextBetweenMarkers(resTalk, markerstart, markerend);
 
-                if (Input.GetMouseButtonDown(0))
+                if (talkText[(int)sBox].text == resTalk)
                 {
-                    if (talkText[(int)sBox].text == resTalk)
+                    CursorProcess();
+
+                    if (Input.GetMouseButtonDown(0))
                     {
                         Snum++;
                         resTalk = "";
@@ -354,9 +372,11 @@ public class TalkEvent : MonoBehaviour
             case 13:
                 resTalk = RemoveTextBetweenMarkers(resTalk, markerstart, markerend);
 
-                if (Input.GetMouseButtonDown(0))
+                if (talkText[(int)sBox].text == resTalk)
                 {
-                    if (talkText[(int)sBox].text == resTalk)
+                    CursorProcess();
+
+                    if (Input.GetMouseButtonDown(0))
                     {
                         Snum = 7;
                         resTalk = "";
@@ -373,9 +393,11 @@ public class TalkEvent : MonoBehaviour
             case 999:
                 resTalk = RemoveTextBetweenMarkers(resTalk, markerstart, markerend);
 
-                if (Input.GetMouseButtonDown(0))
+                if (talkText[(int)sBox].text == resTalk)
                 {
-                    if (talkText[(int)sBox].text == resTalk)
+                    CursorProcess();
+
+                    if (Input.GetMouseButtonDown(0))
                     {
                         // 一文字ずつ送るコルーチンの停止
                         StopAllCoroutines();
@@ -545,6 +567,9 @@ public class TalkEvent : MonoBehaviour
         {
             Destroy(gObj);
         }
+
+        TextBoxCursor.enabled = false;
+        cursorTimer = 0;
     }
 
     /// <summary>
@@ -589,5 +614,18 @@ public class TalkEvent : MonoBehaviour
         
         // 開始文字と終了文字を含めて削除
         return text.Remove(startIndex, (endIndex - startIndex) + end.Length);
+    }
+
+    /// <summary>
+    /// 文字送りアイコン処理
+    /// </summary>
+    private void CursorProcess()
+    {
+        cursorTimer += Time.deltaTime;
+        if(cursorTimer >= clickTime)
+        {
+            TextBoxCursor.enabled = !TextBoxCursor.enabled;
+            cursorTimer = 0f;
+        }
     }
 }

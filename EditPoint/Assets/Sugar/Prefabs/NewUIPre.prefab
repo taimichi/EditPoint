@@ -265,6 +265,7 @@ MonoBehaviour:
   img: {fileID: 1797965790954220023}
   fileObj: {fileID: 0}
   kindButton: 6
+  LockPanel: {fileID: 0}
 --- !u!1 &147195064855107666
 GameObject:
   m_ObjectHideFlags: 0
@@ -566,6 +567,7 @@ MonoBehaviour:
   img: {fileID: 2304455898717964230}
   fileObj: {fileID: 0}
   kindButton: 9
+  LockPanel: {fileID: 0}
 --- !u!1 &1797965790954220023
 GameObject:
   m_ObjectHideFlags: 0
@@ -3654,6 +3656,7 @@ MonoBehaviour:
   img: {fileID: 8946463385263882235}
   fileObj: {fileID: 8080242095842756586}
   kindButton: 10
+  LockPanel: {fileID: 0}
 --- !u!1 &7032235700312277577
 GameObject:
   m_ObjectHideFlags: 0
@@ -4329,6 +4332,7 @@ MonoBehaviour:
   img: {fileID: 8984957949245514021}
   fileObj: {fileID: 0}
   kindButton: 11
+  LockPanel: {fileID: 0}
 --- !u!1 &7863814484091290489
 GameObject:
   m_ObjectHideFlags: 0
