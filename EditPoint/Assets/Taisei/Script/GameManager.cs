@@ -262,20 +262,20 @@ public class GameManager : MonoBehaviour
             //    allText.SetAllTexts(AllTexts.TEXT_MESSAGE.clear_stage4);
             //}
 
-            if (Input.GetKeyDown(KeyCode.Return))
-            {
-                for (int i = 0; i < NewStageData.StageEntity.stageData.Length; i++)
-                {
-                    NewStageData.StageEntity.stageData[i].stagelock = NewStageData.StageLock.Open;
-                }
-            }
-            if (Input.GetKeyDown(KeyCode.Space))
-            {
-                for (int i = 0; i < NewStageData.StageEntity.stageData.Length; i++)
-                {
-                    NewStageData.StageEntity.stageData[i].stagelock = NewStageData.StageLock.Lock;
-                }
-            }
+            //if (Input.GetKeyDown(KeyCode.Return))
+            //{
+            //    for (int i = 0; i < NewStageData.StageEntity.stageData.Length; i++)
+            //    {
+            //        NewStageData.StageEntity.stageData[i].stagelock = NewStageData.StageLock.Open;
+            //    }
+            //}
+            //if (Input.GetKeyDown(KeyCode.Space))
+            //{
+            //    for (int i = 0; i < NewStageData.StageEntity.stageData.Length; i++)
+            //    {
+            //        NewStageData.StageEntity.stageData[i].stagelock = NewStageData.StageLock.Lock;
+            //    }
+            //}
 
             #endregion
 
