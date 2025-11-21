@@ -56,10 +56,18 @@ public class TextBoxSystem : MonoBehaviour
     private int nowNameNum = 0;
     //名前の表示したかどうか
     private bool isCheckName = false;
+    
+    /// <summary>
+    /// 会話の状態
+    /// </summary>
+    public enum TALK_STATE
+    {
+        none,   //会話状態じゃない
+        talk,   //会話中
+        end,    //会話終了
+    }
 
-    //テキストボックスを表示中かどうか
-    //false=表示してない　true=表示中
-    private bool isTextOnOff = false;
+    private TALK_STATE nowTalk = TALK_STATE.none;
 
     private float autoTimer = 0f;
     [SerializeField] float autoTimerLimit = 2f;
@@ -182,7 +190,7 @@ public class TextBoxSystem : MonoBehaviour
                     if (messageNum >= splitMessage.Length)
                     {
                         isEndMessage = true;
-                        isTextOnOff = false;
+                        nowTalk = TALK_STATE.end;
                         TalkUICanvas.SetActive(false);
                         BackPanel.SetActive(false);
                         CharaModel.SetActive(false);
@@ -204,15 +212,13 @@ public class TextBoxSystem : MonoBehaviour
                     if (messageNum >= splitMessage.Length)
                     {
                         isEndMessage = true;
-                        isTextOnOff = false;
+                        nowTalk = TALK_STATE.end;
                         TalkUICanvas.SetActive(false);
                         BackPanel.SetActive(false);
                         CharaModel.SetActive(false);
                     }
                 }
             }
-
-            
         }
     }
 
@@ -267,7 +273,7 @@ public class TextBoxSystem : MonoBehaviour
         isCheckName = false;
         isOneMessage = false;
         isEndMessage = false;
-        isTextOnOff = true;
+        nowTalk = TALK_STATE.talk;
     }
 
     //他のスクリプトから新しいメッセージを設定し、UIをアクティブにする
@@ -279,8 +285,15 @@ public class TextBoxSystem : MonoBehaviour
         CharaModel.SetActive(true);
     }
 
-    public bool CheckTextOnOff()
+    /// <summary>
+    /// 会話状態を初期状態に
+    /// </summary>
+    public void ResetTalkState()
     {
-        return isTextOnOff;
+        nowTalk = TALK_STATE.none;
     }
+
+    public TALK_STATE ReturnNowTalkState() => nowTalk;
+
+    
 }

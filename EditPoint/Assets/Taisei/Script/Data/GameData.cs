@@ -48,6 +48,11 @@ public class GameData : ScriptableObject
     /// </summary>
     public bool isTalk = false;
 
+    /// <summary>
+    /// エンディングを流したかどうか
+    /// </summary>
+    public bool isEnding = false;
+
     [System.Flags]
     public enum CLEARTALK_FRAG
     {

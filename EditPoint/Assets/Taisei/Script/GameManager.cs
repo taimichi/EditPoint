@@ -244,23 +244,23 @@ public class GameManager : MonoBehaviour
         //ステージセレクトの時
         if(nowSceneName == "Select")
         {
-            #region デバッグ用会話のみ発生
-            if (Input.GetKeyDown(KeyCode.T))
-            {
-                allText.SetAllTexts(AllTexts.TEXT_MESSAGE.clear_stage1);
-            }
-            if (Input.GetKeyDown(KeyCode.Y))
-            {
-                allText.SetAllTexts(AllTexts.TEXT_MESSAGE.clear_stage2);
-            }
-            if (Input.GetKeyDown(KeyCode.U))
-            {
-                allText.SetAllTexts(AllTexts.TEXT_MESSAGE.clear_stage3);
-            }
-            if (Input.GetKeyDown(KeyCode.I))
-            {
-                allText.SetAllTexts(AllTexts.TEXT_MESSAGE.clear_stage4);
-            }
+            #region デバッグ用 会話のみ発生
+            //if (Input.GetKeyDown(KeyCode.T))
+            //{
+            //    allText.SetAllTexts(AllTexts.TEXT_MESSAGE.clear_stage1);
+            //}
+            //if (Input.GetKeyDown(KeyCode.Y))
+            //{
+            //    allText.SetAllTexts(AllTexts.TEXT_MESSAGE.clear_stage2);
+            //}
+            //if (Input.GetKeyDown(KeyCode.U))
+            //{
+            //    allText.SetAllTexts(AllTexts.TEXT_MESSAGE.clear_stage3);
+            //}
+            //if (Input.GetKeyDown(KeyCode.I))
+            //{
+            //    allText.SetAllTexts(AllTexts.TEXT_MESSAGE.clear_stage4);
+            //}
 
             if (Input.GetKeyDown(KeyCode.Return))
             {
@@ -302,12 +302,26 @@ public class GameManager : MonoBehaviour
                 //全ステージクリアしてた時
                 if (isAllClear)
                 {
-                    //会話テキストセットスクリプト取得
-                    AllTexts texts = GameObject.Find("TalkCanvas").GetComponent<AllTexts>();
+
                     //会話発生
-                    texts.SetAllTexts(AllTexts.TEXT_MESSAGE.clear_stage4);
+                    allText.SetAllTexts(AllTexts.TEXT_MESSAGE.clear_stage4);
                     //１回以上会話発生した判定に
                     GameData.GameEntity.talkFrags |= GameData.CLEARTALK_FRAG.stage4;
+                }
+            }
+            //全ステージクリア会話後
+            else
+            {
+                //エンディングが流れてないとき
+                if (!GameData.GameEntity.isEnding)
+                {
+                    if(allText.ReturnTalkState() == TextBoxSystem.TALK_STATE.end)
+                    {
+                        allText.ResetTalkState();
+                        StaffCredit credit = GameObject.Find("CreditCanvas").GetComponent<StaffCredit>();
+                        credit.OnStartCredit();
+                        GameData.GameEntity.isEnding = true;
+                    }
                 }
             }
 

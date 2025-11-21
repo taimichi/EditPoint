@@ -158,12 +158,30 @@ public class StaffCredit : MonoBehaviour
                                                 rectCredit.localPosition.z);
     }
 
+    IEnumerator StartCreditRoutine()
+    {
+        while (!isFade)
+        {
+            FadeIn();
+            yield return null;
+        }
+
+        CreditPanel.SetActive(true);
+
+        while (isFade)
+        {
+            FadeOut();
+            yield return null;
+        }
+
+        nowMode = CREDIT.now;
+    }
+
     /// <summary>
     /// スタッフロール開始
     /// </summary>
     public void OnStartCredit()
     {
-        CreditPanel.SetActive(true);
-        nowMode = CREDIT.now;
+        StartCoroutine(StartCreditRoutine());
     }
 }

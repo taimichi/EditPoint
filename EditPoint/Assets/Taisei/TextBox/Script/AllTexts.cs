@@ -97,6 +97,21 @@ public class AllTexts : MonoBehaviour
                 break;
         }
         TextSystemScript.SetTextPanel(message, charaName);
+    }
 
+    /// <summary>
+    /// テキストボックスの現在の状態を取得
+    /// </summary>
+    public TextBoxSystem.TALK_STATE ReturnTalkState()
+    {
+        return TextSystemScript.ReturnNowTalkState();
+    }
+
+    /// <summary>
+    /// テキストボックスを初期状態に
+    /// </summary>
+    public void ResetTalkState()
+    {
+        TextSystemScript.ResetTalkState();
     }
 }

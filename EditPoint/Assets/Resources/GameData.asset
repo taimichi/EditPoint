@@ -17,3 +17,5 @@ MonoBehaviour:
   isLimitTime: 0
   isClear: 0
   isTalk: 0
+  isEnding: 0
+  talkFrags: 0
