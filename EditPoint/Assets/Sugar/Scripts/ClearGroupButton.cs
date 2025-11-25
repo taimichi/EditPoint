@@ -23,6 +23,7 @@ public class ClearGroupButton : MonoBehaviour
             {
                 Debug.Log("DATA" + i);
                 Debug.Log(stageData.stageData[i].stageName.Length);
+                stageData.stageData[i].isStageClear = true;
                 // Å‘å’l‚ğ‰z‚µ‚½‚ç0‚É–ß‚·
                 if (i + 1 == stageData.stageData.Length)
                 {

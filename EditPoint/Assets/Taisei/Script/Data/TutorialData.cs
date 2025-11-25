@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "Data", menuName = "ScriptableObjects/TutorialData")]
@@ -39,7 +37,6 @@ public class TutorialData : ScriptableObject
         card = 1 << 6,
         moveGround = 1 << 7
     }
-    //末尾にマックスのやつ作って要素数を取得できるように
 
     [EnumFlags] public Tutorial_Frags frags;
 }

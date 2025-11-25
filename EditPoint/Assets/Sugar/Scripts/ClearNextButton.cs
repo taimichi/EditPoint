@@ -28,6 +28,7 @@ public class ClearNextButton : MonoBehaviour
             {
                 Debug.Log("DATA" + i);
                 Debug.Log(std.stageData[i].stageName.Length);
+                std.stageData[i].isStageClear = true;
                 // 最大値を越したら0に戻す
                 if (i + 1 == std.stageData.Length)
                 {
@@ -47,7 +48,11 @@ public class ClearNextButton : MonoBehaviour
                             NextButton.SetActive(false);
                         }
                     }
-                    std.stageData[i + 1].stagelock = NewStageData.StageLock.FirstUnLock;
+                    //ロック状態が開放状態じゃないとき
+                    if(std.stageData[i + 1].stagelock != NewStageData.StageLock.Open)
+                    {
+                        std.stageData[i + 1].stagelock = NewStageData.StageLock.FirstUnLock;
+                    }
                 }
             }
         }

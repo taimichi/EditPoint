@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "Data", menuName = "ScriptableObjects/GameData")]
@@ -46,7 +44,7 @@ public class GameData : ScriptableObject
     /// <summary>
     /// 最初に会話したかどうか
     /// </summary>
-    public bool isTalk = false;
+    public bool isStartTalk = false;
 
     /// <summary>
     /// エンディングを流したかどうか

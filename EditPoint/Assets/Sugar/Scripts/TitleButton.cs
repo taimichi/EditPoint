@@ -49,12 +49,12 @@ public class TitleButton : MonoBehaviour
                 playSound.PlaySE(PlaySound.SE_TYPE.sceneChange);
 
                 //ゲームを開いてから会話シーンに行ったかどうか
-                if (!GameData.GameEntity.isTalk)
+                if (!GameData.GameEntity.isStartTalk)
                 {
                     //会話シーンに行ったことないとき
                     // フェード
                     fade.FadeIn(1.5f, () => {
-                        GameData.GameEntity.isTalk = true;
+                        GameData.GameEntity.isStartTalk = true;
                         SceneManager.LoadSceneAsync("Talk");
                     });
                 }

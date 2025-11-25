@@ -33,7 +33,7 @@ MonoBehaviour:
     worldNum: 1
     stageNum: 5
     stagelock: 1
-  - stageName: Stage1-6_TutorialGround
+  - stageName: Stage1-6_TutorialMoveGround
     worldNum: 1
     stageNum: 6
     stagelock: 1
@@ -63,7 +63,7 @@ MonoBehaviour:
     stagelock: 1
   - stageName: Stage2-5_TutorialCopy
     worldNum: 2
-    stageNum: 5
+    stageNum: 6
     stagelock: 1
   - stageName: Stage2-6
     worldNum: 2

@@ -16,6 +16,6 @@ MonoBehaviour:
   isTimebarReset: 0
   isLimitTime: 0
   isClear: 0
-  isTalk: 0
+  isStartTalk: 0
   isEnding: 0
   talkFrags: 0

@@ -126,68 +126,6 @@ MonoBehaviour:
   handleSign: {x: 0, y: 0}
   handleType: 2
   priority: 4
---- !u!50 &5230136589694191154
-Rigidbody2D:
-  serializedVersion: 4
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6435234156126424613}
-  m_BodyType: 0
-  m_Simulated: 1
-  m_UseFullKinematicContacts: 0
-  m_UseAutoMass: 0
-  m_Mass: 1
-  m_LinearDrag: 0
-  m_AngularDrag: 0.05
-  m_GravityScale: 0
-  m_Material: {fileID: 0}
-  m_Interpolate: 0
-  m_SleepingMode: 1
-  m_CollisionDetection: 0
-  m_Constraints: 0
---- !u!61 &1224772872094385799
-BoxCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6435234156126424613}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1, y: 1}
-    newSize: {x: 1, y: 1}
-    adaptiveTilingThreshold: 0.5
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1}
-  m_EdgeRadius: 0
---- !u!114 &1964324586274141628
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6435234156126424613}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6fc213a9702b30b41a1a247d7c5e959d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  collisionList: []
-  isCollision: 0
-  nowEditObject: {fileID: 0}
 --- !u!1 &6483252867048278464
 GameObject:
   m_ObjectHideFlags: 0
@@ -204,6 +142,7 @@ GameObject:
   - component: {fileID: 4437047612105018477}
   - component: {fileID: 217963949539351819}
   - component: {fileID: 2126423836645193108}
+  - component: {fileID: 131976582104626216}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: GameManager
@@ -331,6 +270,25 @@ MonoBehaviour:
   _camera: {fileID: 0}
   Trail: {fileID: 511283359281519111}
   TapEffectPrefab: {fileID: 8680598818964007281, guid: c926332cf6c45f84eb88162c7334ec87, type: 3}
+--- !u!114 &131976582104626216
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6483252867048278464}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f04fc9fde9f00674c8e3d54eb9b18cbd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  data:
+    isDataExistence: 0
+    tutorialFrag: 0
+    isStartTalk: 0
+    clearTalk: 0
+    isEnding: 0
+    stageDatas: []
 --- !u!1001 &2003148706411800609
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -509,14 +467,14 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 4257218381464293999, guid: 12013fd348598584d80bb406fdfbb10b, type: 3}
   m_PrefabInstance: {fileID: 5002694708727626127}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &9113466893473931645 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 4257218380427450610, guid: 12013fd348598584d80bb406fdfbb10b, type: 3}
-  m_PrefabInstance: {fileID: 5002694708727626127}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &9113466893978378898 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 4257218381200136989, guid: 12013fd348598584d80bb406fdfbb10b, type: 3}
+  m_PrefabInstance: {fileID: 5002694708727626127}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &9113466893473931645 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4257218380427450610, guid: 12013fd348598584d80bb406fdfbb10b, type: 3}
   m_PrefabInstance: {fileID: 5002694708727626127}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &5882936093264951284
@@ -773,16 +731,78 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 294403893624499443, guid: b4ba0549d466d7146905048680d09ddc, type: 3}
   m_PrefabInstance: {fileID: 6727082167379594627}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &6435234156126424613 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 294403894831137702, guid: b4ba0549d466d7146905048680d09ddc, type: 3}
-  m_PrefabInstance: {fileID: 6727082167379594627}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &6435234157604659574 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 294403893624499445, guid: b4ba0549d466d7146905048680d09ddc, type: 3}
   m_PrefabInstance: {fileID: 6727082167379594627}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &6435234156126424613 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 294403894831137702, guid: b4ba0549d466d7146905048680d09ddc, type: 3}
+  m_PrefabInstance: {fileID: 6727082167379594627}
+  m_PrefabAsset: {fileID: 0}
+--- !u!50 &5230136589694191154
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6435234156126424613}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 0
+  m_Material: {fileID: 0}
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0
+--- !u!61 &1224772872094385799
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6435234156126424613}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 1, y: 1}
+    newSize: {x: 1, y: 1}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1}
+  m_EdgeRadius: 0
+--- !u!114 &1964324586274141628
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6435234156126424613}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6fc213a9702b30b41a1a247d7c5e959d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  collisionList: []
+  isCollision: 0
+  nowEditObject: {fileID: 0}
 --- !u!1001 &7466795879080100991
 PrefabInstance:
   m_ObjectHideFlags: 0

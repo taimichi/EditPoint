@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "Data", menuName = "ScriptableObjects/StageData")]
@@ -43,6 +41,7 @@ public class NewStageData : ScriptableObject
         public int worldNum;        //ワールド番号
         public int stageNum;        //ステージ番号
         public StageLock stagelock;
+        public bool isStageClear;
     }
 
     //ステージデータ構造体の配列

@@ -35,6 +35,9 @@ public class GameManager : MonoBehaviour
 
     private AllTexts allText;
 
+    //セーブ関連
+    private SaveData save;
+
     private void Awake()
     {
         //各フラグをリセット
@@ -59,6 +62,23 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
+        //セーブデータをSaveManagerから取得
+        save = this.GetComponent<SaveManager>().data;
+        //既にデータがあるとき
+        if (save.isDataExistence)
+        {
+            //各データを変更
+            //チュートリアル情報
+            TutorialData.TutorialEntity.frags = save.tutorialFrag;
+            //会話テキスト情報
+            GameData.GameEntity.isStartTalk = save.isStartTalk;
+            GameData.GameEntity.talkFrags = save.clearTalk;
+            //エンディング情報
+            GameData.GameEntity.isEnding = save.isEnding;
+            //ステージ情報
+            NewStageData.StageEntity.stageData = save.stageDatas;
+        }
+
         //fps値を60に固定
         Application.targetFrameRate = 60;
 
@@ -82,6 +102,7 @@ public class GameManager : MonoBehaviour
                 fadeObj.SetActive(false); }
             );
 
+            //現在のシーン名にそれぞれの文字が含まれてる時
             switch (nowSceneName)
             {
                 case string name when name.Contains("Stage1"):
@@ -220,7 +241,7 @@ public class GameManager : MonoBehaviour
 
     void Update()
     {
-        //デバッグ用機能
+        #region デバッグ機能
         //タイトル画面の時のみ使用可能
         if (Input.GetKey(KeyCode.LeftShift))
         {
@@ -229,7 +250,7 @@ public class GameManager : MonoBehaviour
             {
                 DebugOption_Reset();
                 GameData.GameEntity.isTimebarReset = false;
-                Debug.Log("チュートリアル情報を初期化");
+                Debug.Log("全ステージを初期化");
                 playSound.PlaySE(PlaySound.SE_TYPE.develop);
             }
             //全ステージを開放する
@@ -239,10 +260,19 @@ public class GameManager : MonoBehaviour
                 Debug.Log("全ステージを開放");
                 playSound.PlaySE(PlaySound.SE_TYPE.develop);
             }
+            //全ステージをクリア状態にする
+            else if(Input.GetKeyDown(KeyCode.C) && isDebug)
+            {
+                DebugOption_Clear();
+                Debug.Log("全ステージをクリア");
+                playSound.PlaySE(PlaySound.SE_TYPE.develop);
+
+            }
         }
+        #endregion
 
         //ステージセレクトの時
-        if(nowSceneName == "Select")
+        if (nowSceneName == "Select")
         {
             #region デバッグ用 会話のみ発生
             //if (Input.GetKeyDown(KeyCode.T))
@@ -289,7 +319,7 @@ public class GameManager : MonoBehaviour
                 for (int i = 0; i < NewStageData.StageEntity.stageData.Length; i++)
                 {
                     //１つでもクリアしてないところがあった時
-                    if(NewStageData.StageEntity.stageData[i].stagelock != NewStageData.StageLock.Open)
+                    if(!NewStageData.StageEntity.stageData[i].isStageClear)
                     {
                         //ループを抜ける
                         isAllClear = false;
@@ -328,7 +358,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    #region デバッグ機能
+    #region デバッグ機能用関数
     /// <summary>
     /// デバッグ用機能　チュートリアルステージをプレイしたかどうかの情報を初期化する
     /// </summary>
@@ -344,6 +374,7 @@ public class GameManager : MonoBehaviour
             if (i != 0)
             {
                 NewStageData.StageEntity.stageData[i].stagelock = NewStageData.StageLock.Lock;
+                NewStageData.StageEntity.stageData[i].isStageClear = false;
             }
         }
     }
@@ -353,10 +384,25 @@ public class GameManager : MonoBehaviour
     /// </summary>
     private void DebugOption_Open()
     {
-        //ステージ1-1以外のステージをロック状態に
+        //ステージ1-1以外のステージをアンロック状態に
         for (int i = 0; i < NewStageData.StageEntity.stageData.Length; i++)
         {
             NewStageData.StageEntity.stageData[i].stagelock = NewStageData.StageLock.Open;
+            NewStageData.StageEntity.stageData[i].isStageClear = false;
+        }
+    }
+
+    /// <summary>
+    /// デバッグ用機能　全ステージをクリア状態にする
+    /// </summary>
+    private void DebugOption_Clear()
+    {
+        //全ステージをクリア状態に
+        for (int i = 0; i < NewStageData.StageEntity.stageData.Length; i++)
+        {
+            NewStageData.StageEntity.stageData[i].stagelock = NewStageData.StageLock.Open;
+            NewStageData.StageEntity.stageData[i].isStageClear = true;
+            GameData.GameEntity.isEnding = true;
         }
     }
     #endregion
@@ -423,5 +469,23 @@ public class GameManager : MonoBehaviour
     public void AddKeyList(KeyController _keyController)
     {
         KeyScripts.Add(_keyController);
+    }
+
+    private void OnDestroy()
+    {
+        //現状を保存する
+        //チュートリアル情報
+        save.tutorialFrag = TutorialData.TutorialEntity.frags;
+        //会話テキスト情報
+        save.isStartTalk = GameData.GameEntity.isStartTalk;
+        save.clearTalk = GameData.GameEntity.talkFrags;
+        //エンディング情報
+        save.isEnding = GameData.GameEntity.isEnding;
+        //ステージ情報
+        save.stageDatas = NewStageData.StageEntity.stageData;
+
+        save.isDataExistence = true;
+        this.GetComponent<SaveManager>().Save(save);
+
     }
 }
